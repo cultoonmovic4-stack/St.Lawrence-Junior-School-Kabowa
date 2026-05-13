@@ -112,25 +112,14 @@
         // Disable problematic CSS animations on mobile
         if (window.innerWidth <= 768) {
             const style = document.createElement('style');
+            style.id = 'mobile-edge-shake-fix';
             style.textContent = `
-                /* Disable shaking animations on mobile */
-                * {
-                    -webkit-backface-visibility: hidden !important;
-                    backface-visibility: hidden !important;
-                    -webkit-transform: translate3d(0, 0, 0) !important;
-                    transform: translate3d(0, 0, 0) !important;
-                }
-                
-                /* Disable hover effects that cause shaking */
-                *:hover {
-                    transform: none !important;
-                    -webkit-transform: none !important;
-                }
+                /* Scoped stabilization only - avoid global * overrides */
                 
                 /* Stable floating elements */
                 .chat-button, .back-to-top, .hamburger {
-                    transform: translate3d(0, 0, 0) !important;
-                    -webkit-transform: translate3d(0, 0, 0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
                     will-change: opacity !important;
                 }
                 
@@ -140,7 +129,9 @@
                     opacity: 1 !important;
                 }
             `;
-            document.head.appendChild(style);
+            if (!document.getElementById(style.id)) {
+                document.head.appendChild(style);
+            }
         }
     }
 
@@ -152,14 +143,11 @@
         
         [chatButton, backToTop, hamburger].forEach(element => {
             if (element) {
-                // Force hardware acceleration
-                element.style.transform = 'translate3d(0, 0, 0)';
-                element.style.webkitTransform = 'translate3d(0, 0, 0)';
+                // Keep non-invasive hints only
                 element.style.backfaceVisibility = 'hidden';
                 element.style.webkitBackfaceVisibility = 'hidden';
                 element.style.willChange = 'opacity';
                 
-                // Remove any existing transforms that might cause shaking
                 element.style.transition = 'opacity 0.2s ease';
             }
         });
@@ -167,61 +155,31 @@
 
     // ========== FIX IMAGE SHAKING ==========
     function fixImageShaking() {
+        if (window.innerWidth > 768) return;
         const images = document.querySelectorAll('img');
         images.forEach(img => {
-            // Stabilize images
-            img.style.transform = 'translate3d(0, 0, 0)';
-            img.style.webkitTransform = 'translate3d(0, 0, 0)';
-            img.style.backfaceVisibility = 'hidden';
-            img.style.webkitBackfaceVisibility = 'hidden';
-            img.style.willChange = 'auto';
-            
-            // Remove problematic filters and transforms
-            img.style.filter = 'none';
-            img.style.webkitFilter = 'none';
+            // Preserve natural transforms/animations; enforce safe sizing only.
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
         });
     }
 
     // ========== DISABLE PROBLEMATIC ANIMATIONS ==========
     function disableProblematicAnimations() {
-        // Disable CSS animations that cause shaking
-        const problematicSelectors = [
-            '.gallery-card:hover img',
-            '.subject-card:hover .subject-image img',
-            '.program-card:hover',
-            '.why-card:hover .why-icon',
-            '.value-card:hover .value-icon',
-            '.history-card:hover .history-icon',
-            '.play-button:hover'
-        ];
-        
-        problematicSelectors.forEach(selector => {
-            try {
-                const elements = document.querySelectorAll(selector.replace(':hover', ''));
-                elements.forEach(el => {
-                    el.style.transform = 'translate3d(0, 0, 0)';
-                    el.style.webkitTransform = 'translate3d(0, 0, 0)';
-                    el.style.transition = 'opacity 0.2s ease';
-                });
-            } catch (e) {
-                // Ignore selector errors
-            }
-        });
+        // Handled by scoped CSS in mobile-animation-fixes.css.
     }
     function fixHorizontalScroll() {
         // Prevent horizontal scroll on body
         document.body.style.overflowX = 'hidden';
         document.documentElement.style.overflowX = 'hidden';
         
-        // Check for elements causing horizontal scroll
+        // Check key overflow culprits without scanning every element.
         function checkForOverflow() {
-            const elements = document.querySelectorAll('*');
+            const elements = document.querySelectorAll('img, video, iframe, .container, .row, table');
             elements.forEach(el => {
                 if (el.scrollWidth > document.documentElement.clientWidth) {
-                    // Add a class to identify problematic elements
                     el.classList.add('overflow-x-issue');
                     
-                    // Common fixes
                     if (el.tagName === 'IMG' || el.tagName === 'VIDEO') {
                         el.style.maxWidth = '100%';
                         el.style.height = 'auto';

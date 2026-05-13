@@ -1,0 +1,605 @@
+/* ========================================
+   UNIFIED RESPONSIVE DESIGN
+   St. Lawrence Junior School - Kabowa
+   
+   Consolidated responsive styles for all pages
+   Replaces 10 separate page-specific files
+   ======================================== */
+
+/* ========== GLOBAL OVERFLOW PREVENTION ========== */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    margin: 0 !important;
+    /* Never use padding:0 !important on body — it overrides fixed-header offset and hero clearance */
+}
+
+/* Guard against sections causing horizontal overflow */
+.hero,
+.hero-content,
+.hero-grid,
+.why-choose-box,
+.why-stats-grid,
+.events-bar,
+.events-grid,
+.about-section,
+.about-grid,
+.why-choose-us-section,
+.why-choose-grid,
+.gallery-grid,
+.teachers-grid,
+.admission-wizard-container,
+.library-container,
+.fees-container {
+    max-width: 100%;
+}
+
+/* ========== GLOBAL MOBILE FIXES ========== */
+@media (max-width: 768px) {
+    
+    /* Container adjustments — min gutter + curved-edge / notch safe areas */
+    .container {
+        padding-left: max(15px, env(safe-area-inset-left, 0px));
+        padding-right: max(15px, env(safe-area-inset-right, 0px));
+    }
+    
+    /* Header responsive layout — reserve hamburger + right safe area */
+    .header .container {
+        padding-left: max(12px, env(safe-area-inset-left, 0px));
+        padding-right: calc(64px + env(safe-area-inset-right, 0px));
+    }
+    
+    .navbar {
+        display: flex !important;
+        grid-template-columns: none !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    
+    .logo {
+        min-width: 0;
+        max-width: none;
+        overflow: visible;
+        padding-right: 52px;
+        box-sizing: border-box;
+    }
+    
+    .logo-text,
+    .logo-subtitle {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+    
+    /* Typography scaling */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    h4 { font-size: 1.25rem; }
+
+    /* Prevent iOS zoom and improve touch ergonomics */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    .btn,
+    button {
+        min-height: 44px;
+    }
+    
+    /* Section padding */
+    section {
+        padding: 40px 0;
+    }
+    
+    /* Bootstrap-style rows: lighter negative margins reduce horizontal bleed past curved edges */
+    .row {
+        margin-left: -6px;
+        margin-right: -6px;
+    }
+    
+    .col, [class*="col-"] {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+}
+
+/* ========== NAVIGATION RESPONSIVE ========== */
+@media (max-width: 992px) {
+    /* Keep navbar fixed on top during mobile/tablet scrolling */
+    .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: var(--z-hamburger, 10000) !important;
+    }
+
+    /* Match fixed header: 70px bar + safe-area inset (edge-display adds padding-top on .header) */
+    body {
+        padding-top: calc(70px + env(safe-area-inset-top, 0px)) !important;
+    }
+
+    /* Anchor links land below fixed header + status bar */
+    html {
+        scroll-padding-top: calc(70px + env(safe-area-inset-top, 0px));
+    }
+    
+    /* Hide desktop navigation */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Show mobile navigation */
+    .mobile-only {
+        display: block !important;
+    }
+    
+    /* Hamburger stays in navbar - pinned top-right on mobile */
+    #hamburger.hamburger {
+        position: absolute !important;
+        top: 50% !important;
+        right: max(15px, env(safe-area-inset-right, 0px)) !important;
+        left: auto !important;
+        transform: translateY(-50%) !important;
+        width: 44px !important;
+        height: 44px !important;
+        z-index: var(--z-hamburger, 10000) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        border-radius: 10px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Navbar layout on mobile: logo left, hamburger right */
+    .navbar {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding-left: max(15px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(15px, env(safe-area-inset-right, 0px)) !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        height: 70px !important;
+        gap: 10px !important;
+        position: relative !important;
+    }
+
+    /* Hide nav menu and admin button on mobile */
+    .nav-menu {
+        display: none !important;
+    }
+
+    .nav-actions {
+        display: none !important;
+    }
+
+    /* Mobile menu overlay - shown when active */
+    .nav-menu.active {
+        display: flex !important;
+        position: fixed !important;
+        top: 70px !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: calc(100vh - 70px) !important;
+        background: rgba(15, 15, 15, 0.98) !important;
+        backdrop-filter: blur(10px) !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        padding-top: 12px !important;
+        padding-bottom: 16px !important;
+        gap: 5px !important;
+        z-index: calc(var(--z-hamburger, 10000) - 1) !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* ========== FORM RESPONSIVE ========== */
+@media (max-width: 768px) {
+    
+    /* Contact forms */
+    .contact-form-side,
+    .contact-form-wrapper-advanced {
+        padding: 20px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-group-advanced {
+        margin-bottom: 20px;
+    }
+    
+    .btn-submit-form-advanced,
+    .btn-send-message {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+    }
+    
+    /* Admission wizard forms */
+    .wizard-steps {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .wizard-step {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .wizard-content {
+        padding: 30px 20px;
+    }
+    
+    .wizard-form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .file-upload-area {
+        padding: 30px 15px;
+    }
+}
+
+/* ========== CARD LAYOUTS ========== */
+@media (max-width: 768px) {
+    
+    /* Teacher cards */
+    .teachers-grid,
+    .teacher-card-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .teacher-card {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    /* Gallery grid */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .gallery-item {
+        aspect-ratio: 1;
+    }
+    
+    /* Stats cards */
+    .stats-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Why choose us cards */
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* ========== HERO SECTIONS ========== */
+@media (max-width: 768px) {
+    
+    .page-hero,
+    .hero {
+        min-height: 60vh;
+        padding: 60px 0;
+    }
+    
+    .page-hero h1,
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .page-hero p,
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .breadcrumb {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .hero-content {
+        text-align: center;
+        padding: 0 20px;
+    }
+}
+
+/* ========== ADMISSION WIZARD ========== */
+@media (max-width: 768px) {
+    
+    .admission-wizard-container {
+        padding: 20px 15px;
+    }
+    
+    .wizard-step-content {
+        padding: 20px;
+    }
+}
+
+/* ========== LIBRARY RESPONSIVE ========== */
+@media (max-width: 768px) {
+    
+    .library-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .library-item {
+        padding: 20px;
+    }
+    
+    .library-search {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .library-filters {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+/* ========== FEES TABLE ========== */
+@media (max-width: 768px) {
+    
+    .fees-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .fees-table {
+        min-width: 600px;
+    }
+    
+    .fees-table th,
+    .fees-table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+    
+    .fees-summary {
+        padding: 20px;
+        margin: 20px 0;
+    }
+}
+
+/* ========== ABOUT PAGE TIMELINE ========== */
+@media (max-width: 768px) {
+    
+    .history-timeline {
+        padding-left: 20px;
+    }
+    
+    .history-item {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .history-item.left,
+    .history-item.right {
+        flex-direction: column;
+    }
+    
+    .history-content,
+    .history-image {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .history-image {
+        margin-bottom: 20px;
+    }
+    
+    .mvv-layout {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .mvv-left,
+    .mvv-right {
+        width: 100%;
+    }
+}
+
+/* ========== GALLERY LIGHTBOX ========== */
+@media (max-width: 768px) {
+    
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
+    
+    .lightbox-nav {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    
+    .lightbox-close {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .gallery-filter-tabs {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+}
+
+/* ========== FLOATING ELEMENTS MOBILE ========== */
+@media (max-width: 768px) {
+    
+    /* Ensure floating elements don't interfere with content */
+    .back-to-top,
+    #backToTop {
+        width: 44px !important;
+        height: 44px !important;
+        z-index: var(--z-back-to-top, 10001) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 16px !important;
+    }
+    
+    .chat-button,
+    #chatButton {
+        width: 56px !important;
+        height: 56px !important;
+        z-index: var(--z-chatbot, 9999) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* ========== SAFE AREA INSETS ========== */
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        .container {
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
+        }
+        
+        .header .container {
+            padding-left: max(12px, env(safe-area-inset-left));
+            padding-right: max(64px, env(safe-area-inset-right) + 64px);
+        }
+    }
+}
+
+/* ========== INDEX PAGE HERO IMPROVEMENTS ========== */
+@media (max-width: 768px) {
+    /* Hero inner top gap below fixed header (body already has padding-top for bar + notch) */
+    .hero {
+        margin-top: 0 !important;
+        padding-top: clamp(32px, 10vw, 64px) !important;
+        min-height: auto !important;
+    }
+
+    /* Hero content centered */
+    .hero-left {
+        text-align: center;
+    }
+
+    /* Buttons side by side, not stacked */
+    .hero-buttons {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
+    }
+
+    .hero-buttons .btn {
+        width: auto !important;
+        min-width: 140px !important;
+        flex: 1 !important;
+        max-width: 200px !important;
+        padding: 13px 16px !important;
+        font-size: 14px !important;
+    }
+
+    /* Stats: always 2 columns on mobile */
+    .why-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    .why-stat-card {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 8px !important;
+        padding: 15px 10px !important;
+    }
+
+    .why-stat-number {
+        font-size: 22px !important;
+    }
+
+    .why-stat-label {
+        font-size: 11px !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Why choose box tighter on mobile */
+    .why-choose-box {
+        padding: 20px 15px !important;
+    }
+
+    .why-choose-title {
+        font-size: 17px !important;
+        text-align: center !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-buttons .btn {
+        min-width: 120px !important;
+        font-size: 13px !important;
+        padding: 12px 12px !important;
+    }
+
+    .why-stats-grid {
+        gap: 8px !important;
+    }
+
+    .why-stat-card {
+        padding: 12px 8px !important;
+    }
+
+    .why-stat-number {
+        font-size: 20px !important;
+    }
+}
+
+/* ========== PAGE HERO NAVBAR CLEARANCE ========== */
+/* Remove page-specific margin-top offsets so hero sits flush below navbar.
+   On mobile/tablet header is position:fixed and body has padding-top:70px,
+   so any extra hero margin-top creates white whitespace. On desktop header
+   is in-flow, so margin-top is also unnecessary. Apply at ALL breakpoints. */
+.page-hero,
+.fees-hero-simple,
+.hero-section:first-child,
+body > section:first-of-type {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 992px) {
+    .page-hero {
+        min-height: 50vh !important;
+    }
+}

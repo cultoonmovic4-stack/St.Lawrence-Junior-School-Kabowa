@@ -320,7 +320,14 @@
             color: var(--text-light);
             font-size: 20px;
             cursor: pointer;
-            display: none;
+            display: none !important; /* Force hide on desktop */
+        }
+
+        /* Ensure hamburger menu is hidden on desktop and tablet */
+        @media (min-width: 481px) {
+            .menu-toggle {
+                display: none !important;
+            }
         }
 
         .page-title {
@@ -1907,7 +1914,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             .sidebar {
                 transform: translateX(-100%);
             }
@@ -1918,7 +1925,7 @@
             }
 
             .menu-toggle {
-                display: block;
+                display: block !important; /* Only show on small mobile devices */
             }
 
             .dynamic-stats-grid {

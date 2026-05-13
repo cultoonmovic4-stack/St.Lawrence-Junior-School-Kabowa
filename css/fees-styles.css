@@ -560,9 +560,12 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    /* Single column on tablets/phones; Fees.html inline styles also set 2 cols — keep !important via edge-display-fixes.css */
     .uniform-pricing-grid-2x2 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 25px;
+        width: 100%;
+        max-width: 100%;
     }
 }
 

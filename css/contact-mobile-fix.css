@@ -1,0 +1,91 @@
+/* Contact Page Mobile Responsiveness Fix */
+/* This file fixes form fields and button being cut off at screen edges */
+
+@media (max-width: 768px) {
+    /* Force container to have margin from edges */
+    .contact-main-section .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    
+    .contact-card-container {
+        padding: 30px 20px !important;
+        margin: 0 !important;
+        width: calc(100% - 40px) !important;
+        max-width: calc(100% - 40px) !important;
+        box-sizing: border-box !important;
+    }
+    
+    .contact-split-layout {
+        padding: 0 !important;
+    }
+    
+    .contact-info-side,
+    .contact-form-side {
+        padding: 20px 15px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .modern-contact-form {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .modern-contact-form .form-group {
+        margin-bottom: 15px !important;
+        padding: 0 !important;
+    }
+    
+    .modern-contact-form .form-input {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+    }
+    
+    .btn-send-message {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-main-section .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .contact-card-container {
+        padding: 25px 15px !important;
+        margin: 0 !important;
+        width: calc(100% - 30px) !important;
+        max-width: calc(100% - 30px) !important;
+    }
+    
+    .contact-info-side,
+    .contact-form-side {
+        padding: 15px 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-main-section .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    
+    .contact-card-container {
+        padding: 20px 10px !important;
+        width: calc(100% - 20px) !important;
+        max-width: calc(100% - 20px) !important;
+    }
+    
+    .contact-info-side,
+    .contact-form-side {
+        padding: 15px 5px !important;
+    }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Our Teachers - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
     <meta name="description" content="Meet our dedicated and qualified teaching staff organized by departments at St. Lawrence Junior School Kabowa.">
     
@@ -21,25 +21,26 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/redesign-style.css?v=3.0">
-    
-    <!-- Mobile Improvements CSS -->
-    <link rel="stylesheet" href="../css/mobile-improvements.css?v=2.0">
+    <link rel="stylesheet" href="../css/redesign-style.css?v=3.1">
+
+    <!-- Unified Responsive Design -->
+    <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
+
+    <!-- Unified Floating Elements -->
+    <link rel="stylesheet" href="../css/unified-floating-elements.css?v=1.0">
 
     <!-- Edge Display Fixes for Modern Mobile Devices -->
-    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.0">
-    
     <!-- Mobile Animation Stability Fixes -->
     <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
     
-    <!-- Hamburger Menu Fixes -->
-    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=1.0">
+    <!-- Mobile Menu Spacing Fix -->
+    <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
     
-    <!-- Anti-Shake Mobile CSS (Aggressive Fix) -->
-    <link rel="stylesheet" href="../css/anti-shake-mobile.css?v=1.0">
-
-    <!-- Teachers page responsive cleanup -->
-    <link rel="stylesheet" href="../css/teachers-responsive.css?v=1.0">
+    <!-- Hamburger Menu Fixes -->
+    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
+    
+    <!-- Desktop Navigation Fixes -->
+    <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
     <!-- Footer redesign (clean) -->
     <link rel="stylesheet" href="../css/footer.css?v=1.0">
@@ -101,6 +102,17 @@
             }
         }
         
+        /* School branding — teachers page (cards + modal) */
+        :root {
+            --teacher-brand-blue: #0066cc;
+            --teacher-brand-blue-dark: #0052a3;
+            --teacher-brand-red: #dc3545;
+            --teacher-brand-red-dark: #c82333;
+            --teacher-gradient-header: linear-gradient(135deg, #0066cc 0%, #0052a3 55%, #b91c2c 100%);
+            --teacher-gradient-cta: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            --teacher-gradient-accent: linear-gradient(135deg, #0066cc 0%, #dc3545 100%);
+        }
+
         /* Teacher Profile Modal Styles */
         .teacher-modal {
             display: none;
@@ -167,19 +179,31 @@
         }
         
         .teacher-modal-close:hover {
-            background: #ff4757;
+            background: var(--teacher-brand-red);
             color: white;
             transform: rotate(90deg);
         }
         
         .teacher-modal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--teacher-gradient-header);
             color: white;
             padding: 40px 30px 30px;
             border-radius: 20px 20px 0 0;
             display: flex;
             align-items: center;
             gap: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teacher-brand-blue) 0%, var(--teacher-brand-blue) 50%, var(--teacher-brand-red) 50%, var(--teacher-brand-red) 100%);
         }
         
         .teacher-modal-photo {
@@ -187,7 +211,8 @@
             height: 120px;
             border-radius: 50%;
             overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
         }
         
@@ -239,7 +264,7 @@
         }
         
         .teacher-modal-section h3 i {
-            color: #667eea;
+            color: var(--teacher-brand-blue);
             width: 20px;
         }
         
@@ -260,14 +285,15 @@
             align-items: center;
             gap: 15px;
             padding: 20px;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.06) 0%, rgba(220, 53, 69, 0.04) 100%);
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border: 1px solid rgba(0, 102, 204, 0.12);
+            border-left: 4px solid var(--teacher-brand-blue);
         }
         
         .modal-stat-item i {
             font-size: 1.5rem;
-            color: #667eea;
+            color: var(--teacher-brand-blue);
             width: 30px;
             text-align: center;
         }
@@ -293,12 +319,13 @@
         }
         
         .modal-specialty-tag {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: var(--teacher-gradient-accent);
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
         }
         
         .teacher-modal-contact {
@@ -318,7 +345,7 @@
         
         .modal-contact-item i {
             font-size: 1.2rem;
-            color: #667eea;
+            color: var(--teacher-brand-blue);
             width: 25px;
             text-align: center;
         }
@@ -339,7 +366,101 @@
         }
         
         .contact-value:hover {
-            color: #667eea;
+            color: var(--teacher-brand-blue);
+        }
+
+        /* ----- Dynamic teacher cards (api-teachers.js) ----- */
+        .teachers-departments-section .teacher-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 102, 204, 0.12);
+            box-shadow: 0 8px 28px rgba(0, 102, 204, 0.08);
+        }
+
+        .teachers-departments-section .teacher-card::before {
+            transform: scaleX(1);
+            height: 4px;
+            background: linear-gradient(90deg, var(--teacher-brand-blue) 0%, var(--teacher-brand-blue) 50%, var(--teacher-brand-red) 50%, var(--teacher-brand-red) 100%);
+            opacity: 1;
+        }
+
+        .teachers-departments-section .teacher-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 102, 204, 0.18);
+            border-color: rgba(0, 102, 204, 0.22);
+        }
+
+        .teacher-card-image {
+            padding: 28px 24px 12px;
+            background: linear-gradient(180deg, rgba(0, 102, 204, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .teacher-photo-circle {
+            width: 132px;
+            height: 132px;
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid transparent;
+            background:
+                linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(135deg, var(--teacher-brand-blue), var(--teacher-brand-red)) border-box;
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+        }
+
+        .teacher-photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .teacher-card-content {
+            padding: 8px 22px 22px;
+            text-align: center;
+        }
+
+        .teacher-card-name {
+            margin: 0 0 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .teacher-card-position {
+            margin: 0 0 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--teacher-brand-blue);
+        }
+
+        .teacher-view-btn {
+            width: 100%;
+            background: var(--teacher-gradient-cta);
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
+        }
+
+        .teacher-view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.28);
+            background: linear-gradient(135deg, #0052a3 0%, var(--teacher-brand-red) 100%);
+        }
+
+        .teacher-view-btn i {
+            font-size: 0.75rem;
         }
         
         /* Make teacher cards clickable */
@@ -348,38 +469,35 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .teacher-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-        
         /* Teacher card footer with view profile button */
         .teacher-card-footer {
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0, 102, 204, 0.12);
         }
         
         .view-profile-btn {
             width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--teacher-gradient-cta);
             color: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
         }
         
         .view-profile-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 18px rgba(0, 102, 204, 0.4);
+            background: linear-gradient(135deg, #0052a3 0%, var(--teacher-brand-red) 100%);
         }
         
         .view-profile-btn i {
@@ -405,7 +523,7 @@
         
         .teacher-quick-action i {
             font-size: 0.9rem;
-            color: #667eea;
+            color: var(--teacher-brand-blue);
         }
         
         /* Responsive modal */
@@ -444,6 +562,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
 </head>
 <body>
     
@@ -498,23 +617,35 @@
                     
                     <!-- Mobile Menu Items -->
                     <li class="mobile-only"><a href="index-redesign.html" class="nav-link-mobile">Home</a></li>
+                    
                     <li class="mobile-only"><a href="About-redesign.html" class="nav-link-mobile">About</a></li>
-                    <li class="mobile-only"><a href="Teachers-redesign.html" class="nav-link-mobile">Teachers</a></li>
+                    
+                    <li class="mobile-only"><a href="Teachers-redesign.html" class="nav-link-mobile active">Teachers</a></li>
                     <li class="mobile-only"><a href="Gallery-redesign.html" class="nav-link-mobile">Gallery</a></li>
+                    
                     <li class="mobile-only mobile-expandable">
                         <div class="nav-link-mobile">
                             <span>Academics</span>
                             <span class="mobile-expand-icon">+</span>
                         </div>
                         <ul class="mobile-submenu">
+                            <li><a href="Academics.html">Academics Overview</a></li>
                             <li><a href="Fees.html">Fees</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
                             <li><a href="Admission-redesign.html">Admission</a></li>
                         </ul>
                     </li>
+                    
                     <li class="mobile-only"><a href="Contact-redesign.html" class="nav-link-mobile">Contact</a></li>
                     <li class="mobile-only"><a href="Library-redesign.html" class="nav-link-mobile">Library</a></li>
-                </ul>
+                    <!-- Mobile Menu CTA -->
+                    <li class="mobile-only mobile-menu-cta">
+                        <a href="Admission-redesign.html" class="mobile-cta-btn">
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <p class="mobile-menu-contact">stlawrencejuniorschoolkabowa@gmail.com</p>
+                    </li>                </ul>
                 
                 <!-- Admin Button -->
                 <div class="nav-actions">
@@ -525,7 +656,7 @@
                 </div>
                 
                 <!-- Mobile Hamburger -->
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -610,36 +741,10 @@
             <div class="section-header" data-aos="fade-up">
                 <span class="section-tag">Our Team</span>
                 <h2 class="section-title">Meet Our Teachers by Department</h2>
-                <p class="section-description">Filter by department to view our dedicated teaching staff</p>
+                <!-- <p class="section-description">Filter by department to view our dedicated teaching staff</p> -->
             </div>
             
-            <!-- Department Filter Buttons -->
-            <div class="department-filters" data-aos="fade-up" data-aos-delay="100">
-                <button class="dept-filter-btn active" data-department="all">
-                    <i class="fas fa-th"></i>
-                    <span>ALL</span>
-                </button>
-                <button class="dept-filter-btn" data-department="administration">
-                    <i class="fas fa-user-tie"></i>
-                    <span>ADMINISTRATION</span>
-                </button>
-                <button class="dept-filter-btn" data-department="english">
-                    <i class="fas fa-book-open"></i>
-                    <span>ENGLISH</span>
-                </button>
-                <button class="dept-filter-btn" data-department="mathematics">
-                    <i class="fas fa-calculator"></i>
-                    <span>MATHEMATICS</span>
-                </button>
-                <button class="dept-filter-btn" data-department="science">
-                    <i class="fas fa-flask"></i>
-                    <span>SCIENCE</span>
-                </button>
-                <button class="dept-filter-btn" data-department="social">
-                    <i class="fas fa-globe-africa"></i>
-                    <span>SOCIAL STUDIES</span>
-                </button>
-            </div>
+           
             
             <!-- Teachers Grid (All teachers in one grid, filtered by department) -->
             <div class="teachers-grid" id="teachersContainer" data-aos="fade-up" data-aos-delay="200">
@@ -737,7 +842,7 @@
     <!-- Footer -->
     <footer class="footer">
         <!-- Video Background -->
-        <video class="footer-video" autoplay muted loop playsinline>
+        <video class="footer-video" autoplay muted loop playsinline preload="metadata">
             <source src="../img/students walking.mp4" type="video/mp4">
         </video>
         <div class="footer-overlay"></div>
@@ -752,10 +857,10 @@
                     </div>
                     <p class="footer-description">Excellence in Education since 2010. Nurturing young minds for a brighter future.</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.tiktok.com/@stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://twitter.com/stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/stla.wrencejuniorschoolkabowa" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/256772420506" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 
@@ -841,11 +946,8 @@
     <!-- Hamburger Menu Functionality Fix -->
     <script src="../js/hamburger-menu-fix.js"></script>
     
-    <!-- Anti-Shake Enforcer (Aggressive Animation Blocker) -->
-    <script src="../js/anti-shake-enforcer.js"></script>
-    
-    <!-- Floating Elements Fix (Chatbot & Back-to-Top) -->
-    <script src="../js/floating-elements-fix.js"></script>
+    <!-- Unified Floating Elements Handler -->
+    <script src="../js/unified-floating-elements.js?v=1.0"></script>
     
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js"></script>
@@ -860,70 +962,6 @@
             duration: 1000,
             once: true,
             offset: 100
-        });
-        
-        // Mobile Menu Functionality
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-        const mobileExpandables = document.querySelectorAll('.mobile-expandable');
-        
-        if (hamburger && navMenu) {
-            hamburger.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const isActive = navMenu.classList.contains('active');
-                
-                if (isActive) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                } else {
-                    hamburger.classList.add('active');
-                    navMenu.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        }
-        
-        mobileExpandables.forEach(item => {
-            const link = item.querySelector('.nav-link-mobile');
-            
-            if (link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    mobileExpandables.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                        }
-                    });
-                    
-                    item.classList.toggle('active');
-                });
-            }
-        });
-        
-        const submenuLinks = document.querySelectorAll('.mobile-submenu a');
-        submenuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (hamburger && navMenu) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-        });
-        
-        const regularMobileLinks = document.querySelectorAll('.mobile-only:not(.mobile-expandable) .nav-link-mobile');
-        regularMobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (hamburger && navMenu) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
         });
         
         // Department Filter Functionality

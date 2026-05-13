@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Gallery - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
     <meta name="description" content="Explore our school gallery showcasing events, facilities, students, and activities at St. Lawrence Junior School Kabowa.">
     
@@ -21,25 +21,26 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/redesign-style.css?v=3.0">
-    
-    <!-- Mobile Improvements CSS -->
-    <link rel="stylesheet" href="../css/mobile-improvements.css?v=2.0">
+    <link rel="stylesheet" href="../css/redesign-style.css?v=3.1">
+
+    <!-- Unified Responsive Design -->
+    <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
+
+    <!-- Unified Floating Elements -->
+    <link rel="stylesheet" href="../css/unified-floating-elements.css?v=1.0">
 
     <!-- Edge Display Fixes for Modern Mobile Devices -->
-    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.0">
-    
     <!-- Mobile Animation Stability Fixes -->
     <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
     
-    <!-- Hamburger Menu Fixes -->
-    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=1.0">
+    <!-- Mobile Menu Spacing Fix -->
+    <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
     
-    <!-- Anti-Shake Mobile CSS (Aggressive Fix) -->
-    <link rel="stylesheet" href="../css/anti-shake-mobile.css?v=1.0">
-
-    <!-- Gallery page responsive cleanup -->
-    <link rel="stylesheet" href="../css/gallery-responsive.css?v=1.0">
+    <!-- Hamburger Menu Fixes -->
+    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
+    
+    <!-- Desktop Navigation Fixes -->
+    <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
     <!-- Footer redesign (clean) -->
     <link rel="stylesheet" href="../css/footer.css?v=1.0">
@@ -495,6 +496,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
 </head>
 <body>
     
@@ -547,23 +549,35 @@
                     
                     <!-- Mobile Menu Items -->
                     <li class="mobile-only"><a href="index-redesign.html" class="nav-link-mobile">Home</a></li>
+                    
                     <li class="mobile-only"><a href="About-redesign.html" class="nav-link-mobile">About</a></li>
+                    
                     <li class="mobile-only"><a href="Teachers-redesign.html" class="nav-link-mobile">Teachers</a></li>
-                    <li class="mobile-only"><a href="Gallery-redesign.html" class="nav-link-mobile">Gallery</a></li>
+                    <li class="mobile-only"><a href="Gallery-redesign.html" class="nav-link-mobile active">Gallery</a></li>
+                    
                     <li class="mobile-only mobile-expandable">
                         <div class="nav-link-mobile">
                             <span>Academics</span>
                             <span class="mobile-expand-icon">+</span>
                         </div>
                         <ul class="mobile-submenu">
+                            <li><a href="Academics.html">Academics Overview</a></li>
                             <li><a href="Fees.html">Fees</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
                             <li><a href="Admission-redesign.html">Admission</a></li>
                         </ul>
                     </li>
+                    
                     <li class="mobile-only"><a href="Contact-redesign.html" class="nav-link-mobile">Contact</a></li>
                     <li class="mobile-only"><a href="Library-redesign.html" class="nav-link-mobile">Library</a></li>
-                </ul>
+                    <!-- Mobile Menu CTA -->
+                    <li class="mobile-only mobile-menu-cta">
+                        <a href="Admission-redesign.html" class="mobile-cta-btn">
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <p class="mobile-menu-contact">stlawrencejuniorschoolkabowa@gmail.com</p>
+                    </li>                </ul>
                 
                 <!-- Admin Button -->
                 <div class="nav-actions">
@@ -574,7 +588,7 @@
                 </div>
                 
                 <!-- Mobile Hamburger -->
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -623,7 +637,7 @@
     <!-- Footer -->
     <footer class="footer">
         <!-- Video Background -->
-        <video class="footer-video" autoplay muted loop playsinline>
+        <video class="footer-video" autoplay muted loop playsinline preload="metadata">
             <source src="../img/students walking.mp4" type="video/mp4">
         </video>
         <div class="footer-overlay"></div>
@@ -638,10 +652,10 @@
                     </div>
                     <p class="footer-description">Excellence in Education since 2010. Nurturing young minds for a brighter future.</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.tiktok.com/@stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://twitter.com/stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/stla.wrencejuniorschoolkabowa" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/256772420506" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 
@@ -841,14 +855,11 @@
     <!-- Hamburger Menu Functionality Fix -->
     <script src="../js/hamburger-menu-fix.js"></script>
     
+    <!-- Unified Floating Elements Handler -->
+    <script src="../js/unified-floating-elements.js?v=1.0"></script>
+    
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js"></script>
-    
-    <!-- Anti-Shake Enforcer (Aggressive Animation Blocker) -->
-    <script src="../js/anti-shake-enforcer.js"></script>
-    
-    <!-- Floating Elements Fix (Chatbot & Back-to-Top) -->
-    <script src="../js/floating-elements-fix.js"></script>
     
     <!-- API Integration -->
     <script src="../js/api-config.js?v=6"></script>
@@ -860,27 +871,6 @@
             duration: 1000,
             once: true,
             offset: 100
-        });
-        
-        // Mobile expandable menu functionality only (hamburger handled by external script)
-        const mobileExpandables = document.querySelectorAll('.mobile-expandable');
-        
-        mobileExpandables.forEach(item => {
-            const link = item.querySelector('.nav-link-mobile');
-            
-            if (link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    mobileExpandables.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                        }
-                    });
-                    
-                    item.classList.toggle('active');
-                });
-            }
         });
         
         // Note: Hamburger menu functionality is handled by external hamburger-menu-fix.js
@@ -911,7 +901,7 @@
             const visibleItems = document.querySelectorAll('.gallery-item:not([style*="display: none"])');
             galleryImages = Array.from(visibleItems).map(item => {
                 const img = item.querySelector('img');
-                const title = item.querySelector('.gallery-info h4')?.textContent || 'Gallery Image';
+                const title = item.querySelector('.gallery-info h3')?.textContent || item.querySelector('.gallery-info h4')?.textContent || 'Gallery Image';
                 const category = item.getAttribute('data-category') || 'general';
                 return {
                     src: img.src,

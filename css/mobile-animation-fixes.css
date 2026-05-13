@@ -11,49 +11,29 @@
    ======================================== */
 
 /* ========== HARDWARE ACCELERATION & PERFORMANCE ========== */
-* {
-    /* Force hardware acceleration for smooth animations */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
+/* Avoid global transform forcing. It creates too many compositor layers
+   and can cause jitter on mobile when combined with active animations. */
+
+/* Ensure fixed/sticky headers behave correctly */
+html,
+body {
+    -webkit-transform: none !important;
+    transform: none !important;
 }
 
-/* Optimize specific elements for mobile */
-img,
-video,
+/* Keep only non-invasive rendering hints for key interactive elements */
 .chat-button,
 .back-to-top,
-.hamburger,
-.logo,
-.nav-menu,
-.hero-content,
-.card,
-.btn,
-.icon {
-    /* Stable hardware acceleration */
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+.hamburger {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    will-change: auto;
 }
 
 /* ========== MOBILE-SPECIFIC ANIMATION FIXES ========== */
 @media (max-width: 768px) {
     
     /* ========== DISABLE PROBLEMATIC ANIMATIONS ========== */
-    * {
-        /* Reduce animation duration for stability */
-        animation-duration: 0.2s !important;
-        transition-duration: 0.2s !important;
-        
-        /* Disable transform animations that cause shaking */
-        -webkit-animation-fill-mode: both;
-        animation-fill-mode: both;
-    }
+    /* Do not globally override all durations/fill-modes on mobile. */
     
     /* ========== DISABLE ALL HOVER TRANSFORMS ON MOBILE ========== */
     .gallery-card:hover img,
@@ -89,8 +69,11 @@ video,
         -webkit-transform: none !important;
     }
     
-    /* ========== DISABLE HOVER SCALE EFFECTS ========== */
-    *:hover {
+    /* ========== DISABLE HOVER SCALE EFFECTS (TARGETED) ========== */
+    .program-card:hover,
+    .teacher-card:hover,
+    .why-card:hover,
+    .history-card:hover {
         transform: none !important;
         -webkit-transform: none !important;
     }
@@ -341,17 +324,10 @@ video,
     }
 }
 
-/* ========== WEBKIT SPECIFIC FIXES ========== */
+    /* ========== WEBKIT SPECIFIC FIXES ========== */
 @media (max-width: 768px) {
     /* iOS Safari specific fixes */
     @supports (-webkit-touch-callout: none) {
-        * {
-            /* iOS-specific hardware acceleration */
-            -webkit-transform: translate3d(0, 0, 0);
-            -webkit-backface-visibility: hidden;
-            -webkit-perspective: 1000px;
-        }
-        
         .chat-button,
         .back-to-top {
             /* iOS-specific positioning fixes */
@@ -389,8 +365,6 @@ video,
     /* Optimize scroll performance */
     .container,
     .content {
-        /* Use compositor layers efficiently */
-        transform: translate3d(0, 0, 0);
         will-change: auto;
     }
     

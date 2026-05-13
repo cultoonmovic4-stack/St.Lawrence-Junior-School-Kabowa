@@ -1,0 +1,77 @@
+/* ========================================
+   MOBILE MENU SPACING FIX
+   St. Lawrence Junior School - Kabowa
+   
+   Fixes for:
+   - Excessive space below email in mobile menu
+   - Header not staying fixed on scroll
+   ======================================== */
+
+/* ========== ENSURE HEADER STAYS FIXED ========== */
+@media (max-width: 768px) {
+    .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10000 !important;
+    }
+    
+    /* Remove any padding-top that might interfere */
+    .header {
+        padding-top: 0 !important;
+    }
+}
+
+/* ========== MOBILE MENU SPACING FIX ========== */
+@media (max-width: 992px) {
+    /* Force fixed top header on mobile/tablet */
+    .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10000 !important;
+    }
+
+    body {
+        padding-top: calc(70px + env(safe-area-inset-top, 0px)) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Tighten the mobile menu container */
+    .nav-menu {
+        padding: 6px 0 0 !important;
+        height: auto !important;
+        max-height: calc(100vh - 70px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* Remove bottom padding from CTA section */
+    .mobile-menu-cta {
+        padding: 10px 24px 6px !important;
+        margin-bottom: 0 !important;
+    }
+    
+    /* Tighten email spacing */
+    .mobile-menu-contact {
+        margin: 8px 0 6px !important;
+        padding-bottom: 0 !important;
+    }
+    
+    /* Ensure no extra space after last item */
+    .nav-menu .mobile-only:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+/* ========== PREVENT BODY SCROLL WHEN MENU OPEN ========== */
+body.menu-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+}

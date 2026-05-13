@@ -184,8 +184,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
     // --- Premium Alumni Carousel ---
-    if ($ && $.fn.owlCarousel) {
-        .premium-alumni-carousel.owlCarousel({
+    if (typeof $ !== 'undefined' && $.fn.owlCarousel) {
+        $('.premium-alumni-carousel').owlCarousel({
             items: 1,
             loop: true,
             autoplay: true,
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
+            if (window.scrollY > 0) {
                 backToTopBtn.classList.remove('d-none');
             } else {
                 backToTopBtn.classList.add('d-none');

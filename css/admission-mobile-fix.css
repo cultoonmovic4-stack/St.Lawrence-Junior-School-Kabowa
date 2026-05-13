@@ -1,0 +1,184 @@
+/* Admission Page Mobile Responsiveness Fixes */
+
+/* Hide wizard step icons on mobile and small screens */
+@media (max-width: 768px) {
+    .wizard-steps {
+        display: none !important;
+    }
+    
+    /* Add more spacing to compensate for hidden steps */
+    .wizard-form-container {
+        padding-top: 20px !important;
+    }
+    
+    .wizard-form-step {
+        margin-top: 0 !important;
+    }
+    
+    /* How to Apply Section - Make cards wider and shorter */
+    .process-steps-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 15px !important;
+    }
+    
+    .process-step-card {
+        padding: 30px 25px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    .process-step-card .step-number {
+        font-size: 2rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .process-step-card h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .process-step-card p {
+        font-size: 0.95rem !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Timeline Cards - SIMPLE FIX */
+    .timeline-line {
+        display: none !important;
+    }
+    
+    .timeline-dot {
+        display: none !important;
+    }
+    
+    .timeline-item {
+        margin-bottom: 20px !important;
+        min-height: auto !important;
+    }
+    
+    .timeline-item::after {
+        display: none !important;
+    }
+    
+    .timeline-content {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .timeline-card {
+        padding: 25px 20px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .card-header {
+        justify-content: center !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+    
+    .card-meta {
+        justify-content: center !important;
+    }
+    
+    .timeline-card h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .timeline-card p {
+        font-size: 0.95rem !important;
+        line-height: 1.5 !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .card-header {
+        margin-bottom: 15px !important;
+    }
+    
+    .card-icon {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .card-icon i {
+        font-size: 24px !important;
+    }
+    
+    .dot-inner {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 20px !important;
+    }
+    
+    .card-meta {
+        gap: 10px !important;
+    }
+    
+    .meta-item {
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .wizard-steps {
+        display: none !important;
+    }
+    
+    /* How to Apply Section - Even more compact on small phones */
+    .process-steps-grid {
+        padding: 0 10px !important;
+        gap: 15px !important;
+    }
+    
+    .process-step-card {
+        padding: 25px 20px !important;
+    }
+    
+    .process-step-card .step-number {
+        font-size: 1.8rem !important;
+    }
+    
+    .process-step-card h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .process-step-card p {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Timeline Cards - More compact on small phones */
+    .admission-timeline {
+        padding: 0 15px !important;
+    }
+    
+    .timeline-card {
+        padding: 20px 15px !important;
+    }
+    
+    .timeline-card h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .timeline-card p {
+        font-size: 0.9rem !important;
+    }
+    
+    .card-icon {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    .card-icon i {
+        font-size: 20px !important;
+    }
+    
+    .dot-inner {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 18px !important;
+    }
+}

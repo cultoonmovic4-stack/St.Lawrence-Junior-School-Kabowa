@@ -1,7 +1,57 @@
 // Custom Modern Alert System (SweetAlert-style)
 
+function acquireBodyScrollLock(source, scrollY) {
+    if (!window.__scrollLockState) {
+        window.__scrollLockState = {
+            count: 0,
+            ownerMap: {}
+        };
+    }
+
+    const state = window.__scrollLockState;
+    if (state.ownerMap[source]) return;
+
+    if (state.count === 0) {
+        document.body.style.overflow = 'hidden';
+    }
+
+    if (source === 'alert' && !state.ownerMap.alert) {
+        window.originalScrollY = scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+    }
+
+    state.ownerMap[source] = true;
+    state.count += 1;
+}
+
+function releaseBodyScrollLock(source) {
+    const state = window.__scrollLockState;
+    if (!state || !state.ownerMap[source]) return;
+
+    delete state.ownerMap[source];
+    state.count = Math.max(0, state.count - 1);
+
+    if (source === 'alert') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+    }
+
+    if (state.count === 0) {
+        document.body.style.overflow = '';
+    }
+}
+
 // Show success alert
 function showSuccessAlert(title, message, callback) {
+    console.log('showSuccessAlert called - NEW VERSION 2.0');
+    
+    // Store current scroll position
+    const currentScrollY = window.scrollY;
+    console.log('Current scroll position:', currentScrollY);
+    
     const alertHTML = `
         <div class="custom-alert-overlay" id="customAlert">
             <div class="custom-alert-box success-alert">
@@ -29,14 +79,23 @@ function showSuccessAlert(title, message, callback) {
         window.customAlertCallback = callback;
     }
     
+    // Store original scroll position and prevent body scroll
+    acquireBodyScrollLock('alert', currentScrollY);
+    
+    console.log('Body styles applied - position fixed, top:', `-${currentScrollY}px`);
+    
     // Animate in
     setTimeout(() => {
         document.getElementById('customAlert').classList.add('show');
+        console.log('Alert should now be visible');
     }, 10);
 }
 
 // Show error alert
 function showErrorAlert(title, message) {
+    // Store current scroll position
+    const currentScrollY = window.scrollY;
+    
     const alertHTML = `
         <div class="custom-alert-overlay" id="customAlert">
             <div class="custom-alert-box error-alert">
@@ -59,6 +118,9 @@ function showErrorAlert(title, message) {
     
     document.body.insertAdjacentHTML('beforeend', alertHTML);
     
+    // Store original scroll position and prevent body scroll
+    acquireBodyScrollLock('alert', currentScrollY);
+    
     // Animate in
     setTimeout(() => {
         document.getElementById('customAlert').classList.add('show');
@@ -67,6 +129,9 @@ function showErrorAlert(title, message) {
 
 // Show warning alert
 function showWarningAlert(title, message) {
+    // Store current scroll position
+    const currentScrollY = window.scrollY;
+    
     const alertHTML = `
         <div class="custom-alert-overlay" id="customAlert">
             <div class="custom-alert-box warning-alert">
@@ -89,6 +154,9 @@ function showWarningAlert(title, message) {
     
     document.body.insertAdjacentHTML('beforeend', alertHTML);
     
+    // Store original scroll position and prevent body scroll
+    acquireBodyScrollLock('alert', currentScrollY);
+    
     // Animate in
     setTimeout(() => {
         document.getElementById('customAlert').classList.add('show');
@@ -97,6 +165,9 @@ function showWarningAlert(title, message) {
 
 // Show info alert
 function showInfoAlert(title, message) {
+    // Store current scroll position
+    const currentScrollY = window.scrollY;
+    
     const alertHTML = `
         <div class="custom-alert-overlay" id="customAlert">
             <div class="custom-alert-box info-alert">
@@ -119,6 +190,9 @@ function showInfoAlert(title, message) {
     
     document.body.insertAdjacentHTML('beforeend', alertHTML);
     
+    // Store original scroll position and prevent body scroll
+    acquireBodyScrollLock('alert', currentScrollY);
+    
     // Animate in
     setTimeout(() => {
         document.getElementById('customAlert').classList.add('show');
@@ -127,6 +201,9 @@ function showInfoAlert(title, message) {
 
 // Show confirmation alert
 function showConfirmAlert(title, message, onConfirm, onCancel) {
+    // Store current scroll position
+    const currentScrollY = window.scrollY;
+    
     const alertHTML = `
         <div class="custom-alert-overlay" id="customAlert">
             <div class="custom-alert-box confirm-alert">
@@ -161,6 +238,9 @@ function showConfirmAlert(title, message, onConfirm, onCancel) {
         onCancel: onCancel
     };
     
+    // Store original scroll position and prevent body scroll
+    acquireBodyScrollLock('alert', currentScrollY);
+    
     // Animate in
     setTimeout(() => {
         document.getElementById('customAlert').classList.add('show');
@@ -169,11 +249,26 @@ function showConfirmAlert(title, message, onConfirm, onCancel) {
 
 // Close alert
 function closeCustomAlert(executeCallback = false) {
+    console.log('closeCustomAlert called - NEW VERSION 2.0');
+    
     const alert = document.getElementById('customAlert');
     if (alert) {
         alert.classList.remove('show');
+        
         setTimeout(() => {
             alert.remove();
+            
+            // Restore body styles for alert lock owner
+            releaseBodyScrollLock('alert');
+            
+            console.log('Body styles restored');
+            
+            // Restore scroll position
+            if (window.originalScrollY !== undefined) {
+                window.scrollTo(0, window.originalScrollY);
+                console.log('Scroll restored to:', window.originalScrollY);
+                window.originalScrollY = undefined;
+            }
             
             // Execute callback if provided
             if (executeCallback && window.customAlertCallback) {

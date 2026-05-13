@@ -1,0 +1,295 @@
+/* ============================================
+   ANTHEM HERITAGE - MODERN 2x2 GRID DESIGN
+   Clean, Professional, Card-Based Layout
+   ============================================ */
+
+/* Section Styling */
+.anthem-heritage-modern {
+    padding: 120px 0;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.anthem-heritage-modern::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.anthem-heritage-modern::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(220, 53, 69, 0.02) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* Section Header */
+.heritage-header {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+.heritage-header .section-subtitle {
+    font-size: 18px;
+    color: #666666;
+    margin-top: 15px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 2x2 Grid Layout */
+.heritage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Heritage Card */
+.heritage-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heritage-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 102, 204, 0.2);
+}
+
+/* Heritage Icon */
+.heritage-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s ease;
+}
+
+.heritage-card:hover .heritage-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 15px 40px rgba(0, 102, 204, 0.3);
+}
+
+.heritage-icon i {
+    font-size: 36px;
+    color: #ffffff;
+}
+
+/* Alternate Icon Colors */
+.heritage-card:nth-child(2) .heritage-icon {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.heritage-card:nth-child(2):hover .heritage-icon {
+    box-shadow: 0 15px 40px rgba(220, 53, 69, 0.3);
+}
+
+.heritage-card:nth-child(3) .heritage-icon {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+}
+
+.heritage-card:nth-child(3):hover .heritage-icon {
+    box-shadow: 0 15px 40px rgba(255, 193, 7, 0.3);
+}
+
+.heritage-card:nth-child(4) .heritage-icon {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+}
+
+.heritage-card:nth-child(4):hover .heritage-icon {
+    box-shadow: 0 15px 40px rgba(40, 167, 69, 0.3);
+}
+
+/* Heritage Content */
+.heritage-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 18px 0;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+.heritage-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555555;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+/* Heritage Decoration */
+.heritage-decoration {
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03) 0%, rgba(0, 82, 163, 0.05) 100%);
+    border-radius: 50%;
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+
+.heritage-card:hover .heritage-decoration {
+    transform: scale(1.3);
+    opacity: 0.8;
+}
+
+.heritage-card:nth-child(2) .heritage-decoration {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.03) 0%, rgba(200, 35, 51, 0.05) 100%);
+}
+
+.heritage-card:nth-child(3) .heritage-decoration {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.03) 0%, rgba(255, 152, 0, 0.05) 100%);
+}
+
+.heritage-card:nth-child(4) .heritage-decoration {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.03) 0%, rgba(33, 136, 56, 0.05) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .anthem-heritage-modern {
+        padding: 80px 0;
+    }
+
+    .heritage-header {
+        margin-bottom: 60px;
+    }
+
+    .heritage-grid {
+        gap: 30px;
+    }
+
+    .heritage-card {
+        padding: 35px;
+    }
+
+    .heritage-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .heritage-icon i {
+        font-size: 32px;
+    }
+
+    .heritage-content h3 {
+        font-size: 22px;
+    }
+
+    .heritage-content p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .anthem-heritage-modern {
+        padding: 60px 0;
+    }
+
+    .heritage-header {
+        margin-bottom: 50px;
+    }
+
+    .heritage-header .section-subtitle {
+        font-size: 16px;
+    }
+
+    /* Stack to single column on mobile */
+    .heritage-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .heritage-card {
+        padding: 30px;
+    }
+
+    .heritage-icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .heritage-icon i {
+        font-size: 28px;
+    }
+
+    .heritage-content h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .heritage-content p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .heritage-decoration {
+        width: 120px;
+        height: 120px;
+        bottom: -20px;
+        right: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .anthem-heritage-modern {
+        padding: 50px 0;
+    }
+
+    .heritage-card {
+        padding: 25px;
+    }
+
+    .heritage-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+    }
+
+    .heritage-icon i {
+        font-size: 26px;
+    }
+
+    .heritage-content h3 {
+        font-size: 18px;
+    }
+
+    .heritage-content p {
+        font-size: 14px;
+    }
+}

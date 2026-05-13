@@ -6,7 +6,43 @@
    - Squeezed hamburger icon appearance
    - Better mobile positioning and sizing
    - Consistent styling across all pages
+   - Hide on desktop devices
    ======================================== */
+
+/* ========== DESKTOP HIDING ========== */
+/* Hide hamburger menu on desktop and tablet devices - AGGRESSIVE OVERRIDE */
+@media (min-width: 992px) {
+    .hamburger,
+    #hamburger,
+    button.hamburger,
+    .hamburger-menu,
+    .mobile-hamburger,
+    nav .hamburger,
+    header .hamburger {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        z-index: -1 !important;
+    }
+}
+
+/* Extra aggressive desktop hiding for any possible hamburger elements */
+@media screen and (min-width: 992px) {
+    .hamburger,
+    #hamburger,
+    button.hamburger {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+}
 
 /* ========== HAMBURGER ICON IMPROVEMENTS ========== */
 .hamburger {
@@ -31,7 +67,7 @@
     /* Smooth transitions */
     transition: all 0.3s ease !important;
     cursor: pointer !important;
-    z-index: 100020 !important;
+    z-index: var(--z-hamburger, 10000) !important;
 }
 
 .hamburger:hover {
@@ -77,33 +113,33 @@
 }
 
 /* ========== MOBILE POSITIONING FIXES ========== */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .hamburger {
-        /* Fixed positioning for mobile */
-        position: fixed !important;
-        top: max(16px, env(safe-area-inset-top, 0px) + 10px) !important;
-        right: max(16px, env(safe-area-inset-right, 0px) + 10px) !important;
+        /* Show on mobile */
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        
+        /* Stay inside navbar flow - NOT fixed */
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
         left: auto !important;
         bottom: auto !important;
         
-        /* Ensure it's always visible */
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-        
-        /* Better mobile sizing */
+        /* Sizing */
         width: 44px !important;
         height: 44px !important;
         padding: 10px !important;
+        flex-shrink: 0 !important;
     }
     
     .hamburger span {
-        /* Slightly smaller lines on mobile */
         width: 20px !important;
         height: 2px !important;
     }
     
-    /* Adjust active state for mobile */
     .hamburger.active span:nth-child(1) {
         transform: rotate(45deg) translate(4px, 4px) !important;
     }
@@ -130,18 +166,8 @@
     }
 }
 
-/* Large phones and tablets */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .hamburger {
-        width: 50px !important;
-        height: 50px !important;
-        padding: 14px !important;
-    }
-    
-    .hamburger span {
-        width: 24px !important;
-    }
-}
+/* Large phones and tablets - REMOVE THIS SECTION AS IT CONFLICTS */
+/* Tablets should use desktop navigation, not hamburger menu */
 
 /* ========== ACCESSIBILITY IMPROVEMENTS ========== */
 .hamburger:focus {
@@ -182,12 +208,12 @@
 }
 
 /* ========== OVERRIDE CONFLICTING STYLES ========== */
-@media (max-width: 768px) {
-    /* Override any conflicting positioning from other CSS files */
+@media (max-width: 992px) {
+    /* Hamburger stays in navbar flow, right-aligned */
     #hamburger.hamburger {
-        position: fixed !important;
-        top: max(16px, env(safe-area-inset-top, 0px) + 10px) !important;
-        right: max(16px, env(safe-area-inset-right, 0px) + 10px) !important;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
         left: auto !important;
         bottom: auto !important;
         width: 44px !important;
@@ -195,18 +221,17 @@
         margin: 0 !important;
         transform: none !important;
         -webkit-transform: none !important;
+        flex-shrink: 0 !important;
     }
     
-    /* Ensure hamburger is above other elements */
     .hamburger {
-        z-index: 100030 !important;
+        z-index: 10000 !important;
     }
 }
 
 /* ========== ANIMATION STABILITY ========== */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .hamburger {
-        /* Stable hardware acceleration */
         -webkit-transform: translate3d(0, 0, 0) !important;
         transform: translate3d(0, 0, 0) !important;
         -webkit-backface-visibility: hidden !important;
@@ -215,7 +240,6 @@
     }
     
     .hamburger span {
-        /* Stable line animations */
         -webkit-transform-origin: center !important;
         transform-origin: center !important;
         will-change: transform, opacity !important;

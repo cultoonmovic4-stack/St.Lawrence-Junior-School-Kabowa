@@ -35,6 +35,15 @@ window.addEventListener('scroll', () => {
         header.classList.remove('scrolled');
     }
     
+    // Add class to body when scrolling starts for floating elements
+    if (currentScroll > 0) {
+        document.body.classList.add('scrolled');
+        document.documentElement.classList.add('scrolled');
+    } else {
+        document.body.classList.remove('scrolled');
+        document.documentElement.classList.remove('scrolled');
+    }
+    
     lastScroll = currentScroll;
 });
 
@@ -75,6 +84,9 @@ const sections = document.querySelectorAll('section[id]');
 
 function highlightNavLink() {
     const scrollY = window.pageYOffset;
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if (!navLinks.length) return;
     
     sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
@@ -229,63 +241,14 @@ if (!document.getElementById('pageLoader')) {
     }
 }
 
-// ========== BACK TO TOP BUTTON ==========
-const backToTopBtn = document.getElementById('backToTop');
-
-function updateBackToTopVisibility() {
-    if (!backToTopBtn) return;
-    // Keep visible on mobile as requested; desktop still scroll-based.
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile || window.pageYOffset > 80) {
-        backToTopBtn.classList.add('show');
-    } else {
-        backToTopBtn.classList.remove('show');
-    }
-}
-
-window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
-updateBackToTopVisibility();
-
+// ========== MOBILE FLOATING CONTROLS POSITIONING ==========
 // Keep floating controls pinned inside visible viewport on mobile.
 function pinFloatingControls() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (!isMobile) return;
 
-    const safeRight = 12;
-    const safeBottom = 12;
-
-    const chatButton = document.getElementById('chatButton');
-    if (chatButton) {
-        chatButton.style.setProperty('position', 'fixed', 'important');
-        chatButton.style.setProperty('left', 'auto', 'important');
-        chatButton.style.setProperty('right', `${safeRight}px`, 'important');
-        chatButton.style.setProperty('top', 'auto', 'important');
-        chatButton.style.setProperty('bottom', `${safeBottom}px`, 'important');
-        chatButton.style.setProperty('z-index', '100010', 'important');
-        chatButton.style.setProperty('display', 'flex', 'important');
-        chatButton.style.setProperty('visibility', 'visible', 'important');
-        chatButton.style.setProperty('opacity', '1', 'important');
-        chatButton.style.setProperty('transform', 'none', 'important');
-    }
-
-    if (backToTopBtn) {
-        const bottomOffset = safeBottom + 56 + 12;
-        backToTopBtn.style.setProperty('position', 'fixed', 'important');
-        backToTopBtn.style.setProperty('left', 'auto', 'important');
-        backToTopBtn.style.setProperty('right', `${safeRight}px`, 'important');
-        backToTopBtn.style.setProperty('top', 'auto', 'important');
-        backToTopBtn.style.setProperty('bottom', `${bottomOffset}px`, 'important');
-        backToTopBtn.style.setProperty('z-index', '100005', 'important');
-        backToTopBtn.style.setProperty('visibility', 'visible', 'important');
-        backToTopBtn.style.setProperty('opacity', '1', 'important');
-    }
-
-    const hamburger = document.getElementById('hamburger');
-    if (hamburger) {
-        hamburger.style.setProperty('display', 'inline-flex', 'important');
-        hamburger.style.setProperty('visibility', 'visible', 'important');
-        hamburger.style.setProperty('opacity', '1', 'important');
-    }
+    // Mobile positioning is managed by unified CSS files.
+    // Keep this hook for resize/orientation listeners without inline overrides.
 }
 window.pinFloatingControls = pinFloatingControls;
 
@@ -296,13 +259,6 @@ if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', pinFloatingControls, { passive: true });
 }
 pinFloatingControls();
-
-backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
 
 // ========== SMOOTH SCROLL FOR ANCHOR LINKS ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

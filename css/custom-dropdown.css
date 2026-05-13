@@ -1,0 +1,271 @@
+/* Custom Dropdown Component - Mobile Optimized */
+
+/* Hide native select on mobile */
+@media (max-width: 768px) {
+    .input-wrapper select.custom-select-mobile {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* Custom Dropdown Container */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+/* Custom Dropdown Trigger (looks like the select) */
+.custom-dropdown-trigger {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    background: #ffffff;
+    border: 2px solid #e3f0ff;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #495057;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 56px;
+}
+
+.custom-dropdown-trigger:hover {
+    border-color: #0066cc;
+}
+
+.custom-dropdown-trigger.active {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.custom-dropdown-trigger .placeholder {
+    color: #adb5bd;
+}
+
+.custom-dropdown-trigger .selected-value {
+    color: #495057;
+}
+
+.custom-dropdown-trigger .arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    color: #6c757d;
+}
+
+.custom-dropdown-trigger.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* Desktop Dropdown Menu */
+@media (min-width: 769px) {
+    .custom-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 2px solid #e3f0ff;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .custom-dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .custom-dropdown-option {
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        font-size: 1rem;
+        color: #495057;
+    }
+
+    .custom-dropdown-option:hover {
+        background: #f8f9fa;
+    }
+
+    .custom-dropdown-option.selected {
+        background: #e3f0ff;
+        color: #0066cc;
+        font-weight: 600;
+    }
+
+    .custom-dropdown-optgroup {
+        padding: 12px 20px 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #2c3e50;
+        background: #f8f9fa;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Mobile Bottom Sheet */
+@media (max-width: 768px) {
+    /* Overlay */
+    .custom-dropdown-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .custom-dropdown-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Bottom Sheet */
+    .custom-dropdown-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        max-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .custom-dropdown-menu.active {
+        transform: translateY(0);
+    }
+
+    /* Bottom Sheet Header */
+    .custom-dropdown-header {
+        padding: 20px;
+        border-bottom: 1px solid #e3f0ff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+    }
+
+    .custom-dropdown-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .custom-dropdown-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #6c757d;
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.2s ease;
+    }
+
+    .custom-dropdown-close:hover {
+        background: #f8f9fa;
+    }
+
+    /* Options Container */
+    .custom-dropdown-options {
+        overflow-y: auto;
+        flex: 1;
+        padding: 10px 0;
+    }
+
+    /* Option Groups */
+    .custom-dropdown-optgroup {
+        padding: 16px 20px 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: #f8f9fa;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    /* Options */
+    .custom-dropdown-option {
+        padding: 16px 20px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        font-size: 1rem;
+        color: #495057;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .custom-dropdown-option:active {
+        background: #f8f9fa;
+    }
+
+    .custom-dropdown-option.selected {
+        background: #e3f0ff;
+        color: #0066cc;
+        font-weight: 600;
+    }
+
+    .custom-dropdown-option.selected::after {
+        content: '✓';
+        position: absolute;
+        right: 20px;
+        font-size: 1.2rem;
+        color: #0066cc;
+    }
+}
+
+/* Scrollbar Styling */
+.custom-dropdown-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-dropdown-options::-webkit-scrollbar-track {
+    background: #f8f9fa;
+}
+
+.custom-dropdown-options::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+.custom-dropdown-options::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+/* Prevent body scroll when dropdown is open on mobile */
+body.dropdown-open {
+    overflow: hidden;
+}

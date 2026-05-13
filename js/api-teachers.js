@@ -23,22 +23,19 @@ async function loadTeachers(department = '') {
     }
 }
 
-// Display teachers
+// Display teachers with completely new minimal card design
 function displayTeachers(teachers) {
     const container = document.getElementById('teachersContainer');
     if (!container) return;
 
     container.innerHTML = teachers.map((teacher, index) => {
-        // Handle photo URL properly - check for null, empty, or invalid values
+        // Handle photo URL properly
         let photoUrl = '../img/user.jpg';
         if (teacher.photo_url && teacher.photo_url !== 'null' && teacher.photo_url.trim() !== '') {
             photoUrl = `../backend/${teacher.photo_url}`;
         }
         
         console.log('Teacher:', teacher.name, 'Photo URL:', photoUrl);
-        
-        // Get department badge class
-        const deptClass = teacher.department ? teacher.department.toLowerCase().replace(/\s+/g, '-') : 'general';
         
         // Store teacher data in a data attribute (JSON encoded)
         const teacherDataJson = JSON.stringify(teacher).replace(/"/g, '&quot;');
@@ -48,68 +45,25 @@ function displayTeachers(teachers) {
              data-department="${teacher.department ? teacher.department.toLowerCase() : 'general'}" 
              data-teacher='${teacherDataJson}'
              onclick="handleTeacherCardClick(this)"
-             data-aos="fade-up">
-            <div class="teacher-image">
-                <img src="${photoUrl}" 
-                     alt="${teacher.name}" 
-                     onerror="this.src='../img/user.jpg'">
-                <div class="teacher-overlay">
-                    <div class="teacher-overlay-title">View ${teacher.name}'s Profile</div>
-                    <div class="teacher-social">
-                        ${teacher.facebook ? `<a href="${teacher.facebook}" target="_blank" title="Facebook" onclick="event.stopPropagation()"><i class="fab fa-facebook-f"></i></a>` : ''}
-                        ${teacher.twitter ? `<a href="${teacher.twitter}" target="_blank" title="Twitter" onclick="event.stopPropagation()"><i class="fab fa-twitter"></i></a>` : ''}
-                        ${teacher.linkedin ? `<a href="${teacher.linkedin}" target="_blank" title="LinkedIn" onclick="event.stopPropagation()"><i class="fab fa-linkedin-in"></i></a>` : ''}
-                        ${teacher.email ? `<a href="mailto:${teacher.email}" title="Email" onclick="event.stopPropagation()"><i class="fas fa-envelope"></i></a>` : ''}
-                        ${teacher.phone ? `<a href="tel:${teacher.phone}" title="Call" onclick="event.stopPropagation()"><i class="fas fa-phone"></i></a>` : ''}
-                    </div>
-                    <div class="teacher-quick-action">
-                        <i class="fas fa-eye"></i>
-                        <span>Click to view full profile</span>
-                    </div>
+             data-aos="fade-up"
+             data-aos-delay="${index * 50}">
+            
+            <div class="teacher-card-image">
+                <div class="teacher-photo-circle">
+                    <img src="${photoUrl}" 
+                         alt="${teacher.name}" 
+                         onerror="this.src='../img/user.jpg'">
                 </div>
             </div>
-            <div class="teacher-info">
-                <span class="teacher-badge ${deptClass}">${teacher.position || teacher.department}</span>
-                <h3>${teacher.name}</h3>
-                <p class="teacher-role">${teacher.position || teacher.department}</p>
-                ${teacher.phone ? `<p class="teacher-qualification"><i class="fas fa-phone"></i> ${teacher.phone}</p>` : ''}
-                ${teacher.bio ? `<p class="teacher-bio">${teacher.bio.length > 100 ? teacher.bio.substring(0, 100) + '...' : teacher.bio}</p>` : ''}
+            
+            <div class="teacher-card-content">
+                <h3 class="teacher-card-name">${teacher.name}</h3>
+                <p class="teacher-card-position">${teacher.position || teacher.department || 'Teacher'}</p>
                 
-                ${teacher.specialties ? `
-                <div class="teacher-specialties">
-                    ${teacher.specialties.split(',').slice(0, 3).map(s => `<span class="specialty-tag">${s.trim()}</span>`).join('')}
-                    ${teacher.specialties.split(',').length > 3 ? '<span class="specialty-tag">+more</span>' : ''}
-                </div>` : ''}
-                
-                <div class="teacher-stats">
-                    ${teacher.experience_years ? `
-                    <div class="teacher-stat-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>${teacher.experience_years}+ Years Experience</span>
-                    </div>` : ''}
-                    ${teacher.qualification ? `
-                    <div class="teacher-stat-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>${teacher.qualification}</span>
-                    </div>` : ''}
-                    ${teacher.students_count ? `
-                    <div class="teacher-stat-item">
-                        <i class="fas fa-users"></i>
-                        <span>${teacher.students_count} Students</span>
-                    </div>` : ''}
-                    ${teacher.subjects_taught ? `
-                    <div class="teacher-stat-item">
-                        <i class="fas fa-book"></i>
-                        <span>${teacher.subjects_taught}</span>
-                    </div>` : ''}
-                </div>
-                
-                <div class="teacher-card-footer">
-                    <button class="view-profile-btn">
-                        <i class="fas fa-eye"></i>
-                        View Full Profile
-                    </button>
-                </div>
+                <button class="teacher-view-btn" onclick="event.stopPropagation(); handleTeacherCardClick(this.closest('.teacher-card'))">
+                    <span>View Profile</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
         `;

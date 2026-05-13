@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>School Anthem - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
     <meta name="description" content="St. Lawrence Junior School Kabowa - Our School Anthem, lyrics, and history.">
     <meta name="keywords" content="St. Lawrence Junior School, School Anthem, Kabowa, Uganda">
@@ -22,31 +22,35 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/redesign-style.css?v=2.0">
+    <link rel="stylesheet" href="../css/redesign-style.css?v=2.1">
 
-    <!-- Responsive Overrides (Clean) -->
-    <link rel="stylesheet" href="../css/mobile-improvements.css?v=2.0">
+    <!-- Unified Responsive Design -->
+    <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
+
+    <!-- Unified Floating Elements -->
+    <link rel="stylesheet" href="../css/unified-floating-elements.css?v=1.0">
 
     <!-- Edge Display Fixes for Modern Mobile Devices -->
-    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.0">
-    
     <!-- Mobile Animation Stability Fixes -->
     <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
     
-    <!-- Hamburger Menu Fixes -->
-    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=1.0">
+    <!-- Mobile Menu Spacing Fix -->
+    <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
     
-    <!-- Anti-Shake Mobile CSS (Aggressive Fix) -->
-    <link rel="stylesheet" href="../css/anti-shake-mobile.css?v=1.0">
-
-    <!-- School Anthem page responsive cleanup -->
-    <link rel="stylesheet" href="../css/anthem-responsive.css?v=1.0">
+    <!-- Hamburger Menu Fixes -->
+    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
+    
+    <!-- Desktop Navigation Fixes -->
+    <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
     <!-- Footer redesign (clean) -->
     <link rel="stylesheet" href="../css/footer.css?v=1.0">
     
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
+    
+    <!-- Anthem Heritage Modern CSS -->
+    <link rel="stylesheet" href="../css/anthem-heritage-modern.css">
     
     <style>
         /* Footer Contact Improvements */
@@ -117,6 +121,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
 </head>
 <body>
     
@@ -172,11 +177,12 @@
                     <li class="mobile-only"><a href="Gallery-redesign.html" class="nav-link-mobile">Gallery</a></li>
                     
                     <li class="mobile-only mobile-expandable">
-                        <div class="nav-link-mobile">
+                        <div class="nav-link-mobile active">
                             <span>Academics</span>
                             <span class="mobile-expand-icon">+</span>
                         </div>
                         <ul class="mobile-submenu">
+                            <li><a href="Academics.html">Academics Overview</a></li>
                             <li><a href="Fees.html">Fees</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
                             <li><a href="Admission-redesign.html">Admission</a></li>
@@ -185,7 +191,14 @@
                     
                     <li class="mobile-only"><a href="Contact-redesign.html" class="nav-link-mobile">Contact</a></li>
                     <li class="mobile-only"><a href="Library-redesign.html" class="nav-link-mobile">Library</a></li>
-                </ul>
+                    <!-- Mobile Menu CTA -->
+                    <li class="mobile-only mobile-menu-cta">
+                        <a href="Admission-redesign.html" class="mobile-cta-btn">
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <p class="mobile-menu-contact">stlawrencejuniorschoolkabowa@gmail.com</p>
+                    </li>                </ul>
                 
                 <!-- Admin Button -->
                 <div class="nav-actions">
@@ -196,7 +209,7 @@
                 </div>
                 
                 <!-- Mobile Hamburger -->
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -388,79 +401,80 @@
         </div>
     </section>
 
-    <!-- Anthem History Section -->
-    <section class="anthem-history-section">
+    <!-- Anthem History Section - NEW MODERN 2x2 GRID DESIGN -->
+    <section class="anthem-heritage-modern">
         <div class="container">
-            <div class="history-content-grid">
-                <div class="history-text" data-aos="fade-right">
-                    <span class="section-label-alt">Our Heritage</span>
-                    <h2 class="section-title-alt">The Story Behind Our Anthem</h2>
-                    
-                    <div class="history-timeline-anthem">
-                        <div class="timeline-item-anthem">
-                            <div class="timeline-icon-anthem">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <div class="timeline-content-anthem">
-                                <h4>2010 - The Creation</h4>
-                                <p>
-                                    When St. Lawrence Junior School was founded in 2010, our visionary founder 
-                                    Mr. Kimera Emmanuel recognized the need for a unifying anthem that would 
-                                    embody our school's values and aspirations.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item-anthem">
-                            <div class="timeline-icon-anthem">
-                                <i class="fas fa-pen-fancy"></i>
-                            </div>
-                            <div class="timeline-content-anthem">
-                                <h4>The Composition</h4>
-                                <p>
-                                    The anthem was composed by renowned Ugandan musician and educator 
-                                    Prof. David Musoke, who worked closely with our school community to 
-                                    capture the essence of St. Lawrence in every verse.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item-anthem">
-                            <div class="timeline-icon-anthem">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="timeline-content-anthem">
-                                <h4>First Performance</h4>
-                                <p>
-                                    The anthem was first performed at our inaugural graduation ceremony in 2011, 
-                                    bringing tears of joy and pride to everyone present. Since then, it has been 
-                                    sung at every major school event.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item-anthem">
-                            <div class="timeline-icon-anthem">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="timeline-content-anthem">
-                                <h4>A Living Legacy</h4>
-                                <p>
-                                    Today, our anthem continues to inspire generations of students, reminding them 
-                                    of their connection to St. Lawrence and the values we hold dear: excellence, 
-                                    integrity, and unity.
-                                </p>
-                            </div>
-                        </div>
+            <!-- Section Header -->
+            <div class="heritage-header" data-aos="fade-up">
+                <span class="section-label-alt">Our Heritage</span>
+                <h2 class="section-title-alt">The Story Behind Our Anthem</h2>
+                <p class="section-subtitle">A journey through the creation and legacy of our beloved school anthem</p>
+            </div>
+            
+            <!-- 2x2 Grid Layout -->
+            <div class="heritage-grid">
+                <!-- Card 1 - The Creation -->
+                <div class="heritage-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="heritage-icon">
+                        <i class="fas fa-lightbulb"></i>
                     </div>
+                    <div class="heritage-content">
+                        <h3>2010 - The Creation</h3>
+                        <p>
+                            When St. Lawrence Junior School was founded in 2010, our visionary founder 
+                            Mr. Kimera Emmanuel recognized the need for a unifying anthem that would 
+                            embody our school's values and aspirations.
+                        </p>
+                    </div>
+                    <div class="heritage-decoration"></div>
                 </div>
                 
-                <div class="history-image-anthem" data-aos="fade-left">
-                    <img src="../img/new 1.JPG" alt="School History">
-                    <div class="history-badge-anthem">
-                        <div class="badge-year">2010</div>
-                        <div class="badge-text">Est.</div>
+                <!-- Card 2 - The Composition -->
+                <div class="heritage-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="heritage-icon">
+                        <i class="fas fa-pen-fancy"></i>
                     </div>
+                    <div class="heritage-content">
+                        <h3>The Composition</h3>
+                        <p>
+                            The anthem was composed by renowned Ugandan musician and educator 
+                            Prof. David Musoke, who worked closely with our school community to 
+                            capture the essence of St. Lawrence in every verse.
+                        </p>
+                    </div>
+                    <div class="heritage-decoration"></div>
+                </div>
+                
+                <!-- Card 3 - First Performance -->
+                <div class="heritage-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="heritage-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="heritage-content">
+                        <h3>First Performance</h3>
+                        <p>
+                            The anthem was first performed at our inaugural graduation ceremony in 2011, 
+                            bringing tears of joy and pride to everyone present. Since then, it has been 
+                            sung at every major school event.
+                        </p>
+                    </div>
+                    <div class="heritage-decoration"></div>
+                </div>
+                
+                <!-- Card 4 - A Living Legacy -->
+                <div class="heritage-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="heritage-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="heritage-content">
+                        <h3>A Living Legacy</h3>
+                        <p>
+                            Today, our anthem continues to inspire generations of students, reminding them 
+                            of their connection to St. Lawrence and the values we hold dear: excellence, 
+                            integrity, and unity.
+                        </p>
+                    </div>
+                    <div class="heritage-decoration"></div>
                 </div>
             </div>
         </div>
@@ -469,7 +483,7 @@
     <!-- Footer -->
     <footer class="footer">
         <!-- Video Background -->
-        <video class="footer-video" autoplay muted loop playsinline>
+        <video class="footer-video" autoplay muted loop playsinline preload="metadata">
             <source src="../img/students walking.mp4" type="video/mp4">
         </video>
         <div class="footer-overlay"></div>
@@ -484,10 +498,10 @@
                     </div>
                     <p class="footer-description">Excellence in Education since 2010. Nurturing young minds for a brighter future.</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.tiktok.com/@stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://twitter.com/stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/stla.wrencejuniorschoolkabowa" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/256772420506" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 
@@ -573,11 +587,8 @@
     <!-- Hamburger Menu Functionality Fix -->
     <script src="../js/hamburger-menu-fix.js"></script>
     
-    <!-- Anti-Shake Enforcer (Aggressive Animation Blocker) -->
-    <script src="../js/anti-shake-enforcer.js"></script>
-    
-    <!-- Floating Elements Fix (Chatbot & Back-to-Top) -->
-    <script src="../js/floating-elements-fix.js"></script>
+    <!-- Unified Floating Elements Handler -->
+    <script src="../js/unified-floating-elements.js?v=1.0"></script>
     
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js"></script>
@@ -588,74 +599,6 @@
             duration: 1000,
             once: true,
             offset: 100
-        });
-        
-        // Mobile Menu Functionality
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-        const mobileExpandables = document.querySelectorAll('.mobile-expandable');
-        
-        // Toggle mobile menu
-        if (hamburger && navMenu) {
-            hamburger.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const isActive = navMenu.classList.contains('active');
-                
-                if (isActive) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                } else {
-                    hamburger.classList.add('active');
-                    navMenu.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        }
-        
-        // Handle expandable menu items
-        mobileExpandables.forEach(item => {
-            const link = item.querySelector('.nav-link-mobile');
-            
-            if (link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    mobileExpandables.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                        }
-                    });
-                    
-                    item.classList.toggle('active');
-                });
-            }
-        });
-        
-        // Close menu when clicking submenu links
-        const submenuLinks = document.querySelectorAll('.mobile-submenu a');
-        submenuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (hamburger && navMenu) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-        });
-        
-        // Close menu when clicking regular mobile links
-        const regularMobileLinks = document.querySelectorAll('.mobile-only:not(.mobile-expandable) .nav-link-mobile');
-        regularMobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (hamburger && navMenu) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
         });
     </script>
     

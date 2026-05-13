@@ -15,6 +15,8 @@
     --safe-area-right: env(safe-area-inset-right, 0px);
     --safe-area-bottom: env(safe-area-inset-bottom, 0px);
     --safe-area-left: env(safe-area-inset-left, 0px);
+    /* Fixed mobile header bar (must match .navbar height on small screens) */
+    --header-height: 70px;
     
     /* Edge padding for curved displays */
     --edge-padding: max(16px, var(--safe-area-left), var(--safe-area-right));
@@ -30,7 +32,8 @@ html {
     /* Prevent horizontal scroll on all devices */
     overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
+    /* 100vw includes scrollbar / can overflow on mobile; prefer 100% */
+    max-width: 100%;
     
     /* Support for dynamic viewport on mobile */
     height: 100vh;
@@ -41,19 +44,23 @@ body {
     /* Prevent horizontal scroll */
     overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     
-    /* Ensure content respects safe areas */
-    padding-left: var(--safe-area-left);
-    padding-right: var(--safe-area-right);
+    /* Horizontal inset is applied via .container / sections on mobile (see end of file)
+       so we do not double-pad safe areas vs containers. */
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* ========== CONTAINER EDGE FIXES ========== */
 .container {
-    /* Ensure containers don't touch curved edges */
-    padding-left: var(--edge-padding);
-    padding-right: var(--edge-padding);
-    max-width: calc(1200px + 2 * var(--edge-padding));
+    /* Per-side gutter: minimum 18px + notch/curved safe area when reported */
+    padding-left: max(18px, var(--safe-area-left));
+    padding-right: max(18px, var(--safe-area-right));
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 /* ========== HEADER EDGE FIXES ========== */
@@ -102,19 +109,12 @@ body {
     bottom: calc(var(--safe-area-bottom) + var(--edge-padding) + 70px) !important;
 }
 
-/* ========== HERO SECTION EDGE FIXES ========== */
-.hero {
-    /* Account for header height and safe areas */
-    padding-top: calc(var(--header-height) + var(--safe-area-top) + 40px);
-    min-height: calc(100vh - var(--safe-area-top) - var(--safe-area-bottom));
-    min-height: calc(100dvh - var(--safe-area-top) - var(--safe-area-bottom));
-}
-
 /* ========== CONTENT SECTIONS EDGE FIXES ========== */
 .section {
-    /* Ensure all sections respect safe areas */
-    padding-left: var(--safe-area-left);
-    padding-right: var(--safe-area-right);
+    /* Horizontal gutters come from .container (safe-area-aware). Avoid doubling insets
+       when sections wrap a padded container — that was narrowing content unevenly on edges. */
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* ========== FOOTER EDGE FIXES ========== */
@@ -288,10 +288,11 @@ body {
 /* ========== TABLE RESPONSIVENESS FOR EDGE DISPLAYS ========== */
 @media (max-width: 768px) {
     .fees-table-container {
-        margin-left: calc(-1 * var(--edge-padding));
-        margin-right: calc(-1 * var(--edge-padding));
-        padding-left: var(--edge-padding);
-        padding-right: var(--edge-padding);
+        /* Do not pull past safe gutters with negative margins (caused clipping on curved screens) */
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: max(12px, var(--safe-area-left));
+        padding-right: max(12px, var(--safe-area-right));
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -318,16 +319,316 @@ body {
 
 /* ========== ANIMATION PERFORMANCE FIXES ========== */
 @media (max-width: 768px) {
-    /* Reduce animations on mobile for better performance */
-    * {
-        animation-duration: 0.2s !important;
-        transition-duration: 0.2s !important;
-    }
-    
-    /* Disable parallax and complex animations on mobile */
+    /* Keep this scoped: avoid global timing overrides that cause jitter. */
     .parallax,
     .aos-animate {
         transform: none !important;
+    }
+}
+
+/* ========== CONTACT PAGE — NARROW / CURVED EDGE PHONES ==========
+   Fixes flush/clipped content on ~320px widths (DevTools S9+ narrow mode):
+   - Reinforce horizontal gutters on .contact-main-section
+   - Stop .contact-card-container overflow:hidden from clipping the submit row
+   - Tighter responsive padding on .btn-send-message so flex row does not overflow */
+@media (max-width: 768px) {
+    /* Contain any decorative bleed while inner card avoids clipping the CTA */
+    .contact-main-section {
+        overflow-x: clip;
+    }
+
+    .contact-main-section .container {
+        padding-left: max(18px, var(--safe-area-left)) !important;
+        padding-right: max(18px, var(--safe-area-right)) !important;
+        box-sizing: border-box !important;
+    }
+
+    .contact-card-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+        /* Decorative layers stay rounded; avoid clipping the full-width CTA flex row */
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+
+    .contact-split-layout {
+        min-width: 0;
+    }
+
+    .contact-intro-text {
+        padding-left: max(20px, var(--safe-area-left)) !important;
+        padding-right: max(20px, var(--safe-area-right)) !important;
+        box-sizing: border-box !important;
+    }
+
+    .contact-info-side,
+    .contact-form-side {
+        min-width: 0;
+        box-sizing: border-box !important;
+        padding-left: max(16px, var(--safe-area-left)) !important;
+        padding-right: max(16px, var(--safe-area-right)) !important;
+    }
+
+    .modern-contact-form .form-input {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .btn-send-message {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+        padding-left: clamp(12px, 4vw, 22px) !important;
+        padding-right: clamp(12px, 4vw, 22px) !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .contact-card-container {
+        padding-left: max(14px, var(--safe-area-left)) !important;
+        padding-right: max(14px, var(--safe-area-right)) !important;
+    }
+
+    .contact-intro-text {
+        padding-left: max(16px, var(--safe-area-left)) !important;
+        padding-right: max(16px, var(--safe-area-right)) !important;
+    }
+
+    /* Floating controls — extra inset on very narrow viewports */
+    .chat-button {
+        right: max(16px, calc(12px + var(--safe-area-right))) !important;
+    }
+
+    .back-to-top {
+        right: max(16px, calc(12px + var(--safe-area-right))) !important;
+    }
+}
+
+/* ========== FEES PAGE — UNIFORM GRID & SAFE GUTTERS ==========
+   Fees.html ships a large inline <style> that re-declares .uniform-pricing-grid-2x2 as
+   two columns AFTER linked stylesheets, which can force a 2-column layout on narrow
+   phones (~320px) and clip prices. !important wins over those non-important rules.
+   Scoped primarily to #fees-table / #uniforms / fee-toggle on Fees.html. */
+@media (max-width: 1024px) {
+    #uniforms .uniform-pricing-grid-2x2,
+    .uniform-pricing-grid-2x2 {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #fees-table .container,
+    #uniforms .container,
+    .fee-toggle-section .container,
+    .payment-info-section .container {
+        padding-left: max(18px, var(--safe-area-left)) !important;
+        padding-right: max(18px, var(--safe-area-right)) !important;
+        box-sizing: border-box !important;
+    }
+
+    #uniforms .uniform-category-card {
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Price rows: allow wrap + shrink so UGX amounts stay inside curved edges */
+    #uniforms .uniform-price-row {
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+        row-gap: 8px !important;
+        column-gap: 10px !important;
+        min-width: 0 !important;
+    }
+
+    #uniforms .uniform-price-row .class-label {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        line-height: 1.35 !important;
+    }
+
+    #uniforms .uniform-price-row .price-value {
+        flex: 0 1 auto !important;
+        margin-left: auto !important;
+        text-align: right !important;
+        white-space: nowrap !important;
+    }
+
+    #uniforms .uniform-card-header h3 {
+        font-size: clamp(0.95rem, 4.5vw, 1.15rem) !important;
+        line-height: 1.25 !important;
+        word-break: break-word !important;
+    }
+
+    /* Horizontal scroll for desktop fees table without pulling past safe gutters */
+    #fees-table .fees-table-container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 420px) {
+    #uniforms .uniform-card-body,
+    #uniforms .uniform-card-header,
+    #uniforms .uniform-card-footer {
+        padding-left: max(14px, var(--safe-area-left)) !important;
+        padding-right: max(14px, var(--safe-area-right)) !important;
+    }
+}
+
+/* ========== NAVBAR — LOGO TEXT READABLE ON MOBILE ==========
+   unified-responsive uses nowrap + ellipsis on .logo-text (clips school name).
+   Match (max-width:768px) so rules apply at every mobile width, not only ≤520px. */
+@media (max-width: 768px) {
+    .header .logo-text,
+    .header .logo-subtitle {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+    }
+
+    .header .logo-text-container {
+        min-width: 0;
+    }
+
+    .header .logo-text {
+        font-size: clamp(10px, 3.4vw, 13px) !important;
+        line-height: 1.15 !important;
+        letter-spacing: -0.02em;
+    }
+
+    .header .logo-subtitle {
+        font-size: clamp(9px, 2.8vw, 11px) !important;
+        line-height: 1.2 !important;
+    }
+
+    .header .logo {
+        align-items: flex-start !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .header .logo-badge {
+        width: 38px !important;
+        height: 38px !important;
+    }
+}
+
+/* ========== HOME HERO — SIDE GUTTERS (FULL-BLEED HERO CONTENT) ========== */
+@media (max-width: 768px) {
+    .hero .hero-content {
+        padding-left: max(16px, var(--safe-area-left)) !important;
+        padding-right: max(16px, var(--safe-area-right)) !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* ========== GALLERY LIGHTBOX — CLOSE + TOOLBAR ON NARROW VIEWPORTS ==========
+   Toolbar had 7 icons in one row (~320px): close was pushed past the viewport. */
+@media (max-width: 720px) {
+    .modern-lightbox .lightbox-container {
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+        padding-top: env(safe-area-inset-top, 0px);
+        box-sizing: border-box;
+    }
+
+    .modern-lightbox .lightbox-header {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 10px;
+        padding-left: max(10px, env(safe-area-inset-left, 0px));
+        padding-right: max(12px, calc(env(safe-area-inset-right, 0px) + 48px));
+        padding-top: max(10px, env(safe-area-inset-top, 0px));
+    }
+
+    .modern-lightbox .lightbox-info {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .modern-lightbox .lightbox-controls {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 6px;
+        max-width: 100%;
+    }
+
+    /* Pin close to corner of modal ( ancestor .lightbox-container is position:relative ) */
+    .modern-lightbox .lightbox-controls .close-btn {
+        position: absolute;
+        top: max(10px, env(safe-area-inset-top, 0px));
+        right: max(10px, env(safe-area-inset-right, 0px));
+        z-index: 10003;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+    }
+
+    .modern-lightbox .nav-arrow.nav-next {
+        right: max(8px, env(safe-area-inset-right, 0px)) !important;
+    }
+
+    .modern-lightbox .nav-arrow.nav-prev {
+        left: max(8px, env(safe-area-inset-left, 0px)) !important;
+    }
+
+    .modern-lightbox .zoom-indicator {
+        right: max(12px, env(safe-area-inset-right, 0px)) !important;
+        top: max(70px, calc(env(safe-area-inset-top, 0px) + 56px)) !important;
+    }
+}
+
+/* ========== CHAT WIDGET + FAB — FINAL MOBILE OVERRIDES ==========
+   FAB/closing control must survive cascade from unified-floating-elements + mobile-animation. */
+@media (max-width: 768px) {
+    #chatButton.chat-button,
+    .chat-button#chatButton {
+        right: max(20px, calc(16px + env(safe-area-inset-right, 0px))) !important;
+        bottom: max(85px, calc(70px + env(safe-area-inset-bottom, 0px))) !important;
+        left: auto !important;
+    }
+
+    /* Back-to-top stays right side, below chatbot */
+    .back-to-top,
+    #backToTop {
+        right: max(24px, calc(16px + env(safe-area-inset-right, 0px))) !important;
+        left: auto !important;
+        bottom: max(25px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
+    }
+
+    .chat-widget .chat-header {
+        padding-right: max(52px, calc(12px + env(safe-area-inset-right, 0px))) !important;
+    }
+
+    .chat-widget .chat-close,
+    #chatClose.chat-close {
+        position: absolute !important;
+        top: 50% !important;
+        right: max(12px, env(safe-area-inset-right, 0px)) !important;
+        transform: translateY(-50%) !important;
+        flex-shrink: 0 !important;
+        min-width: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
     }
 }
 
