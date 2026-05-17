@@ -991,3 +991,5 @@ This project is **proprietary software** developed for St. Lawrence Junior Schoo
 **© 2026 St. Lawrence Junior School - Kabowa. All Rights Reserved.**
 
 </div>
+#   S t . L a w r e n c e - J u n i o r - S c h o o l - K a b o w a  
+ 
