@@ -513,21 +513,10 @@ class StLawrenceChatbot {
         this.addUserMessage(transcript);
 
         try {
-            const response = await fetch(this.apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'chat',
-                    message: transcript
-                })
-            });
-
-            const data = await response.json();
+            const data = await this.queryBot(transcript);
             this.isProcessing = false;
 
-            if (data.success) {
+            if (data && data.success) {
                 // Add to conversation log
                 this.addBotMessage(data.response);
                 if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
@@ -788,23 +777,12 @@ class StLawrenceChatbot {
         this.showTypingIndicator();
         
         try {
-            const response = await fetch(this.apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'chat',
-                    message: message
-                })
-            });
-            
-            const data = await response.json();
+            const data = await this.queryBot(message);
             
             setTimeout(() => {
                 this.hideTypingIndicator();
                 
-                if (data.success) {
+                if (data && data.success) {
                     this.addBotMessage(data.response);
                     if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
                         this.addQuickActions(data.suggestions);
@@ -812,7 +790,7 @@ class StLawrenceChatbot {
                 } else {
                     this.addBotMessage("I'm sorry, I encountered an error. Please try again or call our school administration at +256 701 420 506.");
                 }
-            }, 500);
+            }, 300);
             
         } catch (error) {
             console.error('Error sending message:', error);
@@ -826,23 +804,12 @@ class StLawrenceChatbot {
         this.showTypingIndicator();
         
         try {
-            const response = await fetch(this.apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'quickAction',
-                    question: question
-                })
-            });
-            
-            const data = await response.json();
+            const data = await this.queryBot(question);
             
             setTimeout(() => {
                 this.hideTypingIndicator();
                 
-                if (data.success) {
+                if (data && data.success) {
                     this.addBotMessage(data.response);
                     if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
                         this.addQuickActions(data.suggestions);
@@ -850,13 +817,110 @@ class StLawrenceChatbot {
                 } else {
                     this.addBotMessage("I'm sorry, I encountered an error. Please try again.");
                 }
-            }, 500);
+            }, 300);
             
         } catch (error) {
             console.error('Error handling quick action:', error);
             this.hideTypingIndicator();
             this.addBotMessage("I'm sorry, I'm having trouble connecting. Please try again.");
         }
+    }
+
+    async queryBot(message) {
+        // If hosted on GitHub Pages or static host where PHP is unavailable
+        if (window.location.hostname.includes('github.io')) {
+            return {
+                success: true,
+                ...this.getStaticFallbackResponse(message)
+            };
+        }
+
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'chat', message: message })
+            });
+
+            if (!response.ok) {
+                return {
+                    success: true,
+                    ...this.getStaticFallbackResponse(message)
+                };
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (e) {
+            console.warn('Backend fetch notice, using authoritative knowledge base:', e);
+            return {
+                success: true,
+                ...this.getStaticFallbackResponse(message)
+            };
+        }
+    }
+
+    getStaticFallbackResponse(message) {
+        const q = (message || '').toLowerCase();
+        
+        if (q.includes('fee') || q.includes('cost') || q.includes('how much') || q.includes('price') || q.includes('pay') || q.includes('shilling')) {
+            if (q.includes('p6') || q.includes('p7') || q.includes('p.6') || q.includes('p.7') || q.includes('primary 6') || q.includes('primary 7')) {
+                return {
+                    response: "💰 **Official Fees for P6 – P7:**\n\n• **Day Scholar:** UGX 629,000 per term\n• **Boarding:** UGX 1,094,000 per term\n\nAll fees are per term. Would you like admission information?",
+                    suggestions: ["How do I apply?", "Do you have boarding?", "Where is the school located?"]
+                };
+            }
+            if (q.includes('nursery') || q.includes('baby') || q.includes('middle') || q.includes('top')) {
+                return {
+                    response: "💰 **Official Fees for Nursery (Baby, Middle, Top Class):**\n\n• **Day Scholar:** UGX 474,000 per term\n• **Boarding:** UGX 894,000 per term\n\nAll fees are per term. Would you like admission details?",
+                    suggestions: ["How do I apply?", "What are the primary fees?", "Where is the school located?"]
+                };
+            }
+            return {
+                response: "💰 **Official St. Lawrence Junior School Fees (Per Term):**\n\n• **Nursery (Baby to Top Class):**\n  - Day Scholar: UGX 474,000\n  - Boarding: UGX 894,000\n\n• **Primary 1 – Primary 5 (P1–P5):**\n  - Day Scholar: UGX 579,000\n  - Boarding: UGX 1,019,000\n\n• **Primary 6 – Primary 7 (P6–P7):**\n  - Day Scholar: UGX 629,000\n  - Boarding: UGX 1,094,000\n\nWould you like admission requirements or to schedule a visit?",
+                suggestions: ["How do I apply?", "What programmes do you offer?", "Where is the school located?"]
+            };
+        }
+        
+        if (q.includes('where') || q.includes('locate') || q.includes('address') || q.includes('direction') || q.includes('map') || q.includes('find you')) {
+            return {
+                response: "📍 **Official School Location & Directions:**\n\n• **School:** St. Lawrence Junior School Kabowa\n• **Address:** 2 Gabunga Road, Kampala, Uganda\n• **Plus Code:** 7HJ5+MX Kampala\n• **Google Maps:** [Open in Google Maps](https://maps.app.goo.gl/k2jE4X8KgkgZL4jn7)\n• **Phones:** +256 772 420 506 / +256 701 420 506\n\nWould you like our opening hours or admission details?",
+                suggestions: ["What are the school fees?", "How do I apply?", "What programmes do you offer?"]
+            };
+        }
+        
+        if (q.includes('admission') || q.includes('apply') || q.includes('join') || q.includes('register') || q.includes('enrol') || q.includes('document') || q.includes('requirement')) {
+            return {
+                response: "📝 **Admissions at St. Lawrence Junior School (6 Simple Steps):**\n\n1. **Visit the Campus:** 2 Gabunga Road, Kampala, Uganda.\n2. **Application Form:** Pick at the office or download online.\n3. **Required Documents:** Child's birth certificate, 2 passport photos, previous report card, and immunization card.\n4. **Diagnostic Assessment:** Friendly interaction to determine appropriate class placement.\n5. **Admission Letter:** Formal placement offer.\n6. **Enrolment & Fees:** Pay fees with the bursar to confirm placement.\n\nWould you like to check school fees?",
+                suggestions: ["What are the school fees?", "Where is the school located?", "What programmes do you offer?"]
+            };
+        }
+        
+        if (q.includes('programme') || q.includes('program') || q.includes('curriculum') || q.includes('offer') || q.includes('academic') || q.includes('class')) {
+            return {
+                response: "📚 **We offer 4 distinct educational programmes:**\n\n1. **🎨 Nursery Section:** Early learning for Baby, Middle, and Top classes.\n2. **📖 Lower Primary (P1–P3):** Thematic curriculum building literacy and numeracy.\n3. **🔬 Upper Primary (P4–P7):** UNEB curriculum with continuous mock assessments.\n4. **🏃 Co-Curricular:** Music, dance, sports, ICT, scouting, and French.\n\nWould you like information on school fees or admissions?",
+                suggestions: ["What are the school fees?", "How do I apply?", "Do you offer boarding?"]
+            };
+        }
+
+        if (q.includes('contact') || q.includes('phone') || q.includes('call') || q.includes('email') || q.includes('number')) {
+            return {
+                response: "📞 **Contact St. Lawrence Junior School Kabowa:**\n\n• **Phone 1:** +256 772 420 506\n• **Phone 2:** +256 701 420 506\n• **Email:** info@stlawrencejuniorschool.ac.ug\n• **Address:** 2 Gabunga Road, Kampala, Uganda\n• **Hours:** Mon–Fri 7:30 AM – 5:00 PM, Sat 8:00 AM – 1:00 PM",
+                suggestions: ["What are the school fees?", "How do I apply?", "Where is the school located?"]
+            };
+        }
+
+        if (q.includes('boarding') || q.includes('dorm')) {
+            return {
+                response: "🏠 **Boarding School at St. Lawrence Junior School:**\n\nWe offer secure, well-supervised boarding facilities for Nursery and Primary students with balanced meals, 24/7 matrons & wardens, and medical care.\n\n• **Nursery Boarding:** UGX 894,000/term\n• **P1–P5 Boarding:** UGX 1,019,000/term\n• **P6–P7 Boarding:** UGX 1,094,000/term\n\nWould you like admission information?",
+                suggestions: ["How do I apply?", "What are day fees?", "Where is the school located?"]
+            };
+        }
+
+        return {
+            response: "Hello! 👋 Welcome to **St. Lawrence Junior School Kabowa** (2 Gabunga Road, Kampala, Uganda).\n\nI can help you with:\n• **Official School Fees** (Day & Boarding)\n• **Admissions & Requirements**\n• **Academic Programmes** (Nursery & P1–P7)\n• **Location & Directions**\n\nWhat would you like to know?",
+            suggestions: ["What are the school fees?", "What programmes do you offer?", "How do I apply?", "Where is the school located?"]
+        };
     }
     
     formatMessage(message) {
