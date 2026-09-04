@@ -100,13 +100,13 @@ body {
 .chat-button {
     /* Keep chat button away from curved edges */
     right: calc(var(--edge-padding) + 4px) !important;
-    bottom: calc(var(--safe-area-bottom) + var(--edge-padding)) !important;
+    bottom: calc(var(--safe-area-bottom) + var(--edge-padding) + 70px) !important;
 }
 
 .back-to-top {
     /* Position back-to-top button safely */
     right: calc(var(--edge-padding) + 4px) !important;
-    bottom: calc(var(--safe-area-bottom) + var(--edge-padding) + 70px) !important;
+    bottom: calc(var(--safe-area-bottom) + var(--edge-padding)) !important;
 }
 
 /* ========== CONTENT SECTIONS EDGE FIXES ========== */

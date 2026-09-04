@@ -1,0 +1,37 @@
+# Disable directory indexing and script execution
+Options -Indexes -ExecCGI
+
+# Remove script execution handlers
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .phps .phar .cgi .pl .py .sh
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .php8 .phps .phar .cgi .pl .py .sh
+
+# Disable PHP Engine
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+# Deny all executable and script file types
+<FilesMatch "(?i)\.(php|phtml|php3|php4|php5|php7|php8|phps|phar|pl|py|cgi|sh|bash|exe|bat|cmd|dll|config|asp|aspx|jsp|shtml|htaccess|htpasswd)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Only permit legitimate media and document extensions
+<FilesMatch "(?i)\.(jpg|jpeg|png|gif|webp|svg|pdf|doc|docx|xls|xlsx|ppt|pptx|mp4|webm|ogg)$">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Allow from all
+    </IfModule>
+</FilesMatch>

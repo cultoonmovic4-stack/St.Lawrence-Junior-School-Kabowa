@@ -1,0 +1,328 @@
+/* ==========================================================================
+   FINAL FOOTER — ST. LAWRENCE JUNIOR SCHOOL KABOWA
+   Option 3 — Split Layout with Tagline (Spacious Full-Width Layout)
+   ========================================================================== */
+
+.footer-target {
+    background-color: #081426;
+    color: #cbd5e1;
+    position: relative;
+    overflow: hidden;
+    padding-top: 72px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Wide, expansive horizontal container for maximum breathing room */
+.footer-target .footer-container {
+    width: 94%;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   TOP FOOTER ROW — EXPANDED SPACING
+   -------------------------------------------------------------------------- */
+.footer-target .footer-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 36px;
+}
+
+/* Column 1: Brand */
+.footer-target .footer-brand-col {
+    flex: 0 1 320px;
+    min-width: 270px;
+}
+
+.footer-target .footer-brand-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.footer-target .footer-school-logo {
+    height: 70px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.footer-target .footer-school-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+.footer-target .footer-brand-desc {
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.55;
+    margin: 0 0 20px 0;
+}
+
+.footer-target .footer-social-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-target .footer-social-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.footer-target .footer-social-btn:hover {
+    background-color: #003399;
+    border-color: #003399;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 51, 153, 0.35);
+}
+
+/* Column 2: Cursive Tagline */
+.footer-target .footer-tagline-col {
+    flex: 0 0 150px;
+    padding-top: 8px;
+    text-align: center;
+}
+
+.footer-target .footer-cursive-wrap {
+    transform: rotate(-4.5deg);
+    display: inline-block;
+}
+
+.footer-target .footer-cursive-text {
+    font-family: 'Caveat', cursive, sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
+.footer-target .footer-cursive-underline {
+    width: 86px;
+    height: 2.5px;
+    background-color: #d32f2f;
+    border-radius: 2px;
+    margin-top: 6px;
+    transform: rotate(2deg);
+}
+
+/* Navigation Columns */
+.footer-target .footer-nav-col {
+    flex: 0 1 160px;
+}
+
+.footer-target .footer-col-accent {
+    width: 22px;
+    height: 2.5px;
+    background-color: #d32f2f;
+    margin-bottom: 12px;
+}
+
+.footer-target .footer-col-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.footer-target .footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-target .footer-nav-list li {
+    margin-bottom: 11px;
+}
+
+.footer-target .footer-nav-list a {
+    color: #cbd5e1;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.footer-target .footer-nav-list a:hover {
+    color: #ffffff;
+    padding-left: 3px;
+}
+
+/* Contact Column */
+.footer-target .footer-contact-col {
+    flex: 0 1 290px;
+    min-width: 250px;
+}
+
+.footer-target .footer-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-target .footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 13.5px;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.footer-target .footer-contact-icon {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.footer-target .footer-contact-item a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-target .footer-contact-item a:hover {
+    color: #ffffff;
+}
+
+/* Far Right Pillars */
+.footer-target .footer-pillars-col {
+    flex: 0 0 160px;
+    text-align: right;
+    padding-top: 10px;
+}
+
+.footer-target .footer-pillars-text {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 2px;
+    line-height: 1.9;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM COPYRIGHT & LEGAL STRIP
+   -------------------------------------------------------------------------- */
+.footer-target .footer-bottom-strip {
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    margin-top: 56px;
+    padding: 24px 0 28px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.footer-target .footer-copyright-text {
+    margin: 0;
+}
+
+.footer-target .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-target .footer-legal-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-target .footer-legal-links a:hover {
+    color: #ffffff;
+}
+
+.footer-target .footer-legal-separator {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+    .footer-target .footer-top-row {
+        gap: 28px;
+    }
+}
+
+@media (max-width: 1080px) {
+    .footer-target .footer-top-row {
+        flex-wrap: wrap;
+        gap: 36px 30px;
+    }
+
+    .footer-target .footer-brand-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .footer-target .footer-tagline-col {
+        display: none;
+    }
+
+    .footer-target .footer-pillars-col {
+        flex: 0 0 100%;
+        text-align: left;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-target {
+        padding-top: 48px;
+    }
+
+    .footer-target .footer-nav-col {
+        flex: 0 0 calc(50% - 20px);
+    }
+
+    .footer-target .footer-contact-col {
+        flex: 0 0 100%;
+    }
+
+    .footer-target .footer-bottom-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-target .footer-nav-col {
+        flex: 0 0 100%;
+    }
+}

@@ -1,0 +1,581 @@
+/* ==============================================================================
+   ST. LAWRENCE JUNIOR SCHOOL - KABOWA
+   Programs Section Redesign (Target Editorial Mockup)
+   Pure editorial typography, 4-program composition, human-designed rhythm,
+   zero AI-gimmicks (no SaaS cards, no "Most Popular" badges, no gradients, no glass)
+   ============================================================================== */
+
+:root {
+    --sls-navy: #0b1a38;
+    --sls-navy-deep: #071228;
+    --sls-red: #c81e1e;
+    --sls-red-accent: #dc2626;
+    --sls-red-bright: #ef4444;
+    --sls-white: #ffffff;
+    --sls-offwhite: #f8fafc;
+    --sls-border-light: #e2e8f0;
+    --sls-text-primary: #0b1a38;
+    --sls-text-body: #475569;
+    --sls-text-muted: #64748b;
+    --sls-font-editorial: 'Playfair Display', Georgia, serif;
+    --sls-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base Programs Section Override */
+.programs-section {
+    background-color: var(--sls-white) !important;
+    background: var(--sls-white) !important;
+    position: relative;
+    padding: 88px 0 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+    color: var(--sls-text-primary);
+}
+
+.programs-section::before,
+.programs-section::after {
+    display: none !important;
+    content: none !important;
+}
+
+.programs-editorial-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ==============================================================================
+   PART 1: SECTION HEADER & SCRIPT TAG
+   ============================================================================== */
+.programs-header-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: flex-end;
+    margin-bottom: 48px;
+}
+
+.programs-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.prog-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.prog-red-rule {
+    display: inline-block;
+    width: 32px;
+    height: 2.5px;
+    background-color: var(--sls-red);
+    flex-shrink: 0;
+}
+
+.prog-eyebrow-text {
+    font-family: var(--sls-font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+}
+
+.prog-main-headline {
+    font-family: var(--sls-font-editorial);
+    font-size: clamp(34px, 3.8vw, 50px);
+    font-weight: 800;
+    line-height: 1.14;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    margin: 0 0 16px 0;
+}
+
+.prog-headline-red {
+    color: var(--sls-red);
+}
+
+.prog-intro-lead {
+    font-family: var(--sls-font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sls-text-body);
+    margin: 0;
+}
+
+/* Right Editorial Details */
+.programs-header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 40px;
+}
+
+.prog-script-note {
+    font-family: 'Caveat', cursive, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1e3a8a;
+    transform: rotate(-3deg);
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.prog-script-note::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 4px;
+    width: 65%;
+    height: 2px;
+    background-color: var(--sls-red);
+    border-radius: 2px;
+}
+
+.prog-brand-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-left: 1px solid var(--sls-border-light);
+    padding-left: 24px;
+}
+
+.prog-brand-pillars span {
+    font-family: var(--sls-font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+/* ==============================================================================
+   PART 2: STEPPER SEQUENCE (01 -> 02 -> 03 -> 04)
+   ============================================================================== */
+.programs-stepper-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 44px 0;
+    padding: 18px 0;
+    border-top: 1px solid var(--sls-border-light);
+    border-bottom: 1px solid var(--sls-border-light);
+}
+
+.prog-step-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.prog-step-circle {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--sls-navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sls-font-editorial);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sls-navy);
+    background-color: var(--sls-white);
+}
+
+.prog-step-name {
+    font-family: var(--sls-font-sans);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+}
+
+.prog-step-connector {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin: 0 18px;
+    color: var(--sls-red);
+    font-size: 15px;
+}
+
+.prog-step-line {
+    flex: 1;
+    height: 1px;
+    background-color: #cbd5e1;
+    margin-right: -2px;
+}
+
+.prog-step-arrow {
+    font-size: 16px;
+    color: var(--sls-red);
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+/* ==============================================================================
+   PART 3: FOUR PROGRAMS EDITORIAL GRID
+   ============================================================================== */
+.programs-editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-bottom: 72px;
+}
+
+.program-editorial-item {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.prog-photo-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #f1f5f9;
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.prog-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.program-editorial-item:hover .prog-photo {
+    transform: scale(1.03);
+}
+
+.prog-tag {
+    font-family: var(--sls-font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--sls-red);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.prog-title {
+    font-family: var(--sls-font-editorial);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    margin: 0 0 12px 0;
+    line-height: 1.25;
+}
+
+.prog-desc {
+    font-family: var(--sls-font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--sls-text-body);
+    margin: 0 0 20px 0;
+    min-height: 68px;
+}
+
+.prog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    font-family: var(--sls-font-sans);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--sls-navy);
+    padding-bottom: 4px;
+    transition: all 0.25s ease;
+}
+
+.prog-link .arrow {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+}
+
+.prog-link:hover {
+    color: var(--sls-red);
+    border-color: var(--sls-red);
+}
+
+.prog-link:hover .arrow {
+    transform: translateX(4px);
+}
+
+/* ==============================================================================
+   PART 4: BOTTOM INSTITUTIONAL FEATURE BANNER (SOLID DEEP NAVY)
+   ============================================================================== */
+.programs-feature-banner {
+    background-color: var(--sls-navy);
+    padding: 56px 48px;
+    color: var(--sls-white);
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 0.85fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+}
+
+.prog-banner-left .prog-eyebrow-text {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.prog-banner-left .prog-red-rule {
+    background-color: var(--sls-red-bright);
+}
+
+.prog-banner-heading {
+    font-family: var(--sls-font-editorial);
+    font-size: clamp(28px, 2.6vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--sls-white);
+    margin: 16px 0 0 0;
+}
+
+.prog-bottom-red {
+    color: var(--sls-red-bright);
+    display: block;
+}
+
+.prog-banner-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.prog-banner-copy {
+    font-family: var(--sls-font-sans);
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.84);
+    margin: 0;
+    max-width: 360px;
+}
+
+.prog-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    padding: 13px 26px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: transparent;
+    color: var(--sls-white);
+    font-family: var(--sls-font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.prog-cta-btn .btn-arrow {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+}
+
+.prog-cta-btn:hover {
+    background-color: var(--sls-white);
+    color: var(--sls-navy);
+    border-color: var(--sls-white);
+}
+
+.prog-cta-btn:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+/* Right Institutional Crest Box (Actual Logo) */
+.prog-banner-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.prog-crest-box {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 4px 4px 50px 50px;
+    padding: 24px 28px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 170px;
+}
+
+.prog-crest-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.prog-crest-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.prog-crest-pillars span {
+    font-family: var(--sls-font-sans);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.6;
+}
+
+.prog-crest-rule {
+    width: 28px;
+    height: 2px;
+    background-color: var(--sls-red-bright);
+    margin-top: 10px;
+}
+
+.programs-bottom-spacer {
+    height: 80px;
+    background-color: var(--sls-white);
+}
+
+/* ==============================================================================
+   RESPONSIVE DESIGN SYSTEM
+   ============================================================================== */
+
+/* Large Tablets & Small Laptops (max-width: 1080px) */
+@media (max-width: 1080px) {
+    .programs-editorial-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 36px 28px;
+    }
+    
+    .prog-desc {
+        min-height: auto;
+    }
+    
+    .programs-feature-banner {
+        grid-template-columns: 1fr 1fr;
+        padding: 44px 36px;
+    }
+    
+    .prog-banner-right {
+        grid-column: span 2;
+        justify-content: center;
+        margin-top: 12px;
+    }
+}
+
+/* Tablets (max-width: 860px) */
+@media (max-width: 860px) {
+    .programs-header-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    
+    .programs-header-right {
+        justify-content: flex-start;
+    }
+    
+    .programs-stepper-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 20px;
+        padding: 20px 0;
+    }
+    
+    .prog-step-connector {
+        display: none;
+    }
+    
+    .programs-feature-banner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 28px;
+    }
+    
+    .prog-banner-right {
+        grid-column: span 1;
+        justify-content: flex-start;
+    }
+}
+
+/* Mobile Devices (max-width: 640px) */
+@media (max-width: 640px) {
+    .programs-editorial-container {
+        padding: 0 18px;
+    }
+    
+    .programs-section {
+        padding: 56px 0 0 !important;
+    }
+    
+    .prog-main-headline {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+    
+    .programs-header-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .prog-brand-pillars {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid var(--sls-border-light);
+        padding-top: 12px;
+        width: 100%;
+    }
+    
+    .programs-stepper-strip {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    
+    .programs-editorial-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 48px;
+    }
+    
+    .programs-feature-banner {
+        padding: 36px 20px;
+    }
+    
+    .prog-banner-heading {
+        font-size: 26px;
+    }
+    
+    .programs-bottom-spacer {
+        height: 56px;
+    }
+}

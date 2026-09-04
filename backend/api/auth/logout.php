@@ -1,65 +1,55 @@
 <?php
 /**
  * Logout API Endpoint
- * Handles user logout and session destruction
+ * St. Lawrence Junior School
+ *
+ * SECURITY: Uses SessionHelper::destroy() which:
+ *   - Clears all $_SESSION data
+ *   - Destroys the server-side session record
+ *   - Expires the session cookie on the client (prevents cookie replay)
+ * Works for both password and Google OAuth sessions.
  */
 
-// Set headers
+error_reporting(0);
+ini_set('display_errors', '0');
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 
-// Start session
-session_start();
+require_once __DIR__ . '/../helpers/SessionHelper.php';
+require_once __DIR__ . '/../config/Database.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'message' => 'No active session found'
-    ]);
-    exit();
-}
+// Initialize session with secure parameters before reading it
+SessionHelper::start();
 
-try {
-    // Include database connection
-    require_once '../config/Database.php';
-    
-    // Log logout activity
-    if (isset($_SESSION['user_id'])) {
+// Capture user ID before destroying session (needed for activity log)
+$userId = $_SESSION['user_id'] ?? null;
+
+// Attempt to log logout activity before destroying session
+if ($userId !== null) {
+    try {
         $database = new Database();
         $conn = $database->getConnection();
-        
-        $logQuery = "INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent) 
-                     VALUES (:user_id, 'logout', 'User logged out', :ip, :user_agent)";
-        $logStmt = $conn->prepare($logQuery);
-        $logStmt->bindParam(':user_id', $_SESSION['user_id']);
-        $logStmt->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
-        $logStmt->bindParam(':user_agent', $_SERVER['HTTP_USER_AGENT']);
-        $logStmt->execute();
+        $logStmt = $conn->prepare("
+            INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent)
+            VALUES (:uid, 'logout', 'User logged out', :ip, :ua)
+        ");
+        $logStmt->execute([
+            ':uid' => $userId,
+            ':ip'  => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            ':ua'  => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+        ]);
+    } catch (Exception $e) {
+        // Logging failure must never prevent logout completing
     }
-    
-    // Destroy session
-    session_unset();
-    session_destroy();
-    
-    // Return success response
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Logout successful'
-    ]);
-    
-} catch (Exception $e) {
-    // Even if logging fails, still logout
-    session_unset();
-    session_destroy();
-    
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Logout successful'
-    ]);
 }
-?>
+
+// Fully destroy session: clears $_SESSION, server-side record, and client cookie
+SessionHelper::destroy();
+
+http_response_code(200);
+echo json_encode([
+    'success' => true,
+    'message' => 'Logout successful'
+]);

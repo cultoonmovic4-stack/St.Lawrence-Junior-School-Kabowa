@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -39,54 +40,26 @@ try {
         }
     }
     
-    // Handle file upload
+    // Handle file upload securely
     if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-        throw new Exception('File upload failed');
+        throw new Exception('File upload failed or no file provided');
     }
     
-    $file = $_FILES['file'];
-    $allowedTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.ms-excel',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'image/jpeg',
-        'image/png',
-        'video/mp4'
-    ];
-    
-    if (!in_array($file['type'], $allowedTypes)) {
-        throw new Exception('Invalid file type. Allowed: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, MP4');
-    }
-    
-    // Check file size (100MB max)
-    $maxSize = 100 * 1024 * 1024;
-    if ($file['size'] > $maxSize) {
-        throw new Exception('File size exceeds 100MB limit');
-    }
-    
-    // Create upload directory
     $uploadDir = __DIR__ . '/../../uploads/library/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
     
-    // Generate unique filename
-    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = 'library_' . time() . '_' . uniqid() . '.' . $extension;
-    $uploadPath = $uploadDir . $filename;
-    
-    // Move uploaded file
-    if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-        throw new Exception('Failed to save uploaded file');
-    }
+    $uploadResult = UploadSecurityHelper::validateAndSave(
+        $_FILES['file'],
+        UploadSecurityHelper::CATEGORY_LIBRARY,
+        $uploadDir,
+        'library'
+    );
     
     // Auto-generate title from filename if not provided
     if (empty($title)) {
-        $originalName = pathinfo($file['name'], PATHINFO_FILENAME);
+        $originalName = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME);
         $title = ucwords(str_replace(['_', '-'], ' ', $originalName));
     }
     
@@ -97,9 +70,9 @@ try {
     $currentUser = getCurrentUser();
     $userId = $currentUser['user_id'];
     
-    $fileUrl = 'uploads/library/' . $filename;
-    $fileType = $extension;
-    $fileSize = $file['size'];
+    $fileUrl = 'uploads/library/' . $uploadResult['filename'];
+    $fileType = $uploadResult['extension'];
+    $fileSize = $uploadResult['size'];
     
     $stmt = $db->prepare("
         INSERT INTO library_resources 

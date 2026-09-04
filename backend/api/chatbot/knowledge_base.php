@@ -1,399 +1,1296 @@
 <?php
 /**
  * St. Lawrence School AI Assistant - Knowledge Base
- * This file contains all the information the chatbot can answer
+ * Phase 2.1: Authoritative School Fee Structure & Exact Class Mapping
+ * 100% free, deterministic, and self-contained (zero external LLM/API dependencies).
  */
 
 class KnowledgeBase {
     
+    // Authoritative Official School Fee Structure (Source of Truth)
+    public const OFFICIAL_FEES = [
+        'nursery' => [
+            'name' => 'Nursery (Baby–Top Class)',
+            'day_scholar' => 'UGX 474,000',
+            'boarding' => 'UGX 894,000',
+            'period' => 'per term'
+        ],
+        'p1_p5' => [
+            'name' => 'P1–P5',
+            'day_scholar' => 'UGX 579,000',
+            'boarding' => 'UGX 1,019,000',
+            'period' => 'per term'
+        ],
+        'p6_p7' => [
+            'name' => 'P6–P7',
+            'day_scholar' => 'UGX 629,000',
+            'boarding' => 'UGX 1,094,000',
+            'period' => 'per term'
+        ]
+    ];
+    
     private $knowledge = [];
+    private $stopWords = [];
+    private $outOfScopeKeywords = [];
     
     public function __construct() {
+        $this->buildStopWords();
+        $this->buildOutOfScopeKeywords();
         $this->buildKnowledgeBase();
+    }
+    
+    private function buildStopWords() {
+        $this->stopWords = [
+            'what', 'is', 'the', 'a', 'an', 'do', 'you', 'have', 'can', 'i', 
+            'of', 'in', 'to', 'for', 'on', 'at', 'it', 'this', 'that', 'there', 
+            'about', 'tell', 'me', 'how', 'much', 'does', 'we', 'are', 'your', 
+            'our', 'and', 'or', 'be', 'so', 'my', 'please', 'would', 'like',
+            'know', 'any', 'some', 'with', 'by', 'as', 'if', 'from', 'who', 'which',
+            'just', 'then', 'also', 'get', 'give'
+        ];
+    }
+    
+    private function buildOutOfScopeKeywords() {
+        $this->outOfScopeKeywords = [
+            'weather', 'forecast', 'rain', 'temperature', 'sunny', 'climate',
+            'premier league', 'arsenal', 'manchester', 'chelsea', 'liverpool', 'champions league',
+            'bitcoin', 'crypto', 'cryptocurrency', 'forex', 'stocks', 'trading',
+            'recipe', 'cooking recipe', 'cook food at home', 'movie tickets', 'cinema',
+            'president of america', 'ukraine', 'russia', 'politics', 'election results'
+        ];
     }
     
     private function buildKnowledgeBase() {
         
-        // SCHOOL INFORMATION
+        // GREETING
+        $this->knowledge['greeting'] = [
+            'topic' => 'greeting',
+            'keywords' => [
+                'hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening',
+                'greetings', 'habari', 'anyone there', 'start'
+            ],
+            'response' => "Hello! 👋 Welcome to St. Lawrence Junior School - Kabowa. I am St. Lawrence Assistant.\n\nI can help you with details about our **programmes**, **school fees**, **admissions**, **boarding**, and **location**. What would you like to know?",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "How much are the school fees?",
+                "Do you offer boarding?",
+                "How do I apply?"
+            ]
+        ];
+        
+        // SCHOOL OVERVIEW / ABOUT
         $this->knowledge['school_info'] = [
-            'keywords' => ['about', 'school', 'information', 'who are you', 'tell me about', 'history', 'founded', 'established', 'years', 'experience', 'old', 'age', 'since when', 'how long', 'premier', 'quality'],
-            'response' => "St. Lawrence Junior School - Kabowa is a premier mixed day and boarding primary school offering quality education since 2010. With over 14 years of experience, we provide a nurturing environment where excellence meets innovation. Our school offers both nursery and primary education with modern facilities and experienced teachers dedicated to your child's success. We are located in Kabowa, Kampala, and serve families from across the city."
+            'topic' => 'school_info',
+            'keywords' => [
+                'about school', 'about st lawrence', 'who are you', 'tell me about school',
+                'history', 'founded', 'established', 'years of experience', 'school motto',
+                'background', 'tell me about st lawrence', 'overview', 'information about school'
+            ],
+            'response' => "🏫 **St. Lawrence Junior School - Kabowa** is a premier private mixed day and boarding primary school established in **2010** (over 14 years of academic excellence).\n\n• **Motto:** *\"We Strive to Excel\"*\n• **Director:** Mr. Kimera Emmanuel\n• **Location:** St. Lawrence Junior School Kabowa, 2 Gabunga Road, Kampala, Uganda\n• **Sections:** Nursery (Baby, Middle, Top) and Primary (P.1 – P.7)\n\nWould you like to explore our academic programmes or check admission requirements?",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "How do I apply?",
+                "Where is the school located?"
+            ]
         ];
         
-        // YEARS OF EXPERIENCE
-        $this->knowledge['experience'] = [
-            'keywords' => ['years of experience', 'how long', 'established', 'founded', 'since when', 'how old', 'age of school', 'experience', 'years in operation'],
-            'response' => "🎓 **Years of Experience:**\n\nSt. Lawrence Junior School - Kabowa was established in 2010. We have been providing quality education for over 14 years! Our experience includes:\n\n✅ 14+ years of academic excellence\n✅ Hundreds of successful graduates\n✅ Consistent excellent PLE results\n✅ Award-winning programs\n✅ Trusted by families across Kampala\n\nOur long-standing reputation is built on dedication, quality teaching, and student success!"
+        // DIRECTOR & LEADERSHIP
+        $this->knowledge['director'] = [
+            'topic' => 'director',
+            'keywords' => [
+                'director', 'mr kimera', 'kimera emmanuel', 'headteacher', 'principal',
+                'who is in charge', 'school head', 'school leader', 'management', 'who leads the school',
+                'director name', 'who is director'
+            ],
+            'response' => "👨‍💼 **School Leadership:**\n\nSt. Lawrence Junior School Kabowa is under the visionary directorship of **Mr. Kimera Emmanuel**, supported by an experienced Headteacher, Director of Studies, and senior management team.\n\nSince 2010, this leadership has guided our pupils to consistent First Grade PLE success. To book an appointment with the administration, please call **+256 701 420 506**.",
+            'suggestions' => [
+                "Contact Information",
+                "School Location",
+                "Visit the School"
+            ]
         ];
         
-        // CONTACT INFORMATION
-        $this->knowledge['contact'] = [
-            'keywords' => ['contact', 'phone', 'email', 'address', 'location', 'reach', 'call', 'telephone', 'where are you', 'phone number', 'email address', 'physical address', 'find you', 'located', 'where is', 'kabowa', 'kampala', 'rubaga', 'church zone'],
-            'response' => "📍 **Contact Information:**\n\n📧 Email: stlawrencejuniorschoolkabowa@gmail.com\n📧 Alternative: st.lawrence.juniorschool@yahoo.com\n📞 Phone: +256 701 420 506\n📞 Phone: +256 772 420 506\n📮 P.O. Box: 36198, Kampala\n📍 Location: Kabowa, Church Zone, Rubaga Division - Kampala District, Uganda\n\nFeel free to reach out to us anytime!"
+        // 4 CORE PROGRAMMES OVERVIEW
+        $this->knowledge['programs'] = [
+            'topic' => 'programs',
+            'keywords' => [
+                'programmes', 'programs', 'what programmes do you offer', 'what do you offer',
+                'classes offered', 'levels', 'sections', 'grades', 'what courses',
+                'which classes', 'academic programs', 'all programs', 'tell me about programs'
+            ],
+            'response' => "📚 **We offer 4 distinct educational programmes:**\n\n1. **🎨 Nursery Section:** Early learning for Baby, Middle, and Top Class (ages 3–5).\n2. **📖 Primary Section:** Primary 1 to Primary 7, following the national UNEB curriculum with top PLE results.\n3. **☀️ Day School:** Structured daily learning with hot lunch and school bus options.\n4. **🏠 Boarding School:** 24/7 care with modern dormitories and supervised evening study.\n\nWhich of these programmes would you like to explore?",
+            'suggestions' => [
+                "Tell me about Nursery",
+                "Tell me about Primary",
+                "What about Day School?",
+                "Do you offer boarding?"
+            ]
         ];
         
-        // LOCATION DETAILS
-        $this->knowledge['location'] = [
-            'keywords' => ['where', 'location', 'address', 'find', 'directions', 'how to get', 'where located', 'situated', 'place', 'area', 'zone', 'division', 'district', 'kabowa', 'rubaga', 'church zone'],
-            'response' => "📍 **School Location:**\n\n🏫 St. Lawrence Junior School - Kabowa\n📍 Kabowa, Church Zone\n📍 Rubaga Division\n📍 Kampala District, Uganda\n\n📮 Postal Address: P.O. Box 36198, Kampala\n\n📞 For directions, call us:\n+256 701 420 506\n+256 772 420 506\n\nWe are easily accessible from Kampala city center!"
+        // PROGRAM 1: NURSERY
+        $this->knowledge['program_nursery'] = [
+            'topic' => 'nursery',
+            'keywords' => [
+                'nursery', 'kindergarten', 'baby class', 'middle class', 'top class',
+                'early childhood', 'pre-primary', 'pre primary', 'toddler', 'daycare',
+                'tell me about nursery', 'what about nursery', 'nursery section', 'nursery class',
+                'first programme', 'the first one', 'first one'
+            ],
+            'response' => "🎨 **Nursery Section (Ages 3 to 5):**\n\n• **Baby Class (Age 3):** Play-based learning, social adjustment, and sensory development.\n• **Middle Class (Age 4):** Pre-literacy, handwriting foundations, and early number concepts.\n• **Top Class (Age 5):** Phonics mastery, early reading, and preparation for Primary 1.\n\nWe provide small class ratios (1:15) with dedicated assistant teachers. Would you like to know about Nursery fees or admissions?",
+            'suggestions' => [
+                "How much is Nursery?",
+                "How do I apply?",
+                "Does it include lunch?"
+            ]
         ];
         
-        // SCHOOL HOURS
-        $this->knowledge['hours'] = [
-            'keywords' => ['hours', 'time', 'open', 'close', 'schedule', 'timing', 'when do you open', 'operating hours', 'what time', 'opening time', 'closing time', 'school time', 'start time', 'end time', 'working hours', 'office hours'],
-            'response' => "⏰ **School Hours:**\n\nMonday - Friday: 7:00 AM - 5:00 PM\nSaturday: 8:00 AM - 1:00 PM (Sports & Extra Activities)\nSunday: Closed\n\nOffice Hours: 8:00 AM - 4:00 PM (Weekdays)\n\nFor boarding students, we provide 24/7 supervision and care."
+        // PROGRAM 2: PRIMARY
+        $this->knowledge['program_primary'] = [
+            'topic' => 'primary',
+            'keywords' => [
+                'primary', 'primary section', 'uneb', 'ple', 'primary curriculum',
+                'subjects in primary', 'primary school', 'tell me about primary',
+                'what about primary', 'second programme', 'the second one'
+            ],
+            'response' => "📖 **Primary Section (Primary 1 – Primary 7):**\n\n• **Lower Primary (P.1–P.3):** Reading fluency, foundational mathematics, integrated science, and computer literacy.\n• **Upper Primary (P.4–P.7):** Subject specialization (Math, English, Science, Social Studies), life skills, and French/Luganda.\n• **Candidate Classes (P.7):** Intensive PLE preparation, seminars, and mock exams yielding over 95% First & Second Grades annually.\n\nWould you like to know about Primary school fees or admissions?",
+            'suggestions' => [
+                "How much is Primary 1?",
+                "How much is Primary 6?",
+                "How do I apply?"
+            ]
         ];
         
-        // ADMISSION PROCESS
-        $this->knowledge['admission'] = [
-            'keywords' => ['admission', 'apply', 'enroll', 'join', 'register', 'application', 'how to apply', 'enrollment', 'admissions'],
-            'response' => "📝 **Admission Process:**\n\n1. **Visit Our School** - Schedule a tour to see our facilities\n2. **Obtain Application Form** - Available at the school office or download from our website\n3. **Submit Documents:**\n   - Birth certificate\n   - Passport photos (2)\n   - Previous school report (if applicable)\n   - Immunization card\n4. **Interview & Assessment** - Meet with our admissions team\n5. **Receive Admission Letter**\n6. **Pay Fees & Complete Registration**\n\nAdmissions are open throughout the year! Visit our Admission page for more details or call us at +256 701 420 506."
+        // PROGRAM 3: DAY SCHOOL
+        $this->knowledge['program_day'] = [
+            'topic' => 'day_school',
+            'keywords' => [
+                'day school', 'day scholar', 'day schooling', 'day pupils', 'day student',
+                'non boarding', 'day program', 'commute', 'day classes', 'what about day school',
+                'tell me about day school', 'third programme', 'the third one'
+            ],
+            'response' => "☀️ **Day School Programme:**\n\n• **School Hours:** 7:00 AM – 5:00 PM (Monday – Friday).\n• **Nutritious Meals:** Every day scholar receives a morning snack with tea/porridge and a wholesome hot lunch on campus.\n• **School Transport:** Supervised bus routes cover Kabowa, Rubaga, Nateete, Busega, and Kampala Central.\n\nWould you like to see Day Scholar fees or transport route details?",
+            'suggestions' => [
+                "Day Scholar Fees",
+                "Does it include lunch?",
+                "School Bus Routes"
+            ]
         ];
         
-        // SCHOOL FEES - COMPLETE (DAY & BOARDING)
+        // PROGRAM 4: BOARDING
+        $this->knowledge['program_boarding'] = [
+            'topic' => 'boarding',
+            'keywords' => [
+                'boarding', 'boarder', 'boarding school', 'do you offer boarding', 'is boarding available',
+                'does the school offer boarding', 'can my child stay at school', 'can children live at school',
+                'do you accommodate boarders', 'is there a boarding section', 'dormitory', 'hostel',
+                'residential', 'boarding life', 'boarding facilities', 'sleep at school', 'stay overnight',
+                'fourth programme', 'the fourth one', 'the last one', 'last one'
+            ],
+            'response' => "🏠 **Boarding School Programme:**\n\nYes! We provide full, secure residential boarding for boys and girls:\n\n• **Dormitories:** Separate, modern houses with dedicated bed spaces and 24/7 security.\n• **Welfare & Care:** Experienced resident matrons, boarding masters, and a registered nurse in our campus sick bay.\n• **Meals & Academics:** 5 balanced meals daily and supervised evening study preps to cultivate discipline.\n\nWould you like to know the boarding fees or the admission steps?",
+            'suggestions' => [
+                "Boarding Fees",
+                "How do I apply?",
+                "What are the requirements?"
+            ]
+        ];
+        
+        // GENERIC SCHOOL FEES (COMPLETE STRUCTURE)
         $this->knowledge['fees_complete'] = [
-            'keywords' => ['fees', 'cost', 'tuition', 'price', 'how much', 'payment', 'school fees', 'tuition fees', 'pay', 'charges', 'amount', 'money', 'expensive', 'cheap', 'affordable', 'pricing', 'fee structure'],
-            'response' => "💰 **School Fees Structure (Per Term):**\n\n**DAY SCHOLARS:**\n🎒 Nursery (Baby - Top Class): UGX 474,000\n📚 P1 - P5: UGX 579,000\n🎓 P6 - P7: UGX 629,000\n\n**BOARDING:**\n🏠 Nursery (Baby - Top Class): UGX 894,000\n📚 P1 - P5: UGX 1,019,000\n🎓 P6 - P7: UGX 1,094,000\n\n**Payment:** Per term (3 terms per year)\n\nDay scholar fees include tuition, meals, and learning materials. Boarding fees include accommodation, meals, 24/7 supervision, and all learning materials. Our boarding facilities are modern and secure!"
+            'topic' => 'fees',
+            'keywords' => [
+                'fees', 'school fees', 'how much are the school fees', 'what are the school fees',
+                'what are your fees', 'fee structure', 'all fees', 'tuition fees', 'how much does school cost',
+                'what do i pay per term', 'what is the termly fee', 'how expensive is the school',
+                'cost per term', 'school charges', 'tuition', 'how much are fees', 'what are fees'
+            ],
+            'response' => "💰 **School fees per term:**\n\n• **Nursery (Baby–Top Class):** UGX 474,000 Day Scholar / UGX 894,000 Boarding\n• **P1–P5:** UGX 579,000 Day Scholar / UGX 1,019,000 Boarding\n• **P6–P7:** UGX 629,000 Day Scholar / UGX 1,094,000 Boarding\n\nWould you like me to help you with a specific class?",
+            'suggestions' => [
+                "How much is Nursery?",
+                "How much is Primary 1?",
+                "How much is Primary 6?",
+                "Uniform Prices"
+            ]
         ];
         
-        // SCHOOL FEES - DAY SCHOLARS ONLY
+        // FEES - DAY SCHOLARS ONLY
         $this->knowledge['fees_day'] = [
-            'keywords' => ['day scholar fees', 'day student fees', 'day scholar cost', 'day scholar price', 'day scholar tuition', 'non-boarding fees'],
-            'response' => "💰 **School Fees (Day Scholars - Per Term):**\n\n🎒 **Nursery (Baby - Top Class):** UGX 474,000\n📚 **P1 - P5:** UGX 579,000\n🎓 **P6 - P7:** UGX 629,000\n\n**Payment:** Per term (3 terms per year)\n\nFees include tuition, meals, and learning materials. For boarding fees, please ask!"
+            'topic' => 'day_fees',
+            'keywords' => [
+                'day fees', 'day scholar fees', 'day student fees', 'cost for day scholar',
+                'day tuition', 'how much for day school', 'day scholar cost', 'day pricing',
+                'day school fees'
+            ],
+            'response' => "💰 **Official Day Scholar Fees (Per Term):**\n\n• **Nursery (Baby–Top Class):** UGX 474,000\n• **P1–P5:** UGX 579,000\n• **P6–P7:** UGX 629,000\n\nAll day scholar fees are per term and include tuition, mid-morning snack with tea/porridge, hot lunch, and learning materials. Would you like me to help you with a specific class?",
+            'suggestions' => [
+                "Boarding Fees",
+                "Uniform Prices",
+                "How do I apply?"
+            ]
         ];
         
-        // SCHOOL FEES - BOARDING ONLY
+        // FEES - BOARDING ONLY
         $this->knowledge['fees_boarding'] = [
-            'keywords' => ['boarding fees', 'boarding cost', 'boarding price', 'boarding student', 'boarder', 'boarding tuition', 'boarding charges'],
-            'response' => "💰 **School Fees (Boarding - Per Term):**\n\n🏠 **Nursery (Baby - Top Class):** UGX 894,000\n📚 **P1 - P5:** UGX 1,019,000\n🎓 **P6 - P7:** UGX 1,094,000\n\n**Payment:** Per term (3 terms per year)\n\nBoarding fees include accommodation, meals, 24/7 supervision, and all learning materials. Our boarding facilities are modern and secure with separate houses for boys and girls!"
+            'topic' => 'boarding_fees',
+            'keywords' => [
+                'boarding fees', 'cost of boarding', 'how much for boarding', 'boarding charges',
+                'boarding tuition', 'boarder fees', 'how much do boarders pay', 'boarding cost',
+                'what do i pay for boarding', 'boarding price', 'boarding school fees'
+            ],
+            'response' => "💰 **Official Boarding Fees (Per Term):**\n\n• **Nursery (Baby–Top Class):** UGX 894,000\n• **P1–P5:** UGX 1,019,000\n• **P6–P7:** UGX 1,094,000\n\nAll boarding fees are per term and include full accommodation, 5 nutritious meals daily, 24/7 matron & security supervision, sick bay medical care, and evening study prep. Would you like me to help you with a specific class?",
+            'suggestions' => [
+                "Day Scholar Fees",
+                "What are the requirements?",
+                "How do I apply?"
+            ]
         ];
         
         // UNIFORMS
         $this->knowledge['uniforms'] = [
-            'keywords' => ['uniform', 'dress code', 'clothing', 'attire', 'what to wear', 'uniforms', 'dress', 'clothes', 'outfit', 'school uniform', 'uniform price', 'uniform cost', 'uniform fees'],
-            'response' => "👔 **School Uniforms:**\n\n**Day Scholars (Boys):**\n- Nur-P2: UGX 200,000\n- P3-P5: UGX 240,000\n- P6-P7: UGX 300,000\n\n**Day Scholars (Girls):**\n- Nur-P2: UGX 190,000\n- P3-P5: UGX 230,000\n- P6-P7: UGX 270,000\n\n**Boarding Students:** Slightly higher (includes extra sets)\n\nUniforms include shirts/blouses, shorts/skirts, sweater, socks, and school tie. Available for purchase at the school."
+            'topic' => 'uniforms',
+            'keywords' => [
+                'uniform', 'uniforms', 'dress code', 'attire', 'clothes', 'sweater',
+                'shirt', 'uniform price', 'uniform cost', 'how much is uniform', 'school clothes'
+            ],
+            'response' => "👔 **School Uniform Prices (One-off purchase):**\n\n**Day Scholars (Boys):**\n• Nursery – P.2: UGX 200,000 | P.3 – P.5: UGX 240,000 | P.6 – P.7: UGX 300,000\n\n**Day Scholars (Girls):**\n• Nursery – P.2: UGX 190,000 | P.3 – P.5: UGX 230,000 | P.6 – P.7: UGX 270,000\n\nUniforms include shirts/blouses, shorts/skirts, sweater, stockings, and tie. Boarding sets include additional laundry pairs. Available at the school office.",
+            'suggestions' => [
+                "How much are the school fees?",
+                "How do I apply?",
+                "Contact Office"
+            ]
         ];
         
-        // PROGRAMS OFFERED
-        $this->knowledge['programs'] = [
-            'keywords' => ['programs', 'classes', 'levels', 'grades', 'what do you offer', 'curriculum'],
-            'response' => "📚 **Programs Offered:**\n\n🎨 **Nursery Section:**\n- Baby Class\n- Middle Class\n- Top Class\n\n📖 **Primary Section:**\n- Primary 1 - Primary 7\n\n**Options:**\n✅ Day Scholars\n✅ Boarding (Full boarding facilities)\n\nWe follow the Ugandan National Curriculum with enhanced learning programs including computer studies, music, sports, and arts."
+        // ADMISSION PROCESS
+        $this->knowledge['admission'] = [
+            'topic' => 'admission',
+            'keywords' => [
+                'admission', 'apply', 'enroll', 'join', 'register', 'application',
+                'how do i apply', 'how can i enroll my child', 'what is the admission process',
+                'how do i register my child', 'what do i need to join the school',
+                'how can i get admission', 'admissions process', 'how to enroll', 'join the school'
+            ],
+            'response' => "📝 **Admissions at St. Lawrence Junior School (6 Simple Steps):**\n\n1. **Visit the School:** Tour our campus at 2 Gabunga Road, Kampala, Uganda.\n2. **Pick Application Form:** Obtain it at the office or download online.\n3. **Submit Documents:** Birth certificate, 2 passport photos, previous report, immunization card.\n4. **Diagnostic Assessment:** A friendly interaction to place your child.\n5. **Receive Admission Letter:** Formal offer of placement.\n6. **Fee Payment & Enrolment:** Settle fees with the bursar to confirm registration.\n\nWould you like to know the exact documents needed or contact the admissions desk?",
+            'suggestions' => [
+                "What do I need?",
+                "How much are the school fees?",
+                "Schedule a Visit"
+            ]
+        ];
+        
+        // ADMISSION REQUIREMENTS (DOCUMENTS)
+        $this->knowledge['admission_requirements'] = [
+            'topic' => 'admission',
+            'keywords' => [
+                'what do i need', 'what documents', 'admission requirements', 'requirements to join',
+                'requirements for admission', 'documents needed', 'papers needed', 'what to bring'
+            ],
+            'response' => "📋 **Required Admission Documents:**\n\nTo enroll your child at St. Lawrence Junior School Kabowa, please bring:\n\n1. Copy of the child's **Birth Certificate**\n2. Two (2) recent **Passport-sized Photographs** of the child\n3. Previous school **Report Card / Transfer Letter** (for P.2 to P.7)\n4. Copy of the child's **Immunization Card / Medical Record**\n\nOnce documents are submitted, a short placement assessment is conducted. Would you like to check school fees or book a visit?",
+            'suggestions' => [
+                "How much are the school fees?",
+                "Visit the School",
+                "Contact Admissions"
+            ]
+        ];
+        
+        // MEALS & NUTRITION
+        $this->knowledge['meals'] = [
+            'topic' => 'meals',
+            'keywords' => [
+                'meals', 'food', 'lunch', 'breakfast', 'diet', 'nutrition', 'dining',
+                'does it include lunch', 'is lunch included', 'is food provided',
+                'what do they eat', 'feeding', 'lunch included', 'break tea'
+            ],
+            'response' => "🍽️ **Meals & Nutrition:**\n\nYes! Nutritious, well-balanced meals are prepared fresh daily in our hygienic kitchen:\n\n• **Day Scholars:** Receive a mid-morning break snack with tea/porridge, plus a wholesome hot lunch (posho, rice, matooke, beans, meat, and fresh vegetables).\n• **Boarding Students:** Receive **5 meals daily** (breakfast, morning snack, lunch, 4:00 PM evening tea, and dinner).\n\nDietary restrictions and allergies are carefully catered for upon parent notice.",
+            'suggestions' => [
+                "Day School Programme",
+                "Boarding Programme",
+                "How much are the school fees?"
+            ]
+        ];
+        
+        // LOCATION & ADDRESS
+        $this->knowledge['location'] = [
+            'topic' => 'location',
+            'keywords' => [
+                'where is the school', 'where are you located', 'what is your address',
+                'where can i find you', 'where located', 'location', 'address', 'where are you',
+                'situated', 'find you', 'where is st lawrence', 'where exactly is st lawrence junior school',
+                'where exactly is st lawrence junior school kabowa', 'where exactly is st lawrence',
+                'where is the school located', 'where exactly is the school', 'school location',
+                'school address', '2 gabunga road', 'gabunga road', 'gabunga', 'plus code',
+                'whats the plus code', 'what is the plus code', 'send me the location',
+                'send me the school location', 'how can i find the school', 'where is the campus',
+                'google maps', 'google map', 'map', 'where are you found', 'where is kabowa'
+            ],
+            'response' => "📍 **Official School Location:**\n\n**St. Lawrence Junior School Kabowa**\n**Address:** 2 Gabunga Road, Kampala, Uganda\n• **Plus Code:** 7HJ5+MX Kampala\n• **Google Maps:** https://maps.app.goo.gl/k2jE4X8KgkgZL4jn7\n• **Phone:** +256 772 420 506 / +256 701 420 506\n\nVisitors and parents are welcome during school office hours (Monday – Friday, 8:00 AM – 4:00 PM).",
+            'suggestions' => [
+                "How do I get there?",
+                "Contact Numbers",
+                "School Hours",
+                "How do I apply?"
+            ]
+        ];
+        
+        // DETAILED DIRECTIONS & NAVIGATION
+        $this->knowledge['location_detailed'] = [
+            'topic' => 'location',
+            'keywords' => [
+                'how do i get there', 'how do i reach the school', 'directions', 'how can i reach',
+                'how to get there', 'directions please', 'driving directions', 'can you give me directions',
+                'give me directions', 'how do i get to the school', 'route to school', 'getting there',
+                'how do i reach', 'how can i get there', 'navigation', 'map link', 'directions to school'
+            ],
+            'response' => "🚗 **Directions to St. Lawrence Junior School Kabowa:**\n\n**Address:** 2 Gabunga Road, Kampala, Uganda\n• **Google Maps:** https://maps.app.goo.gl/k2jE4X8KgkgZL4jn7\n• **Plus Code:** 7HJ5+MX Kampala\n• **Phone Assistance:** +256 772 420 506 / +256 701 420 506\n\nFor turn-by-turn driving or walking directions, open the Google Maps link above on your phone or computer.",
+            'suggestions' => [
+                "Where is the school?",
+                "Contact Numbers",
+                "School Hours",
+                "Schedule a Visit"
+            ]
+        ];
+        
+        // CONTACT INFORMATION
+        $this->knowledge['contact'] = [
+            'topic' => 'contact',
+            'keywords' => [
+                'contact', 'phone', 'telephone', 'call', 'reach', 'mobile', 'email',
+                'email address', 'contact number', 'phone number', 'hotline', 'how to contact',
+                'what is the schools phone number', 'what is the school phone number',
+                'what is your phone number', 'school telephone', 'school phone', 'phone numbers'
+            ],
+            'response' => "📞 **Official Contact Details:**\n\n• **Phone 1:** +256 772 420 506\n• **Phone 2:** +256 701 420 506\n• **Address:** St. Lawrence Junior School Kabowa, 2 Gabunga Road, Kampala, Uganda\n• **Plus Code:** 7HJ5+MX Kampala\n• **Google Maps:** https://maps.app.goo.gl/k2jE4X8KgkgZL4jn7\n• **Email:** stlawrencejuniorschoolkabowa@gmail.com\n• **Alternative Email:** st.lawrence.juniorschool@yahoo.com\n\nOffice hours are **Monday to Friday (8:00 AM – 4:00 PM)** and **Saturday (9:00 AM – 12:00 PM)**.",
+            'suggestions' => [
+                "Where is the school?",
+                "How do I get there?",
+                "School Hours",
+                "How do I apply?"
+            ]
+        ];
+        
+        // SCHOOL HOURS
+        $this->knowledge['hours'] = [
+            'topic' => 'hours',
+            'keywords' => [
+                'hours', 'time', 'opening time', 'closing time', 'schedule',
+                'when do you open', 'operating hours', 'office hours', 'school time',
+                'what time does school start', 'what time does school close'
+            ],
+            'response' => "⏰ **School & Office Hours:**\n\n• **Classes (Mon – Fri):** 7:00 AM – 4:30 PM (Pick-up until 5:00 PM)\n• **Saturday:** 8:00 AM – 1:00 PM (Sports, co-curriculars & remedial sessions)\n• **Sunday:** Closed (Boarding pupils follow supervised weekend routines)\n• **Administration & Bursar:** Monday – Friday, 8:00 AM – 4:00 PM.\n\nBoarding pupils receive 24/7 staff supervision.",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "How much are the school fees?",
+                "Where is the school?"
+            ]
+        ];
+        
+        // TRANSPORT & BUS SERVICE
+        $this->knowledge['transport'] = [
+            'topic' => 'transport',
+            'keywords' => [
+                'transport', 'bus', 'school bus', 'van', 'pick up', 'drop off',
+                'shuttle', 'transportation', 'bus routes', 'bus fees', 'school transport'
+            ],
+            'response' => "🚌 **School Bus Transport Service:**\n\nWe provide reliable and supervised morning pick-up and afternoon drop-off:\n\n• **Coverage:** Kabowa, Rubaga, Nateete, Busega, Kampala Central, Mengo, Mutundwe, and neighboring areas.\n• **Safety:** Experienced licensed drivers, bus conductors on each vehicle, and seat belts fitted.\n• **Pricing:** Fees depend on your specific residential route. Contact our transport coordinator at **+256 701 420 506**.",
+            'suggestions' => [
+                "Day School Programme",
+                "Contact Office",
+                "How much are the school fees?"
+            ]
+        ];
+        
+        // ACADEMIC PERFORMANCE & PLE RESULTS
+        $this->knowledge['academic_performance'] = [
+            'topic' => 'academics',
+            'keywords' => [
+                'ple results', 'results', 'academic performance', 'pass rate',
+                'exam results', 'grades', 'uneb results', 'first grade', 'performance in ple'
+            ],
+            'response' => "📊 **Academic Excellence & PLE Performance:**\n\n• **95%+ First and Second Grade** pass rate consistently achieved in Primary Leaving Examinations (PLE).\n• Our alumni regularly join top secondary institutions like Mt. St. Mary's Namagunga, King's College Budo, St. Mary's College Kisubi, and Gayaza High School.\n• Small class sizes ensure personalized coaching for every learner.",
+            'suggestions' => [
+                "Tell me about Primary",
+                "How do I apply?",
+                "How much are the school fees?"
+            ]
         ];
         
         // EXTRACURRICULAR ACTIVITIES
         $this->knowledge['activities'] = [
-            'keywords' => ['activities', 'extracurricular', 'sports', 'clubs', 'games', 'music', 'drama', 'what activities'],
-            'response' => "🎯 **Extracurricular Activities:**\n\n⚽ **Sports:**\n- Football\n- Netball\n- Athletics\n- Swimming\n\n🎨 **Arts & Culture:**\n- Music & Dance\n- Drama & Theatre\n- Art & Crafts\n\n📚 **Academic Clubs:**\n- Debate Club\n- Science Club\n- Reading Club\n- Computer Club\n\n🏆 **Competitions:**\n- Inter-school sports\n- Music festivals\n- Academic competitions\n\nWe believe in holistic education - developing both mind and body!"
+            'topic' => 'activities',
+            'keywords' => [
+                'activities', 'extracurricular', 'sports', 'games', 'clubs',
+                'football', 'netball', 'swimming', 'music', 'dance', 'drama', 'debate'
+            ],
+            'response' => "🎯 **Extracurricular Activities & Sports:**\n\nWe provide holistic talent development:\n\n• **Sports:** Football, netball, basketball, athletics track, and swimming.\n• **Performing Arts:** Music, traditional dance, choir, and drama festival presentations.\n• **Clubs:** Debate Club, Science & STEM Club, ICT Club, and Reading Club.\n\nSessions take place every Wednesday afternoon and Saturday morning!",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "Visit the School"
+            ]
         ];
         
         // FACILITIES
         $this->knowledge['facilities'] = [
-            'keywords' => ['facilities', 'infrastructure', 'buildings', 'library', 'computer lab', 'playground', 'what do you have'],
-            'response' => "🏫 **Our Facilities:**\n\n📚 **Library** - Well-stocked with books and digital resources\n💻 **Computer Lab** - Modern computers with internet\n🔬 **Science Lab** - Equipped for practical learning\n🏃 **Sports Grounds** - Football field, netball court\n🏠 **Boarding Houses** - Separate for boys and girls\n🍽️ **Dining Hall** - Nutritious meals prepared daily\n🚌 **Transport** - School buses available\n🏥 **Sick Bay** - First aid and medical care\n🎨 **Art Room** - Creative learning space\n\nAll facilities are modern, safe, and well-maintained!"
+            'topic' => 'facilities',
+            'keywords' => [
+                'facilities', 'infrastructure', 'buildings', 'library', 'computer lab',
+                'science lab', 'playground', 'campus', 'amenities'
+            ],
+            'response' => "🏫 **School Facilities:**\n\n• **Library:** Over 2,000 books and reading resource centers.\n• **Computer Lab:** 30+ internet-connected computers for practical ICT learning.\n• **Science Lab:** Modern practical science equipment.\n• **Sports Complex:** Full football pitch, netball courts, and nursery playground.\n• **Boarding Houses:** Separate secure dormitories with matrons.\n• **Sick Bay:** Equipped clinic with a qualified resident nurse.",
+            'suggestions' => [
+                "Do you offer boarding?",
+                "What programmes do you offer?",
+                "Schedule a Tour"
+            ]
         ];
         
-        // TEACHERS
-        $this->knowledge['teachers'] = [
-            'keywords' => ['teachers', 'staff', 'instructors', 'educators', 'qualified', 'experienced'],
-            'response' => "👨‍🏫 **Our Teachers:**\n\nWe have a team of highly qualified and experienced teachers who are passionate about education. Our staff includes:\n\n✅ Certified teachers with degrees and diplomas\n✅ Specialized subject teachers\n✅ Experienced nursery care providers\n✅ Sports coaches and activity coordinators\n✅ Guidance and counseling staff\n\nOur teacher-to-student ratio ensures personalized attention for every child. Visit our Teachers page to meet our dedicated team!"
-        ];
-        
-        // LIBRARY
-        $this->knowledge['library'] = [
-            'keywords' => ['library', 'books', 'reading', 'study materials', 'resources'],
-            'response' => "📚 **School Library:**\n\nOur library is a treasure trove of knowledge with:\n\n📖 Over 2,000 books covering various subjects\n📰 Newspapers and magazines\n💻 Digital resources and e-books\n🪑 Quiet study areas\n👥 Group discussion spaces\n\n**Library Hours:**\nMonday - Friday: 8:00 AM - 4:00 PM\nSaturday: 9:00 AM - 12:00 PM\n\nStudents can borrow books and access research materials. We encourage a culture of reading!"
-        ];
-        
-        // MEALS
-        $this->knowledge['meals'] = [
-            'keywords' => ['meals', 'food', 'lunch', 'breakfast', 'dinner', 'nutrition', 'cafeteria', 'dining'],
-            'response' => "🍽️ **Meals & Nutrition:**\n\n**Day Scholars:**\n- Mid-morning snack\n- Lunch\n\n**Boarding Students:**\n- Breakfast\n- Mid-morning snack\n- Lunch\n- Afternoon snack\n- Dinner\n\nAll meals are:\n✅ Nutritious and balanced\n✅ Prepared by trained cooks\n✅ Served in a clean dining hall\n✅ Supervised by staff\n\nWe cater to special dietary needs. Our menu is designed by nutritionists to support growing children!"
-        ];
-        
-        // TRANSPORT
-        $this->knowledge['transport'] = [
-            'keywords' => ['transport', 'bus', 'school bus', 'pick up', 'drop off', 'transportation'],
-            'response' => "🚌 **School Transport:**\n\nWe provide safe and reliable school transport services:\n\n✅ Modern school buses\n✅ Experienced drivers\n✅ Designated routes covering major areas\n✅ Morning pick-up and afternoon drop-off\n✅ Supervised by staff\n\n**Routes cover:**\n- Kampala Central\n- Nateete\n- Busega\n- Lubaga\n- And surrounding areas\n\nTransport fees are separate from tuition. Contact us for route details and pricing!"
-        ];
-        
-        // SECURITY
-        $this->knowledge['security'] = [
-            'keywords' => ['security', 'safety', 'safe', 'protection', 'guards', 'secure'],
-            'response' => "🔒 **Safety & Security:**\n\nYour child's safety is our top priority:\n\n✅ 24/7 security guards\n✅ CCTV surveillance\n✅ Controlled access gates\n✅ Visitor registration system\n✅ Fire safety equipment\n✅ First aid facilities\n✅ Emergency response procedures\n✅ Trained staff for child protection\n\nFor boarding students, we provide round-the-clock supervision. Our campus is fully fenced and secure!"
-        ];
-        
-        // PARENT INVOLVEMENT
-        $this->knowledge['parents'] = [
-            'keywords' => ['parent', 'parents', 'involvement', 'meetings', 'communication', 'updates'],
-            'response' => "👨‍👩‍👧‍👦 **Parent Involvement:**\n\nWe believe in strong parent-school partnerships:\n\n📅 **Parent-Teacher Meetings** - Every term\n📊 **Progress Reports** - Sent home regularly\n📱 **Communication** - Phone calls, SMS, WhatsApp groups\n🎉 **School Events** - Parents invited to participate\n👥 **PTA Meetings** - Active Parent-Teacher Association\n\nWe keep parents informed about their child's progress, behavior, and school activities. Your involvement is valued!"
-        ];
-        
-        // TERM DATES
+        // TERM DATES & CALENDAR
         $this->knowledge['term_dates'] = [
-            'keywords' => ['term', 'semester', 'calendar', 'academic calendar', 'when does school start', 'holidays'],
-            'response' => "📅 **Academic Calendar:**\n\nWe follow a 3-term academic year:\n\n**Term 1:** February - April\n**Term 2:** May - August\n**Term 3:** September - November\n\n**Holidays:**\n- December - January (Long holiday)\n- Short breaks between terms\n\nExact dates are communicated at the beginning of each year. Contact us for the current academic calendar!"
+            'topic' => 'calendar',
+            'keywords' => [
+                'term dates', 'calendar', 'when does term start', 'academic calendar',
+                'holidays', 'when do you open', 'opening date', 'closing date', 'school calendar'
+            ],
+            'response' => "📅 **Academic Calendar (3 Terms):**\n\n• **Term 1:** February – April\n• **Term 2:** May – August\n• **Term 3:** September – November / December\n\nExact term opening dates and event schedules are available on our website calendar or from the school administration at **+256 701 420 506**.",
+            'suggestions' => [
+                "How do I apply?",
+                "How much are the school fees?",
+                "School Hours"
+            ]
         ];
         
-        // ACHIEVEMENTS
-        $this->knowledge['achievements'] = [
-            'keywords' => ['achievements', 'awards', 'performance', 'results', 'success', 'excellence'],
-            'response' => "🏆 **Our Achievements:**\n\nWe're proud of our students' accomplishments:\n\n✅ Consistent excellent PLE results\n✅ Winners in inter-school competitions\n✅ Music and dance festival awards\n✅ Sports championships\n✅ Academic excellence awards\n✅ Community service recognition\n\nOur students have been admitted to top secondary schools in Uganda. We celebrate every child's unique talents and achievements!"
-        ];
-        
-        // SPECIAL NEEDS
-        $this->knowledge['special_needs'] = [
-            'keywords' => ['special needs', 'disability', 'inclusive', 'learning difficulties', 'support'],
-            'response' => "♿ **Special Needs Support:**\n\nWe are committed to inclusive education:\n\n✅ Individualized learning plans\n✅ Trained special needs teachers\n✅ Accessible facilities\n✅ Extra support for learning difficulties\n✅ Counseling services\n✅ Small class sizes for attention\n\nWe assess each child's needs and provide appropriate support. Please contact us to discuss your child's specific requirements!"
-        ];
-        
-        // VISITING THE SCHOOL
+        // VISIT THE SCHOOL
         $this->knowledge['visit'] = [
-            'keywords' => ['visit', 'tour', 'see the school', 'come to school', 'schedule a visit'],
-            'response' => "🏫 **Visit Our School:**\n\nWe'd love to show you around!\n\n📞 **Schedule a Tour:**\nCall: +256 701 420 506 / +256 772 420 506\nEmail: stlawrencejuniorschoolkabowa@gmail.com\n\n**What to expect:**\n✅ Guided tour of facilities\n✅ Meet the headteacher\n✅ See classrooms in action\n✅ Ask questions\n✅ Get admission information\n\n**Best times to visit:**\nMonday - Friday: 9:00 AM - 3:00 PM\nSaturday: 9:00 AM - 12:00 PM\n\nNo appointment needed, but calling ahead ensures we're ready to welcome you!"
+            'topic' => 'visit',
+            'keywords' => [
+                'visit', 'tour', 'come to school', 'schedule visit', 'see the school',
+                'open day', 'school tour', 'can i visit'
+            ],
+            'response' => "🏫 **Visit St. Lawrence Junior School Kabowa:**\n\nYou are warmly welcome to visit us!\n\n• **Address:** 2 Gabunga Road, Kampala, Uganda\n• **Best Times:** Monday – Friday (9:00 AM – 3:00 PM) & Saturday (9:00 AM – 12:00 PM).\n• **What You See:** Classrooms, computer lab, dormitories, sports fields, and meet the teachers.\n\nPlease feel free to drop in or call **+256 772 420 506 / +256 701 420 506** to arrange a guided tour!",
+            'suggestions' => [
+                "Where is the school?",
+                "How do I get there?",
+                "How do I apply?"
+            ]
         ];
         
-        // GREETING RESPONSES
-        $this->knowledge['greeting'] = [
-            'keywords' => ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings'],
-            'response' => "Hello! 👋 Welcome to St. Lawrence Junior School - Kabowa! I'm your virtual assistant, here to help you with any questions about our school. How can I assist you today?"
-        ];
-        
-        // DETAILED LOCATION INFORMATION
-        $this->knowledge['location_detailed'] = [
-            'keywords' => ['where exactly', 'exact location', 'directions', 'how to get there', 'how to find', 'map', 'google maps', 'landmarks', 'nearby'],
-            'response' => "📍 **Detailed Location Information:**\n\n**Address:**\nSt. Lawrence Junior School - Kabowa\nKabowa, Kampala\nP.O. BOX 36198, KAMPALA\nUganda\n\n**Area:** Kabowa is located in Rubaga Division, Kampala\n\n**Nearby Landmarks:**\n- Close to Kabowa Market\n- Near Nateete Road\n- Accessible from Kampala-Masaka Road\n\n**How to Get Here:**\n- From Kampala City: Take Nateete Road towards Busega, turn at Kabowa\n- Public Transport: Taxis to Nateete/Busega, then boda to Kabowa\n- Private Car: Ample parking available on campus\n\n**GPS Coordinates:** Available upon request\n\nFor specific directions, call us at +256 701 420 506 and we'll guide you!"
-        ];
-        
-        // HEADTEACHER/PRINCIPAL INFORMATION
-        $this->knowledge['headteacher'] = [
-            'keywords' => ['headteacher', 'principal', 'head teacher', 'director', 'head of school', 'school head', 'who is in charge', 'school leader'],
-            'response' => "👨‍💼 **School Leadership:**\n\nOur school is led by an experienced and dedicated headteacher who oversees all academic and administrative operations. Our leadership team includes:\n\n✅ **Headteacher** - Overall school management and academic excellence\n✅ **Deputy Headteacher** - Academic programs and curriculum\n✅ **Director of Studies** - Teaching quality and student performance\n✅ **Boarding Master/Mistress** - Boarding student welfare\n✅ **Discipline Master/Mistress** - Student conduct and behavior\n\nOur leadership team has decades of combined experience in education and is committed to providing the best learning environment for every child.\n\nTo schedule a meeting with the headteacher, call +256 701 420 506."
-        ];
-        
-        // TEACHERS DETAILED INFORMATION
-        $this->knowledge['teachers_detailed'] = [
-            'keywords' => ['teachers', 'staff', 'instructors', 'educators', 'qualified', 'experienced', 'teaching staff', 'faculty', 'how many teachers', 'teacher qualifications', 'teacher experience'],
-            'response' => "👨‍🏫 **Our Teaching Staff:**\n\nWe have a team of **30+ highly qualified teachers** who are passionate about education:\n\n**Qualifications:**\n✅ Bachelor's Degrees in Education\n✅ Diplomas in Primary Education\n✅ Specialized subject certifications\n✅ Early Childhood Education certificates\n✅ Continuous professional development\n\n**Experience:**\n✅ Average 8+ years teaching experience\n✅ Trained in modern teaching methods\n✅ Child psychology and development training\n✅ First aid certified\n\n**Specializations:**\n📚 **Subject Teachers:** Mathematics, English, Science, Social Studies\n🎨 **Special Teachers:** Music, Art, Physical Education, Computer Studies\n👶 **Nursery Teachers:** Early childhood specialists\n🏠 **Boarding Staff:** Matrons and patrons for boarding students\n📖 **Support Staff:** Librarian, Lab technician, Counselor\n\n**Teacher-Student Ratio:** 1:25 (ensures personalized attention)\n\nVisit our Teachers page on the website to meet our dedicated team!"
-        ];
-        
-        // CONTACT PERSON INFORMATION
-        $this->knowledge['contact_person'] = [
-            'keywords' => ['who can i talk to', 'contact person', 'who to call', 'who to speak with', 'admissions officer', 'bursar', 'accountant', 'who handles'],
-            'response' => "📞 **Key Contact Persons:**\n\n**For Admissions & Enrollment:**\n👤 Admissions Officer\n📞 +256 701 420 506 / +256 772 420 506\n📧 stlawrencejuniorschoolkabowa@gmail.com\n\n**For Fees & Payments:**\n👤 School Bursar/Accountant\n📞 +256 701 420 506\n⏰ Available: Mon-Fri 8AM-4PM\n\n**For Academic Matters:**\n👤 Director of Studies\n📞 +256 701 420 506\n📧 st.lawrence.juniorschool@yahoo.com\n\n**For Boarding Inquiries:**\n👤 Boarding Master/Mistress\n📞 +256 772 420 506\n\n**For General Inquiries:**\n👤 School Secretary\n📞 +256 701 420 506 / +256 772 420 506\n⏰ Office Hours: Mon-Fri 8AM-4PM\n\nAll staff are friendly and ready to assist you!"
-        ];
-        
-        // SCHOOL EMAIL ADDRESSES
-        $this->knowledge['email_addresses'] = [
-            'keywords' => ['email', 'email address', 'send email', 'write to', 'contact email', 'official email'],
-            'response' => "📧 **Official Email Addresses:**\n\n**Primary Email:**\nstlawrencejuniorschoolkabowa@gmail.com\n(For all general inquiries, admissions, and information)\n\n**Alternative Email:**\nst.lawrence.juniorschool@yahoo.com\n(For academic matters and official correspondence)\n\n**Response Time:**\n✅ We typically respond within 24 hours during weekdays\n✅ For urgent matters, please call: +256 701 420 506\n\n**What to Include in Your Email:**\n- Your name and contact information\n- Subject of inquiry (Admission, Fees, Programs, etc.)\n- Specific questions or information needed\n- Best time to call you back (if needed)\n\nWe look forward to hearing from you!"
-        ];
-        
-        // PHONE NUMBERS DETAILED
-        $this->knowledge['phone_numbers'] = [
-            'keywords' => ['phone number', 'telephone', 'call', 'mobile', 'contact number', 'phone', 'telephone number', 'hotline'],
-            'response' => "📱 **Contact Phone Numbers:**\n\n**Main Lines:**\n📞 +256 701 420 506 (MTN)\n📞 +256 772 420 506 (Airtel)\n\n**Available:**\n⏰ Monday - Friday: 7:00 AM - 5:00 PM\n⏰ Saturday: 8:00 AM - 1:00 PM\n⏰ Sunday: Closed (Emergency only)\n\n**What You Can Call About:**\n✅ Admissions and enrollment\n✅ School fees and payments\n✅ Academic programs and curriculum\n✅ Boarding facilities\n✅ School tours and visits\n✅ General inquiries\n✅ Emergency matters (24/7 for boarding parents)\n\n**Tips for Calling:**\n- Best time: 9AM-12PM or 2PM-4PM (weekdays)\n- Have your questions ready\n- Ask for specific department if needed\n- Request callback if lines are busy\n\nWe're always happy to hear from you!"
-        ];
-        
-        // OFFICE LOCATION ON CAMPUS
-        $this->knowledge['office_location'] = [
-            'keywords' => ['office', 'administration', 'admin office', 'where is the office', 'reception', 'front desk'],
-            'response' => "🏢 **Administration Office Location:**\n\n**Main Office:**\nLocated at the entrance of the school campus\nEasily accessible from the main gate\n\n**Office Hours:**\n⏰ Monday - Friday: 8:00 AM - 4:00 PM\n⏰ Saturday: 9:00 AM - 12:00 PM\n⏰ Sunday: Closed\n\n**Services Available:**\n✅ Admissions and enrollment\n✅ Fee payments and receipts\n✅ Student records and transcripts\n✅ General information\n✅ Complaint and suggestion box\n✅ Lost and found\n\n**Reception Staff:**\nOur friendly reception staff will welcome you and direct you to the appropriate department or person.\n\n**Visitor Procedure:**\n1. Report to reception/security at main gate\n2. Sign visitor's book\n3. State purpose of visit\n4. Receive visitor's badge\n5. Be directed to relevant office/person\n\nWalk-ins welcome during office hours!"
-        ];
-        
-        // SOCIAL MEDIA & ONLINE PRESENCE
-        $this->knowledge['social_media'] = [
-            'keywords' => ['facebook', 'social media', 'instagram', 'twitter', 'whatsapp', 'online', 'website', 'social'],
-            'response' => "🌐 **Connect With Us Online:**\n\n**Website:**\nwww.stlawrencejuniorschool.com (Coming soon!)\n\n**Email:**\n📧 stlawrencejuniorschoolkabowa@gmail.com\n📧 st.lawrence.juniorschool@yahoo.com\n\n**Phone/WhatsApp:**\n📱 +256 701 420 506\n📱 +256 772 420 506\n\n**Social Media:**\nWe're working on establishing our social media presence!\nFor now, the best way to reach us is:\n- Phone calls\n- WhatsApp messages\n- Email\n- Visit us in person\n\n**Stay Updated:**\nContact us to be added to our parent communication groups where we share:\n✅ School announcements\n✅ Event updates\n✅ Academic calendars\n✅ Important notices\n✅ Photo galleries\n\nCall +256 701 420 506 to stay connected!"
-        ];
-        
-        // STAFF DEPARTMENTS
-        $this->knowledge['staff_departments'] = [
-            'keywords' => ['departments', 'sections', 'who handles what', 'staff structure', 'organization'],
-            'response' => "🏫 **School Departments & Staff:**\n\n**Academic Department:**\n👨‍🏫 Headteacher - Overall leadership\n👨‍🏫 Deputy Headteacher - Academic programs\n👨‍🏫 Director of Studies - Curriculum & teaching\n👨‍🏫 Subject Teachers - Specialized instruction\n👨‍🏫 Class Teachers - Primary class management\n\n**Administration:**\n👤 School Secretary - Office management\n👤 Bursar/Accountant - Fees & finances\n👤 Receptionist - Visitor services\n\n**Student Welfare:**\n👤 Boarding Master/Mistress - Boarding students\n👤 Discipline Master/Mistress - Student conduct\n👤 School Counselor - Guidance & support\n👤 School Nurse - Health services\n\n**Support Services:**\n👤 Librarian - Library management\n👤 Lab Technician - Science lab\n👤 IT Coordinator - Computer lab\n👤 Sports Coach - Physical education\n👤 Music Teacher - Arts & music\n\n**Operations:**\n👤 Security Guards - Campus safety (24/7)\n👤 Cooks - Meal preparation\n👤 Cleaners - Facility maintenance\n👤 Drivers - School transport\n\nTotal Staff: 50+ dedicated professionals!"
-        ];
-        
-        // THANK YOU RESPONSES
-        $this->knowledge['thanks'] = [
-            'keywords' => ['thank you', 'thanks', 'appreciate', 'grateful'],
-            'response' => "You're very welcome! 😊 If you have any more questions about St. Lawrence Junior School, feel free to ask. We're here to help!"
-        ];
-        
-        // GOODBYE RESPONSES
-        $this->knowledge['goodbye'] = [
-            'keywords' => ['bye', 'goodbye', 'see you', 'later', 'thanks bye'],
-            'response' => "Goodbye! 👋 Thank you for your interest in St. Lawrence Junior School - Kabowa. We hope to see you soon! For more information, call us at +256 701 420 506."
-        ];
-        
-        // ACADEMIC PERFORMANCE & RESULTS
-        $this->knowledge['academic_performance'] = [
-            'keywords' => ['results', 'performance', 'grades', 'marks', 'academic results', 'ple results', 'exam results', 'how do students perform', 'pass rate', 'success rate', 'academic excellence'],
-            'response' => "📊 **Academic Performance & Results:**\n\n🏆 **Our Track Record:**\n✅ **95%+ PLE Pass Rate** annually\n✅ **80%+ First Grade** achievements\n✅ Students admitted to **top secondary schools**\n✅ **Consistent improvement** in national rankings\n✅ **Subject excellence** in Mathematics, English, Science\n\n📈 **What Makes Us Successful:**\n✅ Qualified and experienced teachers\n✅ Small class sizes (max 30 students)\n✅ Regular assessments and feedback\n✅ Extra coaching for weak students\n✅ Mock exams and practice tests\n✅ Individual attention to each student\n\n🎯 **Recent Achievements:**\n- Top performer in district competitions\n- Multiple students with aggregate 4-8 in PLE\n- 100% literacy rate by P.3\n- Excellence in Science and Mathematics\n\nWe're committed to academic excellence for every child!"
-        ];
-        
-        // CURRICULUM & SUBJECTS
-        $this->knowledge['curriculum'] = [
-            'keywords' => ['curriculum', 'subjects', 'what do you teach', 'syllabus', 'courses', 'academic program', 'what subjects', 'learning', 'education system'],
-            'response' => "📚 **Curriculum & Subjects:**\n\n**We follow the Uganda National Curriculum with enhanced programs:**\n\n**NURSERY SECTION:**\n🎨 Pre-literacy and pre-numeracy\n🎵 Music and movement\n🎭 Creative arts and crafts\n🏃 Physical development\n🧠 Cognitive development\n👥 Social skills development\n\n**PRIMARY SECTION (P.1 - P.7):**\n\n**Core Subjects:**\n📖 English Language\n🔢 Mathematics\n🔬 Science (General Science)\n🌍 Social Studies\n🇺🇬 Religious Education\n\n**Additional Subjects:**\n💻 Computer Studies (ICT)\n🎵 Music, Dance & Drama\n🎨 Art & Crafts\n🏃 Physical Education & Sports\n🗣️ Local Languages (Luganda)\n\n**Special Programs:**\n✅ Reading and comprehension\n✅ Creative writing\n✅ Mental mathematics\n✅ Science practicals\n✅ Environmental studies\n✅ Life skills education\n\n**Teaching Methods:**\n✅ Interactive learning\n✅ Hands-on activities\n✅ Group work and discussions\n✅ Educational games\n✅ Technology integration\n✅ Field trips and excursions\n\nWe prepare students for PLE and beyond!"
-        ];
-        
-        // CLASS SIZES & STUDENT-TEACHER RATIO
-        $this->knowledge['class_sizes'] = [
-            'keywords' => ['class size', 'how many students', 'student teacher ratio', 'class capacity', 'students per class', 'overcrowded', 'small classes'],
-            'response' => "👥 **Class Sizes & Student-Teacher Ratio:**\n\n**Our Commitment to Quality:**\n\n📊 **Class Sizes:**\n🎒 **Nursery Classes:** Maximum 20 students\n📚 **Primary Classes:** Maximum 30 students\n🎓 **Average Class Size:** 25 students\n\n👨‍🏫 **Student-Teacher Ratio:**\n✅ **Overall Ratio:** 1:25 (1 teacher per 25 students)\n✅ **Nursery Ratio:** 1:15 (more attention for young learners)\n✅ **Special Subjects:** Even smaller groups\n\n**Benefits of Small Classes:**\n✅ **Individual attention** for each student\n✅ **Better classroom management**\n✅ **More participation** opportunities\n✅ **Personalized learning** approaches\n✅ **Easier identification** of learning difficulties\n✅ **Stronger teacher-student** relationships\n✅ **Better discipline** and behavior management\n\n**Additional Support:**\n👥 **Assistant Teachers** in nursery classes\n👥 **Special Needs Support** when required\n👥 **Remedial Classes** for struggling students\n👥 **Advanced Classes** for gifted students\n\nWe believe every child deserves individual attention!"
-        ];
-        
-        // HOMEWORK & ASSIGNMENTS POLICY
-        $this->knowledge['homework'] = [
-            'keywords' => ['homework', 'assignments', 'home work', 'take home', 'study at home', 'homework policy', 'how much homework'],
-            'response' => "📝 **Homework & Assignments Policy:**\n\n**Our Balanced Approach:**\n\n⏰ **Homework Duration:**\n🎒 **Nursery:** 15-20 minutes (fun activities)\n📚 **P.1-P.3:** 30-45 minutes daily\n📖 **P.4-P.5:** 45-60 minutes daily\n🎓 **P.6-P.7:** 60-90 minutes daily\n\n📋 **Types of Homework:**\n✅ **Reading assignments** - Daily reading practice\n✅ **Mathematics exercises** - Problem-solving skills\n✅ **Writing practice** - Handwriting and composition\n✅ **Research projects** - Independent learning\n✅ **Creative assignments** - Art, music, drama\n✅ **Review work** - Reinforcing class lessons\n\n📅 **Homework Schedule:**\n✅ **Monday-Thursday:** Regular assignments\n✅ **Friday:** Light homework/reading\n✅ **Weekends:** Project work or catch-up\n✅ **Holidays:** Holiday packages available\n\n👨‍👩‍👧‍👦 **Parent Support:**\n✅ **Homework diary** for communication\n✅ **Parent guidance** on how to help\n✅ **Regular feedback** on homework quality\n✅ **Support for struggling students**\n\n🎯 **Our Goals:**\n- Reinforce classroom learning\n- Develop independent study habits\n- Improve time management skills\n- Strengthen parent-child learning time\n\nWe believe homework should enhance, not overwhelm!"
-        ];
-        
-        // DISCIPLINE & BEHAVIOR MANAGEMENT
-        $this->knowledge['discipline'] = [
-            'keywords' => ['discipline', 'behavior', 'punishment', 'rules', 'conduct', 'behavior management', 'school rules', 'discipline policy'],
-            'response' => "⚖️ **Discipline & Behavior Management:**\n\n**Our Positive Approach:**\n\n📋 **School Rules:**\n✅ **Respect** for teachers, staff, and fellow students\n✅ **Punctuality** - Arrive on time\n✅ **Proper uniform** and grooming\n✅ **No bullying** or fighting\n✅ **Care for school property**\n✅ **Complete assignments** on time\n✅ **Follow safety guidelines**\n\n🎯 **Positive Reinforcement:**\n🏆 **Rewards System:**\n- Student of the week/month\n- Academic excellence certificates\n- Good behavior badges\n- Public recognition in assembly\n- Merit points system\n\n📈 **Progressive Discipline:**\n1️⃣ **Verbal warning** and counseling\n2️⃣ **Written warning** to parents\n3️⃣ **Parent-teacher meeting**\n4️⃣ **Temporary suspension** (serious cases)\n5️⃣ **Final warning** before dismissal\n\n❌ **We DO NOT Use:**\n- Corporal punishment\n- Humiliation or embarrassment\n- Excessive punishment\n- Discrimination of any kind\n\n👥 **Support Systems:**\n✅ **Guidance counselor** available\n✅ **Peer mediation** programs\n✅ **Character development** classes\n✅ **Life skills** education\n✅ **Conflict resolution** training\n\n**Our goal is to develop responsible, respectful citizens!**"
-        ];
-        
-        // HEALTH & MEDICAL SERVICES
-        $this->knowledge['health_medical'] = [
-            'keywords' => ['health', 'medical', 'sick bay', 'nurse', 'first aid', 'medication', 'illness', 'injury', 'health services', 'medical care'],
-            'response' => "🏥 **Health & Medical Services:**\n\n**Your Child's Health is Our Priority:**\n\n🩺 **Medical Facilities:**\n✅ **Well-equipped sick bay** with beds\n✅ **Qualified school nurse** on duty\n✅ **First aid stations** throughout campus\n✅ **Emergency medical supplies**\n✅ **Isolation room** for contagious illnesses\n\n👩‍⚕️ **Medical Staff:**\n✅ **Registered nurse** - Full-time\n✅ **First aid trained teachers**\n✅ **Partnership with local clinics**\n✅ **On-call doctor** for emergencies\n\n🚨 **Emergency Procedures:**\n✅ **Immediate first aid** treatment\n✅ **Parent notification** for all incidents\n✅ **Hospital referral** when necessary\n✅ **Ambulance service** available\n✅ **24/7 emergency contacts**\n\n💊 **Medication Management:**\n✅ **Prescription medication** administration\n✅ **Medication storage** (secure)\n✅ **Dosage tracking** and records\n✅ **Parent authorization** required\n\n🔍 **Health Monitoring:**\n✅ **Regular health checks**\n✅ **Growth monitoring** (height/weight)\n✅ **Vision and hearing** screenings\n✅ **Immunization tracking**\n✅ **Health education** programs\n\n📋 **Health Requirements:**\n✅ **Medical examination** before admission\n✅ **Immunization records** required\n✅ **Health insurance** recommended\n✅ **Emergency contact** information\n\n**Common Conditions We Handle:**\n- Minor cuts and bruises\n- Headaches and stomach aches\n- Fever and cold symptoms\n- Allergic reactions\n- Sports injuries\n\nWe maintain detailed health records for every student!"
-        ];
-        
-        // TECHNOLOGY & COMPUTER STUDIES
-        $this->knowledge['technology'] = [
-            'keywords' => ['computer', 'technology', 'ict', 'computers', 'internet', 'computer lab', 'computer studies', 'digital', 'tech'],
-            'response' => "💻 **Technology & Computer Studies:**\n\n**Preparing Students for the Digital Age:**\n\n🖥️ **Computer Lab Facilities:**\n✅ **30+ modern computers** (Windows-based)\n✅ **High-speed internet** connection\n✅ **Interactive whiteboard** for demonstrations\n✅ **Projector and sound system**\n✅ **Air-conditioned environment**\n✅ **Security cameras** and locked access\n\n📚 **Computer Studies Curriculum:**\n\n**Nursery & Lower Primary (Baby-P.3):**\n🎮 **Basic computer awareness**\n🖱️ **Mouse and keyboard skills**\n🎨 **Educational games and activities**\n📱 **Introduction to technology**\n\n**Upper Primary (P.4-P.7):**\n⌨️ **Typing skills** and keyboard mastery\n📝 **Microsoft Word** - Document creation\n📊 **Microsoft Excel** - Basic spreadsheets\n🎨 **Microsoft PowerPoint** - Presentations\n🌐 **Internet basics** and safe browsing\n📧 **Email communication**\n🎨 **Graphics and design** basics\n💾 **File management** and organization\n\n🎯 **Learning Objectives:**\n✅ **Digital literacy** for modern world\n✅ **Problem-solving** through technology\n✅ **Creative expression** using digital tools\n✅ **Research skills** using internet\n✅ **Preparation for secondary school** ICT\n\n⏰ **Lab Schedule:**\n✅ **2 periods per week** per class\n✅ **40 minutes per session**\n✅ **Maximum 15 students** per session\n✅ **Individual computer** access\n\n👨‍💻 **Qualified ICT Teacher:**\n✅ **Computer Science degree**\n✅ **Teaching certification**\n✅ **Industry experience**\n✅ **Continuous training** in new technologies\n\n🔒 **Safety & Security:**\n✅ **Internet filtering** for safe browsing\n✅ **Supervised computer use**\n✅ **Anti-virus protection**\n✅ **Regular system maintenance**\n\nWe're building tomorrow's digital leaders today!"
-        ];
-        
-        // SPORTS & PHYSICAL EDUCATION
-        $this->knowledge['sports'] = [
-            'keywords' => ['sports', 'games', 'physical education', 'pe', 'football', 'netball', 'athletics', 'swimming', 'exercise', 'fitness'],
-            'response' => "⚽ **Sports & Physical Education:**\n\n**Building Strong Bodies and Character:**\n\n🏃 **Sports Facilities:**\n✅ **Football field** (full-size grass pitch)\n✅ **Netball courts** (2 courts)\n✅ **Basketball court**\n✅ **Athletics track** (400m)\n✅ **Swimming pool** (partnership with nearby facility)\n✅ **Indoor sports hall** (multipurpose)\n✅ **Equipment store** (balls, nets, athletics gear)\n\n🏆 **Sports Programs:**\n\n**Major Sports:**\n⚽ **Football** (Boys & Girls teams)\n🏀 **Netball** (Girls teams)\n🏃 **Athletics** (Track & Field events)\n🏊 **Swimming** (Weekly sessions)\n🏀 **Basketball** (Mixed teams)\n🏓 **Table Tennis**\n🏸 **Badminton**\n\n**Age Group Teams:**\n✅ **Under-10 teams** (P.1-P.4)\n✅ **Under-13 teams** (P.5-P.7)\n✅ **School teams** for competitions\n✅ **House teams** for internal competitions\n\n📅 **PE Schedule:**\n✅ **3 periods per week** for all students\n✅ **Morning exercises** (7:30-8:00 AM)\n✅ **Sports afternoon** (Wednesdays)\n✅ **Weekend sports** (Saturdays)\n\n🏆 **Competitions & Achievements:**\n✅ **Inter-school competitions**\n✅ **District championships**\n✅ **Regional tournaments**\n✅ **Annual sports day**\n✅ **House competitions**\n\n**Recent Achievements:**\n🥇 District Football Champions (Under-13)\n🥈 Regional Netball Runners-up\n🥉 Athletics medals in various events\n\n👨‍🏫 **Qualified Sports Staff:**\n✅ **PE teachers** with sports science background\n✅ **Certified coaches** for major sports\n✅ **First aid trained** staff\n✅ **Swimming instructors** (certified)\n\n🎯 **Benefits of Our Sports Program:**\n✅ **Physical fitness** and health\n✅ **Teamwork** and cooperation\n✅ **Leadership** skills development\n✅ **Discipline** and time management\n✅ **Confidence** building\n✅ **Stress relief** and fun\n✅ **Talent identification** and development\n\n**Sports Equipment Provided:**\n- Uniforms for school teams\n- Training equipment\n- Safety gear\n- Competition kits\n\nEvery child participates - we believe in sports for all!"
-        ];
-        
-        // MUSIC & ARTS PROGRAM
-        $this->knowledge['music_arts'] = [
-            'keywords' => ['music', 'arts', 'drama', 'dance', 'singing', 'instruments', 'creative', 'art class', 'music class', 'cultural'],
-            'response' => "🎵 **Music & Arts Program:**\n\n**Nurturing Creative Talents:**\n\n🎨 **Arts Facilities:**\n✅ **Music room** with piano and instruments\n✅ **Art studio** with supplies and equipment\n✅ **Drama hall** for performances\n✅ **Dance studio** with mirrors and sound system\n✅ **Exhibition space** for student artwork\n\n🎼 **Music Program:**\n\n**Instruments Taught:**\n🎹 **Piano/Keyboard** - Individual and group lessons\n🥁 **Drums** - Traditional and modern\n🎸 **Guitar** - Acoustic guitar basics\n🎺 **Recorder** - Wind instrument introduction\n🎤 **Vocals** - Singing and choir\n\n**Music Activities:**\n✅ **School choir** (50+ members)\n✅ **Traditional dance** groups\n✅ **Modern dance** classes\n✅ **Music theory** lessons\n✅ **Composition** and songwriting\n✅ **Performance** opportunities\n\n🎭 **Drama & Theatre:**\n✅ **Drama classes** for all students\n✅ **School plays** and productions\n✅ **Poetry recitation**\n✅ **Storytelling** sessions\n✅ **Public speaking** training\n✅ **Annual drama festival**\n\n🎨 **Visual Arts:**\n✅ **Drawing** and sketching\n✅ **Painting** (watercolor, acrylic)\n✅ **Crafts** and handwork\n✅ **Sculpture** (clay work)\n✅ **Textile arts**\n✅ **Digital art** (computer graphics)\n\n🏆 **Competitions & Festivals:**\n✅ **National Music Festival** participation\n✅ **Inter-school competitions**\n✅ **Cultural celebrations**\n✅ **Talent shows**\n✅ **Art exhibitions**\n\n**Recent Achievements:**\n🥇 **1st Place** - Traditional Dance (Regional)\n🥈 **2nd Place** - Choir Competition\n🎨 **Best Art Display** - District Exhibition\n\n👩‍🎨 **Qualified Arts Teachers:**\n✅ **Music teacher** (Bachelor of Music)\n✅ **Art teacher** (Fine Arts degree)\n✅ **Drama instructor** (Theatre Arts)\n✅ **Dance choreographer**\n\n📅 **Arts Schedule:**\n✅ **2 periods per week** - Music\n✅ **2 periods per week** - Art\n✅ **1 period per week** - Drama\n✅ **After-school clubs** available\n✅ **Weekend workshops**\n\n🎯 **Benefits:**\n✅ **Creative expression**\n✅ **Cultural appreciation**\n✅ **Confidence building**\n✅ **Emotional development**\n✅ **Fine motor skills**\n✅ **Cognitive development**\n✅ **Social skills**\n\n**Performance Opportunities:**\n- School assemblies\n- Parent events\n- Community festivals\n- Graduation ceremonies\n- Cultural celebrations\n\nWe believe every child is an artist!"
-        ];
-        
-        // BOARDING LIFE DETAILED
-        $this->knowledge['boarding_life'] = [
-            'keywords' => ['boarding life', 'dormitory', 'boarding house', 'boarding students', 'boarding facilities', 'boarding experience', 'hostel', 'residential'],
-            'response' => "🏠 **Boarding Life at St. Lawrence:**\n\n**A Home Away From Home:**\n\n🏢 **Boarding Facilities:**\n✅ **Separate houses** for boys and girls\n✅ **Modern dormitories** (4-6 beds per room)\n✅ **Individual lockers** for personal items\n✅ **Study rooms** for homework and reading\n✅ **Recreation halls** with TV and games\n✅ **Dining hall** with nutritious meals\n✅ **Laundry facilities** and services\n✅ **Sick bay** for medical needs\n\n⏰ **Daily Boarding Schedule:**\n\n**Weekdays:**\n🌅 **6:00 AM** - Wake up and personal hygiene\n🍳 **6:30 AM** - Breakfast\n📚 **7:30 AM** - Morning prep/study time\n🏫 **8:00 AM** - Classes begin\n🍽️ **1:00 PM** - Lunch break\n📖 **2:00 PM** - Afternoon classes\n🏃 **4:00 PM** - Sports and activities\n🍽️ **6:00 PM** - Dinner\n📚 **7:00 PM** - Evening prep/homework\n📺 **8:30 PM** - Recreation time\n🛏️ **9:00 PM** - Bedtime (varies by age)\n\n**Weekends:**\n🛏️ **7:00 AM** - Wake up\n🍳 **7:30 AM** - Breakfast\n🧹 **8:00 AM** - Dormitory cleaning\n🏃 **9:00 AM** - Sports and games\n📚 **11:00 AM** - Study time\n🍽️ **1:00 PM** - Lunch\n🎬 **2:00 PM** - Movies/entertainment\n🎨 **4:00 PM** - Arts and crafts\n🍽️ **6:00 PM** - Dinner\n📞 **7:00 PM** - Parent phone calls\n🛏️ **9:00 PM** - Bedtime\n\n👥 **Boarding Staff:**\n✅ **Boarding Master** (Boys house)\n✅ **Boarding Mistress** (Girls house)\n✅ **Matrons** for daily care\n✅ **Night watchmen** for security\n✅ **Nurse** for medical needs\n✅ **Counselor** for emotional support\n\n🍽️ **Meals & Nutrition:**\n✅ **5 meals daily** (breakfast, snack, lunch, snack, dinner)\n✅ **Balanced diet** planned by nutritionist\n✅ **Fresh fruits** and vegetables daily\n✅ **Special diets** accommodated\n✅ **Clean drinking water** always available\n\n🧺 **Laundry & Personal Care:**\n✅ **Laundry service** twice weekly\n✅ **Personal hygiene** supervision\n✅ **Uniform maintenance**\n✅ **Pocket money** management\n✅ **Shopping trips** for essentials\n\n📞 **Parent Communication:**\n✅ **Weekly phone calls** scheduled\n✅ **Monthly reports** sent home\n✅ **Visiting days** every month\n✅ **Emergency contact** 24/7\n✅ **WhatsApp updates** with photos\n\n🎯 **Benefits of Boarding:**\n✅ **Independence** and self-reliance\n✅ **Time management** skills\n✅ **Social skills** and friendships\n✅ **Academic focus** with study time\n✅ **Character development**\n✅ **Cultural exchange** with diverse students\n✅ **24/7 supervision** and safety\n\n🔒 **Safety & Security:**\n✅ **24/7 security guards**\n✅ **CCTV monitoring**\n✅ **Controlled access**\n✅ **Fire safety equipment**\n✅ **Emergency procedures**\n✅ **Medical staff on duty**\n\nOur boarding students become confident, independent leaders!"
-        ];
-        
-        // PARENT-TEACHER COMMUNICATION
-        $this->knowledge['parent_communication'] = [
-            'keywords' => ['parent teacher', 'communication', 'meetings', 'reports', 'updates', 'progress', 'parent involvement', 'pta'],
-            'response' => "👨‍👩‍👧‍👦 **Parent-Teacher Communication:**\n\n**Strong Partnership for Student Success:**\n\n📅 **Regular Communication Schedule:**\n\n**Formal Meetings:**\n✅ **Parent-Teacher Conferences** - Every term (3 times/year)\n✅ **PTA Meetings** - Monthly (1st Saturday)\n✅ **Academic Review Meetings** - Mid-term\n✅ **Graduation Meetings** - End of year\n✅ **Orientation Meetings** - Beginning of year\n\n📊 **Progress Reports:**\n✅ **Weekly progress updates** (WhatsApp/SMS)\n✅ **Monthly detailed reports** (academic & behavior)\n✅ **Mid-term assessment reports**\n✅ **End-of-term report cards**\n✅ **Annual comprehensive reports**\n\n📱 **Communication Channels:**\n\n**Immediate Communication:**\n📞 **Phone calls** - Urgent matters\n📱 **WhatsApp** - Quick updates and photos\n📧 **Email** - Formal communication\n📝 **Student diary** - Daily communication book\n\n**Group Communication:**\n👥 **Class WhatsApp groups** - General updates\n📢 **School newsletter** - Monthly publication\n📋 **Notice board** - Important announcements\n🌐 **School website** - Policies and information\n\n🎯 **What We Communicate:**\n\n**Academic Progress:**\n✅ **Test scores** and grades\n✅ **Homework completion**\n✅ **Class participation**\n✅ **Areas of improvement**\n✅ **Achievements** and awards\n\n**Behavior & Social:**\n✅ **Behavior reports**\n✅ **Social interactions**\n✅ **Leadership activities**\n✅ **Disciplinary issues**\n✅ **Character development**\n\n**Health & Welfare:**\n✅ **Health incidents**\n✅ **Medication administration**\n✅ **Emotional wellbeing**\n✅ **Attendance records**\n\n**School Events:**\n✅ **Upcoming events**\n✅ **Sports competitions**\n✅ **Cultural activities**\n✅ **Field trips**\n✅ **Holiday schedules**\n\n👥 **Parent-Teacher Association (PTA):**\n✅ **Active parent participation**\n✅ **School development projects**\n✅ **Fundraising activities**\n✅ **Policy discussions**\n✅ **Event organization**\n\n📞 **How to Reach Teachers:**\n\n**Best Times to Call:**\n⏰ **Morning:** 7:30-8:00 AM\n⏰ **Break Time:** 10:30-11:00 AM\n⏰ **Lunch:** 1:00-2:00 PM\n⏰ **After School:** 4:00-5:00 PM\n\n**Appointment Booking:**\n✅ **Call school office:** +256 701 420 506\n✅ **Send WhatsApp message**\n✅ **Email the teacher directly**\n✅ **Use student diary**\n\n🎯 **Our Commitment:**\n✅ **24-hour response** to urgent matters\n✅ **48-hour response** to general inquiries\n✅ **Open door policy** for parent concerns\n✅ **Regular feedback** on student progress\n✅ **Collaborative approach** to problem-solving\n\n**Special Conferences:**\n- Individual student progress meetings\n- Behavioral intervention planning\n- Academic support planning\n- Career guidance discussions\n- Special needs consultations\n\nWe believe parents are our partners in education!"
-        ];
-        
-        // SCHOOL CALENDAR & EVENTS
-        $this->knowledge['school_calendar'] = [
-            'keywords' => ['calendar', 'events', 'activities', 'schedule', 'when', 'dates', 'school events', 'annual events', 'celebrations'],
-            'response' => "📅 **School Calendar & Annual Events:**\n\n**Academic Year Structure:**\n\n**TERM 1 (February - April):**\n📚 **Academic Focus:** New year orientation, baseline assessments\n🎉 **Events:** \n- Orientation week (new students)\n- Inter-house sports competitions\n- Science fair\n- Parent-teacher conferences\n- Easter celebrations\n\n**TERM 2 (May - August):**\n📚 **Academic Focus:** Mid-year assessments, project work\n🎉 **Events:**\n- Sports day (May)\n- Music and dance festival\n- Career guidance week\n- Mid-year examinations\n- Cultural week\n- Parent open day\n\n**TERM 3 (September - November):**\n📚 **Academic Focus:** Final preparations, PLE (P.7)\n🎉 **Events:**\n- Founders' day celebration\n- Graduation ceremony\n- Awards day\n- Final examinations\n- Christmas celebrations\n- End-of-year party\n\n🎊 **Special Annual Events:**\n\n**🏆 Sports Day (May):**\n- Track and field competitions\n- Team sports finals\n- Parent participation events\n- Awards ceremony\n- Refreshments and entertainment\n\n**🎵 Music & Dance Festival (June):**\n- Choir competitions\n- Traditional dance performances\n- Drama presentations\n- Talent show\n- Cultural exhibitions\n\n**🔬 Science Fair (March):**\n- Student science projects\n- Experiments and demonstrations\n- Innovation competitions\n- STEM workshops\n- Guest scientist presentations\n\n**🎓 Graduation Ceremony (November):**\n- P.7 graduation (main event)\n- Academic awards\n- Special recognitions\n- Guest speaker\n- Certificate presentation\n\n**📚 Academic Competitions:**\n- Mathematics olympiad\n- English spelling bee\n- Science quiz competitions\n- Debate tournaments\n- Reading competitions\n\n**🎨 Cultural Celebrations:**\n- Independence Day (October 9)\n- Martyrs Day (June 3)\n- Christmas celebrations\n- Easter festivities\n- Cultural diversity week\n\n**👨‍👩‍👧‍👦 Parent Involvement Events:**\n- Monthly PTA meetings\n- Parent-teacher conferences (3 times/year)\n- Open house events\n- Volunteer appreciation day\n- Family fun day\n\n**📞 Event Information:**\nFor specific dates and details about upcoming events:\n- Call: +256 701 420 506\n- Check school notice board\n- Join parent WhatsApp groups\n- Visit during office hours\n\nAll parents are warmly invited to participate!"
-        ];
-        
-        // SCHOOL POLICIES & PROCEDURES
+        // SCHOOL POLICIES
         $this->knowledge['policies'] = [
-            'keywords' => ['policy', 'policies', 'rules', 'procedures', 'guidelines', 'regulations', 'code of conduct'],
-            'response' => "📋 **School Policies & Procedures:**\n\n**Key School Policies:**\n\n**📚 Academic Policy:**\n✅ **Attendance:** Minimum 85% required\n✅ **Homework:** Must be completed and submitted on time\n✅ **Assessments:** Regular tests and continuous assessment\n✅ **Promotion:** Based on academic performance and behavior\n✅ **Extra classes:** Available for struggling students\n\n**👔 Uniform Policy:**\n✅ **Daily uniform:** Must be clean and properly worn\n✅ **Sports uniform:** Required for PE and sports activities\n✅ **Hair:** Neat and tidy (boys: short, girls: tied)\n✅ **Shoes:** Black leather shoes, white socks\n✅ **Jewelry:** Minimal - small earrings for girls only\n\n**⏰ Attendance Policy:**\n✅ **School hours:** 7:30 AM - 4:00 PM (Monday-Friday)\n✅ **Punctuality:** Students must arrive by 7:45 AM\n✅ **Absences:** Parent notification required\n✅ **Medical leave:** Doctor's note required for 3+ days\n✅ **Late arrival:** Requires explanation letter\n\n**🏥 Health & Safety Policy:**\n✅ **Medical records:** Required for all students\n✅ **Medication:** Only administered with parent consent\n✅ **Emergencies:** Parents contacted immediately\n✅ **Sick students:** Isolated and parents called\n✅ **Accidents:** First aid provided, parents notified\n\n**📱 Technology Policy:**\n✅ **Mobile phones:** Not allowed for primary students\n✅ **Computer use:** Supervised and educational only\n✅ **Internet:** Filtered and monitored\n✅ **Social media:** Not permitted during school hours\n✅ **Devices:** School not responsible for personal items\n\n**🚌 Transport Policy:**\n✅ **Bus behavior:** Students must follow bus rules\n✅ **Safety:** Seat belts must be worn\n✅ **Pickup/Drop-off:** Designated times and locations\n✅ **Changes:** 24-hour notice required\n✅ **Payment:** Transport fees paid termly\n\n**💰 Fee Policy:**\n✅ **Payment:** Fees due at beginning of each term\n✅ **Late payment:** 10% penalty after 2 weeks\n✅ **Refunds:** No refunds for withdrawn students\n✅ **Discounts:** Available for siblings (5% off)\n✅ **Payment methods:** Cash, bank transfer, mobile money\n\n**⚖️ Discipline Policy:**\n✅ **Positive reinforcement:** Rewards for good behavior\n✅ **Progressive discipline:** Warnings before serious action\n✅ **No corporal punishment:** We use positive methods\n✅ **Parent involvement:** Parents contacted for serious issues\n✅ **Suspension:** Only for serious misconduct\n\n**🎒 Homework Policy:**\n✅ **Daily homework:** Age-appropriate amounts\n✅ **Weekend work:** Light assignments only\n✅ **Holiday packages:** Optional but recommended\n✅ **Parent support:** Guidance provided\n✅ **Late submission:** Affects grades\n\n**🍽️ Food Policy:**\n✅ **School meals:** Nutritious and balanced\n✅ **Outside food:** Limited to healthy snacks\n✅ **Allergies:** Special diets accommodated\n✅ **Water:** Clean drinking water always available\n✅ **Lunch money:** Secure handling procedures\n\n**📞 Communication Policy:**\n✅ **Parent contact:** Regular updates provided\n✅ **Emergency contact:** Must be current\n✅ **Complaints:** Formal procedure available\n✅ **Confidentiality:** Student information protected\n✅ **Meetings:** Appointments preferred\n\n**🔒 Child Protection Policy:**\n✅ **Safety first:** All staff trained in child protection\n✅ **Background checks:** All staff vetted\n✅ **Reporting:** Clear procedures for concerns\n✅ **Confidentiality:** Sensitive handling of issues\n✅ **Support:** Counseling available when needed\n\nFor complete policy documents, visit the school office!"
+            'topic' => 'policies',
+            'keywords' => [
+                'policy', 'policies', 'rules', 'regulations', 'discipline', 'punishment',
+                'code of conduct', 'school rules'
+            ],
+            'response' => "📋 **School Policies & Care Standards:**\n\n• **Positive Discipline:** Zero tolerance for corporal punishment. We practice counseling and positive character guidance.\n• **Safety:** Fully fenced campus with 24/7 security guards and controlled visitor access.\n• **Punctuality:** Day scholars arrive by 7:30 AM in smart, clean uniform.\n• **Child Protection:** All staff are strictly vetted with clear child protection protocols.",
+            'suggestions' => [
+                "Uniform Prices",
+                "School Hours",
+                "Boarding Programme"
+            ]
         ];
         
-        // FREQUENTLY ASKED QUESTIONS
-        $this->knowledge['faq'] = [
-            'keywords' => ['faq', 'frequently asked', 'common questions', 'questions', 'ask', 'wonder'],
-            'response' => "❓ **Frequently Asked Questions:**\n\n**📚 ACADEMIC QUESTIONS:**\n\n**Q: What curriculum do you follow?**\nA: We follow the Uganda National Curriculum with enhanced programs in ICT, arts, and sports.\n\n**Q: What is your student-teacher ratio?**\nA: Our ratio is 1:25 (1 teacher per 25 students) ensuring individual attention.\n\n**Q: Do you offer extra classes?**\nA: Yes! We provide remedial classes for struggling students and advanced classes for gifted learners.\n\n**Q: How do you prepare students for PLE?**\nA: We have specialized P.7 preparation with mock exams, extra coaching, and proven teaching methods.\n\n**💰 FEES & PAYMENTS:**\n\n**Q: When are fees due?**\nA: Fees are due at the beginning of each term. Late payment attracts a 10% penalty after 2 weeks.\n\n**Q: Do you offer payment plans?**\nA: Yes, we can arrange payment plans for families who need them. Contact our bursar.\n\n**Q: Are there any hidden costs?**\nA: No hidden costs! Our fees include tuition, meals, and learning materials. Only uniforms and transport are extra.\n\n**Q: Do you give sibling discounts?**\nA: Yes! We offer 5% discount for the second child and subsequent children.\n\n**🏠 BOARDING QUESTIONS:**\n\n**Q: What age can children start boarding?**\nA: We accept boarders from Nursery level (age 4+), but recommend P.1 and above for better adjustment.\n\n**Q: How often can parents visit?**\nA: Parents can visit every weekend. We also have designated visiting days monthly.\n\n**Q: What about laundry and personal care?**\nA: We provide laundry service twice weekly and supervise personal hygiene for all boarders.\n\n**Q: Is there 24/7 supervision?**\nA: Yes! We have qualified matrons, security guards, and a nurse on duty 24/7.\n\n**🚌 TRANSPORT QUESTIONS:**\n\n**Q: Do you provide school transport?**\nA: Yes! We have school buses covering major areas of Kampala with experienced drivers.\n\n**Q: How much does transport cost?**\nA: Transport fees vary by distance. Contact us for specific route pricing.\n\n**Q: What safety measures do you have?**\nA: All buses have seat belts, first aid kits, and are driven by licensed, experienced drivers.\n\n**🏥 HEALTH & SAFETY:**\n\n**Q: Do you have medical facilities?**\nA: Yes! We have a well-equipped sick bay with a qualified nurse and partnerships with local clinics.\n\n**Q: What if my child gets sick?**\nA: We provide immediate first aid, contact parents, and arrange hospital referral if needed.\n\n**Q: Do you handle special medical needs?**\nA: Yes! We can manage chronic conditions like asthma, diabetes, etc. with proper medical documentation.\n\n**📱 COMMUNICATION:**\n\n**Q: How do you communicate with parents?**\nA: We use phone calls, WhatsApp, emails, student diaries, and regular meetings.\n\n**Q: How often do you send reports?**\nA: Weekly updates via WhatsApp, monthly detailed reports, and termly report cards.\n\n**🎯 ADMISSION QUESTIONS:**\n\n**Q: When can I apply for admission?**\nA: Admissions are open year-round! However, it's best to apply early for the next academic year.\n\n**Q: What documents do I need?**\nA: Birth certificate, passport photos, previous school report (if any), and immunization records.\n\n**Q: Do you have entrance exams?**\nA: We conduct simple assessments to place students in appropriate classes, not to exclude them.\n\n**Q: Can I transfer my child mid-term?**\nA: Yes! We accept transfers at any time during the academic year.\n\n**Still have questions? Call us at +256 701 420 506!**"
+        // THANK YOU
+        $this->knowledge['thanks'] = [
+            'topic' => 'thanks',
+            'keywords' => [
+                'thank you', 'thanks', 'appreciate', 'thank you so much', 'helpful', 'great thanks'
+            ],
+            'response' => "You're very welcome! 😊 St. Lawrence Junior School Kabowa is always ready to support your child's education. Feel free to ask anything else or call us at **+256 701 420 506**.",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "How much are the school fees?",
+                "How do I apply?"
+            ]
         ];
         
-        // EMERGENCY PROCEDURES
-        $this->knowledge['emergency'] = [
-            'keywords' => ['emergency', 'urgent', 'accident', 'fire', 'evacuation', 'crisis', 'safety procedures'],
-            'response' => "🚨 **Emergency Procedures & Safety:**\n\n**Our Commitment to Safety:**\n\n**🔥 Fire Safety:**\n✅ **Fire extinguishers** in every building\n✅ **Smoke detectors** throughout campus\n✅ **Emergency exits** clearly marked\n✅ **Monthly fire drills** conducted\n✅ **Evacuation procedures** practiced regularly\n✅ **Assembly points** designated and known\n\n**🏥 Medical Emergencies:**\n✅ **Qualified nurse** on duty during school hours\n✅ **First aid kits** in every classroom\n✅ **Emergency medical supplies** stocked\n✅ **Ambulance service** on speed dial\n✅ **Hospital partnerships** established\n✅ **Parent notification** immediate\n\n**📞 Emergency Contacts:**\n\n**School Emergency Line:**\n🚨 **+256 701 420 506** (24/7 for boarding parents)\n🚨 **+256 772 420 506** (Alternative line)\n\n**External Emergency Services:**\n🚑 **Ambulance:** 911 or 0800-911-911\n🚒 **Fire Brigade:** 999\n👮 **Police:** 999 or 0800-199-699\n\n**🏃 Evacuation Procedures:**\n\n**In Case of Fire:**\n1. **Sound alarm** immediately\n2. **Evacuate calmly** via nearest exit\n3. **Assemble at designated points**\n4. **Teachers take attendance**\n5. **Contact emergency services**\n6. **Notify parents**\n\n**In Case of Medical Emergency:**\n1. **Secure the scene** and ensure safety\n2. **Provide first aid** if trained\n3. **Call school nurse** immediately\n4. **Contact parents** and emergency services\n5. **Accompany student** to hospital if needed\n6. **Document incident** thoroughly\n\n**🔒 Security Measures:**\n✅ **24/7 security guards** on duty\n✅ **CCTV surveillance** throughout campus\n✅ **Controlled access** gates\n✅ **Visitor registration** system\n✅ **ID badges** for all staff\n✅ **Emergency communication** system\n\n**⛈️ Weather Emergencies:**\n✅ **Lightning protection** systems\n✅ **Covered walkways** between buildings\n✅ **Weather monitoring** and alerts\n✅ **Indoor alternatives** for outdoor activities\n✅ **Early dismissal** procedures if needed\n\n**👨‍👩‍👧‍👦 Parent Emergency Information:**\n\n**What Parents Should Do:**\n✅ **Keep contact information** updated\n✅ **Provide emergency contacts** (3 people minimum)\n✅ **Inform school** of medical conditions\n✅ **Stay calm** and follow school instructions\n✅ **Come to school** only if requested\n\n**Emergency Communication:**\n✅ **SMS alerts** sent to all parents\n✅ **WhatsApp updates** in parent groups\n✅ **Phone calls** for serious incidents\n✅ **Email notifications** with details\n✅ **School website** updates\n\n**🎒 Student Emergency Preparedness:**\n✅ **Emergency drills** conducted monthly\n✅ **Safety education** in curriculum\n✅ **Emergency procedures** posted in classrooms\n✅ **Student safety monitors** trained\n✅ **Emergency supplies** in each classroom\n\n**📋 Emergency Supplies:**\n✅ **First aid kits** (fully stocked)\n✅ **Emergency food and water**\n✅ **Flashlights and batteries**\n✅ **Emergency radios**\n✅ **Blankets and basic supplies**\n✅ **Student emergency cards**\n\n**🏥 Medical Emergency Response:**\n\n**For Serious Injuries:**\n1. **Don't move** the injured person\n2. **Call ambulance** immediately\n3. **Provide first aid** within training\n4. **Contact parents** and school administration\n5. **Accompany to hospital** with school staff\n6. **Follow up** with family\n\n**For Minor Injuries:**\n1. **Assess the injury** carefully\n2. **Provide appropriate first aid**\n3. **Document in incident book**\n4. **Inform parents** via phone/message\n5. **Monitor student** throughout day\n6. **Send report** home\n\n**We prioritize safety above all else!**\n\nFor emergency preparedness training or questions, contact us at +256 701 420 506."
+        // GOODBYE
+        $this->knowledge['goodbye'] = [
+            'topic' => 'goodbye',
+            'keywords' => [
+                'bye', 'goodbye', 'see you', 'have a good day', 'good night', 'farewell'
+            ],
+            'response' => "Goodbye! 👋 Thank you for inquiring about St. Lawrence Junior School - Kabowa. *\"We Strive to Excel.\"* We hope to welcome your family soon!",
+            'suggestions' => [
+                "What programmes do you offer?",
+                "How do I apply?"
+            ]
         ];
     }
     
-    public function findAnswer($question) {
-        $question = strtolower(trim($question));
+    /**
+     * Finds the best response using conversational intent matching, entity extraction,
+     * multi-turn context resolution, ordinal mapping, ambiguity checks, and anti-hallucination guardrails.
+     *
+     * @param string $question
+     * @param array $context Context from previous turns ['active_topic' => ..., 'last_category' => ..., 'active_class' => ...]
+     * @return array
+     */
+    public function findAnswer($question, $context = []) {
+        $rawQuestion = trim($question);
+        $cleanQuestion = strtolower($rawQuestion);
         
-        // Score-based matching for better results
+        // Normalize: lowercase, remove special characters except hyphens/alphanumerics
+        $normalized = preg_replace('/[^\w\s\-]/u', ' ', $cleanQuestion);
+        $normalized = preg_replace('/\s+/', ' ', trim($normalized));
+        
+        if (empty($normalized)) {
+            return [
+                'found' => false,
+                'response' => "I'm here to help! What would you like to know about St. Lawrence Junior School? You can ask about our programmes, school fees, admissions, or boarding.",
+                'category' => 'empty',
+                'active_topic' => $context['active_topic'] ?? 'general',
+                'suggestions' => $this->getQuickActions()
+            ];
+        }
+        
+        // 1. OUT-OF-SCOPE FILTER
+        // Caught immediately to prevent false-positive matching
+        foreach ($this->outOfScopeKeywords as $badKeyword) {
+            if (strpos($cleanQuestion, $badKeyword) !== false) {
+                return [
+                    'found' => true,
+                    'response' => "I am the St. Lawrence Junior School virtual assistant, so I specialize in school-related information such as admissions, fees, academic programmes, boarding, and school events. I am unable to assist with weather forecasts or topics outside our school.\n\nHow may I help you regarding St. Lawrence Junior School - Kabowa?",
+                    'category' => 'out_of_scope',
+                    'active_topic' => $context['active_topic'] ?? 'general',
+                    'suggestions' => $this->getQuickActions()
+                ];
+            }
+        }
+        
+        // 2. CHECK MULTI-TURN ANAPHORA, ORDINALS & CONTEXTUAL FOLLOW-UPS
+        $contextualMatch = $this->resolveContextualFollowUp($cleanQuestion, $normalized, $context);
+        if ($contextualMatch !== null) {
+            return $contextualMatch;
+        }
+        
+        // 3. CLASS-SPECIFIC FEE QUERIES (Authoritative Official Mapping)
+        $classFeeMatch = $this->resolveClassFeeQuery($cleanQuestion, $normalized);
+        if ($classFeeMatch !== null) {
+            return $classFeeMatch;
+        }
+        
+        // 4. GENERIC SCHOOL FEE INQUIRIES (Direct Concise Structure without Unnecessary Clarification)
+        // Matches "How much are the school fees?", "What are your fees?", "School fees", "Fee structure", etc.
+        if ($this->isGenericFeeInquiry($cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['fees_complete']['response'],
+                'category' => 'fees_complete',
+                'active_topic' => 'fees',
+                'suggestions' => $this->knowledge['fees_complete']['suggestions']
+            ];
+        }
+        
+        // 5. TRULY AMBIGUOUS COST QUERY (No context established)
+        // Only triggers if the question is a bare contextless pronoun like "How much is it?" or "How much does it cost?"
+        $isBareCostQuery = preg_match('/^(how\s+much(\s+is\s+it|\s+does\s+it\s+cost|\s+is\s+that)?\??|cost\??|pricing\??|how\s+expensive\??)$/i', trim($cleanQuestion));
+        $activeTopic = $context['active_topic'] ?? 'general';
+        if ($isBareCostQuery && in_array($activeTopic, ['general', 'unknown', 'greeting', 'thanks', 'goodbye', ''])) {
+            return [
+                'found' => true,
+                'response' => "I'd be happy to help. Are you asking about Nursery, Primary, Day School or Boarding fees?",
+                'category' => 'fees_clarification',
+                'active_topic' => 'fees',
+                'suggestions' => [
+                    "Nursery Fees",
+                    "Primary School Fees",
+                    "Day Scholar Fees",
+                    "Boarding Fees"
+                ]
+            ];
+        }
+        
+        // 6. CLASS MENTION / TOPIC TRACKING (e.g. "Tell me about Primary 6", "My child is joining Primary 6")
+        $classMentionMatch = $this->resolveClassMention($cleanQuestion);
+        if ($classMentionMatch !== null) {
+            return $classMentionMatch;
+        }
+        
+        // 7. SECONDARY LEVEL CLARIFICATION / UNMAPPED LEVEL (Never Guess a Fee)
+        if (preg_match('/\b(senior|s\.?1|s\.?2|s\.?3|s\.?4|s\.?5|s\.?6|secondary|o\s*level|a\s*level|high\s*school|grade\s*8|grade\s*9)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "I don't have a specific fee figure for that category. The official fee structure covers Nursery, P1–P5 and P6–P7. St. Lawrence Junior School Kabowa is strictly a **Nursery and Primary school** (Baby Class through Primary 7). Please contact the school at **+256 701 420 506** for clarification.",
+                'category' => 'level_clarification',
+                'active_topic' => 'programs',
+                'suggestions' => [
+                    "How much is Primary 1?",
+                    "How much is Primary 6?",
+                    "How much are the school fees?"
+                ]
+            ];
+        }
+
+        // 8. SCORE-BASED MATCHING WITH STOP-WORD FILTERING
+        $qWords = array_values(array_filter(explode(' ', $normalized), function($w) {
+            return strlen($w) > 1 && !in_array($w, $this->stopWords);
+        }));
+        
         $matches = [];
         
-        // Check each knowledge entry
         foreach ($this->knowledge as $key => $data) {
             $score = 0;
+            
             foreach ($data['keywords'] as $keyword) {
-                $keyword = strtolower($keyword);
-                // Exact match gets highest score
-                if ($question === $keyword) {
-                    $score += 100;
+                $kw = strtolower($keyword);
+                
+                // Exact full match
+                if ($cleanQuestion === $kw || $normalized === $kw) {
+                    $score += 150;
+                    continue;
                 }
-                // Contains keyword gets good score
-                if (strpos($question, $keyword) !== false) {
-                    $score += 50;
+                
+                // Full phrase match within the question
+                if (strpos($cleanQuestion, $kw) !== false) {
+                    $kwWordCount = count(explode(' ', $kw));
+                    $score += 45 * $kwWordCount;
                 }
-                // Keyword contains part of question
-                if (strpos($keyword, $question) !== false && strlen($question) > 3) {
-                    $score += 30;
-                }
-                // Word-by-word matching
-                $questionWords = explode(' ', $question);
-                $keywordWords = explode(' ', $keyword);
-                foreach ($questionWords as $qWord) {
-                    if (strlen($qWord) > 3) { // Skip short words
-                        foreach ($keywordWords as $kWord) {
-                            if (strtolower($qWord) === strtolower($kWord)) {
-                                $score += 20;
-                            }
-                        }
-                    }
+                
+                // Token overlap with keyword
+                $kwWords = array_values(array_filter(explode(' ', $kw), function($w) {
+                    return strlen($w) > 1 && !in_array($w, $this->stopWords);
+                }));
+                
+                $commonWords = array_intersect($qWords, $kwWords);
+                if (!empty($commonWords)) {
+                    $score += count($commonWords) * 15;
                 }
             }
+            
+            // Domain entity boosting
+            $score += $this->calculateEntityBoost($key, $cleanQuestion);
             
             if ($score > 0) {
                 $matches[$key] = [
                     'score' => $score,
                     'response' => $data['response'],
-                    'category' => $key
+                    'category' => $key,
+                    'topic' => $data['topic'] ?? $key,
+                    'suggestions' => $data['suggestions'] ?? $this->getQuickActions()
                 ];
             }
         }
         
-        // Sort by score (highest first)
-        uasort($matches, function($a, $b) {
-            return $b['score'] - $a['score'];
-        });
-        
-        // Return best match if score is good enough
         if (!empty($matches)) {
+            uasort($matches, function($a, $b) {
+                return $b['score'] - $a['score'];
+            });
+            
             $bestMatch = reset($matches);
-            if ($bestMatch['score'] >= 20) { // Minimum threshold
+            
+            // Minimum confidence threshold
+            if ($bestMatch['score'] >= 25) {
                 return [
                     'found' => true,
                     'response' => $bestMatch['response'],
-                    'category' => $bestMatch['category']
+                    'category' => $bestMatch['category'],
+                    'active_topic' => $bestMatch['topic'],
+                    'suggestions' => $bestMatch['suggestions']
                 ];
             }
         }
         
-        // Default response if no match found
+        // 9. HELPFUL RECEPTIONIST FALLBACK
         return [
             'found' => false,
-            'response' => "I'm not sure about that specific question. However, I can help you with:\n\n• School fees and payments\n• Admission process\n• Contact information\n• School programs and facilities\n• Extracurricular activities\n• And much more!\n\nPlease try asking in a different way, or contact us directly at +256 701 420 506.",
-            'category' => 'unknown'
+            'response' => "I can help with St. Lawrence Junior School information such as our programmes (Nursery, Primary, Day & Boarding), admissions, school fees, academics, calendar, and directions.\n\nWhat would you like to know, or you can contact our office directly at **+256 701 420 506**?",
+            'category' => 'unknown',
+            'active_topic' => $context['active_topic'] ?? 'unknown',
+            'suggestions' => $this->getQuickActions()
         ];
+    }
+    
+    /**
+     * Resolves direct class fee queries with authoritative wording.
+     */
+    private function resolveClassFeeQuery($cleanQuestion, $normalized) {
+        $isCostQuery = preg_match('/\b(how\s+much|cost|fee|fees|pay|tuition|price|charges|rate)\b/i', $cleanQuestion);
+        if (!$isCostQuery) {
+            return null;
+        }
+        
+        // NURSERY BAND: Baby Class, Middle Class, Top Class, Nursery
+        if (preg_match('/\bbaby(\s+class)?\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Baby Class falls under Nursery. The fee is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                'category' => 'fees_nursery',
+                'active_topic' => 'fees',
+                'active_class' => 'Baby Class',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\bmiddle(\s+class)?\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Middle Class falls under Nursery. The fee is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                'category' => 'fees_nursery',
+                'active_topic' => 'fees',
+                'active_class' => 'Middle Class',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\btop(\s+class)?\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Top Class falls under Nursery. The fee is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                'category' => 'fees_nursery',
+                'active_topic' => 'fees',
+                'active_class' => 'Top Class',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(nursery|kindergarten|pre[\s\-]?primary)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Nursery, from Baby Class to Top Class, is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                'category' => 'fees_nursery',
+                'active_topic' => 'fees',
+                'active_class' => 'Nursery',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        
+        // P6–P7 BAND: Primary 6, Primary 7, P6, P7
+        if (preg_match('/\b(primary\s*6|p\.?\s*6)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 6 falls under P6–P7. The fee is UGX 629,000 for Day Scholars or UGX 1,094,000 for Boarding, per term.",
+                'category' => 'fees_p6_p7',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 6',
+                'suggestions' => ["How do I apply?", "Boarding Programme", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*7|p\.?\s*7|candidate)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 7 falls under P6–P7. The fee is UGX 629,000 for Day Scholars or UGX 1,094,000 for Boarding, per term.",
+                'category' => 'fees_p6_p7',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 7',
+                'suggestions' => ["How do I apply?", "Boarding Programme", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(p\.?\s*6\s*[\-–to]+\s*p?\.?\s*7|primary\s*6\s*[\-–to]+\s*7)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 6 and Primary 7 (P6–P7) fees are UGX 629,000 for Day Scholars or UGX 1,094,000 for Boarding, per term.",
+                'category' => 'fees_p6_p7',
+                'active_topic' => 'fees',
+                'active_class' => 'P6–P7',
+                'suggestions' => ["How do I apply?", "Boarding Programme", "Uniform Prices"]
+            ];
+        }
+        
+        // P1–P5 BAND: Primary 1 to Primary 5 / P1 to P5
+        if (preg_match('/\b(primary\s*1|p\.?\s*1)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 1 falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 1',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*2|p\.?\s*2)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 2 falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 2',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*3|p\.?\s*3)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 3 falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 3',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*4|p\.?\s*4)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 4 falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 4',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*5|p\.?\s*5)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 5 falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'Primary 5',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        if (preg_match('/\b(p\.?\s*1\s*[\-–to]+\s*p?\.?\s*5|primary\s*1\s*[\-–to]+\s*5)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 1 to Primary 5 (P1–P5) fees are UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                'category' => 'fees_p1_p5',
+                'active_topic' => 'fees',
+                'active_class' => 'P1–P5',
+                'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+            ];
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Checks if query is a generic fee inquiry.
+     */
+    private function isGenericFeeInquiry($cleanQuestion) {
+        if (preg_match('/^(how\s+much\s+(are\s+the|is\s+the)?\s*school\s+fees|what\s+are\s+(the\s+school|your|the)?\s*fees|how\s+much\s+are\s+(the\s+)?fees|school\s+fees\??|fees\??|fee\s+structure\??|tell\s+me\s+about\s+(school\s+)?fees|what\s+is\s+the\s+fee\s+structure|what\s+do\s+i\s+pay\s+per\s+term|what\s+is\s+the\s+termly\s+fee|how\s+expensive\s+is\s+the\s+school|cost\s+per\s+term|how\s+much\s+does\s+school\s+cost)\b/i', trim($cleanQuestion))) {
+            return true;
+        }
+        if (preg_match('/\bschool\s+fees\b/i', $cleanQuestion) && !preg_match('/\b(day|boarding|nursery|primary|p[1-7]|baby|middle|top)\b/i', $cleanQuestion)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Resolves class mentions like "Tell me about Primary 6" or "My child is joining Primary 6".
+     */
+    private function resolveClassMention($cleanQuestion) {
+        if (preg_match('/\b(primary\s*6|p\.?\s*6)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 6 is part of our upper primary section (P6–P7), focusing on rigorous academic mastery, leadership skills, and preparing learners for their candidate year.\n\nWould you like to know about Primary 6 fees or admissions?",
+                'category' => 'class_p6',
+                'active_topic' => 'primary',
+                'active_class' => 'Primary 6',
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Do you offer boarding?"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*7|p\.?\s*7)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Primary 7 is our candidate class. Pupils undergo dedicated PLE coaching, revision packages, and mentorship leading to consistent First Grade results.\n\nWould you like to know about Primary 7 fees or admissions?",
+                'category' => 'class_p7',
+                'active_topic' => 'primary',
+                'active_class' => 'Primary 7',
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Do you offer boarding?"]
+            ];
+        }
+        if (preg_match('/\b(baby\s+class)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Baby Class welcomes 3-year-olds into a warm, joyful environment focusing on play-based learning, social skills, and sensory development.\n\nWould you like to know about Baby Class fees or admissions?",
+                'category' => 'class_baby',
+                'active_topic' => 'nursery',
+                'active_class' => 'Baby Class',
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Does it include lunch?"]
+            ];
+        }
+        if (preg_match('/\b(middle\s+class)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Middle Class (age 4) builds early literacy, phonics sounds, handwriting foundations, and pre-math concepts in a nurturing setting.\n\nWould you like to know about Middle Class fees or admissions?",
+                'category' => 'class_middle',
+                'active_topic' => 'nursery',
+                'active_class' => 'Middle Class',
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Does it include lunch?"]
+            ];
+        }
+        if (preg_match('/\b(top\s+class)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => "Top Class (age 5) focuses on reading fluency, basic arithmetic, and a confident transition into Primary 1.\n\nWould you like to know about Top Class fees or admissions?",
+                'category' => 'class_top',
+                'active_topic' => 'nursery',
+                'active_class' => 'Top Class',
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Does it include lunch?"]
+            ];
+        }
+        if (preg_match('/\b(primary\s*[1-5]|p\.?\s*[1-5])\b/i', $cleanQuestion)) {
+            preg_match('/\b(primary\s*[1-5]|p\.?\s*[1-5])\b/i', $cleanQuestion, $m);
+            $className = strtoupper(trim($m[0]));
+            return [
+                'found' => true,
+                'response' => "$className is part of our lower & mid primary section (P1–P5), offering strong foundations in English, Mathematics, Science, and Social Studies.\n\nWould you like to know about $className fees or admissions?",
+                'category' => 'class_p1_p5',
+                'active_topic' => 'primary',
+                'active_class' => $className,
+                'suggestions' => ["How much does it cost?", "How do I apply?", "Do you offer boarding?"]
+            ];
+        }
+        return null;
+    }
+    
+    /**
+     * Resolves multi-turn contextual follow-up questions (anaphora, ordinals, pronouns).
+     */
+    private function resolveContextualFollowUp($cleanQuestion, $normalized, $context) {
+        $activeTopic = $context['active_topic'] ?? '';
+        $lastCategory = $context['last_category'] ?? '';
+        $activeClass = $context['active_class'] ?? null;
+        
+        // -------------------------------------------------------------
+        // A. ORDINAL RESOLUTION: "the first one", "the second one", etc.
+        // -------------------------------------------------------------
+        // 1st = Nursery
+        if (preg_match('/\b(first\s+one|first\s+programme|first\s+program|the\s+first\s+one|about\s+the\s+first\s+one|what\s+about\s+the\s+first)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['program_nursery']['response'],
+                'category' => 'program_nursery',
+                'active_topic' => 'nursery',
+                'suggestions' => $this->knowledge['program_nursery']['suggestions']
+            ];
+        }
+        // 2nd = Primary
+        if (preg_match('/\b(second\s+one|second\s+programme|second\s+program|the\s+second\s+one|about\s+the\s+second\s+one|what\s+about\s+the\s+second)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['program_primary']['response'],
+                'category' => 'program_primary',
+                'active_topic' => 'primary',
+                'suggestions' => $this->knowledge['program_primary']['suggestions']
+            ];
+        }
+        // 3rd = Day School
+        if (preg_match('/\b(third\s+one|third\s+programme|third\s+program|the\s+third\s+one|about\s+the\s+third\s+one|what\s+about\s+the\s+third)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['program_day']['response'],
+                'category' => 'program_day',
+                'active_topic' => 'day_school',
+                'suggestions' => $this->knowledge['program_day']['suggestions']
+            ];
+        }
+        // 4th / Last = Boarding
+        if (preg_match('/\b(fourth\s+one|last\s+one|last\s+programme|last\s+program|the\s+last\s+one|about\s+the\s+last\s+one|tell\s+me\s+about\s+the\s+last\s+one|explain\s+the\s+last\s+one)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['program_boarding']['response'],
+                'category' => 'program_boarding',
+                'active_topic' => 'boarding',
+                'suggestions' => $this->knowledge['program_boarding']['suggestions']
+            ];
+        }
+        // "the other option" / "the other programme"
+        if (preg_match('/\b(the\s+other\s+programme|the\s+other\s+program|the\s+other\s+option|other\s+option)\b/i', $cleanQuestion)) {
+            if ($activeTopic === 'boarding' || $lastCategory === 'program_boarding') {
+                return [
+                    'found' => true,
+                    'response' => $this->knowledge['program_day']['response'],
+                    'category' => 'program_day',
+                    'active_topic' => 'day_school',
+                    'suggestions' => $this->knowledge['program_day']['suggestions']
+                ];
+            } else {
+                return [
+                    'found' => true,
+                    'response' => $this->knowledge['program_boarding']['response'],
+                    'category' => 'program_boarding',
+                    'active_topic' => 'boarding',
+                    'suggestions' => $this->knowledge['program_boarding']['suggestions']
+                ];
+            }
+        }
+        
+        // -------------------------------------------------------------
+        // B. MEAL / LUNCH INQUIRIES: "Does it include lunch?", "Is food provided?"
+        // -------------------------------------------------------------
+        if (preg_match('/\b(does\s+it\s+include\s+lunch|is\s+lunch\s+included|is\s+food\s+included|is\s+food\s+provided|do\s+they\s+get\s+food|what\s+do\s+they\s+eat)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['meals']['response'],
+                'category' => 'meals',
+                'active_topic' => 'meals',
+                'suggestions' => $this->knowledge['meals']['suggestions']
+            ];
+        }
+        
+        // -------------------------------------------------------------
+        // C. REQUIREMENTS INQUIRIES: "What do I need?", "What are the requirements?"
+        // -------------------------------------------------------------
+        if (preg_match('/^(what\s+do\s+i\s+need|what\s+are\s+the\s+requirements|what\s+is\s+required|requirements\??)\b/i', trim($cleanQuestion))) {
+            if ($activeTopic === 'admission' || $lastCategory === 'admission') {
+                return [
+                    'found' => true,
+                    'response' => $this->knowledge['admission_requirements']['response'],
+                    'category' => 'admission_requirements',
+                    'active_topic' => 'admission',
+                    'suggestions' => $this->knowledge['admission_requirements']['suggestions']
+                ];
+            }
+            if ($activeTopic === 'boarding' || $lastCategory === 'program_boarding') {
+                return [
+                    'found' => true,
+                    'response' => "🏠 **Boarding Requirements:**\n\nFor boarding pupils, parents provide personal bedding (mattress, bedsheets, blanket), basin/bucket, personal hygiene items, and casual evening wear. All academic materials, meals, and medical care in the sick bay are provided by the school.\n\nWould you like to know the boarding fees or the admission steps?",
+                    'category' => 'boarding_requirements',
+                    'active_topic' => 'boarding',
+                    'suggestions' => [
+                        "Boarding Fees",
+                        "How do I apply?",
+                        "Contact Office"
+                    ]
+                ];
+            }
+            // General requirements
+            return [
+                'found' => true,
+                'response' => $this->knowledge['admission_requirements']['response'],
+                'category' => 'admission_requirements',
+                'active_topic' => 'admission',
+                'suggestions' => $this->knowledge['admission_requirements']['suggestions']
+            ];
+        }
+        
+        // -------------------------------------------------------------
+        // D. CONTEXTUAL COST / FEE FOLLOW-UPS: "how much does it cost?", "what do I pay?", "how much is it?"
+        // -------------------------------------------------------------
+        $isFollowUpCost = preg_match('/^(how\s+much(\s+(is\s+it|does\s+it\s+cost|is\s+that|do\s+i\s+pay))?\??|what\s+do\s+i\s+pay\??|what\s+are\s+(its\s+)?fees\??|how\s+much\??)$/i', trim($cleanQuestion))
+            || preg_match('/\b(how\s+much\s+(does\s+it\s+cost|is\s+it)|what\s+do\s+i\s+pay)\b/i', $cleanQuestion);
+            
+        if ($isFollowUpCost) {
+            // Case 1: Specific class established in previous context (e.g. Primary 6)
+            if ($activeClass) {
+                if (preg_match('/\b(primary\s*6|p\.?\s*6|primary\s*7|p\.?\s*7)\b/i', $activeClass)) {
+                    return [
+                        'found' => true,
+                        'response' => "$activeClass falls under P6–P7. Boarding is UGX 1,094,000 per term, while Day Scholar is UGX 629,000 per term.",
+                        'category' => 'fees_p6_p7',
+                        'active_topic' => 'fees',
+                        'active_class' => $activeClass,
+                        'suggestions' => ["How do I apply?", "Uniform Prices", "Contact Bursar"]
+                    ];
+                }
+                if (preg_match('/\b(primary\s*[1-5]|p\.?\s*[1-5])\b/i', $activeClass)) {
+                    return [
+                        'found' => true,
+                        'response' => "$activeClass falls under P1–P5. The fee is UGX 579,000 for Day Scholars or UGX 1,019,000 for Boarding, per term.",
+                        'category' => 'fees_p1_p5',
+                        'active_topic' => 'fees',
+                        'active_class' => $activeClass,
+                        'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+                    ];
+                }
+                if (preg_match('/\b(baby|middle|top|nursery)\b/i', $activeClass)) {
+                    return [
+                        'found' => true,
+                        'response' => "$activeClass falls under Nursery. The fee is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                        'category' => 'fees_nursery',
+                        'active_topic' => 'fees',
+                        'active_class' => $activeClass,
+                        'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+                    ];
+                }
+            }
+            
+            // Case 2: Established topic context
+            if ($activeTopic === 'boarding' || $lastCategory === 'program_boarding') {
+                return [
+                    'found' => true,
+                    'response' => "💰 **Official Boarding Fees (Per Term):**\n\n• **Nursery (Baby–Top Class):** UGX 894,000\n• **P1–P5:** UGX 1,019,000\n• **P6–P7:** UGX 1,094,000\n\nAll boarding fees are per term and include full accommodation, 5 nutritious meals daily, 24/7 matron & security supervision, sick bay medical care, and evening study prep. Would you like me to help you with a specific class?",
+                    'category' => 'fees_boarding',
+                    'active_topic' => 'boarding_fees',
+                    'suggestions' => $this->knowledge['fees_boarding']['suggestions']
+                ];
+            }
+            if ($activeTopic === 'day_school' || $lastCategory === 'program_day') {
+                return [
+                    'found' => true,
+                    'response' => "💰 **Official Day Scholar Fees (Per Term):**\n\n• **Nursery (Baby–Top Class):** UGX 474,000\n• **P1–P5:** UGX 579,000\n• **P6–P7:** UGX 629,000\n\nAll day scholar fees are per term and include tuition, mid-morning snack with tea/porridge, hot lunch, and learning materials. Would you like me to help you with a specific class?",
+                    'category' => 'fees_day',
+                    'active_topic' => 'day_fees',
+                    'suggestions' => $this->knowledge['fees_day']['suggestions']
+                ];
+            }
+            if ($activeTopic === 'nursery' || $lastCategory === 'program_nursery') {
+                return [
+                    'found' => true,
+                    'response' => "Nursery, from Baby Class to Top Class, is UGX 474,000 for Day Scholars or UGX 894,000 for Boarding, per term.",
+                    'category' => 'fees_nursery',
+                    'active_topic' => 'fees',
+                    'suggestions' => ["How do I apply?", "Does it include lunch?", "Uniform Prices"]
+                ];
+            }
+            if ($activeTopic === 'primary' || $lastCategory === 'program_primary') {
+                return [
+                    'found' => true,
+                    'response' => "💰 **Primary School Fees (Per Term):**\n\n• **P1–P5:** UGX 579,000 Day Scholar / UGX 1,019,000 Boarding\n• **P6–P7:** UGX 629,000 Day Scholar / UGX 1,094,000 Boarding\n\nAll fees are per term. Would you like to know about a specific primary class?",
+                    'category' => 'fees_p1_p5',
+                    'active_topic' => 'fees',
+                    'suggestions' => [
+                        "How much is Primary 1?",
+                        "How much is Primary 6?",
+                        "How do I apply?"
+                    ]
+                ];
+            }
+            if ($activeTopic === 'uniforms' || $lastCategory === 'uniforms') {
+                return [
+                    'found' => true,
+                    'response' => $this->knowledge['uniforms']['response'],
+                    'category' => 'uniforms',
+                    'active_topic' => 'uniforms',
+                    'suggestions' => $this->knowledge['uniforms']['suggestions']
+                ];
+            }
+            if ($activeTopic === 'transport' || $lastCategory === 'transport') {
+                return [
+                    'found' => true,
+                    'response' => "Transport fees vary according to your residential pickup location in Kampala and Rubaga. Please contact our transport manager at **+256 701 420 506** for exact route pricing.",
+                    'category' => 'transport_fees',
+                    'active_topic' => 'transport',
+                    'suggestions' => [
+                        "Day School Programme",
+                        "Contact Office"
+                    ]
+                ];
+            }
+        }
+        
+        // -------------------------------------------------------------
+        // E. LOCATION & DIRECTIONS: "how do I get there?", "how do I reach?"
+        // -------------------------------------------------------------
+        if (preg_match('/\b(how\s+do\s+i\s+(get|reach)\s+there|how\s+can\s+i\s+(get|reach)\s+there|directions|where\s+is\s+that|how\s+do\s+i\s+reach|how\s+to\s+get\s+there|get\s+there|how\s+do\s+i\s+get\s+to\s+the\s+school|can\s+you\s+give\s+me\s+directions|give\s+me\s+directions|send\s+me\s+the\s+location|send\s+me\s+the\s+school\s+location)\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['location_detailed']['response'],
+                'category' => 'location_detailed',
+                'active_topic' => 'location',
+                'suggestions' => $this->knowledge['location_detailed']['suggestions']
+            ];
+        }
+        
+        // -------------------------------------------------------------
+        // F. AGE INQUIRY: "what age is that for?"
+        // -------------------------------------------------------------
+        if (preg_match('/\b(what\s+age|which\s+age|how\s+old)\b/i', $cleanQuestion)) {
+            if ($activeTopic === 'nursery' || $lastCategory === 'program_nursery') {
+                return [
+                    'found' => true,
+                    'response' => "👶 **Ages for Nursery Section:**\n\n• **Baby Class:** 3 years old\n• **Middle Class:** 4 years old\n• **Top Class:** 5 years old\n\nChildren transition into Primary 1 at age 6. Would you like to check Nursery fees or admission requirements?",
+                    'category' => 'nursery_age',
+                    'active_topic' => 'nursery',
+                    'suggestions' => [
+                        "How much is Nursery?",
+                        "How do I apply?",
+                        "Does it include lunch?"
+                    ]
+                ];
+            }
+            if ($activeTopic === 'boarding' || $lastCategory === 'program_boarding') {
+                return [
+                    'found' => true,
+                    'response' => "🏠 **Boarding Age Recommendations:**\n\nWe accept boarding pupils from age 4 and above (Nursery Top Class and Primary 1 through P.7). Boarding is especially popular and effective for Primary pupils to maximize supervised evening study.\n\nWould you like to know boarding fees or how to apply?",
+                    'category' => 'boarding_age',
+                    'active_topic' => 'boarding',
+                    'suggestions' => [
+                        "Boarding Fees",
+                        "How do I apply?",
+                        "Visit the School"
+                    ]
+                ];
+            }
+        }
+        
+        // -------------------------------------------------------------
+        // G. "WHAT HAPPENS NEXT?": Admission progression
+        // -------------------------------------------------------------
+        if (preg_match('/\b(what\s+happens\s+next|next\s+step|what\s+next)\b/i', $cleanQuestion)) {
+            if ($activeTopic === 'admission' || $lastCategory === 'admission') {
+                return [
+                    'found' => true,
+                    'response' => "📝 **Next Steps for Admission:**\n\n1. Bring your child with their birth certificate, report card, and photos to our campus at 2 Gabunga Road, Kampala, Uganda.\n2. Complete our diagnostic assessment with a teacher.\n3. Receive the official admission letter and complete fee registration with the bursar!\n\nWould you like to speak directly with the admissions officer at **+256 772 420 506 / +256 701 420 506**?",
+                    'category' => 'admission_next_steps',
+                    'active_topic' => 'admission',
+                    'suggestions' => [
+                        "How much are the school fees?",
+                        "Where is the school?",
+                        "Contact Office"
+                    ]
+                ];
+            }
+        }
+        
+        // -------------------------------------------------------------
+        // H. ADMISSION APPLICATION: "how do I apply?", "how to enroll?"
+        // -------------------------------------------------------------
+        if (preg_match('/\b(how\s+(do\s+i|to)\s+(apply|join|enroll|register))\b/i', $cleanQuestion)) {
+            return [
+                'found' => true,
+                'response' => $this->knowledge['admission']['response'],
+                'category' => 'admission',
+                'active_topic' => 'admission',
+                'suggestions' => $this->knowledge['admission']['suggestions']
+            ];
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Domain entity boost based on key terminology and synonyms.
+     */
+    private function calculateEntityBoost($category, $question) {
+        $boost = 0;
+        
+        // Programmes
+        if ($category === 'programs' && (preg_match('/\b(program|programmes|programs|classes|levels|offer|curriculum)\b/i', $question))) {
+            $boost += 35;
+        }
+        // Boarding
+        if ($category === 'program_boarding' && (preg_match('/\b(boarding|boarder|stay\s+at\s+school|live\s+at\s+school|dormitory|hostel)\b/i', $question) && !preg_match('/\b(fees?|cost|price|tuition|pay)\b/i', $question))) {
+            $boost += 45;
+        }
+        // Day school
+        if ($category === 'program_day' && (preg_match('/\b(day\s*(school|scholar|pupil)|commute)\b/i', $question) && !preg_match('/\b(fees?|cost|price|tuition|pay)\b/i', $question))) {
+            $boost += 45;
+        }
+        // Boarding fees
+        if ($category === 'fees_boarding' && (preg_match('/\bboarding\b/i', $question) && preg_match('/\b(fees?|cost|price|tuition|pay|much)\b/i', $question))) {
+            $boost += 60;
+        }
+        // Day fees
+        if ($category === 'fees_day' && (preg_match('/\bday\b/i', $question) && preg_match('/\b(fees?|cost|price|tuition|pay|much)\b/i', $question))) {
+            $boost += 60;
+        }
+        // Complete fees
+        if ($category === 'fees_complete' && (preg_match('/\b(fees|fee\s+structure|tuition)\b/i', $question) && !preg_match('/\b(boarding|day|uniform)\b/i', $question))) {
+            $boost += 50;
+        }
+        // Location & Directions
+        if (($category === 'location' || $category === 'location_detailed') && (preg_match('/\b(where|location|address|situated|find\s+you|gabunga|plus\s+code|directions?|google\s+maps?|map|how\s+do\s+i\s+get|reach|get\s+there)\b/i', $question))) {
+            $boost += 45;
+        }
+        // Admissions
+        if ($category === 'admission' && (preg_match('/\b(admission|admissions|apply|enroll|join|register)\b/i', $question))) {
+            $boost += 40;
+        }
+        // Director
+        if ($category === 'director' && (preg_match('/\b(director|kimera|emmanuel|headteacher|principal|leader|who\s+is\s+in\s+charge)\b/i', $question))) {
+            $boost += 50;
+        }
+        // Meals / Lunch
+        if ($category === 'meals' && (preg_match('/\b(lunch|food|meal|meals|diet|feeding|eat)\b/i', $question))) {
+            $boost += 50;
+        }
+        
+        return $boost;
     }
     
     public function getQuickActions() {
         return [
-            "What are your school hours?",
+            "What programmes do you offer?",
+            "How much are the school fees?",
+            "Do you offer boarding?",
             "How do I apply for admission?",
-            "What extracurricular activities do you offer?",
-            "What is the school's contact information?",
-            "What are the school fees?",
-            "Do you offer boarding?"
+            "Where is the school located?",
+            "What are your school hours?"
         ];
     }
 }

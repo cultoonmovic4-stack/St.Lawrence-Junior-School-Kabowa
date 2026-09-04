@@ -16,7 +16,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -53,7 +53,7 @@
     <link rel="stylesheet" href="../css/calendar-astonishing.css?v=1.0">
     
     <!-- Chatbot CSS -->
-    <link rel="stylesheet" href="../css/chatbot.css?v=18.2">
+    <link rel="stylesheet" href="../css/chatbot.css?v=21.0">
     
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
@@ -121,6 +121,25 @@
         }
     </style>
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
+    <!-- Target Institutional Navbar + Hero Redesign Styles -->
+    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=1.0">
+    <!-- Target Institutional About Section Redesign Styles -->
+    <link rel="stylesheet" href="../css/about-target.css?v=1.0">
+    <!-- Target Institutional Programs Section Redesign Styles -->
+    <link rel="stylesheet" href="../css/programs-target.css?v=1.0">
+    <!-- Target Institutional Why St. Lawrence Section Redesign Styles -->
+    <link rel="stylesheet" href="../css/why-target.css?v=1.0">
+    <!-- Target Institutional Director's Message Redesign Styles -->
+    <link rel="stylesheet" href="../css/director-target.css?v=1.0">
+    <!-- Target Testimonials / Community Voices Redesign Styles -->
+    <link rel="stylesheet" href="../css/testimonials-target.css?v=1.0">
+
+    <!-- Target Academic Calendar Redesign Styles -->
+    <link rel="stylesheet" href="../css/calendar-target.css?v=1.0">
+    <!-- Target Final Footer Redesign Styles -->
+    <link rel="stylesheet" href="../css/footer-target.css?v=1.1">
+
+
     <!-- Last in head: ensures fixed-header + chat close win over any cached CSS order -->
     <style id="sls-mobile-header-chat-fix">
         @media (max-width: 992px) {
@@ -177,76 +196,52 @@
         <div class="container">
             <nav class="navbar">
                 <!-- Logo Section -->
-                <div class="logo">
+                <a href="index-redesign.html" class="logo">
                     <div class="logo-badge">
                         <img src="../img/5.jpg" alt="St. Lawrence Logo" class="logo-img">
                     </div>
                     <div class="logo-text-container">
-                        <span class="logo-text">ST.LAWRENCE</span>
+                        <span class="logo-text">ST. LAWRENCE</span>
                         <span class="logo-subtitle">Junior School - Kabowa</span>
                     </div>
-                </div>
+                </a>
                 
-                <!-- Navigation Menu -->
+                <!-- Navigation Menu (Desktop & Mobile) -->
                 <ul class="nav-menu" id="navMenu">
-                    <!-- Desktop Menu Items -->
-                    <li class="desktop-only"><a href="index-redesign.html" class="nav-link active">Home</a></li>
-                    <li class="desktop-only"><a href="About-redesign.html" class="nav-link">About</a></li>
-                    <li class="desktop-only"><a href="Teachers-redesign.html" class="nav-link">Teachers</a></li>
-                    <li class="desktop-only"><a href="Gallery-redesign.html" class="nav-link">Gallery</a></li>
-                    <li class="desktop-only nav-dropdown">
+                    <li><a href="index-redesign.html" class="nav-link active">Home</a></li>
+                    <li><a href="About-redesign.html" class="nav-link">About Us</a></li>
+                    <li class="nav-dropdown">
                         <a href="Academics.html" class="nav-link">Academics <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="Fees.html">Fees</a></li>
+                            <li><a href="Fees.html">Fees Structure</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
                             <li><a href="Admission-redesign.html">Admission</a></li>
                         </ul>
                     </li>
-                    <li class="desktop-only"><a href="Contact-redesign.html" class="nav-link">Contact</a></li>
-                    <li class="desktop-only"><a href="Library-redesign.html" class="nav-link">Library</a></li>
+                    <li><a href="Teachers-redesign.html" class="nav-link">Teachers</a></li>
+                    <li><a href="Gallery-redesign.html" class="nav-link">Gallery</a></li>
+                    <li><a href="Library-redesign.html" class="nav-link">Library</a></li>
+                    <li><a href="Contact-redesign.html" class="nav-link">Contact</a></li>
                     
-                    <!-- Mobile Menu Items -->
-                    <li class="mobile-only"><a href="index-redesign.html" class="nav-link-mobile active">Home</a></li>
-                    
-                    <li class="mobile-only"><a href="About-redesign.html" class="nav-link-mobile">About</a></li>
-                    
-                    <li class="mobile-only"><a href="Teachers-redesign.html" class="nav-link-mobile">Teachers</a></li>
-                    <li class="mobile-only"><a href="Gallery-redesign.html" class="nav-link-mobile">Gallery</a></li>
-                    
-                    <li class="mobile-only mobile-expandable">
-                        <div class="nav-link-mobile">
-                            <span>Academics</span>
-                            <span class="mobile-expand-icon">+</span>
-                        </div>
-                        <ul class="mobile-submenu">
-                            <li><a href="Academics.html">Academics Overview</a></li>
-                            <li><a href="Fees.html">Fees</a></li>
-                            <li><a href="School-Anthem.html">School Anthem</a></li>
-                            <li><a href="Admission-redesign.html">Admission</a></li>
-                        </ul>
-                    </li>
-                    
-                    <li class="mobile-only"><a href="Contact-redesign.html" class="nav-link-mobile">Contact</a></li>
-                    <li class="mobile-only"><a href="Library-redesign.html" class="nav-link-mobile">Library</a></li>
-                    <!-- Mobile Menu CTA -->
-                    <li class="mobile-only mobile-menu-cta">
-                        <a href="Admission-redesign.html" class="mobile-cta-btn">
-                            <span>Apply for Admission</span>
-                            <i class="fas fa-arrow-right"></i>
+                    <!-- Mobile Admin Portal CTA (pinned at bottom of drawer) -->
+                    <li class="mobile-menu-admin-item mobile-only">
+                        <a href="../backend/admin/login.html" class="mobile-menu-admin-btn">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Admin Portal</span>
                         </a>
-                        <p class="mobile-menu-contact">stlawrencejuniorschoolkabowa@gmail.com</p>
-                    </li>                </ul>
+                    </li>
+                </ul>
                 
-                <!-- Admin Button -->
+                <!-- Admin Portal Button (Desktop) -->
                 <div class="nav-actions">
                     <a href="../backend/admin/login.html" class="btn-admin">
                         <i class="fas fa-shield-alt"></i>
-                        <span>Admin</span>
+                        <span>Admin Portal</span>
                     </a>
                 </div>
                 
-                <!-- Mobile Hamburger -->
-                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
+                <!-- Mobile Hamburger Toggle -->
+                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -255,343 +250,463 @@
         </div>
     </header>
 
-    <!-- Hero Section with Background Video -->
-    <section class="hero" id="home">
-        <!-- Background Video -->
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../img/new 2.JPG">
-            <source src="../img/students walking.mp4" type="video/mp4">
-            <source src="../img/Welcome to Cambridge!.mp4" type="video/mp4">
-        </video>
-        
-        <div class="hero-overlay"></div>
-        
-        <div class="hero-content">
-            <div class="container">
-                <div class="hero-grid">
-                    <!-- Left Content -->
-                    <div class="hero-left">
-                        <h1 class="hero-title">Excellence in Education<br>Since 2010</h1>
-                        <p class="hero-description">St. Lawrence Junior School Kabowa is a premier mixed day and boarding primary school offering quality education with academic excellence. We provide both nursery and primary education in a nurturing environment where every child can thrive and reach their full potential.</p>
-                        <div class="hero-buttons">
-                            <a href="Admission-redesign.html" class="btn btn-primary hero-cta-btn" data-action="apply-admission">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Apply for Admission</span>
-                                <span class="btn-ripple"></span>
-                            </a>
-                            <a href="About-redesign.html" class="btn btn-secondary hero-cta-btn" data-action="learn-more">
-                                <i class="fas fa-info-circle"></i>
-                                <span>Learn More About Us</span>
-                                <span class="btn-ripple"></span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Right Stats - Why Choose Us -->
-                    <div class="hero-right">
-                        <div class="why-choose-box">
-                            <h3 class="why-choose-title">Why Choose St. Lawrence</h3>
-                            
-                            <div class="why-stats-grid">
-                                <!-- Stat 1 -->
-                                <div class="why-stat-card">
-                                    <div class="why-stat-icon">
-                                        <i class="fas fa-user-graduate"></i>
-                                    </div>
-                                    <div class="why-stat-info">
-                                        <div class="why-stat-number">150</div>
-                                        <div class="why-stat-label">Happy<br>Students</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Stat 2 -->
-                                <div class="why-stat-card">
-                                    <div class="why-stat-icon">
-                                        <i class="fas fa-chalkboard-teacher"></i>
-                                    </div>
-                                    <div class="why-stat-info">
-                                        <div class="why-stat-number">25</div>
-                                        <div class="why-stat-label">Expert<br>Teachers</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Stat 3 -->
-                                <div class="why-stat-card">
-                                    <div class="why-stat-icon">
-                                        <i class="fas fa-book-open"></i>
-                                    </div>
-                                    <div class="why-stat-info">
-                                        <div class="why-stat-number">5+</div>
-                                        <div class="why-stat-label">Core<br>Subjects</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Stat 4 -->
-                                <div class="why-stat-card">
-                                    <div class="why-stat-icon">
-                                        <i class="fas fa-award"></i>
-                                    </div>
-                                    <div class="why-stat-info">
-                                        <div class="why-stat-number">16</div>
-                                        <div class="why-stat-label">Years of<br>Excellence</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Hero Section (Target Institutional Redesign) -->
+    <section class="hero-target" id="home">
+        <!-- Directional Contrast Overlay (protects text while keeping students clear & bright) -->
+        <div class="hero-target-overlay"></div>
 
-    <!-- Events Bar -->
-    <section class="events-bar">
-        <div class="container">
-            <div class="events-grid" id="eventsContainer">
-                <!-- Dynamic events will be loaded here -->
-            </div>
-        </div>
-    </section>
+        <!-- Accessible Carousel Navigation Arrows -->
+        <button class="hero-slider-arrow hero-slider-prev" id="heroPrevBtn" aria-label="Previous slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="hero-slider-arrow hero-slider-next" id="heroNextBtn" aria-label="Next slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
+        <!-- Carousel Indicators -->
+        <div class="hero-slider-dots">
+            <button class="hero-slider-dot active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="hero-slider-dot" data-slide="1" aria-label="Slide 2"></button>
+            <button class="hero-slider-dot" data-slide="2" aria-label="Slide 3"></button>
+            <button class="hero-slider-dot" data-slide="3" aria-label="Slide 4"></button>
+        </div>
+
         <div class="container">
-            <div class="about-grid">
-                <!-- Left Content -->
-                <div class="about-content" data-aos="fade-right">
-                    <h2 class="about-title">About St. Lawrence Junior School</h2>
-                    <p class="about-paragraph">St. Lawrence Junior School Kabowa is a premier mixed day and boarding primary school that combines academic excellence with holistic development. Established in 2010, we offer both nursery and primary education in a nurturing environment.</p>
-                    <p class="about-paragraph">We maintain our commitment to fostering an inclusive learning environment where every child can thrive and reach their full potential. Our dedicated faculty and modern facilities ensure that students receive the best possible education while developing strong character and life skills.</p>
-                    <a href="About-redesign.html" class="about-cta-btn enhanced-btn" data-action="about-learn-more">
-                        <span>Learn More</span>
+            <!-- Left Hero Content -->
+            <div class="hero-target-content" data-aos="fade-right">
+                <span class="hero-target-eyebrow">WELCOME TO ST. LAWRENCE</span>
+                <h1 class="hero-target-title">Nurturing Minds.<br>Building Futures.</h1>
+                <p class="hero-target-desc">Quality education in a safe and nurturing environment where every child is encouraged to learn, grow and thrive.</p>
+                
+                <div class="hero-target-buttons">
+                    <a href="Admission-redesign.html" class="hero-btn-primary" data-action="apply-admission">
+                        <i class="fas fa-user-check"></i>
+                        <span>Apply for Admission</span>
+                    </a>
+                    <a href="About-redesign.html" class="hero-btn-secondary" data-action="explore-school">
                         <i class="fas fa-arrow-right"></i>
-                        <span class="btn-ripple"></span>
+                        <span>Explore Our School</span>
                     </a>
                 </div>
-                
-                <!-- Right Image with Floating Card -->
-                <!-- TO CHANGE THIS IMAGE: Edit the filename below (e.g., new 1.JPG, new 2.JPG, etc.) -->
-                <!-- IMPORTANT: After changing, increment the ?v= number (e.g., ?v=2, ?v=3) to force browser reload -->
-                <div class="about-image-container" data-aos="fade-left">
-                    <img src="../img/new 2.JPG?v=2" alt="St. Lawrence School" class="about-image" loading="eager">
-                   
-                        <div class="floating-card-content">
-                            <!-- <h4>14+ Years</h4> -->
-                            <!-- <p>of Excellence in Education</p> -->
-                        </div>
-                    </div>
+            </div>
+
+            <!-- Dynamic Upcoming Important Date Card -->
+            <div class="hero-upcoming-card" id="heroUpcomingCard" data-aos="fade-up" data-aos-delay="150">
+                <div class="hero-upcoming-badge">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>UPCOMING</span>
                 </div>
+                <h4 class="hero-upcoming-title" id="upcomingEventTitle">Term III Begins</h4>
+                <div class="hero-upcoming-date" id="upcomingEventDate">
+                    <i class="far fa-calendar"></i>
+                    <span id="upcomingEventDateText">7 September 2026</span>
+                </div>
+                <div class="hero-upcoming-divider"></div>
+                <a href="#calendar" class="hero-upcoming-link" id="upcomingEventLink" onclick="scrollToCalendar(event)">
+                    <span>View all important dates</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Programs/Courses Section -->
-    <section class="programs-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Our Programs</span>
-                <h2 class="section-title">Academic Excellence Across All Levels</h2>
-                <p class="section-description">Comprehensive educational programs designed to nurture every child's potential from early years through primary education</p>
+    <!-- About Section (Editorial Target Redesign) -->
+    <section class="about-section" id="about">
+        <div class="about-editorial-container">
+            <!-- Tier 1: Introduction & Main Editorial Photography -->
+            <div class="about-intro-grid">
+                <!-- Left Editorial Text Content -->
+                <div class="about-intro-content" data-aos="fade-up" data-aos-duration="700">
+                    <div class="about-eyebrow-wrap">
+                        <span class="about-red-rule"></span>
+                        <span class="about-eyebrow-text">About St. Lawrence</span>
+                    </div>
+                    <h2 class="about-main-headline">
+                        Where Every Child Has Room <span class="about-headline-red">to Grow.</span>
+                    </h2>
+                    <p class="about-intro-lead">
+                        At St. Lawrence Junior School, Kabowa, we believe education is more than academic achievement. It is about nurturing curious minds, building character and giving every child the confidence to discover their potential.
+                    </p>
+                    <div class="about-motto-tag">
+                        <span class="about-red-rule"></span>
+                        <span class="about-motto-text">We Strive to Excel</span>
+                    </div>
+                </div>
+
+                <!-- Right Editorial Photography -->
+                <div class="about-intro-photo-wrap" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <img src="../img/about-student-desk.jpg?v=1.0" alt="St. Lawrence Junior School Student Learning in Class" class="about-intro-photo" loading="lazy">
+                </div>
             </div>
-            
-            <div class="programs-grid">
-                <!-- Nursery Program -->
-                <div class="program-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="program-header">
-                        <div class="program-icon nursery">
-                            <i class="fas fa-baby"></i>
-                        </div>
-                        <div class="program-badge">Ages 3-5</div>
-                    </div>
-                    <div class="program-content">
-                        <h3>Nursery Program</h3>
-                        <p>Early childhood development through play-based learning, fostering creativity, social skills, and foundational literacy.</p>
-                        <ul class="program-features">
-                            <li><i class="fas fa-check"></i> Play-based Learning</li>
-                            <li><i class="fas fa-check"></i> Creative Arts & Crafts</li>
-                            <li><i class="fas fa-check"></i> Social Development</li>
-                            <li><i class="fas fa-check"></i> Basic Literacy & Numeracy</li>
-                        </ul>
-                    </div>
-                    <div class="program-footer">
-                        <a href="Academics.html" class="program-btn enhanced-btn" data-action="nursery-program">
-                            <span>Learn More</span>
-                            <span class="btn-ripple"></span>
-                        </a>
-                    </div>
-                </div>
+        </div>
 
-                <!-- Primary Program -->
-                <div class="program-card featured" data-aos="fade-up" data-aos-delay="100">
-                    <div class="featured-badge">Most Popular</div>
-                    <div class="program-header">
-                        <div class="program-icon primary">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="program-badge">Ages 6-13</div>
+        <!-- Tier 2: Four Core Principles (Editorial Strip) -->
+        <div class="about-principles-strip">
+            <div class="about-editorial-container">
+                <div class="about-principles-grid">
+                    <!-- Principle 01 -->
+                    <div class="about-principle-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
+                        <div class="principle-num">01</div>
+                        <div class="principle-title">Learning</div>
+                        <div class="principle-rule"></div>
+                        <p class="principle-desc">Strong academic foundations for a lifetime of learning.</p>
                     </div>
-                    <div class="program-content">
-                        <h3>Primary School</h3>
-                        <p>Comprehensive primary education following the Ugandan curriculum with enhanced learning experiences and character development.</p>
-                        <ul class="program-features">
-                            <li><i class="fas fa-check"></i> Core Academic Subjects</li>
-                            <li><i class="fas fa-check"></i> Science & Technology</li>
-                            <li><i class="fas fa-check"></i> Sports & Physical Education</li>
-                            <li><i class="fas fa-check"></i> Leadership Development</li>
-                        </ul>
-                    </div>
-                    <div class="program-footer">
-                        <a href="Academics.html" class="program-btn enhanced-btn" data-action="primary-program">
-                            <span>Learn More</span>
-                            <span class="btn-ripple"></span>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Boarding Program -->
-                <div class="program-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="program-header">
-                        <div class="program-icon boarding">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="program-badge">Full Care</div>
+                    <!-- Principle 02 -->
+                    <div class="about-principle-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                        <div class="principle-num">02</div>
+                        <div class="principle-title">Character</div>
+                        <div class="principle-rule"></div>
+                        <p class="principle-desc">Growing confident, responsible and compassionate young people.</p>
                     </div>
-                    <div class="program-content">
-                        <h3>Boarding Program</h3>
-                        <p>Safe and nurturing residential environment with 24/7 supervision, structured study time, and character building activities.</p>
-                        <ul class="program-features">
-                            <li><i class="fas fa-check"></i> 24/7 Supervision</li>
-                            <li><i class="fas fa-check"></i> Structured Study Time</li>
-                            <li><i class="fas fa-check"></i> Nutritious Meals</li>
-                            <li><i class="fas fa-check"></i> Weekend Activities</li>
-                        </ul>
+
+                    <!-- Principle 03 -->
+                    <div class="about-principle-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                        <div class="principle-num">03</div>
+                        <div class="principle-title">Faith</div>
+                        <div class="principle-rule"></div>
+                        <p class="principle-desc">Values that guide how we learn, live and relate to others.</p>
                     </div>
-                    <div class="program-footer">
-                        <a href="Academics.html" class="program-btn enhanced-btn" data-action="boarding-program">
-                            <span>Learn More</span>
-                            <span class="btn-ripple"></span>
-                        </a>
+
+                    <!-- Principle 04 -->
+                    <div class="about-principle-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                        <div class="principle-num">04</div>
+                        <div class="principle-title">Community</div>
+                        <div class="principle-rule"></div>
+                        <p class="principle-desc">A supportive environment where children, teachers and families grow together.</p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Tier 3: Our Promise + Pair Photography + Our Motto Trio -->
+        <div class="about-editorial-container">
+            <div class="about-feature-trio">
+                <!-- Feature 1: Our Promise (Solid Deep School Navy) -->
+                <div class="about-promise-block" data-aos="fade-up" data-aos-duration="700">
+                    <div class="about-promise-top">
+                        <div class="about-eyebrow-wrap">
+                            <span class="about-red-rule"></span>
+                            <span class="about-eyebrow-text">Our Promise</span>
+                        </div>
+                        <h3 class="promise-heading">
+                            More than a school.<br>
+                            <span class="promise-heading-red">A brighter future.</span>
+                        </h3>
+                        <p class="promise-copy">
+                            We are committed to providing a safe, inclusive and stimulating environment where every child is known, valued and encouraged to excel — in learning, in character and in life.
+                        </p>
+                    </div>
+                    <a href="About-redesign.html" class="about-promise-btn">
+                        <span>Discover Our School</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Feature 2: Large Candid Photography -->
+                <div class="about-pair-photo-wrap" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <img src="../img/about-students-pair.jpg?v=1.0" alt="St. Lawrence Junior School Students Interacting" class="about-pair-photo" loading="lazy">
+                </div>
+
+                <!-- Feature 3: Our Motto Block -->
+                <div class="about-motto-block" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
+                    <div class="about-eyebrow-wrap">
+                        <span class="about-red-rule"></span>
+                        <span class="about-eyebrow-text">Our Motto</span>
+                    </div>
+                    <h3 class="motto-heading">
+                        We Strive<br>to Excel
+                    </h3>
+                    <div class="motto-divider-red"></div>
+                    <p class="motto-statement">
+                        A simple statement that shapes everything we do.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="about-bottom-spacer"></div>
+    </section>
+
+    <!-- Programs Section (Editorial Target Redesign) -->
+    <section class="programs-section" id="programs">
+        <div class="programs-editorial-container">
+            <!-- Part 1: Section Header & Editorial Accents -->
+            <div class="programs-header-grid">
+                <!-- Left Editorial Headline -->
+                <div class="programs-header-left" data-aos="fade-up" data-aos-duration="700">
+                    <div class="prog-eyebrow-wrap">
+                        <span class="prog-red-rule"></span>
+                        <span class="prog-eyebrow-text">Our Programs</span>
+                    </div>
+                    <h2 class="prog-main-headline">
+                        A Place to Begin.<br>
+                        A Journey <span class="prog-headline-red">to Grow.</span>
+                    </h2>
+                    <p class="prog-intro-lead">
+                        Four programs. One bright future.
+                    </p>
+                </div>
+
+                <!-- Right Editorial Script & Brand Pillars -->
+                <div class="programs-header-right" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <div class="prog-script-note">
+                        Same Values.<br>Brighter Futures.
+                    </div>
+                    <div class="prog-brand-pillars">
+                        <span>L E A R N</span>
+                        <span>G R O W</span>
+                        <span>B E L O N G</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Program Stepper Sequence (01 -> 02 -> 03 -> 04) -->
+            <div class="programs-stepper-strip" data-aos="fade-up" data-aos-duration="600">
+                <div class="prog-step-item">
+                    <div class="prog-step-circle">01</div>
+                    <span class="prog-step-name">Nursery</span>
+                </div>
+                <div class="prog-step-connector">
+                    <span class="prog-step-line"></span>
+                    <span class="prog-step-arrow">→</span>
+                </div>
+                <div class="prog-step-item">
+                    <div class="prog-step-circle">02</div>
+                    <span class="prog-step-name">Primary</span>
+                </div>
+                <div class="prog-step-connector">
+                    <span class="prog-step-line"></span>
+                    <span class="prog-step-arrow">→</span>
+                </div>
+                <div class="prog-step-item">
+                    <div class="prog-step-circle">03</div>
+                    <span class="prog-step-name">Day Schooling</span>
+                </div>
+                <div class="prog-step-connector">
+                    <span class="prog-step-line"></span>
+                    <span class="prog-step-arrow">→</span>
+                </div>
+                <div class="prog-step-item">
+                    <div class="prog-step-circle">04</div>
+                    <span class="prog-step-name">Boarding</span>
+                </div>
+            </div>
+
+            <!-- Part 3: Four Programs Editorial Grid -->
+            <div class="programs-editorial-grid">
+                <!-- Program 01: Nursery -->
+                <div class="program-editorial-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
+                    <div class="prog-photo-wrap">
+                        <img src="../img/program-nursery.jpg?v=1.0" alt="Nursery Children Playing and Learning" class="prog-photo" loading="lazy">
+                    </div>
+                    <span class="prog-tag">Ages 3 – 5</span>
+                    <h3 class="prog-title">Nursery</h3>
+                    <p class="prog-desc">Curiosity starts here. Learning through play, discovery and exploration.</p>
+                    <a href="Academics.html#nursery" class="prog-link">
+                        <span>Explore Nursery</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Program 02: Primary -->
+                <div class="program-editorial-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                    <div class="prog-photo-wrap">
+                        <img src="../img/program-primary.jpg?v=1.0" alt="Primary Pupils Reading in Classroom" class="prog-photo" loading="lazy">
+                    </div>
+                    <span class="prog-tag">Ages 6 – 13</span>
+                    <h3 class="prog-title">Primary</h3>
+                    <p class="prog-desc">Strong foundations. Confident learners. A broader world to discover.</p>
+                    <a href="Academics.html#primary" class="prog-link">
+                        <span>Explore Primary</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Program 03: Day Schooling -->
+                <div class="program-editorial-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                    <div class="prog-photo-wrap">
+                        <img src="../img/program-day-schooling.jpg?v=1.0" alt="Day Schooling Students Walking Together" class="prog-photo" loading="lazy">
+                    </div>
+                    <span class="prog-tag">Day Scholars</span>
+                    <h3 class="prog-title">Day Schooling</h3>
+                    <p class="prog-desc">Quality daily learning in a supportive environment, close to family and community.</p>
+                    <a href="Academics.html#day-schooling" class="prog-link">
+                        <span>Explore Day Schooling</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Program 04: Boarding -->
+                <div class="program-editorial-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                    <div class="prog-photo-wrap">
+                        <img src="../img/program-boarding.jpg?v=1.0" alt="Boarding Student Reading on Dorm Bed" class="prog-photo" loading="lazy">
+                    </div>
+                    <span class="prog-tag">A Safe Home Away From Home</span>
+                    <h3 class="prog-title">Boarding</h3>
+                    <p class="prog-desc">A supportive environment where children learn, grow and become independent.</p>
+                    <a href="Academics.html#boarding" class="prog-link">
+                        <span>Explore Boarding</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Part 4: Bottom Feature Banner (Deep Navy Block with Actual Logo) -->
+            <div class="programs-feature-banner" data-aos="fade-up" data-aos-duration="700">
+                <div class="prog-banner-left">
+                    <div class="prog-eyebrow-wrap">
+                        <span class="prog-red-rule"></span>
+                        <span class="prog-eyebrow-text">One School. Every Opportunity.</span>
+                    </div>
+                    <h3 class="prog-banner-heading">
+                        Different beginnings.<br>
+                        <span class="prog-bottom-red">A brighter tomorrow.</span>
+                    </h3>
+                </div>
+
+                <div class="prog-banner-center">
+                    <p class="prog-banner-copy">
+                        Explore our programs and find the right path for your child's future.
+                    </p>
+                    <a href="Academics.html" class="prog-cta-btn">
+                        <span>View All Programs</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="prog-banner-right">
+                    <div class="prog-crest-box">
+                        <img src="../img/5.jpg" alt="St. Lawrence Junior School Official Crest" class="prog-crest-logo">
+                        <div class="prog-crest-pillars">
+                            <span>Learning</span>
+                            <span>Character</span>
+                            <span>Faith</span>
+                            <span>Community</span>
+                        </div>
+                        <div class="prog-crest-rule"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="programs-bottom-spacer"></div>
     </section>
 
 
 
-    <!-- Why Choose Us Section -->
-    <section class="why-choose-us-section">
-        <div class="container">
-            <!-- Section Header -->
-            <div class="why-choose-header" data-aos="fade-up">
-                <span class="section-tag">WHY CHOOSE US</span>
-                <h2 class="why-choose-title">Why <span class="highlight">St. Lawrence</span> is The Right Choice for You</h2>
-            </div>
-
-            <!-- Why Choose Grid -->
-            <div class="why-choose-grid">
-                <!-- Left Column -->
-                <div class="why-choose-left">
-                    <!-- Top Row - Two Square Cards -->
-                    <div class="top-cards">
-                        <!-- Card 1: Expert Instructors -->
-                        <div class="why-card light-card square-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="why-icon">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <h3>Expert Instructors</h3>
-                            <p>Learn from top industry professionals who bring years of real-world experience to the classroom, providing you with the latest tools, techniques, and insights needed to excel in your field.</p>
-                        </div>
-
-                        <!-- Card 2: Career-Boost Certify -->
-                        <div class="why-card light-card square-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="why-icon">
-                                <i class="fas fa-certificate"></i>
-                            </div>
-                            <h3>Career-Boost Certify</h3>
-                            <p>Earn certifications that are highly regarded by employers, helping you to enhance your resume, gain industry recognition, and open doors to new career opportunities.</p>
-                        </div>
+    <!-- Why St. Lawrence Section (Editorial Target Redesign) -->
+    <section class="why-section" id="why-us">
+        <div class="why-editorial-container">
+            <!-- Tier 1: Editorial Introduction & Authentic Classroom Photography -->
+            <div class="why-intro-grid">
+                <!-- Left Editorial Text Content -->
+                <div class="why-intro-content" data-aos="fade-up" data-aos-duration="700">
+                    <div class="why-eyebrow-wrap">
+                        <span class="why-red-rule"></span>
+                        <span class="why-eyebrow-text">Why St. Lawrence</span>
                     </div>
-
-                    <!-- Bottom Row - One Horizontal Rectangle Card -->
-                    <div class="bottom-card">
-                        <div class="why-card light-card horizontal-card" data-aos="fade-up" data-aos-delay="400">
-                            <div class="why-icon">
-                                <i class="fas fa-target"></i>
-                            </div>
-                            <h3>10+ High Impact Subjects</h3>
-                            <p>St. Lawrence offers over 10 courses that cover essential skills in today's tech industry. Whether you're a beginner or an experienced professional, our courses in web development, data science, and cybersecurity provide practical, hands-on learning to help you apply your skills immediately & competitively.</p>
-                        </div>
+                    <h2 class="why-main-headline">
+                        A School That<br>
+                        Helps Children<br>
+                        <span class="why-headline-red">Grow.</span>
+                    </h2>
+                    <p class="why-intro-lead">
+                        Learning, character and community come together every day.
+                    </p>
+                    <div class="why-motto-tag">
+                        <span class="why-motto-text">We Strive to Excel</span>
                     </div>
                 </div>
 
-                <!-- Right Column - Large Square/Tall Card -->
-                <div class="why-choose-right">
-                    <div class="why-card featured-card tall-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="why-icon white-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Flexible Learning Schedules</h3>
-                        <p>At expert.io, we understand the importance of balancing learning with a busy lifestyle. That's why our courses are available on-demand, allowing you to learn at your own pace, anytime and anywhere.</p>
-                        <p class="featured-extra">Whether you're a working professional or a student, you can customize your schedule to fit your needs.</p>
-                        <a href="Admission.html" class="cta-button">
-                            <span>Start Your Journey</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
+                <!-- Right Editorial Photography -->
+                <div class="why-photo-wrap" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <img src="../img/why-student-writing.jpg?v=1.0" alt="St. Lawrence Student Learning in Classroom" class="why-photo" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tier 2: Three Core Pillars Strip -->
+        <div class="why-pillars-strip">
+            <div class="why-editorial-container">
+                <div class="why-pillars-grid">
+                    <!-- Pillar 01: Learning -->
+                    <div class="why-pillar-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
+                        <div class="why-pillar-num">01</div>
+                        <div class="why-pillar-rule"></div>
+                        <h3 class="why-pillar-title">Learning</h3>
+                        <p class="why-pillar-desc">Strong foundations. Curious minds.</p>
+                    </div>
+
+                    <!-- Pillar 02: Character -->
+                    <div class="why-pillar-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                        <div class="why-pillar-num">02</div>
+                        <div class="why-pillar-rule"></div>
+                        <h3 class="why-pillar-title">Character</h3>
+                        <p class="why-pillar-desc">Confidence, discipline and integrity.</p>
+                    </div>
+
+                    <!-- Pillar 03: Community -->
+                    <div class="why-pillar-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                        <div class="why-pillar-num">03</div>
+                        <div class="why-pillar-rule"></div>
+                        <h3 class="why-pillar-title">Community</h3>
+                        <p class="why-pillar-desc">Growing together with purpose.</p>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="why-bottom-spacer"></div>
     </section>
 
-    <!-- Director's Message Section - Side by Side Layout -->
-    <section class="director-message-section">
-        <div class="container">
-            <div class="director-grid">
-                <!-- Left Side - Director's Photo -->
-                <div class="director-photo-side" data-aos="fade-right">
-                    <div class="photo-container">
-                        <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=500&h=600&fit=crop" alt="Mr. Kimera Emmanuel - Director" class="director-image">
-                        <div class="photo-overlay">
-                            <div class="director-info">
-                                <h3>Mr. Kimera Emmanuel</h3>
-                                <p>School Director</p>
-                                <span class="experience">14+ Years Experience</span>
-                            </div>
-                        </div>
+    <!-- Director's Message Section (Editorial Target Redesign) -->
+    <section class="director-message-section" id="director">
+        <div class="director-editorial-container">
+            <!-- Tier 1: Two-Column Editorial Composition -->
+            <div class="director-intro-grid">
+                <!-- Left Editorial Text Content -->
+                <div class="director-intro-content" data-aos="fade-up" data-aos-duration="700">
+                    <div class="director-eyebrow-wrap">
+                        <span class="director-red-rule"></span>
+                        <span class="director-eyebrow-text">A Word from Our Director</span>
+                    </div>
+                    <h2 class="director-main-headline">
+                        “Every child deserves the opportunity <span class="director-headline-red">to grow.”</span>
+                    </h2>
+                    <p class="director-intro-lead">
+                        At St. Lawrence, we believe education is about more than the classroom. It is about helping every child discover their strengths, build character and grow with confidence.
+                    </p>
+                    <div class="director-signature">
+                        Kimera Emmanuel
+                    </div>
+                    <div class="director-founder-info">
+                        <div class="director-info-rule"></div>
+                        <span class="director-founder-name">Kimera Emmanuel</span>
+                        <span class="director-founder-role">School Director & Founder</span>
                     </div>
                 </div>
 
-                <!-- Right Side - Message Content -->
-                <div class="director-message-side" data-aos="fade-left">
-                    <div class="message-header">
-                        <span class="section-tag">Director's Message</span>
-                        <h2 class="message-title">Leading with Vision & Purpose</h2>
-                    </div>
-
-                    <div class="message-body">
-                        <p>Welcome to St. Lawrence Junior School Kabowa, where excellence in education has been our hallmark since 2010. As the Director, I am proud to lead an institution that combines academic rigor with moral values, creating well-rounded individuals ready to face the challenges of tomorrow.</p>
-                        
-                        <p>Our commitment goes beyond traditional teaching. We believe in nurturing each child's unique potential, fostering creativity, and building the confidence they need to become future leaders in their communities and beyond.</p>
-                    </div>
-
-                    <div class="message-signature">
-                        <div class="signature-name">Kimera Emmanuel</div>
-                        <div class="signature-title">School Director & Founder</div>
-                    </div>
-                    <div class="message-actions">
-                        <button type="button" 
-                                class="message-btn outline enhanced-btn" 
-                                data-action="director-contact" 
-                                id="contactDirectorBtn"
-                                onclick="document.getElementById('contactDirectorModal').classList.add('active'); document.body.style.overflow='hidden'; console.log('Modal opened via onclick');">
-                            <span>Contact Director</span>
-                            <i class="fas fa-envelope"></i>
-                            <span class="btn-ripple"></span>
-                        </button>
-                    </div>
+                <!-- Right Editorial Photography -->
+                <div class="director-photo-wrap" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <img src="../img/director-kimera.jpg?v=1.0" alt="Mr. Kimera Emmanuel - School Director & Founder" class="director-photo" loading="lazy">
                 </div>
             </div>
         </div>
+
+        <!-- Tier 2: Bottom Editorial Strip -->
+        <div class="director-bottom-strip">
+            <div class="director-editorial-container">
+                <div class="director-strip-content">
+                    <div class="director-strip-left">
+                        <span class="director-strip-motto">We Strive to Excel</span>
+                    </div>
+                    <a href="About-redesign.html" class="director-strip-link">
+                        <span class="director-red-rule"></span>
+                        <span>Discover More About Our Story</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="director-bottom-spacer"></div>
     </section>
 
     <!-- Contact Director Modal -->
@@ -673,40 +788,71 @@
         </div>
     </div>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Testimonials</span>
-                <h2 class="section-title">What Parents & Students Say</h2>
-                <p class="section-description">Hear from our community about their experiences at St. Lawrence Junior School</p>
+        <!-- Testimonials / Community Voices Section (Target Editorial Redesign) -->
+    <section class="testimonials-target" id="community">
+        <div class="test-container">
+            <!-- Header Row -->
+            <div class="test-header-row" data-aos="fade-up">
+                <div class="test-school-logo">
+                    <img src="../img/5.jpg" alt="St. Lawrence Junior School Kabowa Official Crest">
+                </div>
+                <div class="test-header-text">
+                    <div class="test-label-wrap">
+                        <span class="test-accent-bar"></span>
+                        <span class="test-small-label">FROM OUR COMMUNITY</span>
+                    </div>
+                    <h2 class="test-main-heading">The St. Lawrence experience,<br>in their words.</h2>
+                    <p class="test-supporting-text">Real stories from the parents, students and alumni who make our school community.</p>
+                </div>
             </div>
 
-            <div class="testimonials-carousel-wrapper">
-                <div class="testimonials-carousel" id="testimonialsContainer">
-                    <!-- Dynamic testimonials will be loaded here -->
-                    <div class="testimonial-card active">
-                        <div style="text-align: center; padding: 60px 20px; color: #666;">
-                            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; margin-bottom: 20px;"></i>
-                            <p style="font-size: 1.1rem;">Loading testimonials...</p>
+            <!-- Testimonials Carousel Wrapper -->
+            <div class="test-carousel-wrapper" data-aos="fade-up" data-aos-delay="150">
+                <!-- Navigation Arrows -->
+                <button class="test-nav-btn prev-btn" id="testPrevBtn" aria-label="Previous testimonial">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <!-- Main Testimonial Card Container -->
+                <div class="test-card-container" id="testCardContainer">
+                    <div class="test-editorial-card">
+                        <div class="test-photo-wrap">
+                            <img src="../img/testimonials/testimonial_1768153115_6963e01b367a3.jpg" id="testPhoto" alt="Community Member">
+                        </div>
+                        <div class="test-content-wrap">
+                            <div class="test-quote-icon">“</div>
+                            <p class="test-quote-text" id="testQuoteText">"My time at St. Lawrence Junior School laid the foundation for everything I've achieved since. The values, discipline, and love for learning I gained there still guide me today. I'm proud to be an old student of such a wonderful school!"</p>
+                            <div class="test-author-accent"></div>
+                            <h4 class="test-author-name" id="testAuthorName">Muwanga Ibrahim</h4>
+                            <p class="test-author-role" id="testAuthorRole">Alumni</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Navigation Arrows -->
-                <button class="carousel-btn prev-btn" id="prevTestimonial">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="carousel-btn next-btn" id="nextTestimonial">
+                <button class="test-nav-btn next-btn" id="testNextBtn" aria-label="Next testimonial">
                     <i class="fas fa-chevron-right"></i>
                 </button>
+            </div>
 
-                <!-- Carousel Indicators -->
-                <div class="carousel-indicators">
-                    <span class="indicator active" data-slide="0"></span>
-                    <span class="indicator" data-slide="1"></span>
-                    <span class="indicator" data-slide="2"></span>
-                    <span class="indicator" data-slide="3"></span>
+            <!-- Dots Indicators -->
+            <div class="test-dots-wrap" id="testDotsWrap">
+                <!-- Dynamically rendered by JS -->
+            </div>
+
+            <!-- Bottom Call-to-Action Strip -->
+            <div class="test-bottom-cta">
+                <div class="test-cta-left">
+                    <div class="test-cta-label-row">
+                        <span class="test-cta-blue-bar"></span>
+                        <span class="test-cta-small-label">JOIN OUR COMMUNITY</span>
+                    </div>
+                    <h3 class="test-cta-heading">Want to know more about St. Lawrence?</h3>
+                    <p class="test-cta-subtext">Come and experience our school community.</p>
+                </div>
+                <div class="test-cta-right">
+                    <a href="Contact-redesign.html" class="test-cta-btn">PLAN A VISIT <i class="fas fa-arrow-right"></i></a>
+                    <span class="test-cta-tagline">BRIGHT MINDS. BRIGHTER TOMORROWS.</span>
+                    <span class="test-cta-red-accent"></span>
                 </div>
             </div>
         </div>
@@ -714,69 +860,113 @@
 
 
 
-    <!-- Academic Calendar Section - NEW PROFESSIONAL DESIGN -->
-    <section class="academic-calendar-new">
-        <div class="container">
-            <!-- Section Header -->
-            <div class="calendar-section-header" data-aos="fade-up">
-                <div class="header-badge">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>ACADEMIC CALENDAR</span>
+        <!-- Academic Calendar Section - EDITORIAL & ELEGANT DESIGN -->
+    <section class="academic-calendar-target" id="calendar">
+        <div class="cal-container">
+            <!-- Header Row -->
+            <div class="cal-header-row" data-aos="fade-up">
+                <div class="cal-header-left">
+                    <div class="cal-school-logo">
+                        <img src="../img/5.jpg" alt="St. Lawrence Junior School Kabowa Official Crest">
+                    </div>
+                    <div class="cal-label-wrap">
+                        <span class="cal-accent-bar"></span>
+                        <span class="cal-small-label">ACADEMIC CALENDAR</span>
+                    </div>
+                    <h2 class="cal-main-heading">Important dates.<br>One place.</h2>
+                    <p class="cal-supporting-text">Keep track of school activities, term dates and special events.</p>
                 </div>
-                <h2 class="calendar-main-title">Academic Year 2025</h2>
-                <p class="calendar-subtitle">Track important dates, events, and school activities</p>
+                <div class="cal-header-right">
+                    <div class="cal-pupils-bg"></div>
+                    <div class="cal-motto-callout">
+                        <p>Discipline today.<br>A brighter tomorrow.</p>
+                        <div class="cal-motto-underline"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Calendar Container -->
-            <div class="calendar-container-new" data-aos="fade-up" data-aos-delay="200">
-                <!-- Calendar Card -->
-                <div class="calendar-card-new">
-                    <!-- Month Navigation -->
-                    <div class="month-nav-bar">
-                        <button class="month-nav-btn" id="prevMonthNew">
+            <!-- Main 2-Column Grid -->
+            <div class="cal-grid-layout" data-aos="fade-up" data-aos-delay="150">
+                <!-- Left: Calendar Card -->
+                <div class="cal-editorial-card cal-card-calendar">
+                    <!-- Month Selector -->
+                    <div class="cal-month-header">
+                        <button class="cal-nav-btn" id="calPrevBtn" aria-label="Previous month">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <div class="month-display">
-                            <h3 id="currentMonthNew">MAY</h3>
-                            <span id="currentYearNew">2026</span>
-                        </div>
-                        <button class="month-nav-btn" id="nextMonthNew">
+                        <h3 class="cal-month-title" id="calMonthTitle">September 2026</h3>
+                        <button class="cal-nav-btn" id="calNextBtn" aria-label="Next month">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
 
+                    <div class="cal-divider"></div>
+
                     <!-- Weekdays -->
-                    <div class="weekdays-grid">
-                        <div class="weekday">SUN</div>
-                        <div class="weekday">MON</div>
-                        <div class="weekday">TUE</div>
-                        <div class="weekday">WED</div>
-                        <div class="weekday">THU</div>
-                        <div class="weekday">FRI</div>
-                        <div class="weekday">SAT</div>
+                    <div class="cal-weekdays">
+                        <div class="cal-weekday">SUN</div>
+                        <div class="cal-weekday">MON</div>
+                        <div class="cal-weekday">TUE</div>
+                        <div class="cal-weekday">WED</div>
+                        <div class="cal-weekday">THU</div>
+                        <div class="cal-weekday">FRI</div>
+                        <div class="cal-weekday">SAT</div>
                     </div>
 
-                    <!-- Calendar Dates Grid -->
-                    <div class="dates-grid-new" id="datesGridNew">
-                        <!-- Dates will be generated by JavaScript -->
+                    <!-- Days Grid -->
+                    <div class="cal-days-grid" id="calDaysGrid">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="cal-legend">
+                        <div class="cal-legend-item">
+                            <span class="cal-legend-dot selected-dot"></span>
+                            <span>Selected date</span>
+                        </div>
+                        <div class="cal-legend-item">
+                            <span class="cal-legend-dot event-dot"></span>
+                            <span>School event</span>
+                        </div>
+                        <div class="cal-legend-item">
+                            <span class="cal-legend-dot other-dot"></span>
+                            <span>Other month</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Events Panel -->
-                <div class="events-panel-new">
-                    <div class="events-panel-header">
-                        <div class="events-title">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Upcoming Events</span>
-                        </div>
-                        <div class="events-count" id="eventsCount">0 Events</div>
+                <!-- Right: Upcoming Events Card -->
+                <div class="cal-editorial-card cal-card-events">
+                    <div class="cal-events-header">
+                        <h3 class="cal-events-title">Upcoming Events</h3>
+                        <a href="Academics.html#calendar" class="cal-view-all-link">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <div class="events-list-new" id="eventsListNew">
-                        <div class="no-events-message">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <p>Loading events...</p>
+                    <div class="cal-events-accent"></div>
+
+                    <!-- Timeline List -->
+                    <div class="cal-timeline-container">
+                        <div class="cal-timeline-track"></div>
+                        <div id="calTimelineList">
+                            <!-- Rendered by JS -->
                         </div>
                     </div>
+
+                    <!-- Bottom Info Callout -->
+                    <div class="cal-info-callout">
+                        <div class="cal-callout-icon">
+                            <i class="far fa-calendar-alt"></i>
+                        </div>
+                        <p class="cal-callout-text">Click on a date in the calendar<br>to see events for that day.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Brand Strip -->
+            <div class="cal-bottom-strip">
+                <span class="cal-bottom-school-name">ST. LAWRENCE JUNIOR SCHOOL, KABOWA</span>
+                <div class="cal-bottom-link-wrap">
+                    <span class="cal-accent-bar"></span>
+                    <a href="Academics.html" class="cal-bottom-link">VIEW FULL ACADEMIC CALENDAR <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -784,93 +974,104 @@
 
     
 
-    <!-- Footer -->
-    <footer class="footer">
-        <!-- Video Background -->
-        <video class="footer-video" autoplay muted loop playsinline>
-            <source src="../img/students walking.mp4" type="video/mp4">
-        </video>
-        <div class="footer-overlay"></div>
-        
-        <div class="container">
-            <div class="footer-grid">
-                <!-- Column 1 - Brand -->
-                <div class="footer-col footer-brand-col">
-                    <div class="footer-logo">
-                        <img src="../img/5.jpg" alt="St. Lawrence Logo">
-                        <span>ST. LAWRENCE</span>
+            <!-- Final Footer (Target Editorial Option 3 Redesign) -->
+    <footer class="footer-target">
+        <div class="footer-container">
+            <!-- Top Footer Row -->
+            <div class="footer-top-row">
+                <!-- Column 1: Brand & Logo -->
+                <div class="footer-brand-col">
+                    <div class="footer-brand-header">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest" class="footer-school-logo">
+                        <h3 class="footer-school-title">St. Lawrence<br>Junior School Kabowa</h3>
                     </div>
-                    <p class="footer-description">Excellence in Education since 2010. Nurturing young minds for a brighter future.</p>
-                    <div class="social-links">
-                        <a href="https://www.tiktok.com/@stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://twitter.com/stlawrence_juniorsch" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/stla.wrencejuniorschoolkabowa" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/256772420506" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <p class="footer-brand-desc">Excellence in education since 2010.<br>Nurturing young minds for a brighter future.</p>
+                    <div class="footer-social-links">
+                        <a href="https://facebook.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/stla.wrencejuniorschoolkabowa" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://wa.me/256772420506" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-                
-                <!-- Column 2 - Quick Links -->
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul>
+
+                <!-- Column 2: Cursive Tagline -->
+                <div class="footer-tagline-col">
+                    <div class="footer-cursive-wrap">
+                        <p class="footer-cursive-text">We<br>Strive<br>to Excel</p>
+                        <div class="footer-cursive-underline"></div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Quick Links -->
+                <div class="footer-nav-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Quick Links</h4>
+                    <ul class="footer-nav-list">
                         <li><a href="index-redesign.html">Home</a></li>
                         <li><a href="About-redesign.html">About Us</a></li>
                         <li><a href="Teachers-redesign.html">Teachers</a></li>
                         <li><a href="Gallery-redesign.html">Gallery</a></li>
-                        <li><a href="Admission-redesign.html">Admission</a></li>
+                        <li><a href="Admission-redesign.html">Admissions</a></li>
                     </ul>
                 </div>
-                
-                <!-- Column 3 - Programs -->
-                <div class="footer-col">
-                    <h3>Programs</h3>
-                    <ul>
-                        <li><a href="Academics.html">Nursery School</a></li>
-                        <li><a href="Academics.html">Primary School</a></li>
-                        <li><a href="Academics.html">Boarding</a></li>
-                        <li><a href="Academics.html">Day School</a></li>
-                        <li><a href="Library-redesign.html">Library</a></li>
+
+                <!-- Column 4: Our Programs -->
+                <div class="footer-nav-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Our Programs</h4>
+                    <ul class="footer-nav-list">
+                        <li><a href="Academics.html#nursery">Nursery School</a></li>
+                        <li><a href="Academics.html#primary">Primary School</a></li>
+                        <li><a href="Academics.html#day-schooling">Day & Boarding</a></li>
                     </ul>
                 </div>
-                
-                <!-- Column 4 - Contact Us -->
-                <div class="footer-col">
-                    <h3>Contact Us</h3>
-                    <ul class="contact-info">
-                        <li class="contact-item">
-                            <i class="fas fa-map-marker-alt contact-icon"></i>
-                            <span class="contact-text">
-                                <a href="https://maps.google.com/?q=St.+Lawrence+Junior+School+Kabowa" target="_blank" rel="noopener">P.O.BOX 36198, KAMPALA, UGANDA</a>
+
+                <!-- Column 5: Contact Us -->
+                <div class="footer-contact-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Contact Us</h4>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                            <span>P.O.BOX 36198, Kampala, Uganda</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fas fa-phone-alt footer-contact-icon"></i>
+                            <span>
+                                <a href="tel:+256701420506">+256 701 420 506</a><br>
+                                <a href="tel:+256772420506">+256 772 420 506</a>
                             </span>
                         </li>
-                        <li class="contact-item">
-                            <i class="fas fa-phone contact-icon"></i>
-                            <span class="contact-text">
-                                <a href="tel:+256701420506" class="contact-link">+256 701 420 506</a>
-                                <span class="phone-separator">•</span>
-                                <a href="tel:+256772420506" class="contact-link">+256 772 420 506</a>
-                            </span>
-                        </li>
-                        <li class="contact-item">
-                            <i class="fas fa-envelope contact-icon"></i>
-                            <span class="contact-text">
-                                <a href="mailto:stlawrencejuniorschoolkabowa@gmail.com" class="contact-link">stlawrencejuniorschoolkabowa@gmail.com</a>
-                            </span>
+                        <li class="footer-contact-item">
+                            <i class="fas fa-envelope footer-contact-icon"></i>
+                            <a href="mailto:stlawrencejuniorschoolkabowa@gmail.com">stlawrencejuniorschoolkabowa@gmail.com</a>
                         </li>
                     </ul>
                 </div>
-            </div>
-            
-            <!-- Footer Bottom - Copyright -->
-            <div class="footer-copyright">
-                <div class="container">
-                    <div class="copyright-content">
-                        <p>&copy; 2024 St. Lawrence Junior School - Kabowa. All rights reserved.</p>
-                        <p class="footer-credit">Designed with <i class="fas fa-heart"></i> for Excellence in Education</p>
-                    </div>
+
+                <!-- Column 6: Pillars -->
+                <div class="footer-pillars-col">
+                    <p class="footer-pillars-text">
+                        DISCIPLINE.<br>
+                        CHARACTER.<br>
+                        OPPORTUNITY.<br>
+                        A BRIGHTER<br>
+                        TOMORROW.
+                    </p>
                 </div>
             </div>
 
+            <!-- Bottom Copyright & Legal Strip -->
+            <div class="footer-bottom-strip">
+                <p class="footer-copyright-text">&copy; 2026 St. Lawrence Junior School Kabowa. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="Contact-redesign.html">Privacy Policy</a>
+                    <span class="footer-legal-separator">|</span>
+                    <a href="Contact-redesign.html">Terms of Use</a>
+                    <span class="footer-legal-separator">|</span>
+                    <a href="Contact-redesign.html">Sitemap</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -902,7 +1103,99 @@
         // API Base URL
         const API_URL = '../backend/api/public/';
 
-        // Load Events Bar
+        // Load Dynamic Upcoming Event for Hero Card
+        async function loadHeroUpcomingEvent() {
+            const titleEl = document.getElementById('upcomingEventTitle');
+            const dateEl = document.getElementById('upcomingEventDateText');
+            if (!titleEl || !dateEl) return;
+
+            try {
+                const response = await fetch(API_URL + 'get_upcoming_events.php');
+                const data = await response.json();
+                
+                if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+                    const nextEvent = data.data[0];
+                    if (nextEvent.event_title) {
+                        titleEl.textContent = nextEvent.event_title;
+                    }
+                    if (nextEvent.event_date) {
+                        const parsedDate = new Date(nextEvent.event_date + 'T00:00:00');
+                        if (!isNaN(parsedDate.getTime())) {
+                            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                            dateEl.textContent = parsedDate.toLocaleDateString('en-GB', options);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('Unable to load hero upcoming event:', err);
+            }
+        }
+
+        // Hero Slider Controls (Minimal, Smooth & Accessible)
+        function initHeroSlider() {
+            let currentSlide = 0;
+            const totalSlides = 4;
+            const dots = document.querySelectorAll('.hero-slider-dot');
+            const prevBtn = document.getElementById('heroPrevBtn');
+            const nextBtn = document.getElementById('heroNextBtn');
+
+            function showSlide(index) {
+                currentSlide = (index + totalSlides) % totalSlides;
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentSlide);
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+            }
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => showSlide(idx));
+            });
+        }
+
+        // Smooth Scroll to Academic Calendar
+        function scrollToCalendar(e) {
+            if (e) e.preventDefault();
+            const cal = document.getElementById('calendar') || 
+                        document.querySelector('.academic-calendar-astonishing') ||
+                        document.querySelector('.calendar-section');
+            if (cal) {
+                cal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.location.href = 'Academics.html';
+            }
+        }
+
+        // Sticky Navbar Compacting on Scroll
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (header) {
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+        }, { passive: true });
+
+        // Mobile dropdown toggle handler
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.header .nav-dropdown > a').forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 991) {
+                        e.preventDefault();
+                        const menu = this.nextElementSibling;
+                        if (menu) menu.classList.toggle('mobile-open');
+                    }
+                });
+            });
+        });
+
+        // Load Events Bar (if legacy container exists)
         async function loadEventsBar() {
             try {
                 const response = await fetch(API_URL + 'get_upcoming_events.php');
@@ -1099,6 +1392,8 @@
 
         // Load all data when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            loadHeroUpcomingEvent();
+            initHeroSlider();
             loadEventsBar();
             loadTestimonials();
             loadCalendarEvents();
@@ -1726,10 +2021,15 @@
     </script>
     
     <!-- Chatbot JavaScript -->
-    <script src="../js/chatbot.js?v=4.0"></script>
+    <script src="../js/chatbot.js?v=7.0"></script>
     
     <!-- Calendar Astonishing JavaScript -->
     <script src="../js/calendar-astonishing.js?v=1.0"></script>
+    <!-- Target Academic Calendar Script -->
+        <!-- Target Testimonials Script -->
+    <script src="../js/testimonials-target.js?v=1.0"></script>
+<script src="../js/calendar-target.js?v=1.0"></script>
+
     
     <!-- Page Loader Script -->
     <script src="../js/page-loader.js"></script>

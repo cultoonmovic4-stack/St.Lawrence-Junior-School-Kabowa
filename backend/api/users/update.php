@@ -7,6 +7,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
 require_once '../middleware/permission_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -51,27 +52,21 @@ try {
         throw new Exception('Username or email already exists');
     }
     
-    // Handle profile image upload
+    // Handle profile image upload securely
     $profileImage = null;
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../../uploads/profiles/';
+        $uploadDir = __DIR__ . '/../../uploads/profiles/';
         if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+            mkdir($uploadDir, 0755, true);
         }
         
-        $fileExtension = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            throw new Exception('Invalid file type. Only JPG, PNG, and GIF are allowed.');
-        }
-        
-        $fileName = 'profile_' . time() . '_' . uniqid() . '.' . $fileExtension;
-        $targetPath = $uploadDir . $fileName;
-        
-        if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
-            $profileImage = 'backend/uploads/profiles/' . $fileName;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['profile_image'],
+            UploadSecurityHelper::CATEGORY_IMAGE,
+            $uploadDir,
+            'profile'
+        );
+        $profileImage = 'backend/uploads/profiles/' . $uploadResult['filename'];
     }
     
     // Build update query

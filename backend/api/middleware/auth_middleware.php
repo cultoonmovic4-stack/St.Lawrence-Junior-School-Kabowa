@@ -5,9 +5,20 @@
  * Include this file at the top of any protected API endpoint
  */
 
-// Start session if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+require_once __DIR__ . '/../helpers/SessionHelper.php';
+
+// Initialize hardened session
+SessionHelper::start();
+
+/**
+ * Compatibility helper for endpoints expecting check_auth()
+ * @return array
+ */
+function check_auth() {
+    return [
+        'authenticated' => isAuthenticated(),
+        'user' => getCurrentUser()
+    ];
 }
 
 /**

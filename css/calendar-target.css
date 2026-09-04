@@ -1,0 +1,589 @@
+/* ==========================================================================
+   ACADEMIC CALENDAR SECTION — EDITORIAL & ELEGANT DESIGN
+   St. Lawrence Junior School, Kabowa
+   ========================================================================== */
+
+.academic-calendar-target {
+    background-color: #f8fafc;
+    padding: 80px 0 60px 0;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1e293b;
+}
+
+.academic-calendar-target .cal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER COMPOSITION
+   -------------------------------------------------------------------------- */
+.academic-calendar-target .cal-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 44px;
+    position: relative;
+}
+
+.academic-calendar-target .cal-header-left {
+    flex: 1;
+    max-width: 620px;
+    position: relative;
+    z-index: 2;
+}
+
+.academic-calendar-target .cal-school-logo {
+    display: inline-block;
+    margin-bottom: 22px;
+}
+
+.academic-calendar-target .cal-school-logo img {
+    height: 74px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(11, 26, 56, 0.08));
+}
+
+.academic-calendar-target .cal-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.academic-calendar-target .cal-accent-bar {
+    width: 32px;
+    height: 2.5px;
+    background-color: #d32f2f;
+    display: inline-block;
+}
+
+.academic-calendar-target .cal-small-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+}
+
+.academic-calendar-target .cal-main-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: #0b1a38;
+    line-height: 1.12;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.5px;
+}
+
+.academic-calendar-target .cal-supporting-text {
+    font-size: 16px;
+    color: #4b5563;
+    line-height: 1.55;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Right atmospheric pupil banner + cursive quote */
+.academic-calendar-target .cal-header-right {
+    position: relative;
+    width: 380px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.academic-calendar-target .cal-pupils-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 200px;
+    background-image: url('../img/calendar-pupils-bg.jpg');
+    background-size: cover;
+    background-position: center top;
+    border-radius: 12px;
+    opacity: 0.88;
+    -webkit-mask-image: radial-gradient(circle at 65% 50%, black 50%, transparent 100%);
+    mask-image: radial-gradient(circle at 65% 50%, black 50%, transparent 100%);
+    pointer-events: none;
+}
+
+.academic-calendar-target .cal-motto-callout {
+    position: relative;
+    z-index: 3;
+    text-align: right;
+    padding-right: 12px;
+    transform: rotate(-3.5deg);
+}
+
+.academic-calendar-target .cal-motto-callout p {
+    font-family: 'Caveat', cursive, sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #c8102e;
+    line-height: 1.1;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.academic-calendar-target .cal-motto-underline {
+    width: 110px;
+    height: 3px;
+    background: #c8102e;
+    border-radius: 2px;
+    margin-left: auto;
+    margin-top: 6px;
+    transform: rotate(2deg);
+}
+
+/* --------------------------------------------------------------------------
+   MAIN CALENDAR & EVENTS GRID
+   -------------------------------------------------------------------------- */
+.academic-calendar-target .cal-grid-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 32px;
+    align-items: stretch;
+    margin-bottom: 50px;
+}
+
+.academic-calendar-target .cal-editorial-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(11, 26, 56, 0.035);
+    padding: 34px 38px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   LEFT CARD: MONTHLY CALENDAR
+   -------------------------------------------------------------------------- */
+.academic-calendar-target .cal-month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.academic-calendar-target .cal-nav-btn {
+    background: none;
+    border: none;
+    color: #0b1a38;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.academic-calendar-target .cal-nav-btn:hover {
+    background-color: #f1f5f9;
+    color: #003399;
+}
+
+.academic-calendar-target .cal-month-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0b1a38;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+.academic-calendar-target .cal-divider {
+    height: 1px;
+    background-color: #f1f5f9;
+    margin-bottom: 16px;
+}
+
+/* Weekday labels */
+.academic-calendar-target .cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.academic-calendar-target .cal-weekday {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Days 7-column grid */
+.academic-calendar-target .cal-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 8px;
+    column-gap: 4px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.academic-calendar-target .cal-day-cell {
+    position: relative;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.15s ease;
+    user-select: none;
+    margin: 0 auto;
+    width: 44px;
+}
+
+.academic-calendar-target .cal-day-cell:hover:not(.cal-other-month) {
+    background-color: #f8fafc;
+    color: #003399;
+}
+
+.academic-calendar-target .cal-day-cell.cal-other-month {
+    color: #cbd5e1;
+    font-weight: 400;
+    cursor: default;
+}
+
+.academic-calendar-target .cal-day-cell.cal-selected {
+    background-color: #003399 !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 51, 153, 0.28);
+}
+
+.academic-calendar-target .cal-day-cell.cal-selected .cal-event-dot {
+    background-color: #ffffff;
+}
+
+/* Event red dot */
+.academic-calendar-target .cal-event-dot {
+    width: 5px;
+    height: 5px;
+    background-color: #d32f2f;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Legend */
+.academic-calendar-target .cal-legend {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.academic-calendar-target .cal-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.academic-calendar-target .cal-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.academic-calendar-target .cal-legend-dot.selected-dot {
+    background-color: #003399;
+}
+
+.academic-calendar-target .cal-legend-dot.event-dot {
+    background-color: #d32f2f;
+}
+
+.academic-calendar-target .cal-legend-dot.other-dot {
+    background-color: #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
+   RIGHT CARD: UPCOMING EVENTS
+   -------------------------------------------------------------------------- */
+.academic-calendar-target .cal-events-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.academic-calendar-target .cal-events-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0b1a38;
+    margin: 0;
+}
+
+.academic-calendar-target .cal-view-all-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #003399;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s ease;
+}
+
+.academic-calendar-target .cal-view-all-link:hover {
+    gap: 10px;
+    color: #0b1a38;
+}
+
+.academic-calendar-target .cal-events-accent {
+    width: 38px;
+    height: 3px;
+    background-color: #d32f2f;
+    margin-bottom: 24px;
+}
+
+/* Timeline list */
+.academic-calendar-target .cal-timeline-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.academic-calendar-target .cal-timeline-track {
+    position: absolute;
+    left: 82px;
+    top: 18px;
+    bottom: 24px;
+    width: 1px;
+    background-color: #e2e8f0;
+    z-index: 1;
+}
+
+.academic-calendar-target .cal-timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+}
+
+.academic-calendar-target .cal-item-date-badge {
+    width: 54px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.academic-calendar-target .cal-date-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0b1a38;
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
+}
+
+.academic-calendar-target .cal-date-month {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0b1a38;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+.academic-calendar-target .cal-item-node {
+    width: 10px;
+    height: 10px;
+    background-color: #d32f2f;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 3;
+    outline: 4px solid #ffffff;
+}
+
+.academic-calendar-target .cal-item-content {
+    flex: 1;
+}
+
+.academic-calendar-target .cal-item-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0b1a38;
+    margin: 0 0 3px 0;
+}
+
+.academic-calendar-target .cal-item-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 4px 0;
+    font-weight: 400;
+}
+
+.academic-calendar-target .cal-item-fulldate {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Info Callout */
+.academic-calendar-target .cal-info-callout {
+    background-color: #f1f6fd;
+    border: 1px solid #dce8f8;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.academic-calendar-target .cal-callout-icon {
+    font-size: 24px;
+    color: #1e3a8a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.academic-calendar-target .cal-callout-text {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM BRAND STRIP
+   -------------------------------------------------------------------------- */
+.academic-calendar-target .cal-bottom-strip {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.academic-calendar-target .cal-bottom-school-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #475569;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.academic-calendar-target .cal-bottom-link-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.academic-calendar-target .cal-bottom-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: #003399;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.academic-calendar-target .cal-bottom-link:hover {
+    color: #0b1a38;
+    gap: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    .academic-calendar-target .cal-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .academic-calendar-target .cal-header-right {
+        width: 100%;
+        height: 160px;
+        justify-content: flex-start;
+    }
+
+    .academic-calendar-target .cal-pupils-bg {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .academic-calendar-target .cal-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .academic-calendar-target {
+        padding: 50px 0 40px 0;
+    }
+
+    .academic-calendar-target .cal-main-heading {
+        font-size: 34px;
+    }
+
+    .academic-calendar-target .cal-editorial-card {
+        padding: 24px 20px;
+    }
+
+    .academic-calendar-target .cal-day-cell {
+        height: 38px;
+        width: 38px;
+        font-size: 14px;
+    }
+
+    .academic-calendar-target .cal-timeline-track {
+        left: 72px;
+    }
+
+    .academic-calendar-target .cal-item-date-badge {
+        width: 46px;
+    }
+
+    .academic-calendar-target .cal-date-number {
+        font-size: 24px;
+    }
+
+    .academic-calendar-target .cal-bottom-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}

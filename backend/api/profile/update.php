@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -28,36 +29,31 @@ try {
         $email = $_POST['email'] ?? '';
         $phone = $_POST['phone'] ?? '';
         
-        // Handle profile image upload
+        // Handle profile image upload securely
         $profileImage = null;
         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../../uploads/profiles/';
+            $uploadDir = __DIR__ . '/../../uploads/profiles/';
             if (!file_exists($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
+                mkdir($uploadDir, 0755, true);
             }
             
-            $fileExtension = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $uploadResult = UploadSecurityHelper::validateAndSave(
+                $_FILES['profile_image'],
+                UploadSecurityHelper::CATEGORY_IMAGE,
+                $uploadDir,
+                'profile_' . $userId
+            );
             
-            if (!in_array($fileExtension, $allowedExtensions)) {
-                throw new Exception('Invalid file type. Only JPG, PNG, and GIF are allowed.');
-            }
+            $profileImage = 'backend/uploads/profiles/' . $uploadResult['filename'];
             
-            $fileName = 'profile_' . $userId . '_' . time() . '.' . $fileExtension;
-            $targetPath = $uploadDir . $fileName;
+            // Delete old profile image if exists and safe
+            $stmt = $db->prepare("SELECT profile_image FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+            $oldUser = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
-                $profileImage = 'backend/uploads/profiles/' . $fileName;
-                
-                // Delete old profile image if exists
-                $stmt = $db->prepare("SELECT profile_image FROM users WHERE id = :id");
-                $stmt->bindParam(':id', $userId);
-                $stmt->execute();
-                $oldUser = $stmt->fetch(PDO::FETCH_ASSOC);
-                
-                if ($oldUser && $oldUser['profile_image'] && file_exists('../../' . $oldUser['profile_image'])) {
-                    unlink('../../' . $oldUser['profile_image']);
-                }
+            if ($oldUser && $oldUser['profile_image'] && file_exists(__DIR__ . '/../../' . $oldUser['profile_image']) && strpos(realpath(__DIR__ . '/../../' . $oldUser['profile_image']), realpath($uploadDir)) === 0) {
+                @unlink(__DIR__ . '/../../' . $oldUser['profile_image']);
             }
         }
         

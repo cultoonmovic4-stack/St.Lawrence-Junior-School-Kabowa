@@ -1,0 +1,838 @@
+/* ==============================================================================
+   ST. LAWRENCE JUNIOR SCHOOL - KABOWA
+   Institutional Navbar + Hero Target Redesign
+   Clean, human, institutional, zero AI-gimmicks
+   ============================================================================== */
+
+:root {
+    --sls-navy: #0b1a38;
+    --sls-navy-scrolled: #071228;
+    --sls-navy-light: #15284f;
+    --sls-red: #dc2626;
+    --sls-red-hover: #b91c1c;
+    --sls-red-light: #ef4444;
+    --sls-white: #ffffff;
+    --sls-text-muted: #94a3b8;
+    --sls-text-dark: #0f172a;
+    --sls-card-bg: #ffffff;
+    --sls-font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sls-font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ==============================================================================
+   1. SOLID INSTITUTIONAL NAVBAR
+   ============================================================================== */
+.header#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--sls-navy) !important;
+    background: var(--sls-navy) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.25s ease;
+    padding: 0;
+}
+
+.header#header.scrolled {
+    background-color: var(--sls-navy-scrolled) !important;
+    background: var(--sls-navy-scrolled) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.header#header .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.header#header .navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 78px;
+    padding: 0 !important;
+    transition: height 0.25s ease;
+}
+
+.header#header.scrolled .navbar {
+    height: 68px;
+}
+
+/* Brand Identity */
+.header#header .logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.header#header .logo-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
+    flex-shrink: 0;
+}
+
+.header#header .logo-badge img,
+.header#header .logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.header#header .logo-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header#header .logo-text {
+    font-family: var(--sls-font-heading);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--sls-white);
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+}
+
+.header#header .logo-subtitle {
+    font-family: var(--sls-font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--sls-text-muted);
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    margin-top: 2px;
+}
+
+/* Desktop Navigation Links */
+.header#header .nav-menu {
+    display: flex !important;
+    align-items: center !important;
+    list-style: none !important;
+    gap: 24px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.header#header .nav-link {
+    font-family: var(--sls-font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-decoration: none;
+    padding: 10px 4px !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px;
+    position: relative;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.header#header .nav-link i {
+    font-size: 11px;
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+}
+
+/* Active and Hover States with Underline Accent */
+.header#header .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--sls-red);
+    transition: width 0.2s ease;
+    border-radius: 2px;
+}
+
+.header#header .nav-link:hover {
+    color: var(--sls-white) !important;
+}
+
+.header#header .nav-link:hover::after {
+    width: 100%;
+}
+
+.header#header .nav-link.active {
+    color: var(--sls-white) !important;
+    font-weight: 600;
+}
+
+.header#header .nav-link.active::after {
+    width: 100%;
+}
+
+/* Academics Dropdown */
+.header#header .nav-dropdown {
+    position: relative;
+}
+
+.header#header .nav-dropdown:hover .nav-link i {
+    transform: rotate(180deg);
+}
+
+.header#header .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    min-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    margin-top: 12px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: all 0.2s ease;
+    z-index: 1001;
+}
+
+.header#header .nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.header#header .dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    font-family: var(--sls-font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #1e293b;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+}
+
+.header#header .dropdown-menu li a:hover {
+    background: #f8fafc;
+    color: var(--sls-navy);
+    border-left-color: var(--sls-red);
+    padding-left: 23px;
+}
+
+/* Admin Portal CTA Button */
+.header#header .nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 8px;
+}
+
+.header#header .btn-admin {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px;
+    background-color: var(--sls-red) !important;
+    color: var(--sls-white) !important;
+    font-family: var(--sls-font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 20px !important;
+    border-radius: 8px !important;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+    transition: all 0.2s ease !important;
+    white-space: nowrap;
+    border: none !important;
+}
+
+.header#header .btn-admin:hover {
+    background-color: var(--sls-red-hover) !important;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.45);
+    transform: translateY(-1px);
+}
+
+.header#header .btn-admin i {
+    font-size: 13px;
+}
+
+/* Mobile Hamburger Button */
+.header#header .hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    z-index: 1002;
+}
+
+.header#header .hamburger:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.header#header .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--sls-white);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+}
+
+.header#header .hamburger.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.header#header .hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.header#header .hamburger.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==============================================================================
+   2. TARGET HERO SECTION
+   ============================================================================== */
+.hero-target {
+    position: relative;
+    width: 100%;
+    min-height: 580px;
+    height: 80vh;
+    max-height: 720px;
+    margin-top: 78px;
+    background-color: var(--sls-navy);
+    background-image: url('../img/hero-students-target.jpg');
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Subtle Directional Overlay: guarantees left text contrast without darkening students */
+.hero-target .hero-target-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(8, 20, 42, 0.95) 0%,
+        rgba(8, 20, 42, 0.88) 32%,
+        rgba(8, 20, 42, 0.58) 55%,
+        rgba(8, 20, 42, 0.18) 78%,
+        rgba(8, 20, 42, 0.02) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-target .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Left Hero Content */
+.hero-target-content {
+    max-width: 560px;
+    padding: 40px 0;
+}
+
+.hero-target-eyebrow {
+    display: inline-block;
+    color: var(--sls-red-light);
+    font-family: var(--sls-font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.hero-target-title {
+    font-family: var(--sls-font-heading);
+    font-size: clamp(2.3rem, 4.2vw, 3.5rem);
+    font-weight: 800;
+    color: var(--sls-white);
+    line-height: 1.15;
+    margin: 0 0 18px 0;
+    letter-spacing: -0.5px;
+}
+
+.hero-target-desc {
+    font-family: var(--sls-font-body);
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.86);
+    margin: 0 0 32px 0;
+    max-width: 470px;
+}
+
+/* Action Buttons */
+.hero-target-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background-color: var(--sls-red);
+    color: var(--sls-white);
+    font-family: var(--sls-font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.hero-btn-primary:hover {
+    background-color: var(--sls-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(220, 38, 38, 0.45);
+    color: var(--sls-white);
+}
+
+.hero-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background-color: rgba(15, 23, 42, 0.5);
+    color: var(--sls-white);
+    font-family: var(--sls-font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 13px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    transition: all 0.2s ease;
+}
+
+.hero-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.7);
+    color: var(--sls-white);
+    transform: translateY(-2px);
+}
+
+/* Carousel Slider Controls (Minimal & Accessible) */
+.hero-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(11, 26, 56, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--sls-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 3;
+    transition: all 0.2s ease;
+}
+
+.hero-slider-arrow:hover {
+    background: var(--sls-navy-scrolled);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.hero-slider-prev {
+    left: 24px;
+}
+
+.hero-slider-next {
+    right: 24px;
+}
+
+.hero-slider-dots {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+}
+
+.hero-slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hero-slider-dot.active {
+    width: 26px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--sls-red);
+}
+
+/* ==============================================================================
+   3. DYNAMIC UPCOMING IMPORTANT DATE CARD (INTEGRATED INTO HERO)
+   ============================================================================== */
+.hero-upcoming-card {
+    position: absolute;
+    bottom: 42px;
+    right: 50px;
+    width: 290px;
+    background: var(--sls-card-bg);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 4;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-upcoming-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+}
+
+.hero-upcoming-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--sls-red);
+    font-family: var(--sls-font-heading);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.hero-upcoming-badge i {
+    font-size: 13px;
+}
+
+.hero-upcoming-title {
+    font-family: var(--sls-font-heading);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--sls-text-dark);
+    margin: 0 0 6px 0;
+    line-height: 1.25;
+}
+
+.hero-upcoming-date {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--sls-font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 14px;
+}
+
+.hero-upcoming-date i {
+    color: #0066cc;
+    font-size: 13px;
+}
+
+.hero-upcoming-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin-bottom: 12px;
+}
+
+.hero-upcoming-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sls-font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: #0066cc;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.hero-upcoming-link:hover {
+    color: #004c99;
+    text-decoration: underline;
+    gap: 9px;
+}
+
+.hero-upcoming-link i {
+    font-size: 11px;
+    transition: transform 0.15s ease;
+}
+
+/* ==============================================================================
+   4. RESPONSIVE BREAKPOINTS (TABLET & MOBILE)
+   ============================================================================== */
+
+/* Tablet (≤ 1024px) */
+@media (max-width: 1024px) {
+    .header#header .nav-menu {
+        gap: 16px;
+    }
+
+    .header#header .nav-link {
+        font-size: 13px;
+        padding: 8px 2px !important;
+    }
+
+    .hero-target {
+        height: auto;
+        min-height: 540px;
+        padding-bottom: 60px;
+    }
+
+    .hero-upcoming-card {
+        right: 24px;
+        bottom: 30px;
+        width: 270px;
+    }
+}
+
+/* Mobile & Tablet Portrait (≤ 991px) */
+@media (max-width: 991px) {
+    .header#header .hamburger {
+        display: flex !important;
+    }
+
+    /* Mobile Drawer (attached to header or body) */
+    #navMenu,
+    .header#header .nav-menu {
+        position: fixed !important;
+        top: 70px !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: calc(100vh - 70px) !important;
+        background-color: #071228 !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding: 24px 24px 40px 24px !important;
+        gap: 0 !important;
+        overflow-y: auto !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+        z-index: 999999 !important;
+    }
+
+    #navMenu.active,
+    .header#header .nav-menu.active {
+        transform: translateX(0) !important;
+        display: flex !important;
+    }
+
+    #navMenu li,
+    .header#header .nav-menu li {
+        width: 100% !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        display: block !important;
+    }
+
+    #navMenu .nav-link,
+    .header#header .nav-link {
+        font-size: 16px !important;
+        padding: 15px 8px !important;
+        width: 100% !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    #navMenu .dropdown-menu,
+    .header#header .dropdown-menu {
+        position: static !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border-radius: 6px !important;
+        margin: 0 0 10px 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        display: none;
+        width: 100% !important;
+    }
+
+    #navMenu .dropdown-menu.mobile-open,
+    .header#header .dropdown-menu.mobile-open {
+        display: block !important;
+    }
+
+    #navMenu .dropdown-menu li a,
+    .header#header .dropdown-menu li a {
+        color: rgba(255, 255, 255, 0.85) !important;
+        padding: 12px 18px !important;
+        font-size: 14px !important;
+    }
+
+    /* Admin Portal CTA inside mobile menu */
+    .header#header .nav-actions {
+        display: none !important; /* Hide desktop header button */
+    }
+
+    .mobile-menu-admin-item {
+        margin-top: 24px !important;
+        width: 100% !important;
+        border-bottom: none !important;
+        display: block !important;
+    }
+
+    .mobile-menu-admin-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 9px !important;
+        width: 100% !important;
+        background-color: var(--sls-red) !important;
+        color: var(--sls-white) !important;
+        padding: 14px 20px !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        text-decoration: none !important;
+        box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+    }
+
+    /* Hero adjustments on tablet & mobile */
+    .hero-target {
+        margin-top: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 30px 0 40px 0 !important;
+        background-position: center top !important;
+    }
+
+    .hero-target .container {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        height: auto !important;
+        padding: 10px 20px 30px 20px !important;
+    }
+
+    .hero-target .hero-target-overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(8, 20, 42, 0.95) 0%,
+            rgba(8, 20, 42, 0.92) 50%,
+            rgba(8, 20, 42, 0.88) 100%
+        ) !important;
+    }
+
+    .hero-target-content {
+        max-width: 100% !important;
+        padding: 10px 0 !important;
+    }
+
+    .hero-upcoming-card {
+        position: static !important;
+        bottom: auto !important;
+        right: auto !important;
+        margin: 28px 0 0 0 !important;
+        width: 100% !important;
+        max-width: 360px !important;
+    }
+
+    .hero-slider-arrow,
+    .hero-slider-dots {
+        display: none !important; /* hide on smaller touch screens to avoid clutter */
+    }
+}
+
+/* Mobile Devices (≤ 600px) */
+@media (max-width: 600px) {
+    .header#header .navbar {
+        height: 68px !important;
+    }
+
+    .header#header .logo-text {
+        font-size: 17px !important;
+    }
+
+    .header#header .logo-subtitle {
+        font-size: 10px !important;
+    }
+
+    .hero-target {
+        margin-top: 0 !important;
+        padding: 24px 0 32px 0 !important;
+    }
+
+    .hero-target .container {
+        padding: 10px 16px 24px 16px !important;
+    }
+
+    .hero-target-title {
+        font-size: 2.1rem !important;
+    }
+
+    .hero-target-desc {
+        font-size: 14.5px !important;
+        margin-bottom: 24px !important;
+    }
+
+    .hero-target-buttons {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .hero-upcoming-card {
+        max-width: 100% !important;
+        padding: 18px 20px !important;
+        margin: 24px 0 0 0 !important;
+    }
+}

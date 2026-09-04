@@ -1,8 +1,15 @@
 <?php
 /**
  * Google OAuth Login Handler
- * Handles Google Sign-In authentication
+ * St. Lawrence Junior School
+ *
+ * SECURITY: Cryptographically verifies Google ID tokens via RS256 + JWKS.
+ * Uses SessionHelper for session fixation prevention.
  */
+
+// Suppress PHP error display — never expose internals to clients
+error_reporting(0);
+ini_set('display_errors', '0');
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -11,14 +18,25 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once __DIR__ . '/../config/env.php';
 require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../helpers/GoogleAuthHelper.php';
+require_once __DIR__ . '/../helpers/SessionHelper.php';
 
-// Handle preflight requests
+// Load environment variables (provides GOOGLE_CLIENT_ID)
+try {
+    loadEnv();
+} catch (Exception $e) {
+    // Tolerate missing .env in local dev; client ID will fall back below
+}
+
+// Initialize hardened session before any auth logic
+SessionHelper::start();
+
+// Handle CORS preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
@@ -26,154 +44,140 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    // Get JSON input
+    // Read raw credential from request body
     $input = json_decode(file_get_contents('php://input'), true);
-    
-    if (!isset($input['credential'])) {
+
+    if (empty($input['credential'])) {
         throw new Exception('No credential provided');
     }
-    
-    $credential = $input['credential'];
-    
-    // Verify the Google JWT token
-    $googleUser = verifyGoogleToken($credential);
-    
-    if (!$googleUser) {
-        throw new Exception('Invalid Google token');
+
+    // Retrieve the expected audience (our Google Client ID) from environment
+    $expectedAudience = getenv('GOOGLE_CLIENT_ID')
+        ?: ($_ENV['GOOGLE_CLIENT_ID'] ?? null);
+
+    if (empty($expectedAudience)) {
+        // Hard-code fallback only as last resort — prefer .env
+        $expectedAudience = '208073950289-13ga4hicat50qqg7bt1e3saie0r95d8i.apps.googleusercontent.com';
     }
-    
-    // Extract user information
-    $email = $googleUser['email'];
-    $name = $googleUser['name'];
-    $googleId = $googleUser['sub'];
-    $picture = $googleUser['picture'] ?? null;
-    
+
+    // -----------------------------------------------------------------------
+    // CRITICAL: Cryptographic RS256 JWT verification
+    // GoogleAuthHelper fetches Google's JWKS, validates the signature,
+    // enforces algorithm (RS256 only, no "alg:none"), issuer, audience,
+    // expiration, subject, email_verified — before ANY user data is trusted.
+    // -----------------------------------------------------------------------
+    $payload = GoogleAuthHelper::verifyIdToken($input['credential'], $expectedAudience);
+
+    // At this point the token is cryptographically verified. Extract claims.
+    $googleId = $payload['sub'];         // Verified Google user identifier
+    $email    = $payload['email'];       // Trusted only after verification
+    $name     = $payload['name']   ?? '';
+    $picture  = $payload['picture'] ?? null;
+
     // Connect to database
     $database = new Database();
     $db = $database->getConnection();
-    
-    // Check if user exists
-    $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
-    $stmt = $db->prepare($query);
+
+    // Look up existing user by email
+    $stmt = $db->prepare("
+        SELECT u.id, u.username, u.email, u.full_name, u.status,
+               u.google_id, u.profile_image,
+               r.id as role_id, r.role_name, r.role_level
+        FROM users u
+        LEFT JOIN roles r ON u.role_id = r.id
+        WHERE u.email = :email
+        LIMIT 1
+    ");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
-    
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$user) {
-        // User doesn't exist - create new user with Google account
-        $query = "INSERT INTO users (email, name, google_id, profile_picture, role, created_at) 
-                  VALUES (:email, :name, :google_id, :picture, 'viewer', NOW())";
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':google_id', $googleId);
-        $stmt->bindParam(':picture', $picture);
-        
-        if (!$stmt->execute()) {
-            throw new Exception('Failed to create user account');
-        }
-        
-        // Get the newly created user
-        $userId = $db->lastInsertId();
-        $user = [
-            'id' => $userId,
-            'email' => $email,
-            'name' => $name,
-            'role' => 'viewer',
-            'profile_picture' => $picture
-        ];
-    } else {
-        // Update Google ID and picture if not set
-        if (empty($user['google_id'])) {
-            $query = "UPDATE users SET google_id = :google_id, profile_picture = :picture WHERE id = :id";
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(':google_id', $googleId);
-            $stmt->bindParam(':picture', $picture);
-            $stmt->bindParam(':id', $user['id']);
-            $stmt->execute();
-            
-            $user['google_id'] = $googleId;
-            $user['profile_picture'] = $picture;
-        }
+        // Google login is restricted to existing users only.
+        // New accounts must be provisioned by an administrator.
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'No account found for this Google address. Contact the school administrator.'
+        ]);
+        exit();
     }
-    
-    // Start session
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+
+    // Enforce account active status
+    if ($user['status'] !== 'active') {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Your account has been deactivated. Please contact administrator.'
+        ]);
+        exit();
     }
-    
-    // Store user data in session
-    $_SESSION['user_id'] = $user['id'];
-    $_SESSION['user_email'] = $user['email'];
-    $_SESSION['user_name'] = $user['name'];
-    $_SESSION['user_role'] = $user['role'];
-    $_SESSION['logged_in'] = true;
+
+    // Link or refresh google_id / profile picture if not already stored
+    if (empty($user['google_id']) || $user['google_id'] !== $googleId) {
+        $updateStmt = $db->prepare("UPDATE users SET google_id = :gid WHERE id = :id");
+        $updateStmt->bindParam(':gid', $googleId);
+        $updateStmt->bindParam(':id', $user['id']);
+        $updateStmt->execute();
+    }
+
+    // Update last login timestamp
+    $db->prepare("UPDATE users SET last_login = NOW() WHERE id = :id")
+       ->execute([':id' => $user['id']]);
+
+    // Log login activity
+    try {
+        $logStmt = $db->prepare("
+            INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent)
+            VALUES (:uid, 'login', 'Google OAuth login', :ip, :ua)
+        ");
+        $logStmt->execute([
+            ':uid' => $user['id'],
+            ':ip'  => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            ':ua'  => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+        ]);
+    } catch (Exception $e) {
+        // Activity logging failure must never block authentication
+    }
+
+    // -------------------------------------------------------------------
+    // Session Fixation Prevention:
+    // Regenerate the session ID immediately after verification,
+    // BEFORE writing any authentication state into the session.
+    // -------------------------------------------------------------------
+    SessionHelper::regenerate();
+
+    // Establish authenticated session — mirror the same keys as password login
+    $_SESSION['user_id']      = $user['id'];
+    $_SESSION['username']     = $user['username'];
+    $_SESSION['email']        = $user['email'];
+    $_SESSION['full_name']    = $user['full_name'];
+    $_SESSION['role_id']      = $user['role_id'];
+    $_SESSION['role_name']    = $user['role_name'];
+    $_SESSION['role_level']   = $user['role_level'];
+    $_SESSION['logged_in']    = true;
     $_SESSION['login_method'] = 'google';
-    
-    // Return success response
+    $_SESSION['login_time']   = time();
+
+    http_response_code(200);
     echo json_encode([
         'success' => true,
         'message' => 'Google login successful',
         'data' => [
-            'id' => $user['id'],
-            'email' => $user['email'],
-            'name' => $user['name'],
-            'role' => $user['role'],
-            'profile_picture' => $user['profile_picture']
+            'user_id'    => $user['id'],
+            'username'   => $user['username'],
+            'email'      => $user['email'],
+            'full_name'  => $user['full_name'],
+            'role_name'  => $user['role_name'],
+            'role_level' => $user['role_level']
         ]
     ]);
-    
+
 } catch (Exception $e) {
+    // Return a safe, generic error message — never expose JWT internals
     http_response_code(401);
     echo json_encode([
         'success' => false,
-        'message' => $e->getMessage()
+        'message' => 'Authentication failed. Please try again.'
     ]);
 }
-
-/**
- * Verify Google JWT Token
- * @param string $token The JWT token from Google
- * @return array|false User data or false on failure
- */
-function verifyGoogleToken($token) {
-    try {
-        // Split the JWT token
-        $parts = explode('.', $token);
-        if (count($parts) !== 3) {
-            return false;
-        }
-        
-        // Decode the payload (second part)
-        $payload = base64_decode(str_replace(['-', '_'], ['+', '/'], $parts[1]));
-        $userData = json_decode($payload, true);
-        
-        if (!$userData) {
-            return false;
-        }
-        
-        // Verify the token is not expired
-        if (isset($userData['exp']) && $userData['exp'] < time()) {
-            return false;
-        }
-        
-        // Verify the issuer
-        if (!isset($userData['iss']) || 
-            ($userData['iss'] !== 'https://accounts.google.com' && 
-             $userData['iss'] !== 'accounts.google.com')) {
-            return false;
-        }
-        
-        // Verify email is verified
-        if (!isset($userData['email_verified']) || $userData['email_verified'] !== true) {
-            return false;
-        }
-        
-        return $userData;
-        
-    } catch (Exception $e) {
-        return false;
-    }
-}
-?>

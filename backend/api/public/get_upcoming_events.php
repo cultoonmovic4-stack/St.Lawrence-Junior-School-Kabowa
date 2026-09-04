@@ -9,20 +9,91 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Get next 3 upcoming events for hero section
+    $fetchAll = isset($_GET['all']) || (isset($_GET['scope']) && $_GET['scope'] === 'calendar');
+    $calWhere = $fetchAll ? '' : 'WHERE start_date >= CURDATE()';
+    $eventsWhere = $fetchAll ? '' : "WHERE event_date >= CURDATE() AND status = 'upcoming'";
+    $limitSql = $fetchAll ? '' : 'LIMIT 10';
+
+    // Query both calendar_events (Important Days from Admin Dashboard)
+    // and events (General Events from Admin Dashboard)
     $stmt = $db->prepare("
         SELECT 
-            title as event_title,
+            event_title,
             event_date,
-            location
-        FROM events
-        WHERE event_date >= CURDATE()
-        AND status = 'upcoming'
+            event_type,
+            location,
+            description,
+            source
+        FROM (
+            SELECT 
+                event_title,
+                start_date AS event_date,
+                event_type,
+                '' AS location,
+                COALESCE(event_description, '') AS description,
+                'calendar_events' AS source,
+                created_at
+            FROM calendar_events
+            $calWhere
+            
+            UNION ALL
+            
+            SELECT 
+                title AS event_title,
+                event_date,
+                category AS event_type,
+                COALESCE(location, '') AS location,
+                COALESCE(description, '') AS description,
+                'events' AS source,
+                created_at
+            FROM events
+            $eventsWhere
+        ) AS combined_events
         ORDER BY event_date ASC
-        LIMIT 3
+        $limitSql
     ");
     $stmt->execute();
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fallback: If no future events exist, fetch the most recent entries
+    if (empty($events)) {
+        $stmtFallback = $db->prepare("
+            SELECT 
+                event_title,
+                event_date,
+                event_type,
+                location,
+                description,
+                source
+            FROM (
+                SELECT 
+                    event_title,
+                    start_date AS event_date,
+                    event_type,
+                    '' AS location,
+                    COALESCE(event_description, '') AS description,
+                    'calendar_events' AS source,
+                    created_at
+                FROM calendar_events
+                
+                UNION ALL
+                
+                SELECT 
+                    title AS event_title,
+                    event_date,
+                    category AS event_type,
+                    COALESCE(location, '') AS location,
+                    COALESCE(description, '') AS description,
+                    'events' AS source,
+                    created_at
+                FROM events
+            ) AS combined_all
+            ORDER BY created_at DESC, event_date DESC
+            LIMIT 5
+        ");
+        $stmtFallback->execute();
+        $events = $stmtFallback->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     echo json_encode([
         'success' => true,

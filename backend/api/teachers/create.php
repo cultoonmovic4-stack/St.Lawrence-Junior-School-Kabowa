@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -37,39 +38,21 @@ try {
         throw new Exception('Invalid department');
     }
     
-    // Handle photo upload
+    // Handle photo upload securely
     $photoUrl = null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $file = $_FILES['photo'];
-        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        
-        if (!in_array($file['type'], $allowedTypes)) {
-            throw new Exception('Invalid file type. Only JPG, PNG, GIF, and WEBP are allowed');
-        }
-        
-        // Check file size (100MB max)
-        $maxSize = 100 * 1024 * 1024;
-        if ($file['size'] > $maxSize) {
-            throw new Exception('File size exceeds 100MB limit');
-        }
-        
-        // Create upload directory
         $uploadDir = __DIR__ . '/../../uploads/teachers/';
         if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+            mkdir($uploadDir, 0755, true);
         }
         
-        // Generate unique filename
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $filename = 'teacher_' . time() . '_' . uniqid() . '.' . $extension;
-        $uploadPath = $uploadDir . $filename;
-        
-        // Move uploaded file
-        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-            throw new Exception('Failed to save uploaded photo');
-        }
-        
-        $photoUrl = 'uploads/teachers/' . $filename;
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['photo'],
+            UploadSecurityHelper::CATEGORY_IMAGE,
+            $uploadDir,
+            'teacher'
+        );
+        $photoUrl = 'uploads/teachers/' . $uploadResult['filename'];
     }
     
     // Save to database

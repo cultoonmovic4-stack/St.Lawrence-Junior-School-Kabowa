@@ -1,162 +1,174 @@
 /**
- * St. Lawrence School AI Assistant - Frontend JavaScript
- * Handles chat widget interactions and API communication
+ * St. Lawrence Junior School Kabowa — AI School Assistant
+ * Frontend Controller (Voice & Text Chat Receptionist)
+ * Complete Native Web Speech Two-Way Voice Experience & Text Chat
  */
 
 class StLawrenceChatbot {
     constructor() {
-        this.apiUrl = '../backend/api/chatbot/chat.php';
+        window.chatbot = this; // Immediately available for inline and global access
+        this.apiUrl = this.detectApiUrl();
         this.isOpen = false;
         this.isTyping = false;
-        this.currentTab = 'chat';
+        this.isVoiceMode = false;
         
-        // Voice properties
+        // Voice properties (Native Web Speech API)
         this.recognition = null;
         this.synthesis = window.speechSynthesis;
         this.isListening = false;
         this.isSpeaking = false;
-        this.isMuted = false;
-        this.callStartTime = null;
-        this.timerInterval = null;
+        this.isProcessing = false;
+        this.micPermissionGranted = false;
         this.selectedVoice = null;
-        this.lastTranscript = ''; // Move to instance variable to persist across restarts
-        this.lastProcessedTime = 0; // Track when we last processed input
-        this.shouldStopSpeaking = false; // Flag to stop chunk processing immediately
+        this.shouldStopSpeaking = false;
+        this.lastTranscript = '';
         
         this.init();
+    }
+
+    detectApiUrl() {
+        return window.location.pathname.includes('/frontend/') 
+            ? '../backend/api/chatbot/chat.php' 
+            : 'backend/api/chatbot/chat.php';
+    }
+
+    getLogoUrl() {
+        return window.location.pathname.includes('/frontend/') 
+            ? '../img/5.jpg' 
+            : 'img/5.jpg';
     }
     
     init() {
         this.createChatWidget();
         this.attachEventListeners();
-        this.initializeChat();
-        this.initializeVoice();
+        this.initializeVoices();
 
-        // Ask global layout helpers to re-pin floating controls after widget injection.
+        // Ask global layout helpers to re-pin floating controls if needed
         if (typeof window.pinFloatingControls === 'function') {
             window.pinFloatingControls();
         }
     }
     
     createChatWidget() {
+        const logoUrl = this.getLogoUrl();
+        const fallbackLogo = `if(this.src.indexOf('../img/5.jpg')!==-1){this.src='img/5.jpg';}else{this.src='../img/5.jpg';}`;
+
         const chatHTML = `
-            <!-- Chat Button -->
-            <div class="chat-button" id="chatButton">
-                <img src="../img/5.jpg" alt="St. Lawrence Assistant">
-            </div>
+            <!-- Floating Chat Launcher -->
+            <button type="button" class="chat-button" id="chatButton" onclick="window.chatbot.toggleChat()" aria-label="Chat with St. Lawrence Junior School" title="Chat with St. Lawrence">
+                <div class="chat-tooltip" id="chatTooltip">Chat with St. Lawrence</div>
+                <img src="${logoUrl}" onerror="${fallbackLogo}" alt="St. Lawrence Junior School Logo">
+                <div class="chat-unread-dot" id="chatUnreadDot"></div>
+            </button>
             
-            <!-- Chat Widget -->
-            <div class="chat-widget" id="chatWidget">
+            <!-- Chatbot Window -->
+            <div class="chat-widget" id="chatWidget" role="dialog" aria-modal="true" aria-labelledby="chatHeaderTitle">
                 <!-- Header -->
                 <div class="chat-header">
                     <div class="chat-header-left">
-                        <div class="chat-logo">
-                            <img src="../img/5.jpg" alt="St. Lawrence">
+                        <div class="chat-header-logo">
+                            <img src="${logoUrl}" onerror="${fallbackLogo}" alt="St. Lawrence Logo">
                         </div>
-                        <div class="chat-title">
-                            <h3>St Lawrence Assistant</h3>
-                            <span>Online • Ready to help</span>
+                        <div class="chat-header-info">
+                            <h3 class="chat-header-title" id="chatHeaderTitle">St. Lawrence Junior School</h3>
+                            <span class="chat-header-status" id="chatHeaderStatus">School Assistant • Online</span>
                         </div>
                     </div>
-                    <button class="chat-close" id="chatClose">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <!-- Tabs -->
-                <div class="chat-tabs">
-                    <button class="chat-tab active" data-tab="chat" id="chatTab">
-                        <i class="fas fa-comments"></i>
-                        <span>Chat</span>
-                    </button>
-                    <button class="chat-tab" data-tab="voice" id="voiceTab">
-                        <i class="fas fa-microphone"></i>
-                        <span>Voice</span>
-                    </button>
-                </div>
-                
-                <!-- Chat Tab Content -->
-                <div class="tab-content active" id="chatContent">
-                    <div class="chat-body" id="chatBody">
-                        <!-- Messages will be inserted here -->
-                    </div>
-                    
-                    <div class="chat-footer">
-                        <input 
-                            type="text" 
-                            class="chat-input" 
-                            id="chatInput" 
-                            placeholder="Type your message..."
-                            autocomplete="off"
-                        >
-                        <button class="chat-send" id="chatSend">
-                            <i class="fas fa-paper-plane"></i>
+                    <div class="chat-header-actions">
+                        <button type="button" class="chat-header-btn" id="headerVoiceToggle" onclick="window.chatbot.toggleVoiceMode()" title="Voice Assistant Mode" aria-label="Toggle Voice Mode">
+                            <i class="fas fa-microphone" id="headerVoiceIcon"></i>
+                        </button>
+                        <button type="button" class="chat-header-btn" id="chatMinimize" onclick="window.chatbot.closeChat()" title="Minimize chat" aria-label="Minimize chat">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="chat-header-btn" id="chatClose" onclick="window.chatbot.closeChat()" title="Close chat" aria-label="Close chat">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
+
+                <!-- Status Bar (General Updates) -->
+                <div class="chat-status-bar" id="chatStatusBar" aria-live="polite">
+                    <div class="status-left" id="statusLeft">Ready</div>
+                    <button type="button" class="status-stop-btn" id="statusStopBtn" onclick="window.chatbot.stopSpeaking()" style="display: none;">Stop</button>
+                </div>
                 
-                <!-- Voice Tab Content -->
-                <div class="tab-content" id="voiceContent">
-                    <div class="voice-call-container" id="voiceCallContainer">
-                        <div class="voice-avatar-container">
-                            <div class="voice-avatar-ring ring-3"></div>
-                            <div class="voice-avatar-ring ring-2"></div>
-                            <div class="voice-avatar-ring"></div>
-                            <div class="voice-avatar" id="voiceAvatar">
-                                <img src="../img/5.jpg" alt="St. Lawrence AI">
+                <!-- Chat Body (Messages & Conversation Log) -->
+                <div class="chat-body" id="chatBody">
+                    <!-- Welcome Card -->
+                    <div class="chat-welcome-card" id="chatWelcomeCard">
+                        <h4>Hello! 👋</h4>
+                        <p>Welcome to St. Lawrence Junior School Kabowa.</p>
+                        <p>I'm here to help with school fees, programmes, admissions, location and other school information.</p>
+                        <strong>What would you like to know?</strong>
+                        <div class="welcome-actions-grid">
+                            <button type="button" class="welcome-action-btn" data-query="What are the school fees?">School Fees</button>
+                            <button type="button" class="welcome-action-btn" data-query="What programmes do you offer?">Our Programmes</button>
+                            <button type="button" class="welcome-action-btn" data-query="How do I apply for admission?">Admissions</button>
+                            <button type="button" class="welcome-action-btn" data-query="Where is the school located and how can I contact you?">Location & Contact</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dedicated Voice Chat / Call Interface -->
+                <div class="voice-interface" id="voiceInterface" style="display: none;">
+                    <div class="voice-card">
+                        <div class="voice-avatar-wrap">
+                            <div class="voice-avatar">
+                                <img src="${logoUrl}" onerror="${fallbackLogo}" alt="St. Lawrence Assistant">
                             </div>
                         </div>
                         
-                        <div class="voice-ai-name">
-                            <h2>St. Lawrence AI <span class="ai-badge">AI</span></h2>
-                        </div>
-                        <p class="voice-ai-title">Education Advisor</p>
+                        <h4 class="voice-school-name">St. Lawrence Junior School</h4>
+                        <p class="voice-role-title">School Assistant • Voice Mode</p>
                         
-                        <div class="voice-status">
-                            <div class="voice-status-item">
-                                <div class="voice-status-icon" id="statusIconContainer">
-                                    <i class="fas fa-microphone" id="statusIcon"></i>
-                                </div>
-                                <div class="audio-bars" id="audioBars" style="display: none;">
-                                    <span class="audio-bar"></span>
-                                    <span class="audio-bar"></span>
-                                    <span class="audio-bar"></span>
-                                    <span class="audio-bar"></span>
-                                    <span class="audio-bar"></span>
-                                </div>
-                                <span class="voice-status-text" id="voiceStatus">Ready</span>
-                            </div>
-                            <div class="voice-status-item">
-                                <span class="voice-timer" id="voiceTimer">00:00</span>
-                            </div>
+                        <!-- Status Badge -->
+                        <div class="voice-status-badge" id="voiceStatusBadge">
+                            <span class="voice-status-dot" id="voiceStatusDot"></span>
+                            <span class="voice-status-text" id="voiceStatusText">Tap the microphone to speak</span>
                         </div>
                         
-                        <div class="voice-controls">
-                            <div style="text-align: center;">
-                                <button class="voice-control-btn mute-btn" id="muteBtn">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
-                                <div class="voice-control-label">Mute</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <button class="voice-control-btn end-call-btn" id="endCallBtn">
-                                    <i class="fas fa-phone-slash"></i>
-                                </button>
-                                <div class="voice-control-label">End Call</div>
-                            </div>
+                        <!-- Live Transcript Box -->
+                        <div class="voice-transcript-box" id="voiceTranscriptBox">
+                            <p class="voice-transcript-lead" id="voiceTranscriptLead">Tap the microphone below to ask any question about school fees, admissions, programmes, or location.</p>
                         </div>
                         
-                        <div class="voice-transcript">
-                            <div class="transcript-label">Transcript</div>
-                            <div class="transcript-text" id="transcriptText">Say something to start...</div>
+                        <!-- Main Interactive Microphone Button -->
+                        <div class="voice-mic-container">
+                            <button type="button" class="voice-main-mic" id="voiceMainMic" onclick="window.chatbot.toggleListening()" aria-label="Tap to speak">
+                                <i class="fas fa-microphone" id="voiceMainMicIcon"></i>
+                            </button>
+                            <span class="voice-mic-hint" id="voiceMicHint" onclick="window.chatbot.toggleListening()" style="cursor: pointer;">Tap to Speak</span>
+                        </div>
+
+                        <!-- Voice Actions -->
+                        <div class="voice-actions-bar">
+                            <button type="button" class="voice-action-btn voice-stop-btn" id="voiceStopBtn" onclick="window.chatbot.stopSpeaking()" style="display: none;">
+                                <i class="fas fa-stop"></i> Stop Speaking
+                            </button>
+                            <button type="button" class="voice-action-btn voice-switch-chat-btn" id="voiceSwitchChatBtn" onclick="window.chatbot.closeVoiceMode()">
+                                <i class="fas fa-comments"></i> Return to Text Chat
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Listening Indicator -->
-                <div class="listening-indicator" id="listeningIndicator">
-                    <span class="listening-pulse"></span>
-                    <span>Listening...</span>
+                <!-- Footer / Input Bar -->
+                <div class="chat-footer" id="chatFooter">
+                    <input 
+                        type="text" 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Type your message..."
+                        autocomplete="off"
+                        aria-label="Type your message to St. Lawrence Assistant"
+                    >
+                    <button type="button" class="chat-mic-btn" id="micBtn" onclick="window.chatbot.openVoiceMode()" title="Speak to Assistant" aria-label="Voice input mode">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button type="button" class="chat-send-btn" id="chatSend" onclick="window.chatbot.sendMessage()" title="Send message" aria-label="Send message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
         `;
@@ -165,54 +177,50 @@ class StLawrenceChatbot {
     }
     
     attachEventListeners() {
-        // Use setTimeout to ensure DOM elements are ready
-        setTimeout(() => {
-            const chatButton = document.getElementById('chatButton');
-            const chatClose = document.getElementById('chatClose');
-            const chatSend = document.getElementById('chatSend');
-            const chatInput = document.getElementById('chatInput');
-            
-            // Tab switching
-            const chatTab = document.getElementById('chatTab');
-            const voiceTab = document.getElementById('voiceTab');
-            
-            // Voice controls
-            const muteBtn = document.getElementById('muteBtn');
-            const endCallBtn = document.getElementById('endCallBtn');
-            
-            if (chatButton) chatButton.addEventListener('click', () => this.toggleChat());
-            if (chatClose) chatClose.addEventListener('click', () => this.closeChat());
-            if (chatSend) chatSend.addEventListener('click', () => this.sendMessage());
-            
-            if (chatInput) {
-                chatInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        this.sendMessage();
+        // Direct event listener attachment for standard and dynamic events
+        const chatInput = document.getElementById('chatInput');
+        const chatBody = document.getElementById('chatBody');
+        
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+        }
+
+        // Welcome actions delegation
+        if (chatBody) {
+            chatBody.addEventListener('click', (e) => {
+                const welcomeBtn = e.target.closest('.welcome-action-btn');
+                if (welcomeBtn) {
+                    const query = welcomeBtn.getAttribute('data-query');
+                    if (query) {
+                        this.handleQuickAction(query);
                     }
-                });
-            }
-            
-            if (chatTab) chatTab.addEventListener('click', () => this.switchTab('chat'));
-            if (voiceTab) voiceTab.addEventListener('click', () => this.switchTab('voice'));
-            
-            if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
-            if (endCallBtn) endCallBtn.addEventListener('click', () => this.endVoiceCall());
-        }, 100);
+                }
+            });
+        }
     }
     
     toggleChat() {
+        this.isOpen ? this.closeChat() : this.openChat();
+    }
+
+    openChat() {
         const chatWidget = document.getElementById('chatWidget');
         const chatButton = document.getElementById('chatButton');
+        const chatUnreadDot = document.getElementById('chatUnreadDot');
+        const chatInput = document.getElementById('chatInput');
         
-        this.isOpen = !this.isOpen;
+        this.isOpen = true;
+        if (chatWidget) chatWidget.classList.add('active');
+        if (chatButton) chatButton.classList.add('active');
+        if (chatUnreadDot) chatUnreadDot.style.display = 'none';
         
-        if (this.isOpen) {
-            chatWidget.classList.add('active');
-            chatButton.classList.add('active');
-            document.getElementById('chatInput').focus();
-        } else {
-            chatWidget.classList.remove('active');
-            chatButton.classList.remove('active');
+        if (!this.isVoiceMode && chatInput) {
+            setTimeout(() => chatInput.focus(), 150);
         }
     }
     
@@ -221,51 +229,471 @@ class StLawrenceChatbot {
         const chatButton = document.getElementById('chatButton');
         
         this.isOpen = false;
-        chatWidget.classList.remove('active');
-        chatButton.classList.remove('active');
+        if (chatWidget) chatWidget.classList.remove('active');
+        if (chatButton) chatButton.classList.remove('active');
         
-        // IMPORTANT: Stop voice call if it's running when closing chatbot
-        if (this.currentTab === 'voice') {
-            console.log('Closing chatbot - stopping voice call');
-            this.stopVoiceCall();
-        }
+        // Stop any active speech or listening
+        this.stopSpeaking();
+        this.stopListening();
     }
     
-    async initializeChat() {
+    // =========================================================================
+    // DEDICATED VOICE MODE CONTROLLER
+    // =========================================================================
+
+    toggleVoiceMode() {
+        this.isVoiceMode ? this.closeVoiceMode() : this.openVoiceMode();
+    }
+
+    openVoiceMode() {
+        this.isVoiceMode = true;
+        const voiceInterface = document.getElementById('voiceInterface');
+        const chatBody = document.getElementById('chatBody');
+        const chatFooter = document.getElementById('chatFooter');
+        const headerVoiceIcon = document.getElementById('headerVoiceIcon');
+        const headerStatus = document.getElementById('chatHeaderStatus');
+
+        if (chatBody) chatBody.style.display = 'none';
+        if (chatFooter) chatFooter.style.display = 'none';
+        if (voiceInterface) {
+            voiceInterface.classList.add('active');
+            voiceInterface.style.display = 'flex';
+        }
+
+        if (headerVoiceIcon) {
+            headerVoiceIcon.className = 'fas fa-comments';
+        }
+        if (headerStatus) {
+            headerStatus.textContent = 'Voice Mode • Active';
+        }
+
+        // Prompt microphone permission and start listening directly
+        this.startListening();
+    }
+
+    closeVoiceMode() {
+        this.isVoiceMode = false;
+        this.stopSpeaking();
+        this.stopListening();
+
+        const voiceInterface = document.getElementById('voiceInterface');
+        const chatBody = document.getElementById('chatBody');
+        const chatFooter = document.getElementById('chatFooter');
+        const headerVoiceIcon = document.getElementById('headerVoiceIcon');
+        const headerStatus = document.getElementById('chatHeaderStatus');
+
+        if (voiceInterface) {
+            voiceInterface.classList.remove('active');
+            voiceInterface.style.display = 'none';
+        }
+        if (chatBody) chatBody.style.display = 'flex';
+        if (chatFooter) chatFooter.style.display = 'flex';
+
+        if (headerVoiceIcon) {
+            headerVoiceIcon.className = 'fas fa-microphone';
+        }
+        if (headerStatus) {
+            headerStatus.textContent = 'School Assistant • Online';
+        }
+
+        this.scrollToBottom();
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) {
+            setTimeout(() => chatInput.focus(), 100);
+        }
+    }
+
+    setVoiceStatus(state, message) {
+        const badge = document.getElementById('voiceStatusBadge');
+        const text = document.getElementById('voiceStatusText');
+        const micBtn = document.getElementById('voiceMainMic');
+        const micHint = document.getElementById('voiceMicHint');
+
+        if (!badge || !text) return;
+
+        badge.className = 'voice-status-badge';
+        if (micBtn) micBtn.classList.remove('listening');
+
+        switch (state) {
+            case 'listening':
+                badge.classList.add('listening');
+                text.textContent = message || 'Listening...';
+                if (micBtn) micBtn.classList.add('listening');
+                if (micHint) micHint.textContent = 'Listening... Speak now';
+                break;
+            case 'processing':
+                badge.classList.add('processing');
+                text.textContent = message || 'Thinking...';
+                if (micHint) micHint.textContent = 'Finding answer...';
+                break;
+            case 'speaking':
+                badge.classList.add('speaking');
+                text.textContent = message || 'Speaking...';
+                if (micHint) micHint.textContent = 'Speaking answer...';
+                break;
+            case 'ready':
+            default:
+                text.textContent = message || 'Tap the microphone to speak';
+                if (micHint) micHint.textContent = 'Tap to Speak';
+                break;
+        }
+    }
+
+    toggleListening() {
+        if (this.isSpeaking) {
+            this.stopSpeaking();
+            this.startListening();
+            return;
+        }
+
+        if (this.isListening) {
+            this.stopListening();
+            this.setVoiceStatus('ready', 'Tap the microphone to speak');
+        } else {
+            this.startListening();
+        }
+    }
+
+    startListening() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const transcriptLead = document.getElementById('voiceTranscriptLead');
+
+        if (!SpeechRecognition) {
+            this.isListening = false;
+            this.setVoiceStatus('ready', 'Voice not supported');
+            if (transcriptLead) {
+                transcriptLead.innerHTML = '<span style="color: #dc3545; font-weight: 600;">Voice recognition is not supported in this browser.</span><br><small style="color: #64748b;">Please use Google Chrome, Microsoft Edge, or Safari, or type your question below.</small>';
+            }
+            return;
+        }
+
+        // Stop any active speech output before starting to listen
+        this.stopSpeaking();
+
+        // Provide immediate visual feedback on tap
+        this.isListening = true;
+        this.setVoiceStatus('listening', 'Listening...');
+        if (transcriptLead) {
+            transcriptLead.textContent = 'Listening... Speak your question now.';
+        }
+
+        this.beginSpeechRecognition();
+    }
+
+    beginSpeechRecognition() {
+        const transcriptLead = document.getElementById('voiceTranscriptLead');
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) return;
+
+        // Clean up previous instance cleanly without firing its old callbacks
+        if (this.recognition) {
+            try {
+                this.recognition.onstart = null;
+                this.recognition.onresult = null;
+                this.recognition.onerror = null;
+                this.recognition.onend = null;
+                this.recognition.abort();
+            } catch (e) {}
+            this.recognition = null;
+        }
+
+        try {
+            this.recognition = new SpeechRecognition();
+            this.recognition.continuous = false; // Turnaround per question
+            this.recognition.interimResults = true;
+            this.recognition.lang = 'en-US';
+            this.recognition.maxAlternatives = 1;
+
+            let finalTranscriptReceived = false;
+
+            this.recognition.onstart = () => {
+                this.isListening = true;
+                this.setVoiceStatus('listening', 'Listening...');
+                if (transcriptLead) {
+                    transcriptLead.textContent = 'Listening... Speak your question now.';
+                }
+            };
+
+            this.recognition.onresult = (event) => {
+                let interim = '';
+                let final = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        final += event.results[i][0].transcript;
+                    } else {
+                        interim += event.results[i][0].transcript;
+                    }
+                }
+
+                if (interim && transcriptLead) {
+                    transcriptLead.textContent = `You: "${interim}..."`;
+                }
+
+                if (final && final.trim()) {
+                    finalTranscriptReceived = true;
+                    this.isListening = false;
+                    try {
+                        this.recognition.stop();
+                    } catch (e) {}
+                    this.processVoiceMessage(final.trim());
+                }
+            };
+
+            this.recognition.onerror = (event) => {
+                console.warn('Speech recognition notice:', event.error);
+                this.isListening = false;
+
+                if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+                    this.setVoiceStatus('ready', 'Microphone access needed');
+                    if (transcriptLead) {
+                        transcriptLead.innerHTML = '<span style="color: #dc3545; font-weight: 600;">Microphone access was not granted.</span><br><small style="color: #64748b;">Please click the camera/lock icon in your browser address bar to allow microphone access, then tap to speak again.</small>';
+                    }
+                } else if (event.error === 'no-speech') {
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                    if (transcriptLead && !finalTranscriptReceived) {
+                        transcriptLead.textContent = "No speech detected. Tap the microphone and try speaking again.";
+                    }
+                } else if (event.error === 'network') {
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                    if (transcriptLead && !finalTranscriptReceived) {
+                        transcriptLead.textContent = "Speech recognition network paused. Please tap the microphone or type your question.";
+                    }
+                } else if (event.error !== 'aborted') {
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                    if (transcriptLead && !finalTranscriptReceived) {
+                        transcriptLead.textContent = "I couldn't hear that clearly. Please tap the microphone to try again.";
+                    }
+                }
+            };
+
+            this.recognition.onend = () => {
+                this.isListening = false;
+                if (!this.isProcessing && !this.isSpeaking && !finalTranscriptReceived) {
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                }
+            };
+
+            this.recognition.start();
+        } catch (e) {
+            console.warn('Speech recognition start error:', e);
+            this.isListening = false;
+            this.setVoiceStatus('ready', 'Tap the microphone to speak');
+            if (transcriptLead) {
+                transcriptLead.textContent = 'Could not activate microphone. Tap the microphone to try again or type your question.';
+            }
+        }
+    }
+
+    stopListening() {
+        this.isListening = false;
+        if (this.recognition) {
+            try {
+                this.recognition.abort();
+            } catch (e) {}
+            this.recognition = null;
+        }
+        const micBtn = document.getElementById('voiceMainMic');
+        if (micBtn) micBtn.classList.remove('listening');
+    }
+
+    async processVoiceMessage(transcript) {
+        if (!transcript || this.isProcessing) return;
+
+        this.isProcessing = true;
+        this.setVoiceStatus('processing', 'Thinking...');
+
+        const transcriptLead = document.getElementById('voiceTranscriptLead');
+        if (transcriptLead) {
+            transcriptLead.innerHTML = `<strong>You:</strong> "${this.escapeHtml(transcript)}"<br><span style="color: #64748b; font-size: 11px;">Thinking...</span>`;
+        }
+
+        // Add user message to conversation log
+        this.addUserMessage(transcript);
+
         try {
             const response = await fetch(this.apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ action: 'init' })
+                body: JSON.stringify({
+                    action: 'chat',
+                    message: transcript
+                })
             });
-            
+
             const data = await response.json();
-            
+            this.isProcessing = false;
+
             if (data.success) {
-                this.addBotMessage(data.message);
-                this.addQuickActions(data.quickActions);
+                // Add to conversation log
+                this.addBotMessage(data.response);
+                if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+                    this.addQuickActions(data.suggestions);
+                }
+
+                // Update transcript box with bot reply
+                if (transcriptLead) {
+                    const plainSnippet = this.cleanTextForSpeech(data.response);
+                    transcriptLead.innerHTML = `<strong>You:</strong> "${this.escapeHtml(transcript)}"<br><br><strong>Assistant:</strong> ${this.escapeHtml(plainSnippet.substring(0, 140))}${plainSnippet.length > 140 ? '...' : ''}`;
+                }
+
+                // Speak the response aloud
+                const speechText = this.cleanTextForSpeech(data.response);
+                this.speak(speechText, () => {
+                    // When speech completes, return to ready for two-way conversation
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                    const stopBtn = document.getElementById('voiceStopBtn');
+                    if (stopBtn) stopBtn.style.display = 'none';
+                });
+            } else {
+                const errMsg = "I'm sorry, I encountered an error. Please try again or call our school administration at +256 701 420 506.";
+                this.addBotMessage(errMsg);
+                if (transcriptLead) {
+                    transcriptLead.textContent = errMsg;
+                }
+                this.speak(errMsg, () => {
+                    this.setVoiceStatus('ready', 'Tap the microphone to speak');
+                });
             }
-        } catch (error) {
-            console.error('Error initializing chat:', error);
-            this.addBotMessage("Hello! 👋 I'm your St. Lawrence Junior School assistant. How can I help you today?");
-            this.addDefaultQuickActions();
+        } catch (err) {
+            console.error('Error processing voice message:', err);
+            this.isProcessing = false;
+            const errConn = "I'm sorry, I'm having trouble connecting. Please try again or call +256 701 420 506.";
+            this.addBotMessage(errConn);
+            if (transcriptLead) {
+                transcriptLead.textContent = errConn;
+            }
+            this.speak(errConn, () => {
+                this.setVoiceStatus('ready', 'Tap the microphone to speak');
+            });
         }
     }
-    
+
+    // =========================================================================
+    // SPEECH SYNTHESIS (VOICE RESPONSE)
+    // =========================================================================
+
+    initializeVoices() {
+        if ('speechSynthesis' in window) {
+            const loadVoices = () => {
+                const voices = window.speechSynthesis.getVoices();
+                this.selectedVoice = voices.find(voice => 
+                    voice.lang.startsWith('en') && (voice.name.includes('Female') || voice.name.includes('Natural') || voice.name.includes('Google') || voice.name.includes('Samantha'))
+                ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+            };
+
+            loadVoices();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+    }
+
+    speak(text, onDone = null) {
+        if (!('speechSynthesis' in window) || !text) {
+            if (onDone) onDone();
+            return;
+        }
+
+        this.stopSpeaking();
+        this.shouldStopSpeaking = false;
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (this.selectedVoice) {
+            utterance.voice = this.selectedVoice;
+        }
+        utterance.rate = 0.95; // Natural clear speech rate suitable for parents
+        utterance.pitch = 1.0;
+
+        utterance.onstart = () => {
+            this.isSpeaking = true;
+            this.setVoiceStatus('speaking', 'Speaking...');
+            const stopBtn = document.getElementById('voiceStopBtn');
+            if (stopBtn) stopBtn.style.display = 'inline-flex';
+        };
+
+        utterance.onend = () => {
+            this.isSpeaking = false;
+            const stopBtn = document.getElementById('voiceStopBtn');
+            if (stopBtn) stopBtn.style.display = 'none';
+            if (onDone) onDone();
+        };
+
+        utterance.onerror = (e) => {
+            console.warn('Speech synthesis notice:', e);
+            this.isSpeaking = false;
+            const stopBtn = document.getElementById('voiceStopBtn');
+            if (stopBtn) stopBtn.style.display = 'none';
+            if (onDone) onDone();
+        };
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    stopSpeaking() {
+        this.shouldStopSpeaking = true;
+        this.isSpeaking = false;
+        if ('speechSynthesis' in window) {
+            try {
+                window.speechSynthesis.cancel();
+            } catch (e) {}
+        }
+        const stopBtn = document.getElementById('voiceStopBtn');
+        if (stopBtn) stopBtn.style.display = 'none';
+        if (this.isVoiceMode && !this.isListening && !this.isProcessing) {
+            this.setVoiceStatus('ready', 'Tap the microphone to speak');
+        }
+    }
+
+    cleanTextForSpeech(text) {
+        if (!text) return '';
+        // Remove markdown formatting
+        text = text.replace(/\*\*(.*?)\*\*/g, '$1');
+        text = text.replace(/\*(.*?)\*/g, '$1');
+        text = text.replace(/\[(.*?)\]\(.*?\)/g, '$1');
+        text = text.replace(/https?:\/\/[^\s]+/g, '');
+        
+        // Remove emojis safely
+        try {
+            text = text.replace(/[\p{Extended_Pictographic}\p{Emoji_Presentation}]/gu, '');
+        } catch (e) {
+            text = text.replace(/[📍📧📞📮🏫⏰📝🎒📚🎓💰🏠👔⚽🎨🔬🏃🍽️🚌🔒👨‍👩‍👧‍👦📅🏆♿✅❌👋☀️📖🚗🌅🍳]/g, '');
+        }
+        
+        // Pronunciation adjustments
+        text = text.replace(/[•✓✔\-\*]/g, ' ');
+        text = text.replace(/\n+/g, '. ');
+        text = text.replace(/\.{2,}/g, '.');
+        text = text.replace(/\s+/g, ' ');
+        text = text.replace(/\bUGX\b/g, 'Uganda Shillings');
+        text = text.replace(/(\d),(\d)/g, '$1$2');
+        
+        return text.trim();
+    }
+
+    // =========================================================================
+    // TEXT CHAT & MESSAGE RENDERING
+    // =========================================================================
+
     addBotMessage(message, showAvatar = true) {
         const chatBody = document.getElementById('chatBody');
+        if (!chatBody) return;
+
         const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const logoUrl = this.getLogoUrl();
+        const fallbackLogo = `if(this.src.indexOf('../img/5.jpg')!==-1){this.src='img/5.jpg';}else{this.src='../img/5.jpg';}`;
         
         const messageHTML = `
             <div class="chat-message bot">
                 ${showAvatar ? `
                 <div class="message-avatar">
-                    <img src="../img/5.jpg" alt="Bot">
+                    <img src="${logoUrl}" onerror="${fallbackLogo}" alt="School Assistant">
                 </div>
-                ` : '<div style="width: 35px;"></div>'}
-                <div>
+                ` : '<div style="width: 28px;"></div>'}
+                <div class="message-wrapper">
                     <div class="message-content">${this.formatMessage(message)}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
@@ -278,14 +706,13 @@ class StLawrenceChatbot {
     
     addUserMessage(message) {
         const chatBody = document.getElementById('chatBody');
+        if (!chatBody) return;
+
         const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
         
         const messageHTML = `
             <div class="chat-message user">
-                <div class="message-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div>
+                <div class="message-wrapper">
                     <div class="message-content">${this.escapeHtml(message)}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
@@ -298,11 +725,12 @@ class StLawrenceChatbot {
     
     addQuickActions(actions) {
         const chatBody = document.getElementById('chatBody');
+        if (!chatBody || !actions || actions.length === 0) return;
         
         let actionsHTML = '<div class="quick-actions">';
         actions.forEach(action => {
             actionsHTML += `
-                <button class="quick-action-btn" onclick="chatbot.handleQuickAction('${this.escapeHtml(action)}')">
+                <button type="button" class="quick-action-btn" onclick="window.chatbot.handleQuickAction('${this.escapeHtml(action)}')">
                     ${this.escapeHtml(action)}
                 </button>
             `;
@@ -313,31 +741,23 @@ class StLawrenceChatbot {
         this.scrollToBottom();
     }
     
-    addDefaultQuickActions() {
-        const defaultActions = [
-            "What are your school hours?",
-            "How do I apply for admission?",
-            "What extracurricular activities do you offer?",
-            "What is the school's contact information?",
-            "What are the school fees?",
-            "Do you offer boarding?"
-        ];
-        this.addQuickActions(defaultActions);
-    }
-    
     showTypingIndicator() {
         const chatBody = document.getElementById('chatBody');
+        if (!chatBody || this.isTyping) return;
+
+        const logoUrl = this.getLogoUrl();
+        const fallbackLogo = `if(this.src.indexOf('../img/5.jpg')!==-1){this.src='img/5.jpg';}else{this.src='../img/5.jpg';}`;
         
         const typingHTML = `
-            <div class="chat-message bot typing-message">
+            <div class="chat-message bot typing-message" id="typingIndicator">
                 <div class="message-avatar">
-                    <img src="../img/5.jpg" alt="Bot">
+                    <img src="${logoUrl}" onerror="${fallbackLogo}" alt="Assistant">
                 </div>
-                <div class="typing-indicator active">
-                    <div class="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                <div class="message-wrapper">
+                    <div class="typing-bubble">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
                     </div>
                 </div>
             </div>
@@ -349,7 +769,7 @@ class StLawrenceChatbot {
     }
     
     hideTypingIndicator() {
-        const typingMessage = document.querySelector('.typing-message');
+        const typingMessage = document.getElementById('typingIndicator');
         if (typingMessage) {
             typingMessage.remove();
         }
@@ -358,15 +778,13 @@ class StLawrenceChatbot {
     
     async sendMessage() {
         const chatInput = document.getElementById('chatInput');
-        const message = chatInput.value.trim();
+        const message = chatInput ? chatInput.value.trim() : '';
         
         if (!message || this.isTyping) return;
         
-        // Add user message
         this.addUserMessage(message);
         chatInput.value = '';
         
-        // Show typing indicator
         this.showTypingIndicator();
         
         try {
@@ -383,29 +801,28 @@ class StLawrenceChatbot {
             
             const data = await response.json();
             
-            // Simulate typing delay
             setTimeout(() => {
                 this.hideTypingIndicator();
                 
                 if (data.success) {
                     this.addBotMessage(data.response);
+                    if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+                        this.addQuickActions(data.suggestions);
+                    }
                 } else {
-                    this.addBotMessage("I'm sorry, I encountered an error. Please try again or contact us directly at +256 701 420 506.");
+                    this.addBotMessage("I'm sorry, I encountered an error. Please try again or call our school administration at +256 701 420 506.");
                 }
-            }, 1000);
+            }, 500);
             
         } catch (error) {
             console.error('Error sending message:', error);
             this.hideTypingIndicator();
-            this.addBotMessage("I'm sorry, I'm having trouble connecting. Please try again or contact us directly at +256 701 420 506.");
+            this.addBotMessage("I'm sorry, I'm having trouble connecting to the school server. Please try again or call +256 701 420 506.");
         }
     }
     
     async handleQuickAction(question) {
-        // Add user message
         this.addUserMessage(question);
-        
-        // Show typing indicator
         this.showTypingIndicator();
         
         try {
@@ -422,16 +839,18 @@ class StLawrenceChatbot {
             
             const data = await response.json();
             
-            // Simulate typing delay
             setTimeout(() => {
                 this.hideTypingIndicator();
                 
                 if (data.success) {
                     this.addBotMessage(data.response);
+                    if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+                        this.addQuickActions(data.suggestions);
+                    }
                 } else {
                     this.addBotMessage("I'm sorry, I encountered an error. Please try again.");
                 }
-            }, 1000);
+            }, 500);
             
         } catch (error) {
             console.error('Error handling quick action:', error);
@@ -441,16 +860,12 @@ class StLawrenceChatbot {
     }
     
     formatMessage(message) {
-        // Convert line breaks to <br>
-        message = message.replace(/\n/g, '<br>');
-        
-        // Make bold text
-        message = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
-        // Make links clickable
-        message = message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-        
-        return message;
+        if (!message) return '';
+        const escaped = this.escapeHtml(message);
+        let formatted = escaped.replace(/\n/g, '<br>');
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        return formatted;
     }
     
     escapeHtml(text) {
@@ -461,711 +876,21 @@ class StLawrenceChatbot {
     
     scrollToBottom() {
         const chatBody = document.getElementById('chatBody');
+        if (!chatBody) return;
         setTimeout(() => {
             chatBody.scrollTop = chatBody.scrollHeight;
-        }, 100);
-    }
-    
-    // ==================== VOICE METHODS ====================
-    
-    switchTab(tab) {
-        console.log('Switching to tab:', tab); // Debug log
-        
-        // If switching away from voice tab, stop the call
-        if (this.currentTab === 'voice' && tab !== 'voice') {
-            this.stopVoiceCall();
-        }
-        
-        this.currentTab = tab;
-        
-        // Update tab buttons
-        document.querySelectorAll('.chat-tab').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        const activeTab = document.querySelector(`[data-tab="${tab}"]`);
-        if (activeTab) {
-            activeTab.classList.add('active');
-        }
-        
-        // Update tab content
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        
-        if (tab === 'chat') {
-            const chatContent = document.getElementById('chatContent');
-            if (chatContent) chatContent.classList.add('active');
-        } else if (tab === 'voice') {
-            const voiceContent = document.getElementById('voiceContent');
-            if (voiceContent) voiceContent.classList.add('active');
-            // Auto-start call when switching to voice tab
-            this.startVoiceCall();
-        }
-    }
-    
-    initializeVoice() {
-        // Check if browser supports speech recognition
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            this.recognition = new SpeechRecognition();
-            
-            this.recognition.continuous = true;
-            this.recognition.interimResults = true; // Changed to true for better responsiveness
-            this.recognition.lang = 'en-US';
-            this.recognition.maxAlternatives = 1;
-            
-            // Add timeout handling
-            let silenceTimer = null;
-            
-            this.recognition.onstart = () => {
-                this.isListening = true;
-                this.updateVoiceStatus('Listening...', 'listening');
-                console.log('Voice recognition started');
-            };
-            
-            this.recognition.onresult = (event) => {
-                // CRITICAL: Ignore recognition results if AI is speaking
-                if (this.isSpeaking) {
-                    console.log('AI is speaking, ignoring recognition result');
-                    return;
-                }
-                
-                // Clear any existing silence timer
-                if (silenceTimer) {
-                    clearTimeout(silenceTimer);
-                }
-                
-                // Get the latest transcript
-                const current = event.resultIndex;
-                const transcript = event.results[current][0].transcript;
-                const isFinal = event.results[current].isFinal;
-                
-                console.log('Transcript:', transcript, 'Final:', isFinal);
-                
-                if (isFinal) {
-                    // Only process if transcript is different and not empty
-                    // Also check if enough time has passed since last processing (prevent duplicates)
-                    const now = Date.now();
-                    if (transcript.trim() && 
-                        transcript !== this.lastTranscript && 
-                        (now - this.lastProcessedTime) > 3000) { // 3 second cooldown
-                        this.lastTranscript = transcript;
-                        this.lastProcessedTime = now;
-                        this.handleVoiceInput(transcript);
-                    }
-                } else {
-                    // Show interim results
-                    this.updateTranscript(`You: ${transcript}...`);
-                    
-                    // Set a timer to process if user stops speaking
-                    silenceTimer = setTimeout(() => {
-                        const now = Date.now();
-                        if (transcript.trim() && 
-                            transcript !== this.lastTranscript && 
-                            !this.isSpeaking &&
-                            (now - this.lastProcessedTime) > 3000) { // 3 second cooldown
-                            this.lastTranscript = transcript;
-                            this.lastProcessedTime = now;
-                            this.handleVoiceInput(transcript);
-                        }
-                    }, 2000); // Wait 2 seconds of silence
-                }
-            };
-            
-            this.recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                
-                if (event.error === 'no-speech') {
-                    // Don't show error for no-speech, just continue listening
-                    console.log('No speech detected, continuing...');
-                } else if (event.error === 'aborted') {
-                    console.log('Recognition aborted');
-                } else if (event.error === 'network') {
-                    this.updateVoiceStatus('Network error', 'error');
-                    setTimeout(() => {
-                        if (this.currentTab === 'voice' && !this.isMuted) {
-                            this.updateVoiceStatus('Listening...', 'listening');
-                        }
-                    }, 2000);
-                } else {
-                    this.updateVoiceStatus('Error: ' + event.error, 'error');
-                    setTimeout(() => {
-                        if (this.currentTab === 'voice' && !this.isMuted) {
-                            this.updateVoiceStatus('Listening...', 'listening');
-                        }
-                    }, 2000);
-                }
-            };
-            
-            this.recognition.onend = () => {
-                console.log('Recognition ended');
-                this.isListening = false;
-                
-                // ONLY restart if still in voice mode, not muted, and AI is NOT speaking
-                // This prevents recognition from restarting while AI is speaking long responses
-                if (this.currentTab === 'voice' && !this.isMuted && !this.isSpeaking) {
-                    setTimeout(() => {
-                        // Double-check AI is still not speaking before restarting
-                        if (!this.isSpeaking) {
-                            try {
-                                this.recognition.start();
-                                console.log('Recognition restarted');
-                            } catch (e) {
-                                console.log('Recognition restart failed:', e);
-                                // Try again after a longer delay
-                                setTimeout(() => {
-                                    if (!this.isSpeaking) {
-                                        try {
-                                            this.recognition.start();
-                                        } catch (e2) {
-                                            console.log('Recognition restart failed again:', e2);
-                                        }
-                                    }
-                                }, 1000);
-                            }
-                        }
-                    }, 500);
-                }
-            };
-        } else {
-            console.warn('Speech recognition not supported in this browser');
-        }
-        
-        // Load available voices
-        if (this.synthesis) {
-            this.synthesis.onvoiceschanged = () => {
-                const voices = this.synthesis.getVoices();
-                // Prefer female English voice
-                this.selectedVoice = voices.find(voice => 
-                    voice.lang.startsWith('en') && voice.name.includes('Female')
-                ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
-                
-                console.log('Selected voice:', this.selectedVoice ? this.selectedVoice.name : 'Default');
-            };
-        }
-    }
-    
-    startVoiceCall() {
-        console.log('=== START VOICE CALL ===');
-        console.log('Recognition available:', !!this.recognition);
-        console.log('Current tab:', this.currentTab);
-        
-        if (!this.recognition) {
-            console.error('Voice recognition not available');
-            alert('Voice recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
-            // Don't force switch - let user stay and try again
-            return;
-        }
-        
-        // Reset transcript tracking
-        this.lastTranscript = '';
-        this.lastProcessedTime = 0;
-        
-        // Reset stop flag when starting new call
-        this.shouldStopSpeaking = false;
-        
-        // Start timer
-        this.callStartTime = Date.now();
-        this.timerInterval = setInterval(() => {
-            this.updateTimer();
-            
-            // Check if call has exceeded 3 hours (10800 seconds)
-            const elapsed = Math.floor((Date.now() - this.callStartTime) / 1000);
-            if (elapsed >= 10800) { // 3 hours = 10800 seconds
-                this.speak("Your call has reached the 3-hour limit. Thank you for using St. Lawrence Assistant. Goodbye!");
-                setTimeout(() => {
-                    this.stopVoiceCall();
-                    // Don't force switch after 3 hours - let user restart
-                }, 3000);
-            }
-        }, 1000);
-        
-        // Start listening
-        this.isMuted = false;
-        this.updateMuteButton();
-        
-        try {
-            this.recognition.start();
-            this.updateVoiceStatus('Listening...', 'listening');
-            this.updateTranscript('I\'m ready to help! Ask me anything about St. Lawrence Junior School. For example: "What are your school fees?" or "Tell me about admission"');
-            console.log('Voice call started successfully');
-        } catch (e) {
-            console.error('Failed to start recognition:', e);
-            this.updateVoiceStatus('Error starting call', 'error');
-            this.updateTranscript('Error: Could not start voice recognition. Please try again.');
-        }
-        
-        // Welcome message - REMOVED automatic speaking
-        // User can start speaking immediately without waiting
-        console.log('=== START VOICE CALL COMPLETE ===');
-    }
-    
-    stopVoiceCall() {
-        console.log('STOPPING VOICE CALL');
-        
-        // CRITICAL: Set flag to stop chunk processing
-        this.shouldStopSpeaking = true;
-        this.isSpeaking = false;
-        
-        // Stop recognition
-        if (this.recognition && this.isListening) {
-            try {
-                this.recognition.stop();
-                this.recognition.abort(); // Force abort
-            } catch (e) {
-                console.log('Could not stop recognition:', e);
-            }
-        }
-        
-        // NUCLEAR OPTION: Multiple strategies to kill speech
-        if (this.synthesis) {
-            // Strategy 1: Pause and cancel
-            try {
-                this.synthesis.pause();
-                this.synthesis.cancel();
-            } catch (e) {
-                console.log('Pause/cancel error:', e);
-            }
-            
-            // Strategy 2: Cancel in loop
-            for (let i = 0; i < 20; i++) {
-                try {
-                    this.synthesis.cancel();
-                } catch (e) {}
-            }
-            
-            // Strategy 3: Resume and cancel (clears paused queue)
-            try {
-                this.synthesis.resume();
-                this.synthesis.cancel();
-            } catch (e) {}
-            
-            // Strategy 4: Delayed cancels to catch stragglers
-            const cancelDelays = [0, 5, 10, 20, 50, 100, 150, 200];
-            cancelDelays.forEach(delay => {
-                setTimeout(() => {
-                    if (this.synthesis && this.shouldStopSpeaking) {
-                        try {
-                            this.synthesis.pause();
-                            this.synthesis.cancel();
-                            this.synthesis.cancel();
-                        } catch (e) {}
-                    }
-                }, delay);
-            });
-        }
-        
-        // Clear timer
-        if (this.timerInterval) {
-            clearInterval(this.timerInterval);
-            this.timerInterval = null;
-        }
-        
-        // Reset all flags and tracking
-        this.callStartTime = null;
-        this.isListening = false;
-        this.isSpeaking = false;
-        this.lastTranscript = '';
-        this.lastProcessedTime = 0;
-        this.updateVoiceStatus('Call Ended', 'ready');
-        this.updateTimer(true);
-    }
-    
-    endVoiceCall() {
-        console.log('END CALL CLICKED - RESTARTING CALL');
-        
-        // CRITICAL: Set flag to stop all chunk processing
-        this.shouldStopSpeaking = true;
-        this.isSpeaking = false;
-        
-        // NUCLEAR OPTION: Pause and cancel multiple times
-        if (this.synthesis) {
-            // Pause first to stop current utterance
-            this.synthesis.pause();
-            this.synthesis.cancel();
-            
-            // Cancel multiple times immediately
-            for (let i = 0; i < 10; i++) {
-                this.synthesis.cancel();
-            }
-            
-            // Resume and cancel again (clears paused queue)
-            this.synthesis.resume();
-            this.synthesis.cancel();
-            
-            // Final cancels with delays
-            setTimeout(() => {
-                if (this.synthesis) {
-                    this.synthesis.pause();
-                    this.synthesis.cancel();
-                    this.synthesis.cancel();
-                }
-            }, 0);
-            
-            setTimeout(() => {
-                if (this.synthesis) {
-                    this.synthesis.cancel();
-                }
-            }, 10);
-            
-            setTimeout(() => {
-                if (this.synthesis) {
-                    this.synthesis.cancel();
-                }
-            }, 50);
-        }
-        
-        // Stop the current call
-        this.stopVoiceCall();
-        
-        // Wait a moment then restart the call automatically
-        setTimeout(() => {
-            if (this.currentTab === 'voice') {
-                console.log('Restarting voice call...');
-                this.startVoiceCall();
-            }
-        }, 500);
-    }
-    
-    toggleMute() {
-        this.isMuted = !this.isMuted;
-        this.updateMuteButton();
-        
-        if (this.isMuted) {
-            if (this.recognition && this.isListening) {
-                this.recognition.stop();
-            }
-            this.updateVoiceStatus('Muted', 'muted');
-        } else {
-            try {
-                this.recognition.start();
-                this.updateVoiceStatus('Listening...', 'listening');
-            } catch (e) {
-                console.log('Recognition restart failed:', e);
-            }
-        }
-    }
-    
-    updateMuteButton() {
-        const muteBtn = document.getElementById('muteBtn');
-        const icon = muteBtn.querySelector('i');
-        
-        if (this.isMuted) {
-            icon.className = 'fas fa-microphone-slash';
-            muteBtn.classList.add('muted');
-        } else {
-            icon.className = 'fas fa-microphone';
-            muteBtn.classList.remove('muted');
-        }
-    }
-    
-    updateVoiceStatus(text, status) {
-        const statusText = document.getElementById('voiceStatus');
-        const statusIcon = document.getElementById('statusIcon');
-        const statusIconContainer = document.getElementById('statusIconContainer');
-        const audioBars = document.getElementById('audioBars');
-        
-        statusText.textContent = text;
-        
-        // Update icon based on status
-        if (status === 'listening') {
-            statusIconContainer.style.display = 'flex';
-            statusIcon.className = 'fas fa-microphone';
-            statusIcon.style.color = '#0066cc';
-            statusIcon.style.display = 'block';
-            audioBars.style.display = 'none';
-        } else if (status === 'speaking') {
-            statusIconContainer.style.display = 'none';
-            statusIcon.style.display = 'none';
-            audioBars.style.display = 'flex';
-        } else if (status === 'muted') {
-            statusIconContainer.style.display = 'flex';
-            statusIcon.className = 'fas fa-microphone-slash';
-            statusIcon.style.color = '#dc3545';
-            statusIcon.style.display = 'block';
-            audioBars.style.display = 'none';
-        } else if (status === 'error') {
-            statusIconContainer.style.display = 'flex';
-            statusIcon.className = 'fas fa-exclamation-circle';
-            statusIcon.style.color = '#dc3545';
-            statusIcon.style.display = 'block';
-            audioBars.style.display = 'none';
-        } else {
-            statusIconContainer.style.display = 'flex';
-            statusIcon.className = 'fas fa-check-circle';
-            statusIcon.style.color = '#28a745';
-            statusIcon.style.display = 'block';
-            audioBars.style.display = 'none';
-        }
-    }
-    
-    updateTimer(reset = false) {
-        const timerElement = document.getElementById('voiceTimer');
-        
-        if (reset) {
-            timerElement.textContent = '00:00';
-            return;
-        }
-        
-        if (!this.callStartTime) return;
-        
-        const elapsed = Math.floor((Date.now() - this.callStartTime) / 1000);
-        const minutes = Math.floor(elapsed / 60);
-        const seconds = elapsed % 60;
-        
-        timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-    
-    updateTranscript(text) {
-        const transcriptText = document.getElementById('transcriptText');
-        transcriptText.textContent = text;
-    }
-    
-    async handleVoiceInput(transcript) {
-        console.log('Voice input:', transcript);
-        
-        // CRITICAL: Ignore input if AI is currently speaking
-        if (this.isSpeaking) {
-            console.log('AI is speaking, ignoring voice input');
-            return;
-        }
-        
-        // Update transcript
-        this.updateTranscript(`You: ${transcript}`);
-        this.updateVoiceStatus('Processing...', 'processing');
-        
-        try {
-            const response = await fetch(this.apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'chat',
-                    message: transcript
-                })
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                // Clean response for speech (remove special characters and formatting)
-                const cleanResponse = this.cleanTextForSpeech(data.response);
-                
-                // Update transcript
-                this.updateTranscript(`AI: ${cleanResponse}`);
-                
-                // Speak the response
-                this.speak(cleanResponse);
-            } else {
-                this.speak("I'm sorry, I encountered an error. Please try again.");
-                this.updateVoiceStatus('Error', 'error');
-            }
-            
-        } catch (error) {
-            console.error('Error processing voice input:', error);
-            this.speak("I'm sorry, I'm having trouble connecting. Please try again.");
-            this.updateVoiceStatus('Error', 'error');
-        }
-    }
-    
-    speak(text) {
-        // CRITICAL: Check if we should stop before even starting
-        if (this.shouldStopSpeaking) {
-            console.log('STOP FLAG ACTIVE - Not starting speech');
-            return;
-        }
-        
-        if (!this.synthesis) {
-            console.error('Speech synthesis not supported');
-            return;
-        }
-        
-        // DON'T reset the stop flag here - only reset when call starts
-        // this.shouldStopSpeaking = false; // REMOVED - was causing the bug!
-        
-        // Stop listening while AI speaks to prevent echo/feedback
-        if (this.recognition && this.isListening) {
-            try {
-                this.recognition.stop();
-                console.log('Stopped listening while AI speaks');
-            } catch (e) {
-                console.log('Could not stop recognition:', e);
-            }
-        }
-        
-        // IMPORTANT: Only cancel if we're starting a NEW conversation
-        // Don't cancel if we're already speaking (prevents interruption)
-        if (!this.isSpeaking) {
-            this.synthesis.cancel();
-        }
-        
-        // For very long text, split into chunks to prevent browser timeout
-        const maxLength = 200; // Characters per chunk
-        const chunks = [];
-        
-        if (text.length > maxLength) {
-            // Split by sentences first
-            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-            let currentChunk = '';
-            
-            for (const sentence of sentences) {
-                if ((currentChunk + sentence).length > maxLength && currentChunk.length > 0) {
-                    chunks.push(currentChunk.trim());
-                    currentChunk = sentence;
-                } else {
-                    currentChunk += sentence;
-                }
-            }
-            if (currentChunk.trim()) {
-                chunks.push(currentChunk.trim());
-            }
-        } else {
-            chunks.push(text);
-        }
-        
-        console.log(`Speaking ${chunks.length} chunk(s)`);
-        
-        // Speak all chunks sequentially
-        let chunkIndex = 0;
-        
-        const speakChunk = () => {
-            // CRITICAL: Check if we should stop speaking
-            if (this.shouldStopSpeaking) {
-                console.log('STOP FLAG DETECTED - Aborting chunk processing');
-                this.isSpeaking = false;
-                this.synthesis.cancel();
-                return;
-            }
-            
-            if (chunkIndex >= chunks.length) {
-                // All chunks spoken
-                this.isSpeaking = false;
-                console.log('AI finished speaking all chunks');
-                
-                // Resume listening after AI finishes speaking
-                if (!this.isMuted && this.currentTab === 'voice' && !this.shouldStopSpeaking) {
-                    setTimeout(() => {
-                        if (!this.isMuted && this.currentTab === 'voice' && !this.isSpeaking && !this.shouldStopSpeaking) {
-                            try {
-                                this.recognition.start();
-                                this.updateVoiceStatus('Listening...', 'listening');
-                                console.log('Resumed listening after AI spoke');
-                            } catch (e) {
-                                console.log('Could not restart recognition:', e);
-                            }
-                        }
-                    }, 1500);
-                }
-                return;
-            }
-            
-            const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-            
-            // Set voice properties
-            if (this.selectedVoice) {
-                utterance.voice = this.selectedVoice;
-            }
-            utterance.rate = 0.95;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-            
-            utterance.onstart = () => {
-                // Check stop flag even at utterance start
-                if (this.shouldStopSpeaking) {
-                    console.log('STOP FLAG - Cancelling at utterance start');
-                    this.synthesis.cancel();
-                    this.isSpeaking = false;
-                    return;
-                }
-                
-                if (chunkIndex === 0) {
-                    this.isSpeaking = true;
-                    this.updateVoiceStatus('Speaking...', 'speaking');
-                    console.log('AI started speaking');
-                }
-                console.log(`Speaking chunk ${chunkIndex + 1}/${chunks.length}`);
-            };
-            
-            utterance.onend = () => {
-                // Check stop flag before continuing
-                if (this.shouldStopSpeaking) {
-                    console.log('STOP FLAG - Not continuing to next chunk');
-                    this.isSpeaking = false;
-                    return;
-                }
-                
-                console.log(`Finished chunk ${chunkIndex + 1}/${chunks.length}`);
-                chunkIndex++;
-                
-                // Small delay between chunks for natural flow
-                setTimeout(() => {
-                    speakChunk();
-                }, 100);
-            };
-            
-            utterance.onerror = (event) => {
-                console.error('Speech synthesis error:', event);
-                this.isSpeaking = false;
-                this.updateVoiceStatus('Error', 'error');
-                
-                // Try to resume listening even after error
-                if (!this.isMuted && this.currentTab === 'voice' && !this.shouldStopSpeaking) {
-                    setTimeout(() => {
-                        try {
-                            this.recognition.start();
-                            this.updateVoiceStatus('Listening...', 'listening');
-                        } catch (e) {
-                            console.log('Could not restart recognition after error:', e);
-                        }
-                    }, 1000);
-                }
-            };
-            
-            // Speak this chunk
-            this.synthesis.speak(utterance);
-        };
-        
-        // Start speaking first chunk
-        speakChunk();
-    }
-    
-    cleanTextForSpeech(text) {
-        // Remove markdown formatting
-        text = text.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold
-        text = text.replace(/\*(.*?)\*/g, '$1'); // Remove italic
-        text = text.replace(/\[(.*?)\]\(.*?\)/g, '$1'); // Remove links
-        
-        // Remove emojis and special characters
-        text = text.replace(/[📍📧📞📮🏫⏰📝🎒📚🎓💰🏠👔⚽🎨🔬🏃🍽️🚌🔒👨‍👩‍👧‍👦📅🏆♿✅❌]/g, '');
-        
-        // Replace bullet points
-        text = text.replace(/•/g, '');
-        text = text.replace(/✓/g, '');
-        text = text.replace(/✔/g, '');
-        
-        // Clean up multiple spaces and newlines
-        text = text.replace(/\n+/g, '. ');
-        text = text.replace(/\s+/g, ' ');
-        
-        // Replace "UGX" with "Uganda Shillings"
-        text = text.replace(/UGX/g, 'Uganda Shillings');
-        
-        // Replace numbers with commas for better pronunciation
-        text = text.replace(/(\d),(\d)/g, '$1$2');
-        
-        return text.trim();
+        }, 80);
     }
 }
 
-// Initialize chatbot when DOM is ready
+// Global initialization
 let chatbot;
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         chatbot = new StLawrenceChatbot();
-        window.chatbot = chatbot; // Make globally accessible
+        window.chatbot = chatbot;
     });
 } else {
     chatbot = new StLawrenceChatbot();
-    window.chatbot = chatbot; // Make globally accessible
+    window.chatbot = chatbot;
 }

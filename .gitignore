@@ -1,29 +1,58 @@
-# Environment variables (NEVER commit this file)
+# ==============================================================================
+# St. Lawrence Junior School - Version Control Exclusion
+# ==============================================================================
+
+# Environment variables & secrets
 .env
+.env.*
+!.env.example
 
-# Uploaded files
-backend/uploads/
-library_pdfs/*.pdf
+# Database backups & raw SQL dumps
+*.sql
+*.sql.gz
+*.sqlite
+*.db
+database/schema/*
+!database/schema/.gitkeep
+!database/.htaccess
 
-# Vendor dependencies
-backend/vendor/
+# Uploaded user files
+backend/uploads/admissions/*
+!backend/uploads/admissions/.gitkeep
+backend/uploads/gallery/*
+!backend/uploads/gallery/.gitkeep
+backend/uploads/library/*
+!backend/uploads/library/.gitkeep
+backend/uploads/profiles/*
+!backend/uploads/profiles/.gitkeep
+backend/uploads/teachers/*
+!backend/uploads/teachers/.gitkeep
+backend/uploads/videos/*
+!backend/uploads/videos/.gitkeep
+img/testimonials/testimonial_*
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Log files
+# Logs & temporary files
 *.log
 error_log
-
-# Temporary files
+*.bak
+*.backup
+*.old
+*.orig
 *.tmp
 *.temp
-*.cache
+*.zip
+scratch/
+scratch_test_uploads/
+
+# Dependencies
+backend/vendor/phpmailer/phpmailer/test/
+backend/vendor/phpmailer/phpmailer/.git/
+
+# IDE & OS artifacts
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini

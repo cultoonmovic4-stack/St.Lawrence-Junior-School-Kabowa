@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -25,32 +26,31 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Handle file uploads
-    $uploadDir = '../../uploads/admissions/';
+    // Handle file uploads securely
+    $uploadDir = __DIR__ . '/../../uploads/admissions/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
     
     $fileFields = [
-        'birth_certificate' => 'birth_certificate_url',
-        'passport_photo' => 'passport_photo_url',
-        'previous_school_report' => 'previous_school_report_url',
-        'immunization_record' => 'immunization_record_url',
-        'parent_id' => 'parent_id_url',
-        'transfer_letter' => 'transfer_letter_url'
+        'birth_certificate' => ['col' => 'birth_certificate_url', 'cat' => UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT],
+        'passport_photo' => ['col' => 'passport_photo_url', 'cat' => UploadSecurityHelper::CATEGORY_IMAGE],
+        'previous_school_report' => ['col' => 'previous_school_report_url', 'cat' => UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT],
+        'immunization_record' => ['col' => 'immunization_record_url', 'cat' => UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT],
+        'parent_id' => ['col' => 'parent_id_url', 'cat' => UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT],
+        'transfer_letter' => ['col' => 'transfer_letter_url', 'cat' => UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT]
     ];
     
     $fileUpdates = [];
-    foreach ($fileFields as $fieldName => $dbColumn) {
+    foreach ($fileFields as $fieldName => $config) {
         if (isset($_FILES[$fieldName]) && $_FILES[$fieldName]['error'] === UPLOAD_ERR_OK) {
-            $file = $_FILES[$fieldName];
-            $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            $fileName = $fieldName . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $fileExt;
-            $filePath = $uploadDir . $fileName;
-            
-            if (move_uploaded_file($file['tmp_name'], $filePath)) {
-                $fileUpdates[$dbColumn] = 'backend/uploads/admissions/' . $fileName;
-            }
+            $uploadResult = UploadSecurityHelper::validateAndSave(
+                $_FILES[$fieldName],
+                $config['cat'],
+                $uploadDir,
+                $fieldName
+            );
+            $fileUpdates[$config['col']] = 'backend/uploads/admissions/' . $uploadResult['filename'];
         }
     }
     

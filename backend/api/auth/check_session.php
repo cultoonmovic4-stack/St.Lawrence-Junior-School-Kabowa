@@ -1,38 +1,43 @@
 <?php
 /**
  * Check Session API Endpoint
- * Verifies if user has an active session
+ * St. Lawrence Junior School
+ *
+ * Verifies if a valid authenticated session exists.
+ * Session is initialized with hardened cookie parameters via SessionHelper.
  */
 
-// Set headers
+error_reporting(0);
+ini_set('display_errors', '0');
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
 
-// Start session
-session_start();
+require_once __DIR__ . '/../helpers/SessionHelper.php';
 
-// Check if user is logged in
+// Initialize hardened session (also checks/enforces idle timeout)
+SessionHelper::start();
+
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     http_response_code(200);
     echo json_encode([
-        'success' => true,
-        'logged_in' => true,
+        'success'    => true,
+        'logged_in'  => true,
         'data' => [
-            'user_id' => $_SESSION['user_id'] ?? null,
-            'username' => $_SESSION['username'] ?? null,
-            'email' => $_SESSION['email'] ?? null,
-            'full_name' => $_SESSION['full_name'] ?? null,
-            'role_name' => $_SESSION['role_name'] ?? null,
+            'user_id'    => $_SESSION['user_id']    ?? null,
+            'username'   => $_SESSION['username']   ?? null,
+            'email'      => $_SESSION['email']      ?? null,
+            'full_name'  => $_SESSION['full_name']  ?? null,
+            'role_name'  => $_SESSION['role_name']  ?? null,
             'role_level' => $_SESSION['role_level'] ?? null
         ]
     ]);
 } else {
     http_response_code(401);
     echo json_encode([
-        'success' => false,
+        'success'   => false,
         'logged_in' => false,
-        'message' => 'No active session'
+        'message'   => 'No active session'
     ]);
 }
-?>

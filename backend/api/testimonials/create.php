@@ -5,6 +5,7 @@ header('Access-Control-Allow-Methods: POST');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -42,33 +43,21 @@ try {
         exit;
     }
     
-    // Handle file upload
+    // Handle file upload securely
     $photo_url = null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../../../img/testimonials/';
-        
-        // Create directory if it doesn't exist
+        $upload_dir = __DIR__ . '/../../../img/testimonials/';
         if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
+            mkdir($upload_dir, 0755, true);
         }
         
-        $file_extension = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
-        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-        
-        if (!in_array($file_extension, $allowed_extensions)) {
-            throw new Exception('Invalid file type. Only JPG, PNG, and GIF are allowed.');
-        }
-        
-        if ($_FILES['photo']['size'] > 100 * 1024 * 1024) { // 100MB limit
-            throw new Exception('File size must be less than 100MB.');
-        }
-        
-        $new_filename = 'testimonial_' . time() . '_' . uniqid() . '.' . $file_extension;
-        $upload_path = $upload_dir . $new_filename;
-        
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
-            $photo_url = 'img/testimonials/' . $new_filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['photo'],
+            UploadSecurityHelper::CATEGORY_IMAGE,
+            $upload_dir,
+            'testimonial'
+        );
+        $photo_url = 'img/testimonials/' . $uploadResult['filename'];
     }
     
     $database = new Database();

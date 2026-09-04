@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -15,42 +16,26 @@ if (!isAuthenticated()) {
 }
 
 try {
-    // Handle file upload
+    // Handle file upload securely
     if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-        throw new Exception('Image upload failed');
-    }
-    
-    $file = $_FILES['image'];
-    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    
-    if (!in_array($file['type'], $allowedTypes)) {
-        throw new Exception('Invalid file type. Only JPG, PNG, GIF, and WEBP are allowed');
-    }
-    
-    // Check file size (100MB max)
-    $maxSize = 100 * 1024 * 1024; // 100MB in bytes
-    if ($file['size'] > $maxSize) {
-        throw new Exception('File size exceeds 100MB limit');
+        throw new Exception('Image upload failed or no image provided');
     }
     
     // Create upload directory if it doesn't exist
     $uploadDir = __DIR__ . '/../../uploads/gallery/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
     
-    // Generate unique filename
-    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = 'gallery_' . time() . '_' . uniqid() . '.' . $extension;
-    $uploadPath = $uploadDir . $filename;
-    
-    // Move uploaded file
-    if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-        throw new Exception('Failed to save uploaded file');
-    }
+    $uploadResult = UploadSecurityHelper::validateAndSave(
+        $_FILES['image'],
+        UploadSecurityHelper::CATEGORY_IMAGE,
+        $uploadDir,
+        'gallery'
+    );
     
     // Auto-generate title from filename
-    $originalName = pathinfo($file['name'], PATHINFO_FILENAME);
+    $originalName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
     $title = ucwords(str_replace(['_', '-'], ' ', $originalName));
     
     // Default category
@@ -72,7 +57,7 @@ try {
         (:title, :description, :image_url, :category, :upload_date, :uploaded_by, 'active')
     ");
     
-    $imageUrl = 'uploads/gallery/' . $filename;
+    $imageUrl = 'uploads/gallery/' . $uploadResult['filename'];
     
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':description', $description);

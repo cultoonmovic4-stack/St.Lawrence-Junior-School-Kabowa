@@ -50,6 +50,19 @@
     
     <!-- Footer Contact Improvements & Location Section Styling -->
     <style>
+        /* ===== Anti-Spam: honeypot field (must be invisible to real users) ===== */
+        .contact-honeypot {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 0;
+            width: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
         .contact-info .contact-item {
             display: flex;
             align-items: flex-start;
@@ -271,9 +284,10 @@
                 font-size: 2rem;
             }
             
+            /* Spec: minimum 20px horizontal padding + increased margin */
             .location-details {
-                padding: 30px 20px;
-                margin: 0 15px;
+                padding: 30px 25px;
+                margin: 0 20px;
             }
             
             .location-detail-item {
@@ -305,9 +319,10 @@
                 font-size: 1.8rem;
             }
             
+            /* Spec: minimum 20px horizontal padding even at 480px */
             .location-details {
-                padding: 25px 15px;
-                margin: 0 10px;
+                padding: 30px 20px;
+                margin: 0 15px;
             }
             
             .location-detail-item {
@@ -322,8 +337,34 @@
                 font-size: 28px;
             }
         }
+        
+        /* Extra small devices (iPhone SE, Galaxy S8 etc.) */
+        @media (max-width: 375px) {
+            .location-section {
+                padding: 35px 0;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            /* Safe area support for notched devices */
+            .location-details {
+                padding: 20px max(20px, env(safe-area-inset-left, 20px));
+                margin: 0 15px;
+            }
+            
+            .location-detail-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+        }
     </style>
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
+
+    <!-- Contact Page Mobile Responsiveness Fix -->
+    <link rel="stylesheet" href="../css/contact-mobile-fix.css?v=2.0">
 </head>
 <body>
     
@@ -507,28 +548,36 @@
                         
                         <h2 class="form-title">Send Us a Message</h2>
                         
-                        <form id="contactForm" class="modern-contact-form">
+                        <form id="contactForm" class="modern-contact-form" novalidate>
+                            <!-- Anti-spam: honeypot (hidden from humans, bots fill this) -->
+                            <div class="contact-honeypot" aria-hidden="true" tabindex="-1">
+                                <label for="website_url">Leave this field empty</label>
+                                <input type="text" id="website_url" name="website_url" autocomplete="off" tabindex="-1">
+                            </div>
+                            <!-- Hidden form-load timestamp for time-based spam check -->
+                            <input type="hidden" id="form_loaded_at" name="form_loaded_at" value="">
+
                             <div class="form-group">
-                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required minlength="2" maxlength="100">
                             </div>
                             
                             <div class="form-group">
-                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required maxlength="150">
                             </div>
                             
                             <div class="form-group">
-                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your Phone Number">
+                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your Phone Number" maxlength="20">
                             </div>
                             
                             <div class="form-group">
-                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required>
+                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required minlength="3" maxlength="150">
                             </div>
                             
                             <div class="form-group">
-                                <textarea id="message" name="message" class="form-input" rows="5" placeholder="Your Message" required></textarea>
+                                <textarea id="message" name="message" class="form-input" rows="5" placeholder="Your Message" required minlength="20" maxlength="2000"></textarea>
                             </div>
                             
-                            <button type="submit" class="btn-send-message">
+                            <button type="submit" id="contactSubmitBtn" class="btn-send-message">
                                 <span>Send Message</span>
                                 <i class="fas fa-paper-plane"></i>
                             </button>

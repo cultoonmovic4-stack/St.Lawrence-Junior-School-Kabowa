@@ -5,6 +5,7 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
+require_once '../helpers/UploadSecurityHelper.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -62,10 +63,10 @@ try {
     // Create upload directory
     $uploadDir = __DIR__ . '/../../uploads/admissions/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
     
-    // Handle file uploads
+    // Handle file uploads securely
     $birthCertificateUrl = '';
     $passportPhotoUrl = '';
     $previousReportUrl = '';
@@ -73,58 +74,70 @@ try {
     $parentIdUrl = '';
     $transferLetterUrl = '';
     
-    // Upload Birth Certificate
+    // Upload Birth Certificate (Document/PDF/Image)
     if (isset($_FILES['birthCertificate']) && $_FILES['birthCertificate']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['birthCertificate']['name'], PATHINFO_EXTENSION);
-        $filename = 'birth_cert_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['birthCertificate']['tmp_name'], $uploadDir . $filename)) {
-            $birthCertificateUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['birthCertificate'],
+            UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT,
+            $uploadDir,
+            'birth_cert'
+        );
+        $birthCertificateUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
-    // Upload Passport Photo
+    // Upload Passport Photo (Image)
     if (isset($_FILES['passportPhoto']) && $_FILES['passportPhoto']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['passportPhoto']['name'], PATHINFO_EXTENSION);
-        $filename = 'passport_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['passportPhoto']['tmp_name'], $uploadDir . $filename)) {
-            $passportPhotoUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['passportPhoto'],
+            UploadSecurityHelper::CATEGORY_IMAGE,
+            $uploadDir,
+            'passport'
+        );
+        $passportPhotoUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
-    // Upload Previous Report
+    // Upload Previous Report (Document/PDF/Image)
     if (isset($_FILES['previousReport']) && $_FILES['previousReport']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['previousReport']['name'], PATHINFO_EXTENSION);
-        $filename = 'report_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['previousReport']['tmp_name'], $uploadDir . $filename)) {
-            $previousReportUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['previousReport'],
+            UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT,
+            $uploadDir,
+            'report'
+        );
+        $previousReportUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
-    // Upload Immunization Records
+    // Upload Immunization Records (Document/PDF/Image)
     if (isset($_FILES['immunizationRecords']) && $_FILES['immunizationRecords']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['immunizationRecords']['name'], PATHINFO_EXTENSION);
-        $filename = 'immunization_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['immunizationRecords']['tmp_name'], $uploadDir . $filename)) {
-            $immunizationUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['immunizationRecords'],
+            UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT,
+            $uploadDir,
+            'immunization'
+        );
+        $immunizationUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
-    // Upload Parent ID
+    // Upload Parent ID (Document/PDF/Image)
     if (isset($_FILES['parentId']) && $_FILES['parentId']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['parentId']['name'], PATHINFO_EXTENSION);
-        $filename = 'parent_id_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['parentId']['tmp_name'], $uploadDir . $filename)) {
-            $parentIdUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['parentId'],
+            UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT,
+            $uploadDir,
+            'parent_id'
+        );
+        $parentIdUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
-    // Upload Transfer Letter
+    // Upload Transfer Letter (Document/PDF/Image)
     if (isset($_FILES['transferLetter']) && $_FILES['transferLetter']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['transferLetter']['name'], PATHINFO_EXTENSION);
-        $filename = 'transfer_' . time() . '_' . uniqid() . '.' . $ext;
-        if (move_uploaded_file($_FILES['transferLetter']['tmp_name'], $uploadDir . $filename)) {
-            $transferLetterUrl = 'uploads/admissions/' . $filename;
-        }
+        $uploadResult = UploadSecurityHelper::validateAndSave(
+            $_FILES['transferLetter'],
+            UploadSecurityHelper::CATEGORY_ADMISSION_DOCUMENT,
+            $uploadDir,
+            'transfer'
+        );
+        $transferLetterUrl = 'uploads/admissions/' . $uploadResult['filename'];
     }
     
     // Save to database

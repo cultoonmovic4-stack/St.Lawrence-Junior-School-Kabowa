@@ -1,91 +1,154 @@
 /* Contact Page Mobile Responsiveness Fix */
-/* This file fixes form fields and button being cut off at screen edges */
+/* Fixes content being cut off or too close to screen edges on mobile devices */
+/* Per spec: minimum 20px horizontal padding on all mobile viewports */
 
+/* ============================================================
+   768px and below - Mobile devices
+   ============================================================ */
 @media (max-width: 768px) {
-    /* Force container to have margin from edges */
+    /* Container spacing from edges */
     .contact-main-section .container {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding-left: max(25px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(25px, env(safe-area-inset-right, 0px)) !important;
     }
-    
+
+    /* Main contact card container */
     .contact-card-container {
-        padding: 30px 20px !important;
+        padding: 30px 25px !important;
         margin: 0 !important;
-        width: calc(100% - 40px) !important;
-        max-width: calc(100% - 40px) !important;
+        width: 100% !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
     }
-    
+
+    /* Split layout - remove extra padding to rely on parent */
     .contact-split-layout {
         padding: 0 !important;
     }
-    
+
+    /* Contact info and form sides */
     .contact-info-side,
     .contact-form-side {
-        padding: 20px 15px !important;
+        padding: 25px 20px !important;
         margin: 0 !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
-    
+
+    /* Form elements */
     .modern-contact-form {
         padding: 0 !important;
         margin: 0 !important;
     }
-    
+
     .modern-contact-form .form-group {
         margin-bottom: 15px !important;
         padding: 0 !important;
     }
-    
+
     .modern-contact-form .form-input {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         margin: 0 !important;
     }
-    
+
     .btn-send-message {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         margin: 0 !important;
     }
+
+    /* Location section */
+    .location-details {
+        padding: 30px 25px !important;
+        margin: 0 20px !important;
+        box-sizing: border-box !important;
+    }
 }
 
+/* ============================================================
+   576px and below - Small mobile devices
+   ============================================================ */
 @media (max-width: 576px) {
     .contact-main-section .container {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+        padding-left: max(20px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(20px, env(safe-area-inset-right, 0px)) !important;
     }
-    
+
     .contact-card-container {
-        padding: 25px 15px !important;
+        padding: 25px 20px !important;
         margin: 0 !important;
-        width: calc(100% - 30px) !important;
-        max-width: calc(100% - 30px) !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
-    
+
     .contact-info-side,
     .contact-form-side {
-        padding: 15px 10px !important;
+        padding: 20px 15px !important;
+    }
+
+    .location-details {
+        padding: 25px 20px !important;
+        margin: 0 15px !important;
     }
 }
 
+/* ============================================================
+   480px and below - Extra small mobile devices
+   ============================================================ */
 @media (max-width: 480px) {
     .contact-main-section .container {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
+        padding-left: max(20px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(20px, env(safe-area-inset-right, 0px)) !important;
     }
-    
+
     .contact-card-container {
-        padding: 20px 10px !important;
-        width: calc(100% - 20px) !important;
-        max-width: calc(100% - 20px) !important;
+        padding: 25px 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
-    
+
     .contact-info-side,
     .contact-form-side {
-        padding: 15px 5px !important;
+        padding: 20px 15px !important;
+    }
+
+    .location-details {
+        padding: 30px 20px !important;
+        margin: 0 15px !important;
+    }
+}
+
+/* ============================================================
+   375px and below - Very small devices (iPhone SE etc.)
+   ============================================================ */
+@media (max-width: 375px) {
+    .contact-main-section .container {
+        padding-left: max(20px, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(20px, env(safe-area-inset-right, 0px)) !important;
+    }
+
+    .contact-card-container {
+        padding: 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .contact-info-side,
+    .contact-form-side {
+        padding: 15px !important;
+    }
+
+    .location-details {
+        padding: 20px !important;
+        margin: 0 15px !important;
+    }
+
+    .location-section {
+        padding: 35px 0 !important;
     }
 }

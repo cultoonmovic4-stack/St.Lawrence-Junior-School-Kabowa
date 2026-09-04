@@ -1,0 +1,528 @@
+/* ==============================================================================
+   ST. LAWRENCE JUNIOR SCHOOL - KABOWA
+   About Section Redesign (Target Editorial Mockup)
+   Pure editorial typography, human-designed rhythm, restrained school palette,
+   zero AI-gimmicks (no gradients, no glassmorphism, no tilted cards, no blobs)
+   ============================================================================== */
+
+:root {
+    --sls-navy: #0b1a38;
+    --sls-navy-deep: #071228;
+    --sls-navy-surface: #0e224a;
+    --sls-red: #c81e1e;
+    --sls-red-accent: #dc2626;
+    --sls-red-bright: #ef4444;
+    --sls-white: #ffffff;
+    --sls-offwhite: #f8fafc;
+    --sls-border-light: #e2e8f0;
+    --sls-text-primary: #0b1a38;
+    --sls-text-body: #475569;
+    --sls-text-muted: #64748b;
+    --sls-font-editorial: 'Playfair Display', Georgia, serif;
+    --sls-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base Section Wrap */
+.about-section {
+    background-color: var(--sls-white) !important;
+    background: var(--sls-white) !important;
+    position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+    color: var(--sls-text-primary);
+}
+
+.about-editorial-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ==============================================================================
+   TIER 1: INTRODUCTION & MAIN PHOTOGRAPHY
+   ============================================================================== */
+.about-intro-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 52px;
+    align-items: center;
+    padding: 88px 0 68px;
+}
+
+.about-intro-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 12px;
+}
+
+/* Eyebrow Label with Red Accent Bar */
+.about-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.about-red-rule {
+    display: inline-block;
+    width: 32px;
+    height: 2.5px;
+    background-color: var(--sls-red);
+    flex-shrink: 0;
+}
+
+.about-eyebrow-text {
+    font-family: var(--sls-font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+}
+
+/* Dominant Editorial Heading */
+.about-main-headline {
+    font-family: var(--sls-font-editorial);
+    font-size: clamp(34px, 3.8vw, 52px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    margin: 0 0 24px 0;
+}
+
+.about-headline-red {
+    color: var(--sls-red);
+}
+
+/* Concise Supporting Copy */
+.about-intro-lead {
+    font-family: var(--sls-font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--sls-text-body);
+    margin: 0 0 32px 0;
+    max-width: 500px;
+}
+
+/* Integrated Motto Tag */
+.about-motto-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 4px;
+}
+
+.about-motto-tag .about-red-rule {
+    width: 36px;
+    height: 2.5px;
+}
+
+.about-motto-text {
+    font-family: var(--sls-font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+}
+
+/* Main Photography */
+.about-intro-photo-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #f1f5f9;
+}
+
+.about-intro-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 512 / 448;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+}
+
+.about-intro-photo-wrap:hover .about-intro-photo {
+    transform: scale(1.015);
+}
+
+/* ==============================================================================
+   TIER 2: FOUR CORE PRINCIPLES (Clean Editorial Strip)
+   ============================================================================== */
+.about-principles-strip {
+    border-top: 1px solid var(--sls-border-light);
+    border-bottom: 1px solid var(--sls-border-light);
+    background-color: var(--sls-white);
+}
+
+.about-principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    padding: 0;
+}
+
+.about-principle-item {
+    padding: 44px 32px;
+    border-right: 1px solid var(--sls-border-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: background-color 0.25s ease;
+}
+
+.about-principle-item:first-child {
+    border-left: 1px solid var(--sls-border-light);
+}
+
+.about-principle-item:last-child {
+    border-right: 1px solid var(--sls-border-light);
+}
+
+.about-principle-item:hover {
+    background-color: #fafbfd;
+}
+
+/* Large Editorial Number */
+.principle-num {
+    font-family: var(--sls-font-editorial);
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--sls-navy);
+    margin-bottom: 16px;
+}
+
+/* Principle Title */
+.principle-title {
+    font-family: var(--sls-font-editorial);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+}
+
+/* Small Red Accent Line */
+.principle-rule {
+    width: 24px;
+    height: 2px;
+    background-color: var(--sls-red);
+    margin-bottom: 14px;
+}
+
+/* Principle Short Description */
+.principle-desc {
+    font-family: var(--sls-font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--sls-text-body);
+    margin: 0;
+}
+
+/* ==============================================================================
+   TIER 3: OUR PROMISE + PAIR PHOTOGRAPHY + OUR MOTTO
+   ============================================================================== */
+.about-feature-trio-wrap {
+    padding: 0;
+    margin: 0;
+}
+
+.about-feature-trio {
+    display: grid;
+    grid-template-columns: 1.15fr 0.9fr 0.95fr;
+    gap: 0;
+    margin-top: 0;
+    background-color: var(--sls-white);
+    align-items: stretch;
+    border-bottom: 1px solid var(--sls-border-light);
+}
+
+/* Feature 1: Solid Deep School Navy Promise Block */
+.about-promise-block {
+    background-color: var(--sls-navy);
+    padding: 56px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--sls-white);
+    position: relative;
+}
+
+.about-promise-top {
+    margin-bottom: 32px;
+}
+
+.about-promise-block .about-eyebrow-text {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.about-promise-block .about-red-rule {
+    background-color: var(--sls-red-bright);
+}
+
+.promise-heading {
+    font-family: var(--sls-font-editorial);
+    font-size: clamp(28px, 2.6vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--sls-white);
+    margin: 20px 0 18px 0;
+}
+
+.promise-heading-red {
+    color: var(--sls-red-bright);
+    display: block;
+}
+
+.promise-copy {
+    font-family: var(--sls-font-sans);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.84);
+    margin: 0;
+    max-width: 440px;
+}
+
+/* Outlined CTA Button */
+.about-promise-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 13px 26px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: transparent;
+    color: var(--sls-white);
+    font-family: var(--sls-font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.about-promise-btn .btn-arrow {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+}
+
+.about-promise-btn:hover {
+    background-color: var(--sls-white);
+    color: var(--sls-navy);
+    border-color: var(--sls-white);
+}
+
+.about-promise-btn:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+/* Feature 2: Large Candid Photography */
+.about-pair-photo-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    background-color: #0f172a;
+}
+
+.about-pair-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.about-pair-photo-wrap:hover .about-pair-photo {
+    transform: scale(1.02);
+}
+
+/* Feature 3: Our Motto Block */
+.about-motto-block {
+    background-color: var(--sls-offwhite);
+    padding: 56px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--sls-border-light);
+}
+
+.motto-heading {
+    font-family: var(--sls-font-editorial);
+    font-size: clamp(30px, 2.8vw, 42px);
+    font-weight: 800;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: var(--sls-navy);
+    margin: 18px 0 16px 0;
+}
+
+.motto-divider-red {
+    width: 36px;
+    height: 3px;
+    background-color: var(--sls-red);
+    margin-bottom: 20px;
+}
+
+.motto-statement {
+    font-family: var(--sls-font-sans);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--sls-text-body);
+    margin: 0;
+    max-width: 280px;
+}
+
+/* Bottom spacing before next section */
+.about-bottom-spacer {
+    height: 72px;
+    background-color: var(--sls-white);
+}
+
+/* ==============================================================================
+   RESPONSIVE DESIGN SYSTEM
+   ============================================================================== */
+
+/* Large Tablets & Small Laptops (max-width: 1100px) */
+@media (max-width: 1100px) {
+    .about-intro-grid {
+        gap: 36px;
+        padding: 72px 0 54px;
+    }
+    
+    .about-principle-item {
+        padding: 36px 20px;
+    }
+    
+    .about-feature-trio {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .about-motto-block {
+        grid-column: span 2;
+        border-right: 1px solid var(--sls-border-light);
+        border-left: 1px solid var(--sls-border-light);
+        border-top: 1px solid var(--sls-border-light);
+        padding: 44px;
+    }
+}
+
+/* Tablets (max-width: 991px) */
+@media (max-width: 991px) {
+    .about-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 56px 0 42px;
+    }
+    
+    .about-intro-content {
+        padding-right: 0;
+    }
+    
+    .about-principles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .about-principle-item:first-child {
+        border-left: 1px solid var(--sls-border-light);
+    }
+    
+    .about-principle-item:nth-child(2) {
+        border-right: 1px solid var(--sls-border-light);
+    }
+    
+    .about-principle-item:nth-child(1),
+    .about-principle-item:nth-child(2) {
+        border-bottom: 1px solid var(--sls-border-light);
+    }
+    
+    .about-feature-trio {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-pair-photo-wrap {
+        height: 380px;
+        min-height: 380px;
+    }
+    
+    .about-motto-block {
+        grid-column: span 1;
+        border-left: 1px solid var(--sls-border-light);
+        border-right: 1px solid var(--sls-border-light);
+    }
+}
+
+/* Mobile Devices (max-width: 640px) */
+@media (max-width: 640px) {
+    .about-editorial-container {
+        padding: 0 18px;
+    }
+    
+    .about-intro-grid {
+        padding: 44px 0 32px;
+        gap: 28px;
+    }
+    
+    .about-main-headline {
+        font-size: 28px;
+        line-height: 1.2;
+        margin-bottom: 18px;
+    }
+    
+    .about-intro-lead {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+    }
+    
+    .about-principles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-principle-item {
+        border-left: 1px solid var(--sls-border-light);
+        border-right: 1px solid var(--sls-border-light);
+        border-bottom: 1px solid var(--sls-border-light);
+        padding: 30px 20px;
+    }
+    
+    .about-principle-item:last-child {
+        border-bottom: 1px solid var(--sls-border-light);
+    }
+    
+    .principle-num {
+        font-size: 34px;
+    }
+    
+    .about-promise-block {
+        padding: 38px 22px;
+    }
+    
+    .promise-heading {
+        font-size: 26px;
+    }
+    
+    .about-motto-block {
+        padding: 38px 22px;
+    }
+    
+    .motto-heading {
+        font-size: 28px;
+    }
+    
+    .about-bottom-spacer {
+        height: 48px;
+    }
+}

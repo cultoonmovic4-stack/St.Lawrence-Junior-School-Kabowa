@@ -4,9 +4,9 @@
  * Handles user authentication
  */
 
-// Enable error reporting for development
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// NOTE: display_errors disabled for security — error details must not leak to clients
+error_reporting(0);
+ini_set('display_errors', '0');
 
 // Set headers
 header('Access-Control-Allow-Origin: *');
@@ -14,8 +14,12 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
-// Include database connection
+// Include database connection and session helper
 require_once '../config/Database.php';
+require_once '../helpers/SessionHelper.php';
+
+// Initialize hardened session before any auth logic
+SessionHelper::start();
 
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -89,20 +93,24 @@ try {
         
         // Verify password
         if (password_verify($password, $user['password_hash'])) {
-            // Password is correct - start session
-            session_start();
+            // Session is already started by SessionHelper::start() above.
+            // Regenerate session ID now — BEFORE writing any auth state —
+            // to prevent session fixation attacks.
+            SessionHelper::regenerate();
             
-            // Store user data in session
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['full_name'] = $user['full_name'];
-            $_SESSION['role_id'] = $user['role_id'];
-            $_SESSION['role_name'] = $user['role_name'];
+            // Store user data in session (only non-sensitive identity data)
+            $_SESSION['user_id']    = $user['id'];
+            $_SESSION['username']   = $user['username'];
+            $_SESSION['email']      = $user['email'];
+            $_SESSION['full_name']  = $user['full_name'];
+            $_SESSION['role_id']    = $user['role_id'];
+            $_SESSION['role_name']  = $user['role_name'];
             $_SESSION['role_level'] = $user['role_level'];
-            $_SESSION['logged_in'] = true;
+            $_SESSION['logged_in']  = true;
+            $_SESSION['login_method'] = 'password';
+            $_SESSION['login_time'] = time();
             
-            // Update last login
+            // Update last login timestamp
             $updateQuery = "UPDATE users SET last_login = NOW() WHERE id = :id";
             $updateStmt = $conn->prepare($updateQuery);
             $updateStmt->bindParam(':id', $user['id']);
@@ -117,18 +125,18 @@ try {
             $logStmt->bindParam(':user_agent', $_SERVER['HTTP_USER_AGENT']);
             $logStmt->execute();
             
-            // Return success response
+            // Return success response — do NOT include password_hash or sensitive fields
             http_response_code(200);
             echo json_encode([
                 'success' => true,
                 'message' => 'Login successful',
                 'data' => [
-                    'user_id' => $user['id'],
-                    'username' => $user['username'],
-                    'email' => $user['email'],
-                    'full_name' => $user['full_name'],
-                    'phone' => $user['phone'],
-                    'role_name' => $user['role_name'],
+                    'user_id'    => $user['id'],
+                    'username'   => $user['username'],
+                    'email'      => $user['email'],
+                    'full_name'  => $user['full_name'],
+                    'phone'      => $user['phone'],
+                    'role_name'  => $user['role_name'],
                     'role_level' => $user['role_level']
                 ]
             ]);

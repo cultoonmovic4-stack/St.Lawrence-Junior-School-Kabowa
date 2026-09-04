@@ -1,9 +1,55 @@
-Options +Indexes +FollowSymLinks
+# ==============================================================================
+# St. Lawrence Junior School - Apache Server Hardening Configuration
+# ==============================================================================
+
+# 1. Disable Directory Indexing (Listing)
+Options -Indexes -MultiViews +FollowSymLinks
 DirectoryIndex index.html index.php
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+# 2. HTTP Security Headers
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Clickjacking protection
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Cross-site scripting filter
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Restrict sensitive browser permissions (allow microphone on self for voice assistant)
+    Header set Permissions-Policy "geolocation=(), microphone=(self), camera=()"
 </IfModule>
 
-# Allow access to all files
-Require all granted
+# 3. Rewrite Engine & Hidden File Protection
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block access to all hidden files and folders (e.g. .git, .env, .htaccess)
+    # Exclude .well-known for SSL certificates
+    RewriteCond %{REQUEST_URI} !^/\.well-known/
+    RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
+</IfModule>
+
+# 4. Deny Access to Sensitive File Formats
+<FilesMatch "(?i)\.(env(\..*)?|sql(\.gz)?|log|bak|backup|old|orig|temp|tmp|ini|conf|config|yml|yaml|json|lock|dist|sh|bat|cmd|git.*)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 5. Deny Access to Specific System / Documentation Files
+<FilesMatch "(?i)^(composer\.json|composer\.lock|package\.json|package-lock\.json|README\.md|SECURITY\.md|\.gitignore|\.env|\.env\.example)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
