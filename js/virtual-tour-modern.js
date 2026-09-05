@@ -10,16 +10,15 @@
     // VIDEO CONFIGURATION
     // ============================================
     
-    // OPTION 1: YouTube Video
-    const YOUTUBE_VIDEO_ID = 'EY_BfeDjZ9k';
-    const YOUTUBE_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
+    // OPTION 1: Local Video File (Authentic St. Lawrence School Footage)
+    const LOCAL_VIDEO_PATH = '../img/students walking.mp4';
     
-    // OPTION 2: Local Video File
-    // Upload your video to backend/uploads/videos/ folder
-    const LOCAL_VIDEO_PATH = '../backend/uploads/videos/virtual-tour.mp4';
+    // OPTION 2: YouTube Video URL (If official YouTube link is provided later)
+    const YOUTUBE_VIDEO_ID = '';
+    const YOUTUBE_URL = YOUTUBE_VIDEO_ID ? `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1` : '';
     
-    // Choose video source: 'youtube' or 'local'
-    const VIDEO_SOURCE = 'youtube'; // Change to 'local' to use local video file
+    // Default video source: 'local' for real school footage
+    const VIDEO_SOURCE = 'local';
     
     // ============================================
 
@@ -31,9 +30,9 @@
     const videoElement = document.getElementById('videoElementModern'); // For local videos
     const closeBtn = document.getElementById('closeVideoModern');
 
-    // Check if all elements exist
-    if (!playBtn || !videoThumbnail || !videoPlayer || !videoIframe || !closeBtn) {
-        console.warn('Virtual Tour: Some elements not found');
+    // Check if essential elements exist
+    if (!playBtn || !videoThumbnail || !videoPlayer) {
+        console.warn('Virtual Tour: Essential elements not found');
         return;
     }
 
@@ -41,39 +40,27 @@
      * Show video player and load video
      */
     function showVideo() {
-        console.log('Showing video player...');
-        console.log('Video source:', VIDEO_SOURCE);
+        // Hide thumbnail
+        videoThumbnail.style.display = 'none';
         
-        // Hide thumbnail using class
-        videoThumbnail.classList.add('hidden');
-        
-        // Show video player
-        videoPlayer.classList.add('active');
+        // Show video player frame
         videoPlayer.style.display = 'block';
         
         // Load video based on source type
-        if (VIDEO_SOURCE === 'youtube') {
-            // YouTube video - use iframe
+        if (VIDEO_SOURCE === 'local' && videoElement) {
+            videoElement.style.display = 'block';
+            if (videoIframe) videoIframe.style.display = 'none';
+            if (!videoElement.src || videoElement.src === window.location.href) {
+                videoElement.src = LOCAL_VIDEO_PATH;
+            }
+            videoElement.play().catch(function(err) {
+                console.log('Autoplay caught or prevented:', err);
+            });
+        } else if (VIDEO_SOURCE === 'youtube' && videoIframe && YOUTUBE_URL) {
             videoIframe.style.display = 'block';
             if (videoElement) videoElement.style.display = 'none';
-            
-            setTimeout(function() {
-                videoIframe.src = YOUTUBE_URL;
-                console.log('YouTube video loaded:', videoIframe.src);
-            }, 100);
-        } else {
-            // Local video - use HTML5 video element
-            videoIframe.style.display = 'none';
-            if (videoElement) {
-                videoElement.style.display = 'block';
-                videoElement.src = LOCAL_VIDEO_PATH;
-                videoElement.play();
-                console.log('Local video loaded:', LOCAL_VIDEO_PATH);
-            }
+            videoIframe.src = YOUTUBE_URL;
         }
-        
-        // Prevent body scroll when video is playing
-        document.body.style.overflow = 'hidden';
     }
 
     /**
@@ -81,24 +68,18 @@
      */
     function hideVideo() {
         // Show thumbnail
-        videoThumbnail.classList.remove('hidden');
+        videoThumbnail.style.display = 'block';
         
         // Hide video player
-        videoPlayer.classList.remove('active');
         videoPlayer.style.display = 'none';
         
-        // Stop video based on source type
-        if (VIDEO_SOURCE === 'youtube') {
-            videoIframe.src = '';
-        } else {
-            if (videoElement) {
-                videoElement.pause();
-                videoElement.src = '';
-            }
+        // Stop video playback
+        if (videoElement) {
+            videoElement.pause();
         }
-        
-        // Restore body scroll
-        document.body.style.overflow = '';
+        if (videoIframe) {
+            videoIframe.src = '';
+        }
     }
 
     // Event Listeners

@@ -1,529 +1,515 @@
-/* ============================================
-   VIRTUAL TOUR - MODERN PROFESSIONAL DESIGN
-   Clean, Minimal, Video-Only Design
-   ============================================ */
+/* ==============================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA — VIRTUAL TOUR SECTION
+   Mockup Reference: media_1788541580210.jpg
+   Strict Colors: Royal/Navy Blue #0b1a38 / #084298, Red #dc2626, White #ffffff
+   100% AI-Free, Deterministic Code, Zero Gradients, Zero Glassmorphism
+   ============================================================================== */
 
-/* Section Styling */
 .virtual-tour-modern {
-    padding: 120px 0;
-    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    background-color: #ffffff;
+    padding: 92px 0 84px 0;
     position: relative;
     overflow: hidden;
+    color: #0f172a;
 }
 
-.virtual-tour-modern::before {
-    content: '';
+/* --- Ghosted Watermarks --- */
+.tour-watermark-text {
     position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 102, 204, 0.05) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-.virtual-tour-modern::after {
-    content: '';
-    position: absolute;
-    bottom: -100px;
-    left: -100px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(220, 53, 69, 0.03) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-/* Section Header */
-.tour-header-modern {
-    text-align: center;
-    margin-bottom: 60px;
-    position: relative;
-    z-index: 1;
-}
-
-.tour-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 24px;
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 82, 163, 0.1) 100%);
-    border-radius: 50px;
-    margin-bottom: 20px;
-    border: 2px solid rgba(0, 102, 204, 0.2);
-}
-
-.tour-badge i {
-    font-size: 18px;
-    color: #0066cc;
-}
-
-.tour-badge span {
-    font-size: 13px;
-    font-weight: 700;
-    color: #0066cc;
-    letter-spacing: 2px;
+    top: 36px;
+    left: 40px;
     font-family: 'Poppins', sans-serif;
+    font-size: clamp(60px, 8vw, 110px);
+    font-weight: 900;
+    line-height: 0.88;
+    color: #0b1a38;
+    opacity: 0.035;
+    letter-spacing: -2px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
 }
 
-.tour-title-modern {
-    font-size: 48px;
-    font-weight: 800;
-    color: #1a1a1a;
-    margin: 0 0 15px 0;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: -1px;
+.tour-watermark-crest {
+    position: absolute;
+    top: 24px;
+    right: 40px;
+    width: clamp(180px, 22vw, 270px);
+    opacity: 0.085;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
 }
 
-.tour-subtitle-modern {
-    font-size: 18px;
-    color: #666666;
-    margin: 0;
-    font-weight: 400;
-    max-width: 600px;
+.tour-watermark-crest img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.tour-watermark-quote {
+    position: absolute;
+    bottom: 120px;
+    left: 40px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+}
+
+.tour-watermark-quote p {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.5vw, 19px);
+    color: #94a3b8;
+    opacity: 0.35;
+    line-height: 1.35;
+    margin: 0 0 8px 0;
+}
+
+.tour-watermark-line {
+    display: block;
+    width: 36px;
+    height: 2px;
+    background-color: #dc2626;
+    border-radius: 1px;
+    opacity: 0.6;
+}
+
+/* --- Container --- */
+.tour-container {
+    max-width: 1140px;
     margin: 0 auto;
-}
-
-/* Video Container */
-.video-container-modern {
-    max-width: 1000px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-.video-card-modern {
-    background: #ffffff;
-    border-radius: 30px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    position: relative;
-    /* Maintain aspect ratio */
-    aspect-ratio: 16 / 9;
-    min-height: 400px;
-}
-
-/* Video Thumbnail */
-.video-thumbnail-modern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.video-thumbnail-modern.hidden {
-    display: none;
-}
-
-.thumbnail-image-modern {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.video-thumbnail-modern:hover .thumbnail-image-modern {
-    transform: scale(1.05);
-}
-
-.video-overlay-modern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.3) 0%, rgba(0, 82, 163, 0.5) 100%);
-    transition: all 0.3s ease;
-}
-
-.video-thumbnail-modern:hover .video-overlay-modern {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.4) 0%, rgba(0, 82, 163, 0.6) 100%);
-}
-
-/* Play Button */
-.play-btn-modern {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.95);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.play-btn-modern:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-}
-
-.play-icon-modern {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0 24px;
     position: relative;
     z-index: 2;
 }
 
-.play-icon-modern i {
-    font-size: 36px;
-    color: #0066cc;
-    margin-left: 4px; /* subtle optical correction for play triangle */
+/* --- Section Header --- */
+.tour-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-/* Play Button Ripples */
-.play-ripple-modern,
-.play-ripple-modern-2 {
+.tour-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tour-eyebrow-line {
+    display: inline-block;
+    width: 32px;
+    height: 2.5px;
+    background-color: #dc2626;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.tour-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #dc2626;
+}
+
+.tour-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.3rem, 3.8vw, 3.3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #0b1a38;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.5px;
+}
+
+.tour-heading .text-red {
+    color: #dc2626;
+}
+
+.tour-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: #475569;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+/* --- Media Wrapper & Frame --- */
+.tour-media-wrapper {
+    max-width: 1040px;
+    margin: 0 auto 44px;
+}
+
+.tour-media-frame {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: #0b1a38;
+    border: 1px solid rgba(11, 26, 56, 0.08);
+    box-shadow: 0 20px 48px rgba(11, 26, 56, 0.12);
+    aspect-ratio: 16 / 9;
+    max-height: 540px;
+}
+
+/* --- Thumbnail Mode --- */
+.tour-thumbnail-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.tour-thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tour-thumbnail-wrap:hover .tour-thumbnail-img {
+    transform: scale(1.025);
+}
+
+.tour-media-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 26, 56, 0.14);
+    transition: background-color 0.3s ease;
+}
+
+.tour-thumbnail-wrap:hover .tour-media-overlay {
+    background-color: rgba(11, 26, 56, 0.22);
+}
+
+/* --- Play Button --- */
+.tour-play-btn {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
+    width: 78px;
+    height: 78px;
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.8);
-    animation: rippleModern 2s ease-out infinite;
-}
-
-.play-ripple-modern-2 {
-    animation-delay: 1s;
-}
-
-@keyframes rippleModern {
-    0% {
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-    }
-    100% {
-        width: 180%;
-        height: 180%;
-        opacity: 0;
-    }
-}
-
-/* Video Info Badge */
-.video-info-badge {
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    z-index: 5;
-}
-
-.video-info-badge i {
-    font-size: 14px;
-}
-
-/* Video Player */
-.video-player-modern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000000;
-    z-index: 20;
-    display: none;
-}
-
-.video-player-modern.active {
-    display: block !important;
-}
-
-.video-iframe-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.video-iframe-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* HTML5 Video Element for Local Videos */
-.video-element-modern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: #000000;
-}
-
-/* Close Button */
-.close-video-modern {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: rgba(220, 53, 69, 0.9);
-    border: none;
-    border-radius: 50%;
-    color: #ffffff;
-    font-size: 20px;
+    justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 30;
+    z-index: 4;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.tour-play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.38);
+    background-color: #ffffff;
+}
+
+.tour-play-icon {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.close-video-modern:hover {
-    background: #dc3545;
-    transform: rotate(90deg) scale(1.1);
+.tour-play-icon i {
+    font-size: 26px;
+    color: #dc2626;
+    margin-left: 5px; /* optical centering */
+    transition: transform 0.25s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
+.tour-play-btn:hover .tour-play-icon i {
+    transform: scale(1.05);
+}
+
+/* --- Bottom-Left Caption Badge --- */
+.tour-caption-badge {
+    position: absolute;
+    bottom: 22px;
+    left: 24px;
+    background-color: rgba(15, 23, 42, 0.76);
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.tour-caption-bar {
+    width: 3px;
+    height: 16px;
+    background-color: #dc2626;
+    border-radius: 1px;
+    flex-shrink: 0;
+}
+
+.tour-caption-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+}
+
+/* --- Bottom-Right Duration Badge --- */
+.tour-duration-badge {
+    position: absolute;
+    bottom: 22px;
+    right: 24px;
+    background-color: rgba(15, 23, 42, 0.76);
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.tour-duration-badge i {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* --- Active Video Player View --- */
+.tour-player-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    z-index: 10;
+}
+
+.tour-video-element,
+.tour-iframe-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    display: block;
+}
+
+.tour-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    font-size: 18px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tour-close-btn:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
+
+/* --- Three Supporting Highlights --- */
+.tour-highlights-grid {
+    max-width: 920px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+.tour-highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    padding: 6px 12px;
+}
+
+.tour-highlight-icon {
+    font-size: 28px;
+    color: #084298;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tour-highlight-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.tour-highlight-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #0b1a38;
+    margin: 0 0 2px 0;
+    line-height: 1.25;
+}
+
+.tour-highlight-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.tour-highlight-divider {
+    width: 1px;
+    height: 42px;
+    background-color: #e2e8f0;
+}
+
+/* --- Bottom Institutional Signature --- */
+.tour-brand-signature {
+    text-align: center;
+    margin-top: 36px;
+}
+
+.tour-signature-line {
+    display: inline-block;
+    width: 36px;
+    height: 2.5px;
+    background-color: #dc2626;
+    border-radius: 2px;
+    margin-bottom: 14px;
+}
+
+.tour-signature-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #084298;
+    text-transform: uppercase;
+    margin: 0 0 3px 0;
+}
+
+.tour-signature-motto {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: #64748b;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 991px) {
     .virtual-tour-modern {
-        padding: 80px 0;
+        padding: 76px 0 68px 0;
     }
 
-    .tour-header-modern {
-        margin-bottom: 50px;
+    .tour-watermark-text,
+    .tour-watermark-quote {
+        display: none;
     }
 
-    .tour-title-modern {
-        font-size: 40px;
+    .tour-watermark-crest {
+        width: 160px;
+        opacity: 0.06;
     }
 
-    .tour-subtitle-modern {
-        font-size: 17px;
-        padding: 0 20px;
+    .tour-media-frame {
+        max-height: 440px;
     }
 
-    .video-card-modern {
-        border-radius: 24px;
-        min-height: 300px;
+    .tour-highlights-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 440px;
     }
 
-    .play-btn-modern {
-        width: 90px;
-        height: 90px;
+    .tour-highlight-divider {
+        display: none;
     }
 
-    .play-icon-modern i {
-        font-size: 32px;
+    .tour-highlight-item {
+        justify-content: flex-start;
+        padding: 8px 16px;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
     }
 }
 
 @media (max-width: 768px) {
     .virtual-tour-modern {
-        padding: 60px 0;
+        padding: 56px 0 50px 0;
     }
 
-    .tour-header-modern {
-        margin-bottom: 40px;
+    .tour-heading {
+        font-size: clamp(1.9rem, 6.5vw, 2.5rem);
     }
 
-    .tour-badge {
-        padding: 8px 20px;
+    .tour-subtitle {
+        font-size: 14.5px;
     }
 
-    .tour-badge i {
-        font-size: 16px;
+    .tour-subtitle br {
+        display: none;
     }
 
-    .tour-badge span {
-        font-size: 12px;
-        letter-spacing: 1.5px;
+    .tour-media-frame {
+        border-radius: 14px;
+        aspect-ratio: 16 / 10;
     }
 
-    .tour-title-modern {
-        font-size: 32px;
-        margin-bottom: 12px;
+    .tour-play-btn {
+        width: 62px;
+        height: 62px;
     }
 
-    .tour-subtitle-modern {
-        font-size: 15px;
-        padding: 0 15px;
+    .tour-play-icon i {
+        font-size: 20px;
+        margin-left: 4px;
     }
 
-    .video-container-modern {
-        padding: 0 15px;
+    .tour-caption-badge {
+        bottom: 12px;
+        left: 12px;
+        padding: 6px 12px;
     }
 
-    .video-card-modern {
-        border-radius: 20px;
-        min-height: 250px;
+    .tour-caption-text {
+        font-size: 11.5px;
     }
 
-    .play-btn-modern {
-        width: 75px;
-        height: 75px;
-    }
-
-    .play-icon-modern i {
-        font-size: 26px;
-    }
-
-    .video-info-badge {
-        bottom: 15px;
-        right: 15px;
-        padding: 8px 14px;
-        font-size: 12px;
-    }
-
-    .close-video-modern {
-        top: 15px;
-        right: 15px;
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .virtual-tour-modern {
-        padding: 50px 0;
-    }
-
-    .tour-header-modern {
-        margin-bottom: 35px;
-    }
-
-    .tour-badge {
-        padding: 7px 18px;
-    }
-
-    .tour-badge i {
-        font-size: 14px;
-    }
-
-    .tour-badge span {
-        font-size: 11px;
-        letter-spacing: 1px;
-    }
-
-    .tour-title-modern {
-        font-size: 26px;
-        margin-bottom: 10px;
-        letter-spacing: -0.5px;
-    }
-
-    .tour-subtitle-modern {
-        font-size: 14px;
-        padding: 0 10px;
-        line-height: 1.6;
-    }
-
-    .video-container-modern {
-        padding: 0 10px;
-    }
-
-    .video-card-modern {
-        border-radius: 16px;
-        min-height: 200px;
-    }
-
-    .play-btn-modern {
-        width: 65px;
-        height: 65px;
-    }
-
-    .play-icon-modern i {
-        font-size: 22px;
-        margin-left: 3px;
-    }
-
-    /* Smaller ripples on mobile */
-    .play-ripple-modern,
-    .play-ripple-modern-2 {
-        border: 2px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .video-info-badge {
+    .tour-duration-badge {
         bottom: 12px;
         right: 12px;
-        padding: 6px 12px;
-        font-size: 11px;
-        gap: 6px;
-    }
-
-    .video-info-badge i {
-        font-size: 12px;
-    }
-
-    .close-video-modern {
-        top: 12px;
-        right: 12px;
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 375px) {
-    .virtual-tour-modern {
-        padding: 40px 0;
-    }
-
-    .tour-title-modern {
-        font-size: 24px;
-    }
-
-    .tour-subtitle-modern {
-        font-size: 13px;
-    }
-
-    .video-card-modern {
-        min-height: 180px;
-        border-radius: 14px;
-    }
-
-    .play-btn-modern {
-        width: 60px;
-        height: 60px;
-    }
-
-    .play-icon-modern i {
-        font-size: 20px;
-    }
-
-    .video-info-badge {
-        bottom: 10px;
-        right: 10px;
         padding: 5px 10px;
-        font-size: 10px;
-    }
-
-    .close-video-modern {
-        top: 10px;
-        right: 10px;
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
+        font-size: 11.5px;
     }
 }

@@ -13,7 +13,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -43,9 +43,6 @@
     <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
-    <!-- Footer redesign (clean) -->
-    <link rel="stylesheet" href="../css/footer.css?v=1.0">
-    
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
     
@@ -126,24 +123,11 @@
             width: 100%;
             height: 100%;
         }
-
-        .map-frame-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 4 / 3;
-        }
-
-        .map-frame-wrapper iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
     </style>
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
 
-    <!-- Target Institutional Navbar Styles -->
-    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=1.0">
+    <!-- Target Institutional Navbar & Hero Styles -->
+    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=1.1">
     <!-- Target Final Footer Redesign Styles -->
     <link rel="stylesheet" href="../css/footer-target.css?v=1.1">
     <!-- Chatbot CSS -->
@@ -221,408 +205,446 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="../img/new 2.JPG" alt="About St. Lawrence">
-            <div class="page-hero-overlay"></div>
+    <!-- About Page Hero (Target Editorial Redesign) -->
+    <section class="about-hero-editorial" id="aboutHero">
+        <!-- Background School Photography (Authentic St. Lawrence Junior School) -->
+        <div class="about-hero-bg">
+            <img src="../img/new 2.JPG" alt="St. Lawrence Junior School Classroom">
         </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
-                <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <span>About Us</span>
-            </div>
-            <h1 data-aos="fade-up">About St. Lawrence Junior School</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Excellence in Education Since 2010</p>
-        </div>
-    </section>
+        <!-- Subtle Restrained Dark Navy Overlay -->
+        <div class="about-hero-overlay" aria-hidden="true"></div>
 
-    <!-- Our Story Section -->
-    <section class="our-story-section">
-        <div class="our-story-container">
-            <div class="story-content" data-aos="fade-right">
-                <span class="section-label-alt">Our Story</span>
-                <h2 class="section-title-alt">Building Futures Through Quality Education</h2>
-                
-                <div class="story-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-icon">
-                            <i class="fas fa-flag"></i>
-                        </div>
-                        <div class="timeline-content">
-                            <h4>The Beginning - 2010</h4>
-                            <p>
-                                Founded in 2010, St. Lawrence Junior School Kabowa has grown from a small community school 
-                                into one of the most respected primary educational institutions in the region. Our journey 
-                                began with a simple yet powerful vision: to provide quality education that transforms lives 
-                                and builds character.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="timeline-content">
-                            <h4>Growth & Excellence</h4>
-                            <p>
-                                Over the years, we have maintained our commitment to academic excellence while nurturing 
-                                the holistic development of every child. Our dedicated team of educators, modern facilities, 
-                                and comprehensive curriculum have helped hundreds of students achieve their dreams and excel 
-                                in their academic pursuits.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="timeline-content">
-                            <h4>Today & Beyond</h4>
-                            <p>
-                                Today, St. Lawrence Junior School stands as a beacon of educational excellence, combining 
-                                traditional values with modern teaching methodologies to prepare students for the challenges 
-                                of tomorrow.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                
-            </div>
-            
-            <div class="story-image-wrapper" data-aos="fade-left">
-                <div class="story-image">
-                    <img src="../img/new 6.JPG" alt="Our Story">
-                    <div class="image-overlay"></div>
-                </div>
-                <!-- <div class="story-badge"> -->
-                    <!-- <div class="badge-icon"> -->
-                        <!-- <i class="fas fa-graduation-cap"></i> -->
-                    </div>
-                    <div class="badge-content">
-                        <!-- <div class="badge-number">14+</div> -->
-                        <!-- <div class="badge-text">Years of Excellence</div> -->
-                    </div>
-                </div>
-                <div class="floating-shape shape-1"></div>
-                <div class="floating-shape shape-2"></div>
+        <div class="container about-hero-container">
+            <div class="about-hero-content">
+                <!-- Understated Minimal Breadcrumb -->
+                <nav class="about-hero-breadcrumb" aria-label="Breadcrumb" data-aos="fade-down" data-aos-duration="600">
+                    <a href="index-redesign.html" class="breadcrumb-link">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">About Us</span>
+                </nav>
+
+                <!-- Refined Editorial Heading -->
+                <h1 class="about-hero-title" data-aos="fade-up" data-aos-duration="700">About St. Lawrence Junior School</h1>
+
+                <!-- Subtle Institutional Red Accent Rule (Matching Home Page) -->
+                <div class="about-hero-red-line" aria-hidden="true" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700"></div>
+
+                <!-- Academic Supporting Subtitle -->
+                <p class="about-hero-subtitle" data-aos="fade-up" data-aos-delay="150" data-aos-duration="700">Excellence in Education Since 2010</p>
             </div>
         </div>
     </section>
 
-    <!-- Mission, Vision & Motto Section - Advanced -->
-    <section class="mission-vision-section-advanced">
-        <div class="mission-vision-container-advanced">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-label-alt">Our Foundation</span>
-                <h2 class="section-title-alt">Mission, Vision & Motto</h2>
-                <p class="section-subtitle">The guiding principles that drive everything we do</p>
-            </div>
-            
-            <div class="mvv-layout">
-                <!-- Left: Mission & Vision -->
-                <div class="mvv-left">
-                    <!-- Mission Card -->
-                    <div class="mvv-card mission-card" data-aos="fade-right" data-aos-delay="100">
-                        <div class="mvv-card-header">
-                            <div class="mvv-icon-large mission">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="mvv-title-section">
-                                <span class="mvv-label">Our Mission</span>
-                                <h3>Empowering Through Education</h3>
-                            </div>
-                        </div>
-                        <div class="mvv-card-content">
-                            <p>
-                                To provide quality, holistic education that nurtures academic excellence, moral values, 
-                                and practical skills, empowering every child to reach their full potential and become 
-                                responsible citizens who contribute positively to society.
-                            </p>
-                            <div class="mvv-features">
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Academic Excellence</span>
-                                </div>
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Character Building</span>
-                                </div>
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Practical Skills</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mvv-decoration"></div>
+    <!-- Our Story Section (Option A — The Editorial Journey) -->
+    <section class="story-option-a" id="ourStory">
+        <div class="container story-a-container">
+            <div class="story-a-layout">
+                <!-- Left Column: Editorial Narrative -->
+                <div class="story-a-narrative" data-aos="fade-right" data-aos-duration="700">
+                    <div class="story-a-eyebrow">
+                        <span class="story-a-eyebrow-line" aria-hidden="true"></span>
+                        <span class="story-a-eyebrow-text">OUR STORY</span>
                     </div>
-                    
-                    <!-- Vision Card -->
-                    <div class="mvv-card vision-card" data-aos="fade-right" data-aos-delay="200">
-                        <div class="mvv-card-header">
-                            <div class="mvv-icon-large vision">
+
+                    <h2 class="story-a-headline">
+                        Building<br>Brighter Futures
+                    </h2>
+
+                    <p class="story-a-kicker">A strong foundation. A brighter tomorrow.</p>
+
+                    <p class="story-a-paragraph">
+                        St. Lawrence Junior School Kabowa was founded in 2010 with a simple yet powerful vision — to provide quality education that nurtures every child's potential. Over the years, we have grown into a respected learning community, known for academic excellence, discipline, character and a caring environment.
+                    </p>
+
+                    <a href="Academics.html" class="story-a-btn">
+                        <span>Our Journey</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <!-- Right Column: Visual Composition (Photo + Quote + Flowing Wave + 3 Milestones) -->
+                <div class="story-a-visual-panel" data-aos="fade-left" data-aos-duration="700">
+                    <!-- Photo Card with Top-Right Navy Quote and Bottom Flowing Wave -->
+                    <div class="story-a-photo-card">
+                        <div class="story-a-photo-wrap">
+                            <img src="../img/hero-students-target.jpg" alt="St. Lawrence Junior School Learners" class="story-a-photo">
+                            
+                            <!-- Deep Navy Quote Box (Option A Top-Right) -->
+                            <div class="story-a-quote-box">
+                                <p class="story-a-quote-text">“Nurturing confident learners for a brighter tomorrow.”</p>
+                                <span class="story-a-quote-rule" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <!-- Flowing Red Wave Ribbon (Matching Home Page) -->
+                        <div class="story-a-wave-strip" aria-hidden="true">
+                            <svg class="story-a-wave-svg" viewBox="0 0 1000 70" preserveAspectRatio="none">
+                                <path d="M0,35 C200,65 380,5 600,45 C780,80 900,30 1000,20 L1000,70 L0,70 Z" fill="#ffffff"></path>
+                                <path d="M0,35 C200,65 380,5 600,45 C780,80 900,30 1000,20" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+
+                        <!-- 3 Connected Horizontal Milestones (Directly Below Wave) -->
+                        <div class="story-a-milestones-grid">
+                            <!-- Milestone 1: 2010 / The Beginning -->
+                            <div class="story-a-milestone-item">
+                                <div class="story-a-node-dot" aria-hidden="true"></div>
+                                <div class="story-a-year-val">2010</div>
+                                <h4 class="story-a-milestone-heading">The Beginning</h4>
+                                <p class="story-a-milestone-sub">A small community with a big vision.</p>
+                            </div>
+
+                            <div class="story-a-milestone-divider" aria-hidden="true"></div>
+
+                            <!-- Milestone 2: Growth & Excellence -->
+                            <div class="story-a-milestone-item">
+                                <div class="story-a-node-dot" aria-hidden="true"></div>
+                                <div class="story-a-icon-val">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4 class="story-a-milestone-heading">Growth & Excellence</h4>
+                                <p class="story-a-milestone-sub">Expanding opportunities and strengthening our learning environment.</p>
+                            </div>
+
+                            <div class="story-a-milestone-divider" aria-hidden="true"></div>
+
+                            <!-- Milestone 3: Today & Beyond -->
+                            <div class="story-a-milestone-item">
+                                <div class="story-a-node-dot" aria-hidden="true"></div>
+                                <div class="story-a-icon-val">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4 class="story-a-milestone-heading">Today & Beyond</h4>
+                                <p class="story-a-milestone-sub">Continuing to nurture compassionate, responsible learners for the future.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 3: OUR FOUNDATION (MISSION, VISION & MOTTO)
+         Premium Editorial + Photo-Led Layout matching mockup media_1788537986169.jpg
+         Strict Brand Colors: Royal/Navy Blue (#0b1a38 / #084298), Red (#dc2626)
+         100% AI-Free, Deterministic Code
+         ========================================================================= -->
+    <section class="foundation-editorial" id="ourFoundation" aria-label="Our Foundation: Mission, Vision and Motto">
+        <div class="foundation-container">
+            <!-- Top Half: Editorial Asymmetrical Split (Mission + Real School Photo) -->
+            <div class="foundation-top-grid">
+                <!-- Left: Eyebrow, Main Heading, Intro & Mission Editorial Block -->
+                <div class="foundation-top-left" data-aos="fade-up">
+                    <div class="foundation-eyebrow">
+                        <span class="foundation-eyebrow-line" aria-hidden="true"></span>
+                        <span class="foundation-eyebrow-text">Our Foundation</span>
+                    </div>
+                    <h2 class="foundation-main-title">Mission, Vision<br>&amp; Motto</h2>
+                    <p class="foundation-intro-text">
+                        The guiding principles that shape every aspect of life at St. Lawrence Junior School Kabowa. They inspire our teaching, our learning, and our commitment to every child.
+                    </p>
+
+                    <!-- Mission Statement Block with Red Accent Bar -->
+                    <div class="foundation-mission-block">
+                        <div class="mission-label-wrap">
+                            <span class="mission-label-text">Our Mission</span>
+                        </div>
+                        <h3 class="mission-headline">Empowering Through Education</h3>
+                        <p class="mission-body-text">
+                            To provide quality, holistic education that nurtures academic excellence, moral values, and practical skills, empowering every child to reach their full potential and become responsible citizens who contribute positively to society.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Authentic St. Lawrence Learner Photograph -->
+                <div class="foundation-top-right" data-aos="fade-left" data-aos-delay="150">
+                    <div class="foundation-photo-frame">
+                        <img src="../img/mission-student-hand.jpg" 
+                             alt="St. Lawrence Junior School Kabowa learner raising her hand confidently during class" 
+                             class="foundation-photo" 
+                             loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Half: Vision (Royal Blue) & Motto (Climax) Asymmetrical Cards -->
+            <div class="foundation-cards-grid">
+                <!-- Vision: Deep Institutional Royal Blue Card with Watermark -->
+                <div class="vision-card-blue" data-aos="fade-up" data-aos-delay="100">
+                    <div class="vision-watermark" aria-hidden="true">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div>
+                        <div class="vision-card-header">
+                            <span class="vision-icon-circle" aria-hidden="true">
                                 <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="mvv-title-section">
-                                <span class="mvv-label">Our Vision</span>
-                                <h3>Leading Educational Excellence</h3>
-                            </div>
+                            </span>
+                            <span class="vision-header-line" aria-hidden="true"></span>
+                            <span class="vision-header-label">Our Vision</span>
                         </div>
-                        <div class="mvv-card-content">
-                            <p>
-                                To be the leading primary school in Uganda, recognized for academic excellence, character 
-                                development, and innovative teaching methods that prepare students for success in an 
-                                ever-changing world.
-                            </p>
-                            <div class="mvv-features">
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Innovation</span>
-                                </div>
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Leadership</span>
-                                </div>
-                                <div class="feature-tag">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Future Ready</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mvv-decoration"></div>
+                        <h3 class="vision-card-title">Leading Educational Excellence</h3>
                     </div>
+                    <p class="vision-card-text">
+                        To be the leading primary school in Uganda, recognized for academic excellence, character development, and innovative teaching that prepares learners for a brighter future.
+                    </p>
                 </div>
-                
-                <!-- Right: Motto Card -->
-                <div class="mvv-right" data-aos="fade-left" data-aos-delay="300">
-                    <div class="motto-card-advanced">
-                        <div class="motto-background">
-                            <div class="motto-pattern"></div>
-                        </div>
-                        <div class="motto-content">
-                            <div class="motto-icon-wrapper">
-                                <div class="motto-icon-large">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="motto-glow"></div>
-                            </div>
-                            <span class="motto-label">Our Motto</span>
-                            <h2 class="motto-text-large">WE STRIVE TO EXCEL</h2>
-                            <p class="motto-description">
-                                This powerful statement embodies our commitment to excellence in every aspect of education, 
-                                inspiring students to reach beyond their limits and achieve greatness.
-                            </p>
-                            <div class="motto-stats">
-                                <div class="motto-stat-item">
-                                    <div class="stat-icon-motto">
-                                        <i class="fas fa-trophy"></i>
-                                    </div>
-                                    <div class="stat-text-motto">
-                                        <span class="stat-number-motto">100%</span>
-                                        <span class="stat-label-motto">Commitment</span>
-                                    </div>
-                                </div>
-                                <div class="motto-stat-item">
-                                    <div class="stat-icon-motto">
-                                        <i class="fas fa-graduation-cap"></i>
-                                    </div>
-                                    <div class="stat-text-motto">
-                                        <span class="stat-number-motto">14+</span>
-                                        <span class="stat-label-motto">Years Strong</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                <!-- Motto: Visual Climax with School Crest Watermark -->
+                <div class="motto-card-climax" data-aos="fade-up" data-aos-delay="200">
+                    <div class="motto-crest-watermark" aria-hidden="true">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest Watermark">
                     </div>
+                    <div>
+                        <div class="motto-card-header">
+                            <span class="motto-icon-wrap" aria-hidden="true">
+                                <i class="fas fa-book-open"></i>
+                            </span>
+                            <span class="motto-header-label">Our Motto</span>
+                        </div>
+                        <h3 class="motto-statement">WE STRIVE<br>TO EXCEL</h3>
+                        <span class="motto-red-rule" aria-hidden="true"></span>
+                    </div>
+                    <p class="motto-desc-text">
+                        A daily reminder of our commitment to high standards, discipline, and the continuous growth of every learner.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Closing Brand Statement & 4 Established Pillars -->
+            <div class="foundation-closing-strip" data-aos="fade-up">
+                <div class="foundation-quote-side">
+                    <span class="foundation-big-quote" aria-hidden="true">“</span>
+                    <p class="foundation-closing-quote">“A strong foundation today. Brighter possibilities tomorrow.”</p>
+                </div>
+                <span class="foundation-strip-rule" aria-hidden="true"></span>
+                <div class="foundation-pillars-side" aria-label="Core school pillars">
+                    <span class="pillar-tag">Discipline</span>
+                    <span class="pillar-dot" aria-hidden="true">|</span>
+                    <span class="pillar-tag">Character</span>
+                    <span class="pillar-dot" aria-hidden="true">|</span>
+                    <span class="pillar-tag">Opportunity</span>
+                    <span class="pillar-dot" aria-hidden="true">|</span>
+                    <span class="pillar-tag">A Brighter Tomorrow</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Our History Section -->
-    <section class="history-section">
-        <div class="history-container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-label-alt">Our Journey</span>
-                <h2 class="section-title-alt">Our History of Excellence</h2>
-                <p class="section-subtitle">A remarkable journey of growth, achievement, and unwavering commitment to educational excellence</p>
+    <!-- =========================================================================
+         SECTION 4: OUR JOURNEY / OUR HISTORY OF EXCELLENCE
+         Approved Mockup Reference: media_1788540541178.jpg
+         Strict Brand Colors: Royal/Navy Blue (#0b1a38 / #084298), Red (#dc2626)
+         100% AI-Free, Deterministic Code, Zero Gradients, Zero Glassmorphism
+         ========================================================================= -->
+    <section class="history-editorial-timeline" id="ourHistory" aria-label="Our History of Excellence">
+        <div class="history-editorial-container">
+            <!-- Header Area -->
+            <div class="history-header-grid" data-aos="fade-up">
+                <div class="history-header-left">
+                    <div class="history-eyebrow">
+                        <span class="history-eyebrow-line" aria-hidden="true"></span>
+                        <span class="history-eyebrow-text">Our Journey</span>
+                    </div>
+                    <h2 class="history-main-title">Our History<br>of Excellence</h2>
+                    <p class="history-intro-text">
+                        A remarkable journey of growth, learning and community, shaped by vision, hard work and an unwavering commitment to every child's future.
+                    </p>
+                </div>
+
+                <div class="history-header-right">
+                    <p class="history-header-quote">“Building tomorrow, together.”</p>
+                    <span class="history-quote-line" aria-hidden="true"></span>
+                    <div class="history-crest-watermark" aria-hidden="true">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Crest Watermark">
+                    </div>
+                </div>
             </div>
-            
-            <div class="history-timeline">
-                <!-- Timeline Item 1 - 2010 -->
-                <div class="history-item left" data-aos="fade-right" data-aos-delay="100">
-                    <div class="history-content">
-                        <!-- <div class="history-year">2010</div> -->
-                        <div class="history-card">
-                            <div class="history-icon">
-                                <i class="fas fa-flag-checkered"></i>
-                            </div>
-                            <h3>The Foundation</h3>
-                            <p>St. Lawrence Junior School Kabowa was established with a vision to provide quality education to the community. Starting with just 50 students and 5 dedicated teachers, we laid the foundation for what would become a beacon of educational excellence.</p>
-                            <div class="history-stats-mini">
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-users"></i> -->
-                                    <!-- <span>50 Students</span> -->
-                                </div>
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-chalkboard-teacher"></i> -->
-                                    <!-- <span>5 Teachers</span> -->
+
+            <!-- Alternating Timeline Box (6 Milestones) -->
+            <div class="history-timeline-box" data-aos="fade-up" data-aos-delay="100">
+                <!-- Milestone 1 (2010): Left Blue Content | Right Photo -->
+                <div class="timeline-row">
+                    <div class="timeline-content-col blue-bg">
+                        <div class="timeline-content-inner">
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">01</span>
+                                <span class="milestone-label">OUR<br>BEGINNING</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="history-image">
-                        <img src="../img/new 2.JPG" alt="2010 Foundation">
-                        <div class="image-badge">Est. 2010</div>
-                    </div>
-                </div>
-                
-                <!-- Timeline Item 2 - 2013 -->
-                <div class="history-item right" data-aos="fade-left" data-aos-delay="200">
-                    <div class="history-image">
-                        <img src="../img/new 3.JPG" alt="2013 Expansion">
-                        <div class="image-badge red">2013</div>
-                    </div>
-                    <div class="history-content">
-                        <!-- <div class="history-year">2013</div> -->
-                        <div class="history-card">
-                            <div class="history-icon red">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <h3>Major Expansion</h3>
-                            <p>We expanded our facilities with new classrooms, a modern library, and science laboratories. Student enrollment grew to 200, and we introduced boarding facilities to accommodate students from distant areas.</p>
-                            <div class="history-stats-mini">
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-users"></i> -->
-                                    <!-- <span>150 Students</span> -->
-                                </div>
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-home"></i> -->
-                                    <!-- <span>Boarding Added</span> -->
-                                </div>
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2010</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">The Foundation</h4>
+                                <p class="milestone-text">
+                                    St. Lawrence Junior School Kabowa was established with a clear vision — to provide quality education to the community. We began with a small but determined team, laying the foundation for what would become a beacon of learning in Kabowa.
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Timeline Item 3 - 2016 -->
-                <div class="history-item left" data-aos="fade-right" data-aos-delay="300">
-                    <div class="history-content">
-                        <!-- <div class="history-year">2016</div> -->
-                        <div class="history-card">
-                            <div class="history-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <h3>Academic Excellence</h3>
-                            <p>Achieved 100% PLE pass rate for the first time with 80% scoring Division 1. Won multiple inter-school competitions in academics, sports, and arts. Recognized as one of the top primary schools in the region.</p>
-                            <div class="history-achievements">
-                                <div class="achievement-badge">
-                                    <!-- <i class="fas fa-medal"></i> -->
-                                    <!-- <span>100% Pass Rate</span> -->
-                                </div>
-                                <div class="achievement-badge">
-                                    <!-- <i class="fas fa-award"></i> -->
-                                    <!-- <span>Regional Champions</span> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="history-image">
-                        <img src="../img/52.jpg" alt="2016 Excellence">
-                        <div class="image-badge">2016</div>
+                    <div class="timeline-photo-col">
+                        <img src="../img/new 2.JPG" alt="St. Lawrence Junior School building where it all began" class="timeline-photo" loading="lazy">
+                        <p class="timeline-photo-caption">Where it all began</p>
                     </div>
                 </div>
-                
-                <!-- Timeline Item 4 - 2019 -->
-                <div class="history-item right" data-aos="fade-left" data-aos-delay="400">
-                    <div class="history-image">
-                        <img src="../img/58.jpg" alt="2019 Technology">
-                        <div class="image-badge red">2019</div>
+
+                <!-- Milestone 2 (2013): Left Photo | Right White Content -->
+                <div class="timeline-row">
+                    <div class="timeline-photo-col">
+                        <img src="../img/new 3.JPG" alt="St. Lawrence Junior School school van for student transport" class="timeline-photo" loading="lazy">
                     </div>
-                    <div class="history-content">
-                        <!-- <div class="history-year">2019</div> -->
-                        <div class="history-card">
-                            <div class="history-icon red">
-                                <i class="fas fa-laptop-code"></i>
+                    <div class="timeline-content-col">
+                        <div class="timeline-content-inner reverse-layout">
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2013</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">Growth &amp; Expansion</h4>
+                                <p class="milestone-text">
+                                    We expanded our facilities with new classrooms and improved learning spaces, allowing us to welcome more learners and better serve the community.
+                                </p>
                             </div>
-                            <h3>Digital Transformation</h3>
-                            <p>Launched state-of-the-art ICT laboratory with 30 computers. Introduced digital learning platforms and smart classrooms. Became one of the first primary schools in the area to integrate technology into daily learning.</p>
-                            <div class="history-stats-mini">
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-desktop"></i> -->
-                                    <!-- <span>30 Computers</span> -->
-                                </div>
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-wifi"></i> -->
-                                    <!-- <span>Smart Classes</span> -->
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">02</span>
+                                <span class="milestone-label">A BIGGER<br>TOMORROW</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Timeline Item 5 - 2022 -->
-                <div class="history-item left" data-aos="fade-right" data-aos-delay="500">
-                    <div class="history-content">
-                        <!-- <div class="history-year">2022</div> -->
-                        <div class="history-card">
-                            <div class="history-icon">
-                                <i class="fas fa-users-cog"></i>
-                            </div>
-                            <h3>Community Impact</h3>
-                            <p>Reached 250+ students with 30+ qualified teachers. Launched scholarship program for underprivileged children. Established partnerships with international schools for exchange programs and best practice sharing.</p>
-                            <div class="history-stats-mini">
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-users"></i> -->
-                                    <!-- <span>250+ Students</span> -->
+
+                <!-- Milestone 3 (2016): Left White Content | Right Photo -->
+                <div class="timeline-row">
+                    <div class="timeline-content-col">
+                        <div class="timeline-content-inner">
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">03</span>
+                                <span class="milestone-label">BUILDING<br>POTENTIAL</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
                                 </div>
-                                <div class="mini-stat">
-                                    <!-- <i class="fas fa-graduation-cap"></i> -->
-                                    <!-- <span>30+ Teachers</span> -->
+                            </div>
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2016</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">Developing Young Learners</h4>
+                                <p class="milestone-text">
+                                    We strengthened our academic programs and co-curricular activities, creating more opportunities for learners to discover and develop their God-given talents.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-photo-col">
+                        <img src="../img/52.jpg" alt="Learners studying diligently in class" class="timeline-photo" loading="lazy">
+                        <p class="timeline-photo-caption">Learning for a brighter future</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 4 (2019): Left Photo | Right White Content -->
+                <div class="timeline-row">
+                    <div class="timeline-photo-col">
+                        <img src="../img/58.jpg" alt="Learners in the ICT laboratory with computers" class="timeline-photo" loading="lazy">
+                    </div>
+                    <div class="timeline-content-col">
+                        <div class="timeline-content-inner reverse-layout">
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2019</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">Embracing New Opportunities</h4>
+                                <p class="milestone-text">
+                                    We introduced modern learning resources, including ICT facilities, to prepare our learners for a changing world and to enhance the teaching and learning experience.
+                                </p>
+                            </div>
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">04</span>
+                                <span class="milestone-label">LEARNING<br>FOR TOMORROW</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="history-image">
-                        <img src="../img/124.jpg" alt="2022 Community">
-                        <div class="image-badge">2022</div>
+                </div>
+
+                <!-- Milestone 5 (2022): Left White Content | Right Photo -->
+                <div class="timeline-row">
+                    <div class="timeline-content-col">
+                        <div class="timeline-content-inner">
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">05</span>
+                                <span class="milestone-label">TOGETHER<br>WE GROW</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
+                                </div>
+                            </div>
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2022</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">A Stronger Community</h4>
+                                <p class="milestone-text">
+                                    We deepened our connection with parents, alumni and the wider community, working together to create a supportive and nurturing environment for every learner.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-photo-col">
+                        <img src="../img/124.jpg" alt="School community gathering and celebration with priests" class="timeline-photo" loading="lazy">
+                        <p class="timeline-photo-caption">A community that cares</p>
                     </div>
                 </div>
-                
-                <!-- Timeline Item 6 - 2024 -->
-                <div class="history-item right" data-aos="fade-left" data-aos-delay="600">
-                    <div class="history-image">
-                        <img src="../img/new 7.JPG" alt="2024 Present">
-                        <div class="image-badge red">2024</div>
+
+                <!-- Milestone 6 (2024): Left Photo | Right White Content -->
+                <div class="timeline-row">
+                    <div class="timeline-photo-col">
+                        <img src="../img/new 7.JPG" alt="St. Lawrence Junior School campus grounds" class="timeline-photo" loading="lazy">
                     </div>
-                    <div class="history-content">
-                        <!-- <div class="history-year">2024</div> -->
-                        <div class="history-card">
-                            <div class="history-icon red">
-                                <i class="fas fa-star"></i>
+                    <div class="timeline-content-col">
+                        <div class="timeline-content-inner reverse-layout">
+                            <div class="milestone-narrative">
+                                <h3 class="milestone-year">2024</h3>
+                                <span class="milestone-accent-rule" aria-hidden="true"></span>
+                                <h4 class="milestone-title">Continuing the Journey</h4>
+                                <p class="milestone-text">
+                                    Today, we stand proud of how far we have come, while remaining focused on the future — to inspire, educate and prepare every child to make a positive difference in the world.
+                                </p>
                             </div>
-                            <h3>Present Day Excellence</h3>
-                            <p>Today, we stand proud with over 350 alumni, consistent 95%+ success rates, and recognition as a center of excellence. We continue to innovate, inspire, and prepare students for the future while maintaining our core values.</p>
-                            <div class="history-achievements">
-                                <div class="achievement-badge">
-                                    <!-- <i class="fas fa-certificate"></i> -->
-                                    <!-- <span>350+ Alumni</span> -->
-                                </div>
-                                <div class="achievement-badge">
-                                    <!-- <i class="fas fa-star"></i> -->
-                                    <!-- <span>95% Success</span> -->
+                            <div class="milestone-tag-wrap" aria-hidden="true">
+                                <span class="milestone-number">06</span>
+                                <span class="milestone-label">A BRIGHTER<br>TOMORROW</span>
+                                <div class="milestone-guide-marker">
+                                    <span class="milestone-guide-line"></span>
+                                    <span class="milestone-red-dot"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Center Timeline Line -->
-                <div class="timeline-line"></div>
+            </div>
+
+            <!-- Bottom Solid Navy Closing Strip -->
+            <div class="history-closing-strip" data-aos="fade-up">
+                <div class="history-closing-quote-wrap">
+                    <span class="history-big-quote" aria-hidden="true">“</span>
+                    <p class="history-closing-quote">“A strong foundation today. Brighter possibilities tomorrow.”</p>
+                </div>
+                <span class="history-strip-rule" aria-hidden="true"></span>
+                <div class="history-pillars-list" aria-label="Core institutional pillars">
+                    <span class="history-pillar-item">Discipline</span>
+                    <span class="history-pillar-dot" aria-hidden="true">|</span>
+                    <span class="history-pillar-item">Character</span>
+                    <span class="history-pillar-dot" aria-hidden="true">|</span>
+                    <span class="history-pillar-item">Opportunity</span>
+                    <span class="history-pillar-dot" aria-hidden="true">|</span>
+                    <span class="history-pillar-item">A Brighter Tomorrow</span>
+                </div>
             </div>
         </div>
     </section>
@@ -630,188 +652,243 @@
 
     
 
-    <!-- Virtual Tour Section - NEW MODERN DESIGN -->
-    <!-- NOTE: To update the video URL, edit js/virtual-tour-modern.js and replace YOUR_VIDEO_ID with your YouTube video ID -->
-    <section class="virtual-tour-modern">
-        <div class="container">
+    <!-- =========================================================================
+         SECTION 5: VIRTUAL TOUR — EXPERIENCE OUR CAMPUS
+         Approved Mockup Reference: media_1788541580210.jpg
+         Strict Brand Colors: Royal/Navy Blue (#0b1a38 / #084298), Red (#dc2626)
+         100% AI-Free, Deterministic Code, Zero Gradients, Zero Glassmorphism
+         ========================================================================= -->
+    <section class="virtual-tour-modern" id="virtualTour" aria-label="Virtual Tour of Campus">
+        <!-- Ghosted Watermarks -->
+        <div class="tour-watermark-text" aria-hidden="true">VIRTUAL<br>TOUR</div>
+        <div class="tour-watermark-crest" aria-hidden="true">
+            <img src="../img/5-transparent.png" alt="St. Lawrence Crest Watermark">
+        </div>
+        <div class="tour-watermark-quote" aria-hidden="true">
+            <p>More than<br>a school,<br>a home for<br>brighter futures.</p>
+            <span class="tour-watermark-line"></span>
+        </div>
+
+        <div class="tour-container">
             <!-- Section Header -->
-            <div class="tour-header-modern" data-aos="fade-up">
-                <div class="tour-badge">
-                    <i class="fas fa-video"></i>
-                    <span>VIRTUAL TOUR</span>
+            <div class="tour-header" data-aos="fade-up">
+                <div class="tour-eyebrow">
+                    <span class="tour-eyebrow-line" aria-hidden="true"></span>
+                    <span class="tour-eyebrow-text">VIRTUAL TOUR</span>
+                    <span class="tour-eyebrow-line" aria-hidden="true"></span>
                 </div>
-                <h2 class="tour-title-modern">Experience Our Campus</h2>
-                <p class="tour-subtitle-modern">Take a virtual walk through our facilities and see what makes St. Lawrence special</p>
+                <h2 class="tour-heading">Experience Our <span class="text-red">Campus</span></h2>
+                <p class="tour-subtitle">
+                    Take a virtual walk through our facilities and see what makes<br>St. Lawrence Junior School Kabowa special.
+                </p>
             </div>
 
-            <!-- Video Player -->
-            <div class="video-container-modern" data-aos="fade-up" data-aos-delay="200">
-                <div class="video-card-modern">
-                    <!-- Video Thumbnail -->
-                    <div class="video-thumbnail-modern" id="videoThumbnailModern">
-                        <img src="../img/new 6.JPG" alt="Virtual Tour" class="thumbnail-image-modern">
-                        <div class="video-overlay-modern"></div>
-                        
-                        <!-- Play Button -->
-                        <button class="play-btn-modern" id="playBtnModern">
-                            <div class="play-icon-modern">
+            <!-- Video Player Frame -->
+            <div class="tour-media-wrapper" data-aos="fade-up" data-aos-delay="150">
+                <div class="tour-media-frame">
+                    <!-- Video Thumbnail View -->
+                    <div class="tour-thumbnail-wrap" id="videoThumbnailModern">
+                        <img src="../img/new 6.JPG" alt="St. Lawrence Junior School Kabowa campus courtyard and classrooms" class="tour-thumbnail-img">
+                        <div class="tour-media-overlay" aria-hidden="true"></div>
+
+                        <!-- Clean Play Button -->
+                        <button class="tour-play-btn" id="playBtnModern" aria-label="Play virtual campus tour video">
+                            <span class="tour-play-icon" aria-hidden="true">
                                 <i class="fas fa-play"></i>
-                            </div>
-                            <div class="play-ripple-modern"></div>
-                            <div class="play-ripple-modern-2"></div>
+                            </span>
                         </button>
-                        
-                        <!-- Video Info Badge -->
-                        <div class="video-info-badge">
-                            <i class="fas fa-clock"></i>
+
+                        <!-- Bottom-Left Caption Badge -->
+                        <div class="tour-caption-badge">
+                            <span class="tour-caption-bar" aria-hidden="true"></span>
+                            <span class="tour-caption-text">A glimpse into our learning environment</span>
+                        </div>
+
+                        <!-- Bottom-Right Video Info Badge -->
+                        <div class="tour-duration-badge">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
                             <span>3:45</span>
                         </div>
                     </div>
-                    
-                    <!-- Video Player (Hidden Initially) -->
-                    <div class="video-player-modern" id="videoPlayerModern" style="display: none;">
-                        <!-- YouTube iframe -->
-                        <div class="video-iframe-wrapper">
-                            <iframe 
-                                id="videoIframeModern"
-                                width="100%" 
-                                height="100%" 
-                                src="" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                        
-                        <!-- HTML5 Video for local files -->
-                        <video 
-                            id="videoElementModern"
-                            class="video-element-modern"
-                            controls
-                            autoplay
-                            style="display: none;">
+
+                    <!-- Video Player Active View (Hidden Initially) -->
+                    <div class="tour-player-active" id="videoPlayerModern" style="display: none;">
+                        <!-- Local Video Element -->
+                        <video id="videoElementModern" class="tour-video-element" controls preload="metadata" style="display: none;">
+                            <source src="../img/students walking.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
-                        
-                        <button class="close-video-modern" id="closeVideoModern">
-                            <i class="fas fa-times"></i>
+
+                        <!-- YouTube iframe (Alternative source) -->
+                        <iframe id="videoIframeModern" class="tour-iframe-element" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+
+                        <button class="tour-close-btn" id="closeVideoModern" aria-label="Close video player">
+                            <i class="fas fa-times" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Three Supporting Highlights -->
+            <div class="tour-highlights-grid" data-aos="fade-up" data-aos-delay="250">
+                <div class="tour-highlight-item">
+                    <div class="tour-highlight-icon" aria-hidden="true">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div class="tour-highlight-content">
+                        <h4 class="tour-highlight-title">Our Facilities</h4>
+                        <p class="tour-highlight-desc">See where learning happens</p>
+                    </div>
+                </div>
+
+                <div class="tour-highlight-divider" aria-hidden="true"></div>
+
+                <div class="tour-highlight-item">
+                    <div class="tour-highlight-icon" aria-hidden="true">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="tour-highlight-content">
+                        <h4 class="tour-highlight-title">Our Community</h4>
+                        <p class="tour-highlight-desc">Meet our vibrant school family</p>
+                    </div>
+                </div>
+
+                <div class="tour-highlight-divider" aria-hidden="true"></div>
+
+                <div class="tour-highlight-item">
+                    <div class="tour-highlight-icon" aria-hidden="true">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="tour-highlight-content">
+                        <h4 class="tour-highlight-title">Our Environment</h4>
+                        <p class="tour-highlight-desc">A safe and nurturing space</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Institutional Signature -->
+            <div class="tour-brand-signature" data-aos="fade-up" data-aos-delay="300">
+                <span class="tour-signature-line" aria-hidden="true"></span>
+                <p class="tour-signature-name">ST. LAWRENCE JUNIOR SCHOOL KABOWA</p>
+                <p class="tour-signature-motto">WE STRIVE TO EXCEL</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Form & Map Section -->
-    <section class="contact-map-section-advanced">
-        <div class="contact-map-container-advanced">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-label-alt">Get In Touch</span>
-                <h2 class="section-title-alt">Contact Us & Visit Our Campus</h2>
-                <p class="section-subtitle">Have questions? We'd love to hear from you. Send us a message or visit us.</p>
-            </div>
-            
-            <!-- Contact Info Cards - Top -->
-           
-                
-                
-                
-               
-            
-            <!-- Form and Map Grid -->
-            <div class="contact-form-map-grid">
-                <!-- Left: Contact Form -->
-                <div class="contact-form-wrapper-advanced" data-aos="fade-right">
-                    <div class="form-header-advanced">
-                        <div class="form-icon-badge">
-                            <i class="fas fa-paper-plane"></i>
-                        </div>
-                        <div>
-                            <h3>Send Us a Message</h3>
-                            <p>Fill out the form below and we'll get back to you within 24 hours</p>
-                        </div>
+    <!-- ==============================================================================
+         6. VISIT & CONNECT / CLOSING INSTITUTIONAL CTA (MOCKUP APPROVED REDESIGN)
+         ============================================================================== -->
+    <section class="about-closing-cta" id="visit-connect" aria-labelledby="about-cta-title">
+        <div class="about-cta-container">
+            <!-- Top Grid: Left Editorial Copy & Actions, Right Authentic Campus Photo -->
+            <div class="about-cta-top-grid">
+                <!-- Left: Editorial Content & Actions -->
+                <div class="about-cta-content" data-aos="fade-right">
+                    <div class="about-cta-label-row">
+                        <span class="about-cta-accent-line" aria-hidden="true"></span>
+                        <span class="about-cta-label">VISIT & CONNECT</span>
                     </div>
-                    
-                    <form class="contact-form-advanced" id="contactForm" novalidate>
-                        <div class="form-row">
-                            <div class="form-group-advanced">
-                                <div class="input-icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <input type="text" id="name" name="name" placeholder="Full Name *" required>
-                            </div>
-                            
-                            <div class="form-group-advanced">
-                                <div class="input-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <input type="email" id="email" name="email" placeholder="Email Address *" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group-advanced">
-                                <div class="input-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <input type="tel" id="phone" name="phone" placeholder="Phone Number">
-                            </div>
-                            
-                            <div class="form-group-advanced">
-                                <div class="input-icon">
-                                    <i class="fas fa-tag"></i>
-                                </div>
-                                <input type="text" id="subject" name="subject" placeholder="Subject *" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group-advanced full-width">
-                            <div class="input-icon">
-                                <i class="fas fa-comment-alt"></i>
-                            </div>
-                            <textarea id="message" name="message" rows="6" placeholder="Your Message *" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn-submit-form-advanced">
-                            <span>Send Message</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </form>
+
+                    <h2 class="about-cta-heading" id="about-cta-title">
+                        Ready to Know<br>More?
+                    </h2>
+
+                    <p class="about-cta-copy">
+                        Come and experience St. Lawrence Junior School Kabowa for yourself. We welcome prospective parents, learners and visitors to tour our campus, learn more about our programs and see the vibrant school community in action.
+                    </p>
+
+                    <div class="about-cta-buttons">
+                        <a href="Admission-redesign.html" class="btn-about-cta-primary" id="ctaApplyAdmission">
+                            <i class="fas fa-users" aria-hidden="true"></i>
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="Contact-redesign.html" class="btn-about-cta-secondary" id="ctaPlanVisit">
+                            <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                            <span>Plan a Visit</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                    <div class="about-cta-contact-note">
+                        <p>Have a specific enquiry? You can also get in touch through our <a href="Contact-redesign.html" class="about-cta-contact-link">Contact Page. <span aria-hidden="true">&rarr;</span></a></p>
+                    </div>
                 </div>
-                
-                <!-- Right: Map -->
-                <div class="map-wrapper-advanced" data-aos="fade-left">
-                    <div class="map-container-advanced">
-                        <div class="map-frame-wrapper">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7700837673588!2d32.55733387395836!3d0.28174079971550653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbd1f7d5a6ec5%3A0x3d9d7a88430be8ea!2sSt.%20Lawrence%20Junior%20School%20%E2%80%93%20Kabowa!5e0!3m2!1sen!2sug!4v1767790039258!5m2!1sen!2sug"
-                                width="100%" 
-                                height="100%" 
-                                style="border:0;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                        </div>
-                        <div class="map-overlay-badge">
-                            <i class="fas fa-map-marked-alt"></i>
-                            <span>Find Us on Map</span>
-                        </div>
+
+                <!-- Right: Authentic Campus Photo -->
+                <div class="about-cta-visual" data-aos="fade-left" data-aos-delay="200">
+                    <div class="about-cta-image-card">
+                        <img src="../img/about-cta-entrance.jpg" alt="St. Lawrence Junior School Kabowa campus entrance showing official crest and school values on the perimeter wall" class="about-cta-photo" loading="lazy">
                     </div>
-                    
-                    <div class="visit-cta-card">
-                        <div class="cta-icon">
-                            <i class="fas fa-directions"></i>
-                        </div>
-                        <div class="cta-content">
-                            <h4>Plan Your Visit</h4>
-                            <p>Schedule a campus tour and see our facilities firsthand</p>
-                            <a href="Contact-redesign.html" class="btn-visit">
-                                Book a Tour
-                                <i class="fas fa-calendar-check"></i>
+                </div>
+            </div>
+
+            <!-- Horizontal Information Strip -->
+            <div class="about-cta-info-strip" data-aos="fade-up" data-aos-delay="300">
+                <div class="about-info-col">
+                    <div class="about-info-icon-circle" aria-hidden="true">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="about-info-text-group">
+                        <h4 class="about-info-title">Our Location</h4>
+                        <p class="about-info-detail">2 Gabunga Road,<br>Kabowa, Kampala</p>
+                    </div>
+                </div>
+
+                <div class="about-info-col">
+                    <div class="about-info-icon-circle" aria-hidden="true">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="about-info-text-group">
+                        <h4 class="about-info-title">Call Us</h4>
+                        <p class="about-info-detail">
+                            <a href="tel:+256772420506" class="about-info-link">0772 420 506</a><br>
+                            <a href="tel:+256701420506" class="about-info-link">0701 420 506</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="about-info-col">
+                    <div class="about-info-icon-circle" aria-hidden="true">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <div class="about-info-text-group">
+                        <h4 class="about-info-title">School Hours</h4>
+                        <p class="about-info-detail">Monday – Friday<br>7:00 AM – 5:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="about-info-col">
+                    <div class="about-info-icon-circle" aria-hidden="true">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <div class="about-info-text-group">
+                        <h4 class="about-info-title">Get Directions</h4>
+                        <p class="about-info-detail">
+                            <a href="https://maps.app.goo.gl/k2jE4X8KgkgZL4jn7" target="_blank" rel="noopener noreferrer" class="about-info-maps-link">
+                                Find us easily on Google Maps <span aria-hidden="true">&rarr;</span>
                             </a>
-                        </div>
+                        </p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Closing Brand Statement -->
+            <div class="about-cta-bottom-brand" data-aos="fade-up" data-aos-delay="400">
+                <!-- Faint Watermark Crest -->
+                <img src="../img/5-transparent.png" alt="" class="about-brand-watermark" aria-hidden="true">
+
+                <div class="about-brand-left">
+                    <span class="about-brand-vbar" aria-hidden="true"></span>
+                    <div class="about-brand-quote-wrap">
+                        <p class="about-brand-quote">“More than a school, a home for brighter futures.”</p>
+                        <p class="about-brand-school-name">ST. LAWRENCE JUNIOR SCHOOL KABOWA</p>
+                    </div>
+                </div>
+
+                <div class="about-brand-right">
+                    <span class="about-brand-hbar" aria-hidden="true"></span>
+                    <span class="about-brand-motto">WE STRIVE TO EXCEL</span>
                 </div>
             </div>
         </div>
