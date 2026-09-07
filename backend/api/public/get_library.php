@@ -9,31 +9,57 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 500;
+    $category = isset($_GET['category']) ? trim($_GET['category']) : '';
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
     
-    // Get library PDFs
-    $stmt = $db->prepare("
+    $sql = "
         SELECT 
-            book_id,
-            book_title,
-            author,
-            category,
+            id,
+            id AS book_id,
+            title,
+            title AS book_title,
             description,
-            pdf_path,
-            cover_image,
-            upload_date
-        FROM library
+            category,
+            class_level,
+            subject,
+            file_url,
+            file_url AS pdf_path,
+            file_type,
+            file_size,
+            download_count,
+            upload_date,
+            created_at,
+            status
+        FROM library_resources
         WHERE status = 'active'
-        ORDER BY upload_date DESC
-        LIMIT :limit
-    ");
-    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    ";
+    
+    $params = [];
+    if (!empty($category) && $category !== 'all') {
+        $sql .= " AND category = :category";
+        $params[':category'] = $category;
+    }
+    
+    if ($id > 0) {
+        $sql .= " AND id = :id";
+        $params[':id'] = $id;
+    }
+    
+    $sql .= " ORDER BY id DESC LIMIT :limit";
+    
+    $stmt = $db->prepare($sql);
+    foreach ($params as $k => $v) {
+        $stmt->bindValue($k, $v);
+    }
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->execute();
-    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $resources = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     echo json_encode([
         'success' => true,
-        'data' => $books
+        'total' => count($resources),
+        'data' => $resources
     ]);
     
 } catch (PDOException $e) {

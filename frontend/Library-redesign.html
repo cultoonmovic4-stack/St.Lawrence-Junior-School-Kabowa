@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Library - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
-    <meta name="description" content="Access digital library resources, assignments, and study materials at St. Lawrence Junior School Kabowa.">
+    <title>Digital Library - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
+    <meta name="description" content="Access learning materials, textbooks, and school resources provided by St. Lawrence Junior School Kabowa.">
     
     <!-- Favicon -->
     <link href="../img/favicon.ico" rel="icon">
@@ -20,97 +20,18 @@
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
+    <!-- Custom & Common CSS -->
     <link rel="stylesheet" href="../css/redesign-style.css?v=3.6">
-
-    <!-- Unified Responsive Design -->
     <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
-
-    <!-- Unified Floating Elements -->
     <link rel="stylesheet" href="../css/unified-floating-elements.css?v=1.0">
-
-    <!-- Edge Display Fixes for Modern Mobile Devices -->
-    <!-- Mobile Animation Stability Fixes -->
     <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
-    
-    <!-- Mobile Menu Spacing Fix -->
     <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
-    
-    <!-- Hamburger Menu Fixes -->
     <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
-    
-    <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
-
-    <!-- Footer redesign (clean) -->
-    <link rel="stylesheet" href="../css/footer.css?v=1.0">
-    
-    <!-- Page Loader CSS -->
-    <link rel="stylesheet" href="../css/page-loader.css">
-    
-    <style>
-        /* Footer Contact Improvements */
-        .contact-info .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-        
-        .contact-info .contact-icon {
-            width: 20px;
-            min-width: 20px;
-            margin-right: 12px;
-            margin-top: 2px;
-            color: #007bff;
-            font-size: 14px;
-        }
-        
-        .contact-info .contact-text {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .contact-info .contact-link {
-            color: #ffffff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .contact-info .contact-link:hover {
-            color: #007bff;
-            text-decoration: underline;
-        }
-        
-        .contact-info .phone-separator {
-            margin: 0 8px;
-            color: #007bff;
-            font-weight: bold;
-        }
-        
-        .contact-info .contact-text a {
-            white-space: nowrap;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .contact-info .contact-text {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .contact-info .phone-separator {
-                display: none;
-            }
-            
-            .contact-info .contact-text a:last-child {
-                margin-top: 4px;
-            }
-        }
-    </style>
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
+
+    <!-- Library Editorial CSS -->
+    <link rel="stylesheet" href="../css/library-editorial.css?v=2.1">
 
     <!-- Target Institutional Navbar Styles -->
     <link rel="stylesheet" href="../css/navbar-hero-target.css?v=1.0">
@@ -118,6 +39,8 @@
     <link rel="stylesheet" href="../css/footer-target.css?v=1.1">
     <!-- Chatbot CSS -->
     <link rel="stylesheet" href="../css/chatbot.css?v=21.0">
+    <!-- Page Loader CSS -->
+    <link rel="stylesheet" href="../css/page-loader.css">
 </head>
 <body>
     
@@ -132,7 +55,6 @@
     </div>
     
     <!-- Header / Navigation -->
-        <!-- Header / Navigation -->
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
@@ -191,49 +113,102 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&q=80" alt="Library">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
+    <!-- 1. LIGHT EDITORIAL HERO SECTION -->
+    <section class="library-hero-editorial">
+        <div class="library-hero-container">
+            <div class="library-breadcrumb" data-aos="fade-down">
                 <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <span>Library</span>
-            </div>
-            <h1 data-aos="fade-up">Digital Library</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Your Gateway to Knowledge & Learning Resources</p>
-        </div>
-    </section>
-
-    <!-- Library News Section -->
-    
-                
-
-    <!-- Resources Grid Section -->
-    <section class="resources-grid-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Downloadable Library Resources</h2>
+                <span class="separator">/</span>
+                <span class="current">Library</span>
             </div>
             
-            <div class="resources-grid" id="libraryContainer">
-                <!-- Resources will be loaded dynamically via JavaScript -->
-            </div>
-
-            <!-- No Results Message -->
-            <div class="no-results" style="display: none;">
-                <i class="fas fa-search"></i>
-                <h3>No Resources Found</h3>
-                <p>Try adjusting your search or filter criteria</p>
+            <div class="library-hero-grid">
+                <div class="library-hero-left" data-aos="fade-right">
+                    <div class="library-eyebrow-wrap">
+                        <span class="library-eyebrow-bar"></span>
+                        <span class="library-eyebrow-text">LEARN &bull; GROW &bull; EXCEL</span>
+                    </div>
+                    <h1 class="library-hero-title">Digital <span class="text-red">Library</span></h1>
+                    <h2 class="library-hero-subtitle">Resources for Learning</h2>
+                    <p class="library-hero-description">Access learning materials, textbooks and school resources provided by St. Lawrence Junior School Kabowa.</p>
+                </div>
+                
+                <div class="library-hero-right" data-aos="fade-left">
+                    <div class="library-hero-quote-card">
+                        <p class="library-quote-text">
+                            &ldquo;Knowledge today, a brighter tomorrow.&rdquo;
+                        </p>
+                        <div class="library-quote-line"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-        <!-- Final Footer (Target Editorial Option 3 Redesign) -->
+    <!-- 2. RESOURCE TOOLBAR & GRID SECTION -->
+    <section class="library-main-section">
+        <div class="library-main-container">
+            <!-- Search & Filters Toolbar -->
+            <div class="library-toolbar-card" data-aos="fade-up">
+                <div class="library-search-wrap">
+                    <i class="fas fa-search library-search-icon"></i>
+                    <input type="text" id="librarySearch" class="library-search-input" placeholder="Search resources..." autocomplete="off">
+                </div>
+                
+                <div class="library-filters-group">
+                    <select id="categoryFilter" class="library-filter-select" aria-label="Filter by Category" style="display: none;">
+                        <option value="all">All Categories</option>
+                    </select>
+                    
+                    <select id="fileTypeFilter" class="library-filter-select" aria-label="Filter by File Type">
+                        <option value="all">All File Types</option>
+                        <option value="pdf">PDF Documents</option>
+                    </select>
+                    
+                    <div class="library-count-badge" id="libraryToolbarCount">Loading resources...</div>
+                </div>
+            </div>
+
+            <!-- Dynamic Resource Cards Grid -->
+            <div class="library-resource-grid" id="libraryContainer" data-aos="fade-up" data-aos-delay="100">
+                <div class="library-loading-card">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p style="margin-top: 10px; font-size: 1.05rem; color: #64748b;">Loading learning resources...</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Pagination & Summary Row -->
+            <div class="library-pagination-wrapper" id="paginationWrapper" style="display: none;">
+                <div class="library-pagination-btns" id="paginationBtns">
+                    <!-- Page buttons generated via JavaScript -->
+                </div>
+                
+                <div class="library-pagination-summary" id="paginationSummary">
+                    <!-- Summary e.g. Showing 1-12 of 18 resources -->
+                </div>
+            </div>
+
+            <!-- Bottom Assistance Card -->
+            <div class="library-cta-banner" data-aos="fade-up">
+                <div class="library-cta-left">
+                    <div class="library-cta-icon-circle">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="library-cta-text">
+                        <h3>Can't find what you're looking for?</h3>
+                        <p>More resources are added regularly. Check back for new materials.</p>
+                    </div>
+                </div>
+                
+                <a href="Contact-redesign.html" class="library-notify-btn">
+                    <i class="far fa-bell"></i>
+                    <span>Get Notified</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Footer (Target Editorial Option 3 Redesign) -->
     <footer class="footer-target">
         <div class="footer-container">
             <!-- Top Footer Row -->
@@ -342,46 +317,433 @@
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- Custom JavaScript -->
+    <!-- Scripts -->
     <script src="../js/redesign-script.js"></script>
-    
-    <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
-    
-    <!-- Hamburger Menu Functionality Fix -->
     <script src="../js/hamburger-menu-fix.js"></script>
-    
-    <!-- Unified Floating Elements Handler -->
     <script src="../js/unified-floating-elements.js?v=1.0"></script>
-    
-    <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js"></script>
-    
-    <!-- API Integration -->
-    <script src="../js/api-config.js?v=2.0"></script>
-    <script src="../js/api-library.js?v=3.1"></script>
-    
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
-
-        // Library Functionality - Basic setup
-        // Load PDFs from API on page load
-        // The api-library.js file will handle this automatically
-    </script>
-    
-    <!-- Page Loader Script -->
     <script src="../js/page-loader.js"></script>
-
-    <!-- Chatbot JavaScript -->
     <script src="../js/chatbot.js?v=8.0"></script>
 
-    <!-- Sticky Navbar & Mobile Navigation Handler -->
+    <!-- Dynamic Digital Library Engine -->
     <script>
+        // State
+        let allResources = [];
+        let filteredResources = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 12;
+
+        // Helpers
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatCategory(cat) {
+            if (!cat) return '';
+            return cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function formatFileSize(bytes) {
+            const num = Number(bytes);
+            if (!num || isNaN(num) || num <= 0) return '';
+            if (num >= 1024 * 1024) {
+                return (num / (1024 * 1024)).toFixed(1) + ' MB';
+            }
+            return (num / 1024).toFixed(1) + ' KB';
+        }
+
+        function formatResourceDate(item) {
+            let dateStr = item.upload_date;
+            if (!dateStr || dateStr === '0000-00-00' || dateStr.startsWith('0000')) {
+                dateStr = item.created_at;
+            }
+            if (!dateStr || dateStr.startsWith('0000')) return '';
+            
+            try {
+                const parts = dateStr.split(' ')[0].split('-');
+                if (parts.length === 3) {
+                    const year = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10) - 1;
+                    const day = parseInt(parts[2], 10);
+                    if (year > 1970) {
+                        const d = new Date(year, month, day);
+                        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                }
+            } catch (e) {}
+
+            return '';
+        }
+
+        // Fetch dynamic resources from database API
+        async function fetchLibraryResources() {
+            const container = document.getElementById('libraryContainer');
+            const countBadge = document.getElementById('libraryToolbarCount');
+
+            try {
+                // Fetch from public get_library endpoint
+                const response = await fetch('../backend/api/public/get_library.php', {
+                    headers: { 'Accept': 'application/json' },
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    processLibraryData(result.data);
+                } else {
+                    renderEmptyState('No resources available yet.');
+                    if (countBadge) countBadge.textContent = 'Showing 0 resources';
+                }
+            } catch (err) {
+                console.error('Error fetching library resources:', err);
+                // Fallback attempt to alternate list endpoint
+                try {
+                    const altResp = await fetch('../backend/api/library/list.php', {
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-store'
+                    });
+                    const altResult = await altResp.json();
+                    if (altResult.success && Array.isArray(altResult.data)) {
+                        processLibraryData(altResult.data);
+                        return;
+                    }
+                } catch (fallbackErr) {
+                    console.error('Fallback endpoint failed:', fallbackErr);
+                }
+
+                if (container) {
+                    container.innerHTML = `
+                        <div class="library-empty-card">
+                            <i class="fas fa-exclamation-circle" style="color: #dc3545;"></i>
+                            <h3 class="library-empty-title">Unable to Load Resources</h3>
+                            <p class="library-empty-desc">We could not retrieve the digital library collection at this moment.</p>
+                            <button type="button" class="library-clear-btn" onclick="fetchLibraryResources()">
+                                <i class="fas fa-redo"></i> Retry
+                            </button>
+                        </div>
+                    `;
+                }
+                if (countBadge) countBadge.textContent = '0 resources';
+            }
+        }
+
+        function processLibraryData(items) {
+            allResources = items.map(r => ({
+                id: r.id || r.book_id,
+                title: r.title || r.book_title || 'Learning Resource',
+                description: r.description || '',
+                category: (r.category || '').trim(),
+                class_level: (r.class_level || '').trim(),
+                subject: (r.subject || '').trim(),
+                file_url: r.file_url || r.pdf_path || '',
+                file_type: (r.file_type || 'pdf').toLowerCase().trim(),
+                file_size: r.file_size || 0,
+                upload_date: r.upload_date || '',
+                created_at: r.created_at || ''
+            }));
+
+            setupCategoryFilter(allResources);
+            applyFilterAndSearch();
+        }
+
+        function setupCategoryFilter(resources) {
+            const select = document.getElementById('categoryFilter');
+            if (!select) return;
+
+            const categories = new Set();
+            resources.forEach(r => {
+                if (r.category && r.category !== '') {
+                    categories.add(r.category);
+                }
+            });
+
+            if (categories.size > 0) {
+                select.style.display = 'inline-block';
+                select.innerHTML = '<option value="all">All Categories</option>';
+                Array.from(categories).sort().forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = formatCategory(cat);
+                    select.appendChild(opt);
+                });
+            } else {
+                select.style.display = 'none';
+            }
+        }
+
+        function applyFilterAndSearch() {
+            const searchInput = document.getElementById('librarySearch');
+            const categorySelect = document.getElementById('categoryFilter');
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            const selectedCat = categorySelect ? categorySelect.value.toLowerCase() : 'all';
+            const selectedType = fileTypeSelect ? fileTypeSelect.value.toLowerCase() : 'all';
+
+            filteredResources = allResources.filter(item => {
+                const matchesCat = (selectedCat === 'all') || (item.category.toLowerCase() === selectedCat);
+                const matchesType = (selectedType === 'all') || (item.file_type === selectedType);
+                const matchesQuery = !query ||
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query) ||
+                    item.subject.toLowerCase().includes(query) ||
+                    item.class_level.toLowerCase().includes(query);
+
+                return matchesCat && matchesType && matchesQuery;
+            });
+
+            currentPage = 1;
+            renderCurrentPage();
+        }
+
+        function renderCurrentPage() {
+            const container = document.getElementById('libraryContainer');
+            const toolbarCount = document.getElementById('libraryToolbarCount');
+            const paginationWrapper = document.getElementById('paginationWrapper');
+            const paginationBtns = document.getElementById('paginationBtns');
+            const paginationSummary = document.getElementById('paginationSummary');
+            if (!container) return;
+
+            const total = filteredResources.length;
+
+            if (toolbarCount) {
+                toolbarCount.textContent = total === 1 ? 'Showing 1 resource' : `Showing ${total} resources`;
+            }
+
+            if (total === 0) {
+                renderEmptyState('No resources found matching your search or filter.');
+                if (paginationWrapper) paginationWrapper.style.display = 'none';
+                return;
+            }
+
+            const totalPages = Math.ceil(total / PAGE_SIZE);
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const endIndex = Math.min(startIndex + PAGE_SIZE, total);
+            const pageItems = filteredResources.slice(startIndex, endIndex);
+
+            // Render Cards
+            container.innerHTML = pageItems.map(item => {
+                const sizeText = formatFileSize(item.file_size);
+                const dateText = formatResourceDate(item);
+                const hasCategory = item.category && item.category !== '';
+                const categoryPill = hasCategory 
+                    ? `<span class="resource-cat-pill">${escapeHtml(formatCategory(item.category))}</span>`
+                    : '';
+
+                let metaItemsHtml = '';
+                if (sizeText) {
+                    metaItemsHtml += `
+                        <span class="resource-meta-item">
+                            <i class="far fa-file-alt"></i> ${sizeText}
+                        </span>
+                    `;
+                }
+                if (dateText) {
+                    metaItemsHtml += `
+                        <span class="resource-meta-item">
+                            <i class="far fa-calendar-alt"></i> ${dateText}
+                        </span>
+                    `;
+                }
+
+                return `
+                    <div class="resource-card" data-id="${item.id}">
+                        <div class="resource-card-top">
+                            <div class="resource-pdf-badge" aria-hidden="true">
+                                <span class="pdf-label">PDF</span>
+                            </div>
+                            
+                            <div class="resource-card-info">
+                                <h3 class="resource-card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h3>
+                                ${categoryPill}
+                                <div class="resource-meta-row">
+                                    ${metaItemsHtml}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" 
+                                class="resource-download-btn" 
+                                onclick="downloadResource(${item.id}, this)" 
+                                aria-label="Download ${escapeHtml(item.title)}">
+                            <i class="fas fa-download"></i>
+                            <span>Download PDF</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Pagination
+            if (totalPages > 1) {
+                if (paginationWrapper) paginationWrapper.style.display = 'flex';
+                if (paginationSummary) {
+                    paginationSummary.textContent = `Showing ${startIndex + 1}-${endIndex} of ${total} resources`;
+                }
+
+                if (paginationBtns) {
+                    let buttonsHtml = '';
+
+                    // Previous Arrow
+                    if (currentPage > 1) {
+                        buttonsHtml += `
+                            <button type="button" class="page-nav-btn" onclick="goToPage(${currentPage - 1})" aria-label="Previous Page">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                        `;
+                    }
+
+                    // Numbered Pages
+                    for (let i = 1; i <= totalPages; i++) {
+                        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                            buttonsHtml += `
+                                <button type="button" class="page-nav-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                                    ${i}
+                                </button>
+                            `;
+                        } else if (i === currentPage - 2 || i === currentPage + 2) {
+                            buttonsHtml += `<span style="padding: 0 4px; color: #94a3b8;">&hellip;</span>`;
+                        }
+                    }
+
+                    // Next Arrow
+                    if (currentPage < totalPages) {
+                        buttonsHtml += `
+                            <button type="button" class="page-nav-btn" onclick="goToPage(${currentPage + 1})" aria-label="Next Page">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        `;
+                    }
+
+                    paginationBtns.innerHTML = buttonsHtml;
+                }
+            } else {
+                if (paginationWrapper) paginationWrapper.style.display = 'none';
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderCurrentPage();
+            const grid = document.getElementById('libraryContainer');
+            if (grid) {
+                grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function renderEmptyState(message) {
+            const container = document.getElementById('libraryContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="library-empty-card">
+                    <i class="fas fa-book"></i>
+                    <h3 class="library-empty-title">No Resources Found</h3>
+                    <p class="library-empty-desc">${escapeHtml(message)}</p>
+                    <button type="button" class="library-clear-btn" onclick="resetLibraryFilters()">
+                        <i class="fas fa-undo"></i> Clear Filters
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetLibraryFilters() {
+            const searchInput = document.getElementById('librarySearch');
+            const categorySelect = document.getElementById('categoryFilter');
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+            if (searchInput) searchInput.value = '';
+            if (categorySelect) categorySelect.value = 'all';
+            if (fileTypeSelect) fileTypeSelect.value = 'all';
+            applyFilterAndSearch();
+        }
+
+        // Hardened Download Implementation
+        async function downloadResource(id, btn) {
+            if (!id || !btn || btn.disabled) return;
+
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Preparing...</span>';
+
+            const downloadUrl = `../backend/api/library/download.php?id=${encodeURIComponent(id)}`;
+
+            try {
+                // Verify server endpoint accessibility
+                const response = await fetch(downloadUrl, { method: 'HEAD' });
+                if (!response.ok) {
+                    throw new Error('Download verification failed');
+                }
+
+                // Trigger genuine download
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                btn.innerHTML = '<i class="fas fa-check"></i> <span>Downloaded</span>';
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                }, 2000);
+            } catch (err) {
+                console.error('Resource download error:', err);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <span>Retry</span>';
+                alert('Unable to download this resource. Please try again.');
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                }, 2500);
+            }
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchLibraryResources();
+
+            // Search input listener (debounced)
+            let searchTimeout;
+            const searchInput = document.getElementById('librarySearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(applyFilterAndSearch, 200);
+                });
+            }
+
+            // Category filter listener
+            const categorySelect = document.getElementById('categoryFilter');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', applyFilterAndSearch);
+            }
+
+            // File type listener
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+            if (fileTypeSelect) {
+                fileTypeSelect.addEventListener('change', applyFilterAndSearch);
+            }
+
+            // Initialize AOS
+            if (typeof AOS !== 'undefined') {
+                AOS.init({ duration: 800, once: true, offset: 60 });
+            }
+        });
+
+        // Sticky Navbar Handler
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
             if (header) {
@@ -393,6 +755,7 @@
             }
         }, { passive: true });
 
+        // Mobile Dropdown toggles
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.header .nav-dropdown > a').forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
@@ -405,6 +768,5 @@
             });
         });
     </script>
-
 </body>
 </html>

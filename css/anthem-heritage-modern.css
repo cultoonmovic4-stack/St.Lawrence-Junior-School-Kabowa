@@ -1,295 +1,845 @@
-/* ============================================
-   ANTHEM HERITAGE - MODERN 2x2 GRID DESIGN
-   Clean, Professional, Card-Based Layout
-   ============================================ */
+/* ==============================================================================
+   ST. LAWRENCE JUNIOR SCHOOL - KABOWA
+   Official School Anthem Page — Editorial Heritage & Music Experience
+   Strictly Human-Made Institutional Design — Zero Gradients, Zero Glassmorphism
+   Official Palette: Deep School Blue (#0b3366, #0066cc), School Red (#dc3545, #dc2626),
+   White (#ffffff), Neutral Slates (#f8fafc, #f1f5f9, #e2e8f0, #64748b)
+   ============================================================================== */
 
-/* Section Styling */
-.anthem-heritage-modern {
-    padding: 120px 0;
-    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+/* --------------------------------------------------------------------------
+   1. HERO SECTION (Light Editorial Two-Column)
+   -------------------------------------------------------------------------- */
+.anthem-hero-light {
+    background-color: #ffffff;
+    padding-top: 115px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #e2e8f0;
     position: relative;
-    overflow: hidden;
 }
 
-.anthem-heritage-modern::before {
-    content: '';
-    position: absolute;
-    top: -150px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-.anthem-heritage-modern::after {
-    content: '';
-    position: absolute;
-    bottom: -150px;
-    left: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(220, 53, 69, 0.02) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-/* Section Header */
-.heritage-header {
-    text-align: center;
-    margin-bottom: 80px;
-    position: relative;
-    z-index: 1;
-}
-
-.heritage-header .section-subtitle {
-    font-size: 18px;
-    color: #666666;
-    margin-top: 15px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* 2x2 Grid Layout */
-.heritage-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+.anthem-hero-container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 24px;
+}
+
+.anthem-hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+}
+
+/* Breadcrumb */
+.anthem-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.anthem-breadcrumb a {
+    color: #0b3366;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.anthem-breadcrumb a:hover {
+    color: #dc3545;
+    text-decoration: underline;
+}
+
+.anthem-breadcrumb-separator {
+    color: #cbd5e1;
+}
+
+.anthem-breadcrumb-current {
+    color: #475569;
+    font-weight: 600;
+}
+
+/* Eyebrow Label */
+.anthem-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.anthem-eyebrow-bar {
+    width: 28px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+.anthem-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #dc3545;
+}
+
+/* Hero Titles */
+.anthem-hero-title {
+    font-family: 'Playfair Display', 'Poppins', Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.18;
+    color: #0b3366;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+}
+
+.anthem-hero-title .text-red {
+    color: #dc3545;
+}
+
+.anthem-hero-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #475569;
+    margin: 0 0 28px 0;
+    max-width: 520px;
+}
+
+/* Hero CTA Button */
+.anthem-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.anthem-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #0b3366;
+    color: #ffffff;
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: 1px solid #0b3366;
+}
+
+.anthem-cta-btn:hover {
+    background-color: #0052a3;
+    border-color: #0052a3;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(11, 51, 102, 0.18);
+}
+
+.anthem-cta-btn i {
+    font-size: 13px;
+    color: #fca5a5;
+}
+
+/* Hero Media Frame */
+.anthem-hero-media {
     position: relative;
+}
+
+.anthem-hero-frame {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+}
+
+.anthem-hero-frame img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+}
+
+.anthem-hero-badge {
+    position: absolute;
+    bottom: -16px;
+    right: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #0b3366;
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.anthem-hero-badge-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #0b3366;
+    letter-spacing: 0.5px;
+}
+
+.anthem-hero-badge-motto {
+    font-family: 'Inter', sans-serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #dc3545;
+    letter-spacing: 1px;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. MAIN ANTHEM PLAYER + LYRICS EXPERIENCE
+   -------------------------------------------------------------------------- */
+.anthem-experience-section {
+    background-color: #f8fafc;
+    padding: 70px 0 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative Cursive Watermarks */
+.anthem-deco-cursive-left {
+    position: absolute;
+    top: 55px;
+    left: 40px;
+    transform: rotate(-8deg);
+    font-family: 'Caveat', cursive, sans-serif;
+    font-size: 28px;
+    color: #94a3b8;
+    line-height: 1.1;
+    pointer-events: none;
+    user-select: none;
     z-index: 1;
 }
 
-/* Heritage Card */
-.heritage-card {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 45px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.heritage-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-    border-color: rgba(0, 102, 204, 0.2);
-}
-
-/* Heritage Icon */
-.heritage-icon {
+.anthem-deco-curve-left {
     width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-    border-radius: 20px;
+    height: 6px;
+    border-bottom: 2px solid #dc3545;
+    border-radius: 50%;
+    margin-top: 4px;
+    opacity: 0.65;
+}
+
+.anthem-deco-cursive-right {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    font-family: 'Caveat', cursive, sans-serif;
+    font-size: 26px;
+    color: #94a3b8;
+    text-align: right;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+}
+
+.anthem-deco-clef {
+    font-size: 48px;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 8px;
+    opacity: 0.7;
+}
+
+.anthem-deco-curve-right {
+    width: 70px;
+    height: 6px;
+    border-bottom: 2px solid #0066cc;
+    border-radius: 50%;
+    margin: 4px 0 0 auto;
+    opacity: 0.65;
+}
+
+/* Section Header (Centered) */
+.anthem-section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    position: relative;
+    z-index: 2;
+}
+
+.anthem-header-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #dc3545;
+    margin-bottom: 8px;
+}
+
+.anthem-header-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background-color: #dc3545;
+}
+
+.anthem-section-title {
+    font-family: 'Playfair Display', 'Poppins', Georgia, serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.3px;
+}
+
+.anthem-section-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Master Player Card */
+.anthem-player-card {
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    padding: 36px 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.anthem-player-grid {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 48px;
+}
+
+/* --------------------------------------------------------------------------
+   3. LEFT COLUMN: ARTWORK & AUDIO CONTROLS
+   -------------------------------------------------------------------------- */
+.anthem-player-col-left {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Artwork Box */
+.anthem-artwork-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
     position: relative;
-    z-index: 2;
-    transition: all 0.4s ease;
+    margin-bottom: 18px;
 }
 
-.heritage-card:hover .heritage-icon {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 15px 40px rgba(0, 102, 204, 0.3);
+.anthem-artwork-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-.heritage-icon i {
-    font-size: 36px;
-    color: #ffffff;
+/* Artwork Info */
+.anthem-track-info {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Alternate Icon Colors */
-.heritage-card:nth-child(2) .heritage-icon {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-}
-
-.heritage-card:nth-child(2):hover .heritage-icon {
-    box-shadow: 0 15px 40px rgba(220, 53, 69, 0.3);
-}
-
-.heritage-card:nth-child(3) .heritage-icon {
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-}
-
-.heritage-card:nth-child(3):hover .heritage-icon {
-    box-shadow: 0 15px 40px rgba(255, 193, 7, 0.3);
-}
-
-.heritage-card:nth-child(4) .heritage-icon {
-    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-}
-
-.heritage-card:nth-child(4):hover .heritage-icon {
-    box-shadow: 0 15px 40px rgba(40, 167, 69, 0.3);
-}
-
-/* Heritage Content */
-.heritage-content h3 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 18px 0;
+.anthem-track-title {
     font-family: 'Poppins', sans-serif;
-    position: relative;
-    z-index: 2;
+    font-size: 19px;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 4px 0;
 }
 
-.heritage-content p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #555555;
-    margin: 0;
+.anthem-track-artist {
     font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    color: #64748b;
+    margin: 0 0 10px 0;
+}
+
+.anthem-badge-pill {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* Audio Scrubber / Progress Bar */
+.anthem-progress-wrap {
+    margin-bottom: 18px;
+}
+
+.anthem-time-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Inter', monospace;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.anthem-progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
     position: relative;
-    z-index: 2;
+    cursor: pointer;
+    touch-action: none;
 }
 
-/* Heritage Decoration */
-.heritage-decoration {
+.anthem-progress-fill {
     position: absolute;
-    bottom: -30px;
-    right: -30px;
-    width: 150px;
-    height: 150px;
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03) 0%, rgba(0, 82, 163, 0.05) 100%);
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background-color: #0066cc;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: width 0.1s linear;
+}
+
+.anthem-progress-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: #0066cc;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 102, 204, 0.4);
     border-radius: 50%;
-    z-index: 1;
-    transition: all 0.4s ease;
+    pointer-events: none;
 }
 
-.heritage-card:hover .heritage-decoration {
-    transform: scale(1.3);
-    opacity: 0.8;
+/* Player Controls Row */
+.anthem-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 22px;
 }
 
-.heritage-card:nth-child(2) .heritage-decoration {
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.03) 0%, rgba(200, 35, 51, 0.05) 100%);
+.anthem-btn-control {
+    background: none;
+    border: none;
+    color: #0b3366;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
 }
 
-.heritage-card:nth-child(3) .heritage-decoration {
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.03) 0%, rgba(255, 152, 0, 0.05) 100%);
+.anthem-btn-control:hover {
+    color: #dc3545;
+    background-color: #f1f5f9;
 }
 
-.heritage-card:nth-child(4) .heritage-decoration {
-    background: linear-gradient(135deg, rgba(40, 167, 69, 0.03) 0%, rgba(33, 136, 56, 0.05) 100%);
+.anthem-btn-play {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: #0b3366;
+    color: #ffffff;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(11, 51, 102, 0.25);
+    transition: all 0.2s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
-    .anthem-heritage-modern {
-        padding: 80px 0;
+.anthem-btn-play:hover {
+    background-color: #0052a3;
+    transform: scale(1.04);
+}
+
+.anthem-btn-play i {
+    margin-left: 2px; /* optical centering for play triangle */
+}
+
+.anthem-btn-play.is-playing i {
+    margin-left: 0;
+}
+
+/* Volume Control */
+.anthem-volume-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+    margin-bottom: 26px;
+}
+
+.anthem-volume-icon {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.anthem-volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.anthem-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background-color: #0b3366;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.anthem-volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background-color: #0b3366;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Download Actions Strip */
+.anthem-downloads-wrap {
+    display: flex;
+    gap: 12px;
+}
+
+.anthem-btn-download-audio {
+    flex: 1.15;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #0b3366;
+    color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid #0b3366;
+}
+
+.anthem-btn-download-audio:hover {
+    background-color: #0052a3;
+    border-color: #0052a3;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(11, 51, 102, 0.15);
+}
+
+.anthem-btn-download-lyrics {
+    flex: 1.25;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #ffffff;
+    color: #334155;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+.anthem-btn-download-lyrics:hover {
+    border-color: #0b3366;
+    color: #0b3366;
+    background-color: #f8fafc;
+}
+
+.anthem-btn-download-lyrics i {
+    color: #dc3545;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. RIGHT COLUMN: SYNCHRONIZED LYRICS
+   -------------------------------------------------------------------------- */
+.anthem-lyrics-col {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #f1f5f9;
+    padding-left: 40px;
+}
+
+/* Tabs Header */
+.anthem-tabs-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+.anthem-tab-item {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    background: none;
+    border: none;
+    padding: 0 0 6px 0;
+    cursor: default;
+    position: relative;
+}
+
+.anthem-tab-item.active {
+    color: #0b3366;
+    font-weight: 700;
+}
+
+.anthem-tab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -13px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+/* Scrollable Lyrics Box */
+.anthem-lyrics-scroll-box {
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 14px;
+    margin-bottom: 28px;
+    scroll-behavior: smooth;
+}
+
+/* Custom Minimal Scrollbar */
+.anthem-lyrics-scroll-box::-webkit-scrollbar {
+    width: 5px;
+}
+
+.anthem-lyrics-scroll-box::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.anthem-lyrics-scroll-box::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.anthem-lyrics-scroll-box::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Lyrics Section Group */
+.anthem-lyrics-section-group {
+    margin-bottom: 24px;
+}
+
+.anthem-lyrics-section-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.badge-verse {
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+
+.badge-chorus {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+/* Lyric Lines */
+.anthem-lyric-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #64748b;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.anthem-lyric-line:hover {
+    background-color: #f1f5f9;
+    color: #0b3366;
+}
+
+/* Active Line (Karaoke Synced Highlight) */
+.anthem-lyric-line.is-active {
+    background-color: #eff6ff;
+    color: #0056b3;
+    font-weight: 700;
+    font-size: 16px;
+    border-left: 3px solid #0066cc;
+    padding-left: 14px;
+    box-shadow: 0 1px 4px rgba(0, 102, 204, 0.08);
+}
+
+/* Past Line */
+.anthem-lyric-line.is-past {
+    color: #334155;
+    font-weight: 500;
+}
+
+/* Composer Credit Footer */
+.anthem-composer-credit {
+    margin-top: auto;
+    text-align: right;
+    padding-top: 14px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.anthem-composer-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    color: #94a3b8;
+    margin-bottom: 2px;
+}
+
+.anthem-composer-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #0b3366;
+    margin-bottom: 6px;
+}
+
+.anthem-composer-line {
+    width: 44px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .anthem-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
     }
 
-    .heritage-header {
-        margin-bottom: 60px;
+    .anthem-hero-frame img {
+        height: 280px;
     }
 
-    .heritage-grid {
-        gap: 30px;
+    .anthem-player-card {
+        padding: 28px 24px;
     }
 
-    .heritage-card {
-        padding: 35px;
+    .anthem-player-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
-    .heritage-icon {
-        width: 70px;
-        height: 70px;
+    .anthem-lyrics-col {
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+        padding-left: 0;
+        padding-top: 32px;
     }
 
-    .heritage-icon i {
-        font-size: 32px;
-    }
-
-    .heritage-content h3 {
-        font-size: 22px;
-    }
-
-    .heritage-content p {
-        font-size: 15px;
+    .anthem-deco-cursive-left,
+    .anthem-deco-cursive-right {
+        display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .anthem-heritage-modern {
-        padding: 60px 0;
+    .anthem-hero-light {
+        padding-top: 95px;
+        padding-bottom: 40px;
     }
 
-    .heritage-header {
-        margin-bottom: 50px;
+    .anthem-hero-title {
+        font-size: 32px;
     }
 
-    .heritage-header .section-subtitle {
-        font-size: 16px;
-    }
-
-    /* Stack to single column on mobile */
-    .heritage-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .heritage-card {
-        padding: 30px;
-    }
-
-    .heritage-icon {
-        width: 65px;
-        height: 65px;
-    }
-
-    .heritage-icon i {
-        font-size: 28px;
-    }
-
-    .heritage-content h3 {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
-
-    .heritage-content p {
-        font-size: 14px;
-        line-height: 1.7;
-    }
-
-    .heritage-decoration {
-        width: 120px;
-        height: 120px;
-        bottom: -20px;
-        right: -20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .anthem-heritage-modern {
-        padding: 50px 0;
-    }
-
-    .heritage-card {
-        padding: 25px;
-    }
-
-    .heritage-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 16px;
-    }
-
-    .heritage-icon i {
+    .anthem-section-title {
         font-size: 26px;
     }
 
-    .heritage-content h3 {
-        font-size: 18px;
+    .anthem-player-card {
+        padding: 20px 16px;
+        border-radius: 12px;
     }
 
-    .heritage-content p {
-        font-size: 14px;
+    .anthem-downloads-wrap {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .anthem-btn-download-audio,
+    .anthem-btn-download-lyrics {
+        width: 100%;
     }
 }

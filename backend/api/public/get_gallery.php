@@ -9,28 +9,52 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
-    
-    // Get gallery images
-    $stmt = $db->prepare("
+    $category = isset($_GET['category']) ? trim($_GET['category']) : '';
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 500;
+
+    $sql = "
         SELECT 
-            gallery_id,
-            image_title,
-            image_description,
-            image_path,
+            id,
+            id AS gallery_id,
+            title,
+            title AS image_title,
+            description,
+            description AS image_description,
+            image_url,
+            image_url AS image_path,
             category,
-            upload_date
-        FROM gallery
+            upload_date,
+            display_order,
+            status
+        FROM gallery_images
         WHERE status = 'active'
-        ORDER BY upload_date DESC
-        LIMIT :limit
-    ");
-    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    ";
+
+    $params = [];
+    if (!empty($category) && $category !== 'all') {
+        $sql .= " AND category = :category";
+        $params[':category'] = $category;
+    }
+
+    if ($id > 0) {
+        $sql .= " AND id = :id";
+        $params[':id'] = $id;
+    }
+
+    $sql .= " ORDER BY display_order DESC, upload_date DESC, id DESC LIMIT :limit";
+
+    $stmt = $db->prepare($sql);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val);
+    }
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->execute();
     $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     echo json_encode([
         'success' => true,
+        'total' => count($images),
         'data' => $images
     ]);
     

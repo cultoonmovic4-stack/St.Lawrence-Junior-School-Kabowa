@@ -1,0 +1,747 @@
+/* ==========================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA — GALLERY & LIGHTBOX EDITORIAL REDESIGN
+   Light, professional, image-focused, fully dynamic
+   Colors: Navy (#0b3366), School Red (#dc3545), Pure White (#ffffff), Slate (#64748b)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. EDITORIAL HERO SECTION
+   -------------------------------------------------------------------------- */
+.gallery-hero-editorial {
+    background-color: #ffffff;
+    padding: 40px 0 24px 0;
+    position: relative;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.gallery-hero-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.gallery-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 18px;
+}
+
+.gallery-breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.gallery-breadcrumb a:hover {
+    color: #0b3366;
+}
+
+.gallery-breadcrumb .separator {
+    color: #cbd5e1;
+}
+
+.gallery-breadcrumb .current {
+    color: #0b3366;
+    font-weight: 600;
+}
+
+.gallery-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 440px;
+    gap: 36px;
+    align-items: center;
+}
+
+.gallery-hero-left {
+    padding-right: 15px;
+}
+
+.gallery-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.gallery-eyebrow-bar {
+    width: 32px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.gallery-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #dc3545;
+    text-transform: uppercase;
+}
+
+.gallery-hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #0b3366;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.025em;
+}
+
+.gallery-hero-title .text-red {
+    color: #dc3545;
+}
+
+.gallery-hero-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 560px;
+}
+
+/* Right side banner with students & tagline */
+.gallery-hero-right {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(11, 51, 102, 0.06);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    height: 170px;
+    display: flex;
+    align-items: center;
+}
+
+.gallery-hero-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+}
+
+.gallery-hero-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 40%, rgba(11, 51, 102, 0.35) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 18px 22px;
+}
+
+.gallery-banner-tagline {
+    text-align: right;
+}
+
+.gallery-cursive-tag {
+    font-family: 'Caveat', 'Segoe Script', cursive;
+    font-size: 1.7rem;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.gallery-cursive-line {
+    width: 50px;
+    height: 3px;
+    background-color: #dc3545;
+    margin-left: auto;
+    margin-top: 4px;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. GALLERY CONTROLS TOOLBAR (SEARCH, EVENT FILTER, COUNT)
+   -------------------------------------------------------------------------- */
+.gallery-section-main {
+    background-color: #f8fafc;
+    padding: 40px 0 90px 0;
+    min-height: 600px;
+}
+
+.gallery-main-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.gallery-toolbar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(11, 51, 102, 0.03);
+    flex-wrap: wrap;
+}
+
+.gallery-search-wrap {
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.gallery-search-icon {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.gallery-search-input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 14px 10px 38px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.gallery-search-input:focus {
+    border-color: #0b3366;
+    box-shadow: 0 0 0 3px rgba(11, 51, 102, 0.12);
+}
+
+.gallery-filters-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.gallery-filter-select {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 34px 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748b'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s ease;
+    min-width: 170px;
+}
+
+.gallery-filter-select:focus {
+    border-color: #0b3366;
+}
+
+.gallery-count-badge {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    padding-left: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   3. GALLERY IMAGE GRID
+   -------------------------------------------------------------------------- */
+.gallery-grid-clean {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.gallery-card-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(11, 51, 102, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    aspect-ratio: 16 / 10.5;
+}
+
+.gallery-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(11, 51, 102, 0.09);
+    border-color: #cbd5e1;
+}
+
+.gallery-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.gallery-card-item:hover .gallery-card-img {
+    transform: scale(1.03);
+}
+
+/* Subtle hover overlay with view indicator */
+.gallery-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 51, 102, 0.35);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-card-item:hover .gallery-card-overlay {
+    opacity: 1;
+}
+
+.gallery-card-zoom-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0b3366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(0.85);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.gallery-card-item:hover .gallery-card-zoom-btn {
+    transform: scale(1);
+}
+
+.gallery-card-item:hover .gallery-card-zoom-btn:hover {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+/* Empty & Loading States */
+.gallery-empty-card,
+.gallery-loading-card {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 70px 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.gallery-loading-card i {
+    font-size: 2.2rem;
+    color: #0b3366;
+    margin-bottom: 14px;
+}
+
+.gallery-empty-card i {
+    font-size: 2.4rem;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.gallery-empty-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 6px 0;
+}
+
+.gallery-empty-desc {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0 0 20px 0;
+}
+
+.gallery-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0b3366;
+    color: #ffffff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.gallery-reset-btn:hover {
+    background: #08254a;
+}
+
+/* --------------------------------------------------------------------------
+   4. REDESIGNED EDITORIAL LIGHTBOX
+   -------------------------------------------------------------------------- */
+.editorial-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.editorial-lightbox.active {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 12, 20, 0.96);
+    backdrop-filter: blur(8px);
+}
+
+.lightbox-shell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    justify-content: space-between;
+}
+
+/* Lightbox Top Bar */
+.lightbox-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(10, 16, 26, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lightbox-counter-display {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    letter-spacing: 0.04em;
+}
+
+.lightbox-counter-display .current-idx {
+    color: #ffffff;
+}
+
+.lightbox-counter-display .total-idx {
+    color: #94a3b8;
+}
+
+.lightbox-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Like & Action Buttons */
+.lightbox-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px;
+    color: #e2e8f0;
+    padding: 8px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lightbox-action-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.lightbox-action-btn.liked {
+    background: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.6);
+    color: #ffffff;
+}
+
+.lightbox-action-btn.liked i {
+    color: #dc3545;
+}
+
+.lightbox-close-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 6px;
+}
+
+.lightbox-close-icon-btn:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* Lightbox Center Stage */
+.lightbox-stage {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px 80px;
+}
+
+.lightbox-main-img-wrap {
+    max-width: 86vw;
+    max-height: 68vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.lightbox-main-image {
+    max-width: 100%;
+    max-height: 68vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Lightbox Navigation Arrows */
+.lightbox-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(20, 26, 38, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 20;
+}
+
+.lightbox-nav-arrow:hover {
+    background: rgba(11, 51, 102, 0.9);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-arrow-prev {
+    left: 24px;
+}
+
+.lightbox-arrow-next {
+    right: 24px;
+}
+
+/* Lightbox Bottom Thumbnail Strip */
+.lightbox-bottom-strip {
+    background: rgba(10, 16, 26, 0.75);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-thumbs-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    max-width: 900px;
+    padding: 4px 6px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.lightbox-thumbs-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.lightbox-thumbs-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.lightbox-thumb-item {
+    width: 68px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.5;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.lightbox-thumb-item:hover {
+    opacity: 0.85;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lightbox-thumb-item.active {
+    opacity: 1;
+    border-color: #38bdf8;
+    transform: scale(1.06);
+}
+
+.lightbox-thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .gallery-grid-clean {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 860px) {
+    .gallery-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .gallery-hero-right {
+        height: 140px;
+    }
+
+    .gallery-stage {
+        padding: 16px 20px;
+    }
+
+    .lightbox-nav-arrow {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+
+    .lightbox-arrow-prev {
+        left: 10px;
+    }
+
+    .lightbox-arrow-next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery-hero-title {
+        font-size: 2.3rem;
+    }
+
+    .gallery-toolbar-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+
+    .gallery-filters-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .gallery-filter-select {
+        width: 100%;
+    }
+
+    .gallery-count-badge {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .gallery-grid-clean {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .lightbox-topbar {
+        padding: 12px 16px;
+    }
+
+    .lightbox-action-btn span {
+        display: none;
+    }
+
+    .lightbox-action-btn {
+        padding: 8px 10px;
+    }
+
+    .lightbox-main-img-wrap {
+        max-width: 94vw;
+        max-height: 60vh;
+    }
+
+    .lightbox-thumbs-scroll {
+        max-width: 100%;
+    }
+
+    .lightbox-thumb-item {
+        width: 54px;
+        height: 38px;
+    }
+}

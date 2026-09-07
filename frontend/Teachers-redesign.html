@@ -48,520 +48,8 @@
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
     
-    <style>
-        /* Footer Contact Improvements - Match Index Page */
-        .contact-info {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            gap: 12px;
-        }
-        
-        .contact-icon {
-            width: 20px;
-            text-align: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .contact-text {
-            flex: 1;
-            line-height: 1.5;
-        }
-        
-        .contact-link {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .contact-link:hover {
-            color: #fff;
-        }
-        
-        .phone-separator {
-            margin: 0 8px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        @media (max-width: 768px) {
-            .contact-text {
-                font-size: 0.9rem;
-            }
-            
-            .phone-separator {
-                display: block;
-                margin: 5px 0;
-            }
-        }
-        
-        /* School branding — teachers page (cards + modal) */
-        :root {
-            --teacher-brand-blue: #0066cc;
-            --teacher-brand-blue-dark: #0052a3;
-            --teacher-brand-red: #dc3545;
-            --teacher-brand-red-dark: #c82333;
-            --teacher-gradient-header: linear-gradient(135deg, #0066cc 0%, #0052a3 55%, #b91c2c 100%);
-            --teacher-gradient-cta: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-            --teacher-gradient-accent: linear-gradient(135deg, #0066cc 0%, #dc3545 100%);
-        }
-
-        /* Teacher Profile Modal Styles */
-        .teacher-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .teacher-modal.active {
-            display: flex;
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .teacher-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-        
-        .teacher-modal-content {
-            position: relative;
-            margin: auto;
-            background: white;
-            border-radius: 20px;
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-        
-        .teacher-modal.active .teacher-modal-content {
-            transform: scale(1);
-        }
-        
-        .teacher-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-        
-        .teacher-modal-close:hover {
-            background: var(--teacher-brand-red);
-            color: white;
-            transform: rotate(90deg);
-        }
-        
-        .teacher-modal-header {
-            background: var(--teacher-gradient-header);
-            color: white;
-            padding: 40px 30px 30px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .teacher-modal-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--teacher-brand-blue) 0%, var(--teacher-brand-blue) 50%, var(--teacher-brand-red) 50%, var(--teacher-brand-red) 100%);
-        }
-        
-        .teacher-modal-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.85);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
-        }
-        
-        .teacher-modal-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .teacher-modal-info h2 {
-            margin: 0 0 10px 0;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        
-        .teacher-modal-position {
-            font-size: 1.1rem;
-            margin: 0 0 5px 0;
-            opacity: 0.9;
-            font-weight: 500;
-        }
-        
-        .teacher-modal-department {
-            font-size: 1rem;
-            margin: 0;
-            opacity: 0.8;
-        }
-        
-        .teacher-modal-body {
-            padding: 30px;
-        }
-        
-        .teacher-modal-section {
-            margin-bottom: 30px;
-        }
-        
-        .teacher-modal-section:last-child {
-            margin-bottom: 0;
-        }
-        
-        .teacher-modal-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 0 15px 0;
-            font-size: 1.3rem;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        .teacher-modal-section h3 i {
-            color: var(--teacher-brand-blue);
-            width: 20px;
-        }
-        
-        .teacher-modal-section p {
-            color: #555;
-            line-height: 1.6;
-            margin: 0;
-        }
-        
-        .teacher-modal-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .modal-stat-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(0, 102, 204, 0.06) 0%, rgba(220, 53, 69, 0.04) 100%);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 102, 204, 0.12);
-            border-left: 4px solid var(--teacher-brand-blue);
-        }
-        
-        .modal-stat-item i {
-            font-size: 1.5rem;
-            color: var(--teacher-brand-blue);
-            width: 30px;
-            text-align: center;
-        }
-        
-        .stat-label {
-            display: block;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 2px;
-        }
-        
-        .stat-value {
-            display: block;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .teacher-modal-specialties {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .modal-specialty-tag {
-            background: var(--teacher-gradient-accent);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
-        }
-        
-        .teacher-modal-contact {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .modal-contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .modal-contact-item i {
-            font-size: 1.2rem;
-            color: var(--teacher-brand-blue);
-            width: 25px;
-            text-align: center;
-        }
-        
-        .contact-label {
-            display: block;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 2px;
-        }
-        
-        .contact-value {
-            display: block;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #2c3e50;
-            text-decoration: none;
-        }
-        
-        .contact-value:hover {
-            color: var(--teacher-brand-blue);
-        }
-
-        /* ----- Dynamic teacher cards (api-teachers.js) ----- */
-        .teachers-departments-section .teacher-card {
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(0, 102, 204, 0.12);
-            box-shadow: 0 8px 28px rgba(0, 102, 204, 0.08);
-        }
-
-        .teachers-departments-section .teacher-card::before {
-            transform: scaleX(1);
-            height: 4px;
-            background: linear-gradient(90deg, var(--teacher-brand-blue) 0%, var(--teacher-brand-blue) 50%, var(--teacher-brand-red) 50%, var(--teacher-brand-red) 100%);
-            opacity: 1;
-        }
-
-        .teachers-departments-section .teacher-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 40px rgba(0, 102, 204, 0.18);
-            border-color: rgba(0, 102, 204, 0.22);
-        }
-
-        .teacher-card-image {
-            padding: 28px 24px 12px;
-            background: linear-gradient(180deg, rgba(0, 102, 204, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .teacher-photo-circle {
-            width: 132px;
-            height: 132px;
-            margin: 0 auto;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid transparent;
-            background:
-                linear-gradient(#fff, #fff) padding-box,
-                linear-gradient(135deg, var(--teacher-brand-blue), var(--teacher-brand-red)) border-box;
-            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
-        }
-
-        .teacher-photo-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .teacher-card-content {
-            padding: 8px 22px 22px;
-            text-align: center;
-        }
-
-        .teacher-card-name {
-            margin: 0 0 8px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            line-height: 1.3;
-        }
-
-        .teacher-card-position {
-            margin: 0 0 16px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--teacher-brand-blue);
-        }
-
-        .teacher-view-btn {
-            width: 100%;
-            background: var(--teacher-gradient-cta);
-            color: #fff;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
-        }
-
-        .teacher-view-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.28);
-            background: linear-gradient(135deg, #0052a3 0%, var(--teacher-brand-red) 100%);
-        }
-
-        .teacher-view-btn i {
-            font-size: 0.75rem;
-        }
-        
-        /* Make teacher cards clickable */
-        .teacher-card {
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        /* Teacher card footer with view profile button */
-        .teacher-card-footer {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 102, 204, 0.12);
-        }
-        
-        .view-profile-btn {
-            width: 100%;
-            background: var(--teacher-gradient-cta);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
-        }
-        
-        .view-profile-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 102, 204, 0.4);
-            background: linear-gradient(135deg, #0052a3 0%, var(--teacher-brand-red) 100%);
-        }
-        
-        .view-profile-btn i {
-            font-size: 0.8rem;
-        }
-        
-        /* Simplified teacher overlay */
-        .teacher-quick-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .teacher-quick-action i {
-            font-size: 0.9rem;
-            color: var(--teacher-brand-blue);
-        }
-        
-        /* Responsive modal */
-        @media (max-width: 768px) {
-            .teacher-modal-content {
-                width: 95%;
-                margin: 20px auto;
-                max-height: calc(100vh - 40px);
-            }
-            
-            .teacher-modal-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 30px 20px 25px;
-            }
-            
-            .teacher-modal-photo {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .teacher-modal-info h2 {
-                font-size: 1.5rem;
-            }
-            
-            .teacher-modal-body {
-                padding: 20px;
-            }
-            
-            .teacher-modal-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-stat-item {
-                padding: 15px;
-            }
-        }
-    </style>
+    <!-- Teachers Editorial CSS -->
+    <link rel="stylesheet" href="../css/teachers-editorial.css?v=2.0">
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
 
     <!-- Target Institutional Navbar Styles -->
@@ -590,7 +78,6 @@
     </div>
     
     <!-- Header / Navigation -->
-        <!-- Header / Navigation -->
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
@@ -649,179 +136,64 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="../img/36.jpg" alt="Teachers">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
+    <!-- 1. LIGHT EDITORIAL HERO SECTION -->
+    <section class="teachers-hero-editorial">
+        <div class="teachers-hero-container">
+            <div class="teachers-breadcrumb" data-aos="fade-down">
                 <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <span>Teachers</span>
+                <span class="separator">/</span>
+                <span class="current">Teachers</span>
             </div>
-            <h1 data-aos="fade-up">Our Dedicated Teachers</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Qualified, Experienced, and Passionate Educators</p>
-        </div>
-    </section>
-
-    <!-- Teachers Introduction -->
-    <section class="anthem-intro-section">
-        <div class="container">
-            <div class="anthem-intro-grid">
-                <div class="intro-content" data-aos="fade-right">
-                    <span class="section-label-alt">Our Team</span>
-                    <h2 class="section-title-alt">Excellence in Teaching</h2>
-                    <p class="intro-description">
-                        At St. Lawrence Junior School, our teachers are the heart of our educational excellence. 
-                        Each member of our teaching staff brings a wealth of experience, dedication, and passion 
-                        for nurturing young minds. Our educators are not just teachers – they are mentors, role 
-                        models, and lifelong learners committed to student success.
-                    </p>
-                    <p class="intro-description">
-                        With an average of 10+ years of teaching experience and continuous professional development, 
-                        our staff employs modern teaching methodologies, technology integration, and personalized 
-                        approaches to ensure every student reaches their full potential.
-                    </p>
-                    <div class="intro-stats">
-                        <div class="intro-stat-item">
-                            <div class="stat-icon-intro">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <div class="stat-text-intro">
-                                <span class="stat-number-intro">25</span>
-                                <span class="stat-label-intro">Qualified Teachers</span>
-                            </div>
-                        </div>
-                        <div class="intro-stat-item">
-                            <div class="stat-icon-intro">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="stat-text-intro">
-                                <span class="stat-number-intro">100%</span>
-                                <span class="stat-label-intro">Certified</span>
-                            </div>
-                        </div>
+            
+            <div class="teachers-hero-grid">
+                <div class="teachers-hero-left" data-aos="fade-right">
+                    <div class="teachers-eyebrow-wrap">
+                        <span class="teachers-eyebrow-bar"></span>
+                        <span class="teachers-eyebrow-text">OUR PEOPLE</span>
                     </div>
+                    <h1 class="teachers-hero-title">Meet Our <span class="text-red">Teachers</span></h1>
+                    <p class="teachers-hero-subtitle">The people who guide, teach and support our pupils every day.</p>
                 </div>
                 
-                <div class="intro-image-wrapper" data-aos="fade-left">
-                    <div class="intro-image">
-                        <img src="../img/62.JPG" alt="Teachers">
-                        <div class="image-overlay-anthem"></div>
-                    </div>
-                    <div class="music-badge">
-                        <i class="fas fa-users"></i>
+                <div class="teachers-hero-right" data-aos="fade-left">
+                    <div class="teachers-hero-quote-box">
+                        <p class="teachers-hero-quote-text">
+                            &ldquo;Great teachers inspire, challenge and help every child become their best.&rdquo;
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Meet Our Teachers by Department -->
-    <section class="teachers-departments-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Our Team</span>
-                <h2 class="section-title">Meet Our Teachers by Department</h2>
-                <!-- <p class="section-description">Filter by department to view our dedicated teaching staff</p> -->
+    <!-- 2. DYNAMIC TEACHER DIRECTORY SECTION -->
+    <section class="teachers-directory-section">
+        <div class="teachers-directory-container">
+            <!-- Directory Controls (Search, Filters, Counter) -->
+            <div class="teachers-controls-bar" data-aos="fade-up">
+                <div class="teachers-search-wrap">
+                    <i class="fas fa-search teachers-search-icon"></i>
+                    <input type="text" id="teacherSearch" class="teachers-search-input" placeholder="Search by name, subject or role..." autocomplete="off">
+                </div>
+                
+                <div class="teachers-filters-group">
+                    <select id="departmentFilter" class="teachers-filter-select">
+                        <option value="all">All Departments</option>
+                    </select>
+                    
+                    <div class="teachers-count-badge" id="teacherCount">Loading teachers...</div>
+                </div>
             </div>
-            
-           
-            
-            <!-- Teachers Grid (All teachers in one grid, filtered by department) -->
-            <div class="teachers-grid" id="teachersContainer" data-aos="fade-up" data-aos-delay="200">
-                <!-- Dynamic teachers will load here -->
-                <div style="text-align: center; padding: 60px 20px; color: #666; grid-column: 1/-1;">
-                    <i class="fas fa-spinner fa-spin" style="font-size: 3rem; margin-bottom: 15px;"></i>
+
+            <!-- Dynamic Teacher Cards Grid -->
+            <div class="teachers-directory-grid" id="teachersContainer" data-aos="fade-up" data-aos-delay="100">
+                <div class="teachers-loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
                     <p>Loading teachers...</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Teacher Profile Modal -->
-    <div class="teacher-modal" id="teacherModal">
-        <div class="teacher-modal-overlay" onclick="closeTeacherModal()"></div>
-        <div class="teacher-modal-content">
-            <button class="teacher-modal-close" onclick="closeTeacherModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="teacher-modal-header">
-                <div class="teacher-modal-photo">
-                    <img id="modalTeacherPhoto" src="../img/user.jpg" alt="Teacher Photo">
-                </div>
-                <div class="teacher-modal-info">
-                    <h2 id="modalTeacherName">Teacher Name</h2>
-                    <p class="teacher-modal-position" id="modalTeacherPosition">Position</p>
-                    <p class="teacher-modal-department" id="modalTeacherDepartment">Department</p>
-                </div>
-            </div>
-            
-            <div class="teacher-modal-body">
-                <div class="teacher-modal-section">
-                    <h3><i class="fas fa-user"></i> About</h3>
-                    <p id="modalTeacherBio">Teacher biography will appear here...</p>
-                </div>
-                
-                <div class="teacher-modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Qualifications & Experience</h3>
-                    <div class="teacher-modal-stats">
-                        <div class="modal-stat-item">
-                            <i class="fas fa-certificate"></i>
-                            <div>
-                                <span class="stat-label">Qualification</span>
-                                <span class="stat-value" id="modalTeacherQualification">-</span>
-                            </div>
-                        </div>
-                        <div class="modal-stat-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <div>
-                                <span class="stat-label">Experience</span>
-                                <span class="stat-value" id="modalTeacherExperience">-</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="teacher-modal-section" id="modalSpecialtiesSection">
-                    <h3><i class="fas fa-star"></i> Specialties</h3>
-                    <div class="teacher-modal-specialties" id="modalTeacherSpecialties">
-                        <!-- Specialties will be populated here -->
-                    </div>
-                </div>
-                
-                <div class="teacher-modal-section">
-                    <h3><i class="fas fa-phone"></i> Contact Information</h3>
-                    <div class="teacher-modal-contact">
-                        <div class="modal-contact-item" id="modalTeacherEmailItem">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <span class="contact-label">Email</span>
-                                <a href="#" id="modalTeacherEmail" class="contact-value">-</a>
-                            </div>
-                        </div>
-                        <div class="modal-contact-item" id="modalTeacherPhoneItem">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <span class="contact-label">Phone</span>
-                                <a href="#" id="modalTeacherPhone" class="contact-value">-</a>
-                            </div>
-                        </div>
-                        <div class="modal-contact-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <span class="contact-label">Office Hours</span>
-                                <span class="contact-value">Monday - Friday: 8:00 AM - 5:00 PM</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
         <!-- Final Footer (Target Editorial Option 3 Redesign) -->
@@ -948,146 +320,237 @@
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js"></script>
     
-    <!-- API Integration -->
-    <script src="../js/api-config.js?v=7"></script>
-    <script src="../js/api-teachers.js?v=7"></script>
-    
+    <!-- Dynamic Teachers Directory Script -->
     <script>
         // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
-        
-        // Department Filter Functionality
-        const filterButtons = document.querySelectorAll('.dept-filter-btn');
-        const teacherCards = document.querySelectorAll('.teacher-card');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const department = this.getAttribute('data-department');
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Filter teachers with smooth animation
-                teacherCards.forEach(card => {
-                    const cardDepartment = card.getAttribute('data-department');
-                    
-                    if (department === 'all' || cardDepartment === department) {
-                        // Show card
-                        card.classList.remove('hidden');
-                        card.classList.add('visible');
-                    } else {
-                        // Hide card
-                        card.classList.remove('visible');
-                        card.classList.add('hidden');
-                    }
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 60
+            });
+        }
+
+        let allTeachers = [];
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatDepartment(dept) {
+            if (!dept) return '';
+            return dept.charAt(0).toUpperCase() + dept.slice(1).toLowerCase();
+        }
+
+        async function fetchTeachers() {
+            const container = document.getElementById('teachersContainer');
+            const countBadge = document.getElementById('teacherCount');
+
+            try {
+                // Fetch from public API endpoint
+                const response = await fetch('../backend/api/public/get_teachers.php', {
+                    headers: { 'Accept': 'application/json' },
+                    cache: 'no-store'
                 });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
                 
-                // Scroll to teachers grid smoothly
-                const teachersGrid = document.querySelector('.teachers-grid');
-                if (teachersGrid) {
-                    setTimeout(() => {
-                        teachersGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 100);
+                if (result.success && Array.isArray(result.data)) {
+                    allTeachers = result.data;
+                    setupDepartmentFilter(allTeachers);
+                    renderTeachers(allTeachers);
+                } else {
+                    renderEmptyState('Our teacher profiles will appear here soon.');
+                    if (countBadge) countBadge.textContent = 'Showing 0 teachers';
+                }
+            } catch (err) {
+                console.error('Error loading teachers:', err);
+                // Fallback attempt to alternate endpoint
+                try {
+                    const altResponse = await fetch('../backend/api/teachers/list.php', {
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-store'
+                    });
+                    const altResult = await altResponse.json();
+                    if (altResult.success && Array.isArray(altResult.data)) {
+                        allTeachers = altResult.data;
+                        setupDepartmentFilter(allTeachers);
+                        renderTeachers(allTeachers);
+                        return;
+                    }
+                } catch (fallbackErr) {
+                    console.error('Fallback endpoint failed:', fallbackErr);
+                }
+
+                if (container) {
+                    container.innerHTML = `
+                        <div class="teachers-empty-state">
+                            <i class="fas fa-exclamation-circle" style="color:#dc3545;"></i>
+                            <h3 class="teachers-empty-title">Unable to Load Directory</h3>
+                            <p class="teachers-empty-desc">We could not retrieve the teacher list at this moment. Please refresh the page.</p>
+                            <button type="button" class="teachers-clear-btn" onclick="fetchTeachers()">
+                                <i class="fas fa-redo"></i> Retry
+                            </button>
+                        </div>
+                    `;
+                }
+                if (countBadge) countBadge.textContent = '0 teachers';
+            }
+        }
+
+        function setupDepartmentFilter(teachers) {
+            const select = document.getElementById('departmentFilter');
+            if (!select) return;
+
+            const existingVal = select.value;
+            const departments = new Set();
+
+            teachers.forEach(t => {
+                if (t.department && t.department.trim() !== '') {
+                    departments.add(t.department.trim().toLowerCase());
                 }
             });
-        });
-        
-        // Initialize all cards as visible
-        teacherCards.forEach(card => {
-            card.classList.add('visible');
-        });
-        
-        // Teacher Profile Modal Functions
-        function openTeacherModal(teacherData) {
-            const modal = document.getElementById('teacherModal');
-            
-            // Populate modal with teacher data
-            document.getElementById('modalTeacherName').textContent = teacherData.name || 'Unknown Teacher';
-            document.getElementById('modalTeacherPosition').textContent = teacherData.position || teacherData.department || 'Teacher';
-            document.getElementById('modalTeacherDepartment').textContent = teacherData.department || 'General';
-            
-            // Handle photo
-            const modalPhoto = document.getElementById('modalTeacherPhoto');
-            let photoUrl = '../img/user.jpg';
-            if (teacherData.photo_url && teacherData.photo_url !== 'null' && teacherData.photo_url.trim() !== '') {
-                photoUrl = `../backend/${teacherData.photo_url}`;
+
+            select.innerHTML = '<option value="all">All Departments</option>';
+            Array.from(departments).sort().forEach(dept => {
+                const opt = document.createElement('option');
+                opt.value = dept;
+                opt.textContent = formatDepartment(dept);
+                select.appendChild(opt);
+            });
+
+            if (existingVal && Array.from(departments).includes(existingVal)) {
+                select.value = existingVal;
             }
-            modalPhoto.src = photoUrl;
-            modalPhoto.onerror = function() { this.src = '../img/user.jpg'; };
-            
-            // Bio
-            const bioElement = document.getElementById('modalTeacherBio');
-            if (teacherData.bio && teacherData.bio.trim() !== '') {
-                bioElement.textContent = teacherData.bio;
-            } else {
-                bioElement.textContent = `${teacherData.name} is a dedicated educator at St. Lawrence Junior School, committed to providing excellent education and nurturing young minds.`;
-            }
-            
-            // Qualifications and Experience
-            document.getElementById('modalTeacherQualification').textContent = teacherData.qualification || 'Certified Teacher';
-            document.getElementById('modalTeacherExperience').textContent = teacherData.experience_years ? `${teacherData.experience_years}+ Years` : 'Experienced Educator';
-            
-            // Specialties
-            const specialtiesSection = document.getElementById('modalSpecialtiesSection');
-            const specialtiesContainer = document.getElementById('modalTeacherSpecialties');
-            if (teacherData.specialties && teacherData.specialties.trim() !== '') {
-                specialtiesSection.style.display = 'block';
-                const specialties = teacherData.specialties.split(',').map(s => s.trim()).filter(s => s);
-                specialtiesContainer.innerHTML = specialties.map(specialty => 
-                    `<span class="modal-specialty-tag">${specialty}</span>`
-                ).join('');
-            } else {
-                specialtiesSection.style.display = 'none';
-            }
-            
-            // Contact Information
-            const emailItem = document.getElementById('modalTeacherEmailItem');
-            const emailLink = document.getElementById('modalTeacherEmail');
-            const phoneItem = document.getElementById('modalTeacherPhoneItem');
-            const phoneLink = document.getElementById('modalTeacherPhone');
-            
-            if (teacherData.email && teacherData.email.trim() !== '') {
-                emailItem.style.display = 'flex';
-                emailLink.textContent = teacherData.email;
-                emailLink.href = `mailto:${teacherData.email}`;
-            } else {
-                emailItem.style.display = 'none';
-            }
-            
-            if (teacherData.phone && teacherData.phone.trim() !== '') {
-                phoneItem.style.display = 'flex';
-                phoneLink.textContent = teacherData.phone;
-                phoneLink.href = `tel:${teacherData.phone}`;
-            } else {
-                phoneItem.style.display = 'none';
-            }
-            
-            // Show modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
-        
-        function closeTeacherModal() {
-            const modal = document.getElementById('teacherModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
+
+        function renderTeachers(teachers) {
+            const container = document.getElementById('teachersContainer');
+            const countBadge = document.getElementById('teacherCount');
+            if (!container) return;
+
+            // Update dynamic count
+            const count = teachers.length;
+            if (countBadge) {
+                countBadge.textContent = count === 1 ? 'Showing 1 teacher' : `Showing ${count} teachers`;
+            }
+
+            if (count === 0) {
+                renderEmptyState('No teachers found matching your search or filter.');
+                return;
+            }
+
+            container.innerHTML = teachers.map(t => {
+                const id = t.id || t.teacher_id;
+                const name = escapeHtml(t.name || t.full_name || 'Staff Member');
+                const role = escapeHtml(t.position || (t.department ? formatDepartment(t.department) : 'Teacher'));
+                
+                // Photo URL resolution
+                let photoUrl = '../img/user.jpg';
+                if (t.photo_url && t.photo_url.trim() !== '' && t.photo_url !== 'null') {
+                    photoUrl = t.photo_url.startsWith('http') || t.photo_url.startsWith('../') 
+                        ? t.photo_url 
+                        : `../backend/${t.photo_url}`;
+                }
+
+                return `
+                    <article class="teacher-directory-card" onclick="window.location.href='Teacher-Profile.html?id=${id}'">
+                        <div class="teacher-card-img-wrap">
+                            <img class="teacher-card-img" 
+                                 src="${photoUrl}" 
+                                 alt="${name}" 
+                                 loading="lazy"
+                                 onerror="this.onerror=null;this.src='../img/user.jpg';">
+                        </div>
+                        <div class="teacher-card-body">
+                            <h3 class="teacher-card-name">${name}</h3>
+                            <p class="teacher-card-role">${role}</p>
+                            <div class="teacher-card-accent-line"></div>
+                            <div class="teacher-card-footer">
+                                <a href="Teacher-Profile.html?id=${id}" class="teacher-card-view-btn" onclick="event.stopPropagation();">
+                                    <i class="fas fa-eye"></i>
+                                    <span>View Profile</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
         }
-        
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeTeacherModal();
+
+        function renderEmptyState(message) {
+            const container = document.getElementById('teachersContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="teachers-empty-state">
+                    <i class="fas fa-user-friends"></i>
+                    <h3 class="teachers-empty-title">No Teachers Found</h3>
+                    <p class="teachers-empty-desc">${escapeHtml(message)}</p>
+                    <button type="button" class="teachers-clear-btn" onclick="resetFilters()">
+                        <i class="fas fa-undo"></i> Reset Filters
+                    </button>
+                </div>
+            `;
+        }
+
+        function filterAndSearch() {
+            const searchInput = document.getElementById('teacherSearch');
+            const deptSelect = document.getElementById('departmentFilter');
+
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            const dept = deptSelect ? deptSelect.value.toLowerCase() : 'all';
+
+            const filtered = allTeachers.filter(t => {
+                const name = (t.name || t.full_name || '').toLowerCase();
+                const position = (t.position || '').toLowerCase();
+                const department = (t.department || '').toLowerCase();
+                const specialization = (t.specialization || t.subject_specialization || '').toLowerCase();
+
+                const matchesDept = (dept === 'all') || (department === dept);
+                const matchesSearch = !query || 
+                    name.includes(query) || 
+                    position.includes(query) || 
+                    department.includes(query) ||
+                    specialization.includes(query);
+
+                return matchesDept && matchesSearch;
+            });
+
+            renderTeachers(filtered);
+        }
+
+        function resetFilters() {
+            const searchInput = document.getElementById('teacherSearch');
+            const deptSelect = document.getElementById('departmentFilter');
+            if (searchInput) searchInput.value = '';
+            if (deptSelect) deptSelect.value = 'all';
+            renderTeachers(allTeachers);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTeachers();
+
+            const searchInput = document.getElementById('teacherSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterAndSearch);
+            }
+
+            const deptSelect = document.getElementById('departmentFilter');
+            if (deptSelect) {
+                deptSelect.addEventListener('change', filterAndSearch);
             }
         });
-        
-        // Make these functions global so they can be called from updated teacher cards
-        window.openTeacherModal = openTeacherModal;
-        window.closeTeacherModal = closeTeacherModal;
     </script>
     
     <!-- Page Loader Script -->

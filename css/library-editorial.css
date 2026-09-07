@@ -1,0 +1,661 @@
+/* ==========================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA — DIGITAL LIBRARY REDESIGN
+   Light, professional, resource-focused, responsive & fully dynamic
+   Official Brand Colors: Deep Navy (#0b3366), School Red (#dc3545), Pure White (#ffffff)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. EDITORIAL HERO SECTION
+   -------------------------------------------------------------------------- */
+.library-hero-editorial {
+    background-color: #ffffff;
+    padding: 46px 0 28px 0;
+    position: relative;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.library-hero-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.library-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 18px;
+}
+
+.library-breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.library-breadcrumb a:hover {
+    color: #0b3366;
+}
+
+.library-breadcrumb .separator {
+    color: #cbd5e1;
+}
+
+.library-breadcrumb .current {
+    color: #0b3366;
+    font-weight: 600;
+}
+
+.library-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 36px;
+    align-items: center;
+}
+
+.library-hero-left {
+    padding-right: 15px;
+}
+
+.library-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.library-eyebrow-bar {
+    width: 32px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.library-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #dc3545;
+    text-transform: uppercase;
+}
+
+.library-hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #0b3366;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.025em;
+}
+
+.library-hero-title .text-red {
+    color: #dc3545;
+}
+
+.library-hero-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 10px 0;
+}
+
+.library-hero-description {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 580px;
+}
+
+/* Right side quote box with library motif */
+.library-hero-quote-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #0b3366;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 10px rgba(11, 51, 102, 0.04);
+    position: relative;
+}
+
+.library-quote-text {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: #0b3366;
+    margin: 0 0 8px 0;
+}
+
+.library-quote-line {
+    width: 44px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. SEARCH & FILTER TOOLBAR
+   -------------------------------------------------------------------------- */
+.library-main-section {
+    background-color: #f8fafc;
+    padding: 40px 0 80px 0;
+    min-height: 600px;
+}
+
+.library-main-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.library-toolbar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(11, 51, 102, 0.03);
+    flex-wrap: wrap;
+}
+
+.library-search-wrap {
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.library-search-icon {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.library-search-input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 14px 10px 38px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.library-search-input:focus {
+    border-color: #0b3366;
+    box-shadow: 0 0 0 3px rgba(11, 51, 102, 0.12);
+}
+
+.library-filters-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.library-filter-select {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 34px 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748b'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s ease;
+    min-width: 155px;
+}
+
+.library-filter-select:focus {
+    border-color: #0b3366;
+}
+
+.library-count-badge {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    padding-left: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   3. RESOURCE CARDS GRID
+   -------------------------------------------------------------------------- */
+.library-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.resource-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(11, 51, 102, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(11, 51, 102, 0.08);
+    border-color: #cbd5e1;
+}
+
+.resource-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* PDF Red Badge */
+.resource-pdf-badge {
+    width: 48px;
+    height: 56px;
+    background: #dc3545;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(220, 53, 69, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-pdf-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.35);
+    border-bottom-left-radius: 4px;
+}
+
+.resource-pdf-badge .pdf-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+.resource-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.resource-card-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resource-cat-pill {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.resource-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.82rem;
+    color: #64748b;
+    flex-wrap: wrap;
+}
+
+.resource-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.resource-meta-item i {
+    font-size: 0.82rem;
+    color: #94a3b8;
+}
+
+/* Download Button */
+.resource-download-btn {
+    width: 100%;
+    background: #0066cc;
+    color: #ffffff;
+    border: none;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0, 102, 204, 0.25);
+}
+
+.resource-download-btn:hover {
+    background: #0052a3;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.35);
+    transform: translateY(-1px);
+    color: #ffffff;
+}
+
+.resource-download-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. DYNAMIC PAGINATION & COUNT SUMMARY
+   -------------------------------------------------------------------------- */
+.library-pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.library-pagination-btns {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-nav-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.page-nav-btn:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0b3366;
+}
+
+.page-nav-btn.active {
+    background: #0066cc;
+    border-color: #0066cc;
+    color: #ffffff;
+}
+
+.page-nav-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.library-pagination-summary {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* --------------------------------------------------------------------------
+   5. BOTTOM CTA CARD (CAN'T FIND WHAT YOU'RE LOOKING FOR)
+   -------------------------------------------------------------------------- */
+.library-cta-banner {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 2px 10px rgba(11, 51, 102, 0.03);
+    flex-wrap: wrap;
+}
+
+.library-cta-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.library-cta-icon-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #e0f2fe;
+    color: #0066cc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.library-cta-text h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 4px 0;
+}
+
+.library-cta-text p {
+    font-size: 0.92rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.library-notify-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #0b3366;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.library-notify-btn:hover {
+    border-color: #0066cc;
+    color: #0066cc;
+    background: #f0f7ff;
+}
+
+/* --------------------------------------------------------------------------
+   6. EMPTY & LOADING STATES
+   -------------------------------------------------------------------------- */
+.library-empty-card,
+.library-loading-card {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 70px 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.library-loading-card i {
+    font-size: 2.2rem;
+    color: #0b3366;
+    margin-bottom: 12px;
+}
+
+.library-empty-card i {
+    font-size: 2.4rem;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.library-empty-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0 0 6px 0;
+}
+
+.library-empty-desc {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0 0 20px 0;
+}
+
+.library-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0b3366;
+    color: #ffffff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.library-clear-btn:hover {
+    background: #08254a;
+}
+
+/* --------------------------------------------------------------------------
+   7. RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .library-resource-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 860px) {
+    .library-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .library-hero-quote-card {
+        border-left: 1px solid #e2e8f0;
+        border-top: 4px solid #0b3366;
+    }
+}
+
+@media (max-width: 680px) {
+    .library-hero-title {
+        font-size: 2.3rem;
+    }
+
+    .library-toolbar-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+
+    .library-filters-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .library-filter-select {
+        width: 100%;
+    }
+
+    .library-count-badge {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .library-resource-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .library-pagination-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .library-cta-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .library-notify-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

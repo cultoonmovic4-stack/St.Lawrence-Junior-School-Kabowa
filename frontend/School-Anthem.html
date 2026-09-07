@@ -13,7 +13,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,7 +50,7 @@
     <link rel="stylesheet" href="../css/page-loader.css">
     
     <!-- Anthem Heritage Modern CSS -->
-    <link rel="stylesheet" href="../css/anthem-heritage-modern.css">
+    <link rel="stylesheet" href="../css/anthem-heritage-modern.css?v=20260907v1">
     
     <style>
         /* Footer Contact Improvements */
@@ -202,263 +202,167 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="../img/36.jpg" alt="School Anthem">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
-                <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <a href="About-redesign.html">About</a>
-                <span>/</span>
-                <span>School Anthem</span>
+    <!-- 1. LIGHT EDITORIAL ANTHEM HERO -->
+    <section class="anthem-hero-light">
+        <div class="anthem-hero-container">
+            <div class="anthem-hero-grid">
+                <!-- Left: Editorial Content -->
+                <div class="anthem-hero-text">
+                    <!-- Subtle text-only breadcrumb -->
+                    <div class="anthem-breadcrumb" aria-label="Breadcrumb">
+                        <a href="index-redesign.html">Home</a>
+                        <span class="anthem-breadcrumb-separator">/</span>
+                        <span class="anthem-breadcrumb-current">School Anthem</span>
+                    </div>
+
+                    <div class="anthem-eyebrow-wrap">
+                        <span class="anthem-eyebrow-bar" aria-hidden="true"></span>
+                        <span class="anthem-eyebrow-text">OUR SCHOOL ANTHEM</span>
+                    </div>
+
+                    <h1 class="anthem-hero-title">
+                        The Song That <span class="text-red">Unites Us</span>
+                    </h1>
+
+                    <p class="anthem-hero-description">
+                        A reflection of the pride, values and spirit of St. Lawrence Junior School Kabowa.
+                    </p>
+
+                    <!-- Single Focused CTA Button -->
+                    <div class="anthem-hero-actions">
+                        <a href="#anthem-experience" class="anthem-cta-btn" id="heroListenBtn">
+                            <i class="fas fa-play" aria-hidden="true"></i>
+                            <span>Listen to Our Anthem</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Authentic St. Lawrence School Photography -->
+                <div class="anthem-hero-media">
+                    <div class="anthem-hero-frame">
+                        <img src="../img/hero-students-target.jpg" alt="St. Lawrence Junior School Kabowa pupils standing in uniform" width="560" height="340">
+                    </div>
+                    <div class="anthem-hero-badge" aria-hidden="true">
+                        <span class="anthem-hero-badge-title">ST. LAWRENCE JUNIOR SCHOOL KABOWA</span>
+                        <span class="anthem-hero-badge-motto">WE STRIVE TO EXCEL</span>
+                    </div>
+                </div>
             </div>
-            <h1 data-aos="fade-up">Our School Anthem</h1>
-            <p data-aos="fade-up" data-aos-delay="100">A Song of Pride, Unity, and Excellence</p>
         </div>
     </section>
 
-    <!-- Anthem Introduction Section -->
-    <section class="anthem-intro-section">
+    <!-- 2. MAIN ANTHEM PLAYER + SYNCHRONIZED LYRICS EXPERIENCE -->
+    <section class="anthem-experience-section" id="anthem-experience">
+        <!-- Floating Cursive Script & Musical Watermarks -->
+        <div class="anthem-deco-cursive-left" aria-hidden="true">
+            <span>Music<br>Builds<br>Character</span>
+            <div class="anthem-deco-curve-left"></div>
+        </div>
+
+        <div class="anthem-deco-cursive-right" aria-hidden="true">
+            <span class="anthem-deco-clef">&#119070;</span>
+            <span>We<br>Strive<br>to Excel</span>
+            <div class="anthem-deco-curve-right"></div>
+        </div>
+
         <div class="container">
-            <div class="anthem-intro-grid">
-                <div class="intro-content" data-aos="fade-right">
-                    <span class="section-label-alt">Our Pride</span>
-                    <h2 class="section-title-alt">The St. Lawrence Anthem</h2>
-                    <p class="intro-description">
-                        Our school anthem is more than just a song – it's a powerful expression of our values, 
-                        aspirations, and commitment to excellence. Every word resonates with the spirit of 
-                        St. Lawrence Junior School, inspiring students to strive for greatness and uphold 
-                        the principles that make our school exceptional.
-                    </p>
-                    <p class="intro-description">
-                        Sung with pride at every school gathering, our anthem unites students, teachers, 
-                        and the entire school community in a shared vision of academic excellence, 
-                        moral integrity, and personal growth.
-                    </p>
-                    <div class="intro-stats">
-                        <div class="intro-stat-item">
-                            <div class="stat-icon-intro">
-                                <i class="fas fa-music"></i>
+            <!-- Centered Header -->
+            <div class="anthem-section-header">
+                <div class="anthem-header-eyebrow">OUR SCHOOL ANTHEM</div>
+                <h2 class="anthem-section-title">Play the St. Lawrence Anthem</h2>
+                <p class="anthem-section-subtitle">Sing along with pride and unity</p>
+            </div>
+
+            <!-- Main Player Card -->
+            <div class="anthem-player-card">
+                <div class="anthem-player-grid">
+                    <!-- Left Column: Artwork + Audio Controls -->
+                    <div class="anthem-player-col-left">
+                        <!-- Artwork Frame -->
+                        <div class="anthem-artwork-frame">
+                            <img src="../img/badge ps.jpg" alt="Official St. Lawrence Junior School Kabowa embroidered badge" class="anthem-artwork-img" id="anthemArtwork">
+                        </div>
+
+                        <!-- Track Title & Badge -->
+                        <div class="anthem-track-info">
+                            <h3 class="anthem-track-title">St. Lawrence School Anthem</h3>
+                            <p class="anthem-track-artist">St. Lawrence Junior School – Kabowa</p>
+                            <span class="anthem-badge-pill">SCHOOL ANTHEM</span>
+                        </div>
+
+                        <!-- Standard Audio Element (Audio-Ready Architecture) -->
+                        <audio id="anthemAudio" preload="auto">
+                            <source src="../audio/school-anthem.wav" type="audio/wav">
+                            <source src="../audio/school-anthem.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+
+                        <!-- Progress Bar & Timestamps -->
+                        <div class="anthem-progress-wrap">
+                            <div class="anthem-time-row">
+                                <span id="currentTime">00:00</span>
+                                <span id="totalDuration">03:49</span>
                             </div>
-                            <div class="stat-text-intro">
-                                <span class="stat-number-intro">Since 2010</span>
-                                <span class="stat-label-intro">Our Anthem</span>
+                            <div class="anthem-progress-bar" id="progressBar" role="slider" aria-label="Audio progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                                <div class="anthem-progress-fill" id="progressFill"></div>
+                                <div class="anthem-progress-thumb" id="progressThumb"></div>
                             </div>
                         </div>
-                        <div class="intro-stat-item">
-                            <div class="stat-icon-intro">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-text-intro">
-                                <span class="stat-number-intro">40+</span>
-                                <span class="stat-label-intro">Voices United</span>
-                            </div>
+
+                        <!-- Controls Row (Play, Pause, Previous, Next — NO LIKE, NO LOOP, NO SHUFFLE) -->
+                        <div class="anthem-controls-row">
+                            <button type="button" class="anthem-btn-control" id="prevBtn" aria-label="Restart Anthem">
+                                <i class="fas fa-step-backward" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="anthem-btn-play" id="playPauseBtn" aria-label="Play School Anthem">
+                                <i class="fas fa-play" id="playIcon" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="anthem-btn-control" id="nextBtn" aria-label="Next Section">
+                                <i class="fas fa-step-forward" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <!-- Volume Control -->
+                        <div class="anthem-volume-row">
+                            <i class="fas fa-volume-down anthem-volume-icon" aria-hidden="true"></i>
+                            <input type="range" class="anthem-volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.85" aria-label="Volume level">
+                            <i class="fas fa-volume-up anthem-volume-icon" aria-hidden="true"></i>
+                        </div>
+
+                        <!-- Secondary Download Actions (Audio & Lyrics PDF) -->
+                        <div class="anthem-downloads-wrap">
+                            <a href="../audio/school-anthem.wav" download="St-Lawrence-School-Anthem.wav" class="anthem-btn-download-audio" id="downloadAudioBtn">
+                                <i class="fas fa-download" aria-hidden="true"></i>
+                                <span>Download Audio</span>
+                            </a>
+                            <a href="../documents/St-Lawrence-Anthem-Lyrics.pdf" download="St-Lawrence-Anthem-Lyrics.pdf" class="anthem-btn-download-lyrics" id="downloadLyricsBtn">
+                                <i class="fas fa-file-pdf" aria-hidden="true"></i>
+                                <span>Download Lyrics (PDF)</span>
+                            </a>
                         </div>
                     </div>
-                </div>
-                
-                <div class="intro-image-wrapper" data-aos="fade-left">
-                    <div class="intro-image">
-                        <img src="../img/34.jpg" alt="Music">
-                        <div class="image-overlay-anthem"></div>
-                    </div>
-                    <div class="music-badge">
-                        <i class="fas fa-music"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Audio Player Section -->
-    <section class="audio-player-section">
-        <div class="container">
-            <div class="audio-player-wrapper" data-aos="zoom-in">
-                <div class="player-header">
-                    <div class="player-icon">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                    <div class="player-info">
-                        <h3>Listen to Our Anthem</h3>
-                        <p>St. Lawrence Junior School - Kabowa</p>
-                    </div>
-                </div>
-                
-                <div class="audio-controls">
-                    <audio id="anthemAudio" controls>
-                        <source src="../audio/school-anthem.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-                
-                <div class="player-actions">
-                    <a href="../audio/school-anthem.mp3" download class="btn-download-audio">
-                        <i class="fas fa-download"></i>
-                        Download Audio
-                    </a>
-                    <a href="../documents/anthem-lyrics.pdf" download class="btn-download-lyrics">
-                        <i class="fas fa-file-pdf"></i>
-                        Download Lyrics (PDF)
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+                    <!-- Right Column: Synchronized Lyrics Panel -->
+                    <div class="anthem-lyrics-col">
+                        <!-- Navigation Tabs Header -->
+                        <div class="anthem-tabs-header" role="tablist">
+                            <button type="button" class="anthem-tab-item" role="tab" aria-selected="false">QUEUE (1)</button>
+                            <button type="button" class="anthem-tab-item" role="tab" aria-selected="false">PLAYED (1)</button>
+                            <button type="button" class="anthem-tab-item active" role="tab" aria-selected="true">LYRICS</button>
+                        </div>
 
-    <!-- Anthem Lyrics Section -->
-    <section class="anthem-lyrics-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-label-alt">The Words</span>
-                <h2 class="section-title-alt">Anthem Lyrics</h2>
-                <p class="section-subtitle">Sing along with pride and unity</p>
-            </div>
-            
-            <div class="lyrics-container" data-aos="fade-up" data-aos-delay="100">
-                <div class="lyrics-card">
-                    <div class="verse">
-                        <div class="verse-label">Verse 1</div>
-                        <p class="lyrics-text">
-                            St. Lawrence Junior School, our pride and joy,<br>
-                            Where knowledge blooms in every girl and boy,<br>
-                            With hearts united, we stand tall and strong,<br>
-                            In excellence and virtue, we belong.
-                        </p>
-                    </div>
-                    
-                    <div class="chorus">
-                        <div class="chorus-label">Chorus</div>
-                        <p class="lyrics-text">
-                            We strive to excel in all we do,<br>
-                            With faith and courage, we'll see it through,<br>
-                            St. Lawrence, St. Lawrence, our guiding light,<br>
-                            Leading us forward, shining bright!
-                        </p>
-                    </div>
-                    
-                    <div class="verse">
-                        <div class="verse-label">Verse 2</div>
-                        <p class="lyrics-text">
-                            From Kabowa hills, our voices rise,<br>
-                            Reaching for the stars, touching the skies,<br>
-                            With discipline and honor, we pave the way,<br>
-                            For a brighter, better tomorrow's day.
-                        </p>
-                    </div>
-                    
-                    <div class="chorus">
-                        <div class="chorus-label">Chorus</div>
-                        <p class="lyrics-text">
-                            We strive to excel in all we do,<br>
-                            With faith and courage, we'll see it through,<br>
-                            St. Lawrence, St. Lawrence, our guiding light,<br>
-                            Leading us forward, shining bright!
-                        </p>
-                    </div>
-                    
-                    <div class="verse">
-                        <div class="verse-label">Verse 3</div>
-                        <p class="lyrics-text">
-                            Teachers guide us with wisdom and care,<br>
-                            Building our future, showing they're there,<br>
-                            Together we learn, together we grow,<br>
-                            St. Lawrence spirit, forever we'll show!
-                        </p>
-                    </div>
-                    
-                    <div class="chorus final-chorus">
-                        <div class="chorus-label">Final Chorus</div>
-                        <p class="lyrics-text">
-                            We strive to excel in all we do,<br>
-                            With faith and courage, we'll see it through,<br>
-                            St. Lawrence, St. Lawrence, our guiding light,<br>
-                            Leading us forward, shining bright!<br>
-                            <strong>Forever St. Lawrence, forever bright!</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                        <!-- Scrollable Synchronized Lyrics Box -->
+                        <div class="anthem-lyrics-scroll-box" id="lyricsContainer" tabindex="0" aria-label="Anthem Lyrics">
+                            <!-- Populated dynamically via Audio-Ready Architecture -->
+                        </div>
 
-    <!-- Anthem History Section - NEW MODERN 2x2 GRID DESIGN -->
-    <section class="anthem-heritage-modern">
-        <div class="container">
-            <!-- Section Header -->
-            <div class="heritage-header" data-aos="fade-up">
-                <span class="section-label-alt">Our Heritage</span>
-                <h2 class="section-title-alt">The Story Behind Our Anthem</h2>
-                <p class="section-subtitle">A journey through the creation and legacy of our beloved school anthem</p>
-            </div>
-            
-            <!-- 2x2 Grid Layout -->
-            <div class="heritage-grid">
-                <!-- Card 1 - The Creation -->
-                <div class="heritage-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="heritage-icon">
-                        <i class="fas fa-lightbulb"></i>
+                        <!-- 3. COMPOSER CREDIT (At the end of lyrics) -->
+                        <div class="anthem-composer-credit">
+                            <span class="anthem-composer-label">Composed by</span>
+                            <span class="anthem-composer-name">Mr. Tukei Francis</span>
+                            <div class="anthem-composer-line" aria-hidden="true"></div>
+                        </div>
                     </div>
-                    <div class="heritage-content">
-                        <h3>2010 - The Creation</h3>
-                        <p>
-                            When St. Lawrence Junior School was founded in 2010, our visionary founder 
-                            Mr. Kimera Emmanuel recognized the need for a unifying anthem that would 
-                            embody our school's values and aspirations.
-                        </p>
-                    </div>
-                    <div class="heritage-decoration"></div>
-                </div>
-                
-                <!-- Card 2 - The Composition -->
-                <div class="heritage-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="heritage-icon">
-                        <i class="fas fa-pen-fancy"></i>
-                    </div>
-                    <div class="heritage-content">
-                        <h3>The Composition</h3>
-                        <p>
-                            The anthem was composed by renowned Ugandan musician and educator 
-                            Prof. David Musoke, who worked closely with our school community to 
-                            capture the essence of St. Lawrence in every verse.
-                        </p>
-                    </div>
-                    <div class="heritage-decoration"></div>
-                </div>
-                
-                <!-- Card 3 - First Performance -->
-                <div class="heritage-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="heritage-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="heritage-content">
-                        <h3>First Performance</h3>
-                        <p>
-                            The anthem was first performed at our inaugural graduation ceremony in 2011, 
-                            bringing tears of joy and pride to everyone present. Since then, it has been 
-                            sung at every major school event.
-                        </p>
-                    </div>
-                    <div class="heritage-decoration"></div>
-                </div>
-                
-                <!-- Card 4 - A Living Legacy -->
-                <div class="heritage-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="heritage-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="heritage-content">
-                        <h3>A Living Legacy</h3>
-                        <p>
-                            Today, our anthem continues to inspire generations of students, reminding them 
-                            of their connection to St. Lawrence and the values we hold dear: excellence, 
-                            integrity, and unity.
-                        </p>
-                    </div>
-                    <div class="heritage-decoration"></div>
                 </div>
             </div>
         </div>
@@ -627,6 +531,292 @@
                     }
                 });
             });
+        });
+    </script>
+
+
+    <!-- Audio-Ready Synchronized Anthem Player Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // True Audio-Ready Lyrics Data with explicit start and end timestamps (seconds)
+            const lyricsData = [
+                // Verse 1
+                { start: 0.00, end: 5.50, section: "VERSE 1", badgeClass: "badge-verse", text: "St. Lawrence Junior School, our pride and joy," },
+                { start: 5.50, end: 11.00, section: "VERSE 1", badgeClass: "badge-verse", text: "Where knowledge blooms in every girl and boy," },
+                { start: 11.00, end: 16.50, section: "VERSE 1", badgeClass: "badge-verse", text: "With hearts united, we stand tall and strong," },
+                { start: 16.50, end: 23.00, section: "VERSE 1", badgeClass: "badge-verse", text: "In excellence and virtue, we belong." },
+
+                // Chorus
+                { start: 23.00, end: 28.50, section: "CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
+                { start: 28.50, end: 34.50, section: "CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
+                { start: 34.50, end: 40.50, section: "CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
+                { start: 40.50, end: 47.00, section: "CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
+
+                // Verse 2
+                { start: 47.00, end: 53.00, section: "VERSE 2", badgeClass: "badge-verse", text: "From Kabowa hills, our voices rise," },
+                { start: 53.00, end: 58.50, section: "VERSE 2", badgeClass: "badge-verse", text: "Reaching for the stars, touching the skies," },
+                { start: 58.50, end: 64.50, section: "VERSE 2", badgeClass: "badge-verse", text: "With discipline and honor, we pave the way," },
+                { start: 64.50, end: 71.00, section: "VERSE 2", badgeClass: "badge-verse", text: "For a brighter, better tomorrow’s day." },
+
+                // Chorus
+                { start: 71.00, end: 76.50, section: "CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
+                { start: 76.50, end: 82.50, section: "CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
+                { start: 82.50, end: 88.50, section: "CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
+                { start: 88.50, end: 95.00, section: "CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
+
+                // Verse 3
+                { start: 95.00, end: 101.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Teachers guide us with wisdom and care," },
+                { start: 101.00, end: 107.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Building our future, showing they're there," },
+                { start: 107.00, end: 113.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Together we learn, together we grow," },
+                { start: 113.00, end: 120.00, section: "VERSE 3", badgeClass: "badge-verse", text: "St. Lawrence spirit, forever we'll show!" },
+
+                // Final Chorus
+                { start: 120.00, end: 126.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
+                { start: 126.00, end: 132.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
+                { start: 132.00, end: 138.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
+                { start: 138.00, end: 144.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
+                { start: 144.00, end: 150.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "Forever St. Lawrence, forever bright!" }
+            ];
+
+            const lyricsContainer = document.getElementById('lyricsContainer');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentTimeEl = document.getElementById('currentTime');
+            const totalDurationEl = document.getElementById('totalDuration');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const progressThumb = document.getElementById('progressThumb');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const audioElement = document.getElementById('anthemAudio');
+            const heroListenBtn = document.getElementById('heroListenBtn');
+
+            let animationFrameId = null;
+            let lastActiveLine = null;
+
+            // Format seconds to MM:SS
+            function formatTime(seconds) {
+                if (isNaN(seconds) || seconds < 0) return '00:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+            }
+
+            // Sync total duration from real audio
+            function syncDuration() {
+                if (audioElement && !isNaN(audioElement.duration) && audioElement.duration > 0) {
+                    totalDurationEl.textContent = formatTime(audioElement.duration);
+                } else {
+                    totalDurationEl.textContent = '02:29';
+                }
+            }
+
+            audioElement.addEventListener('loadedmetadata', syncDuration);
+            audioElement.addEventListener('durationchange', syncDuration);
+            audioElement.addEventListener('canplay', syncDuration);
+            syncDuration();
+
+            // Render Synchronized Lyrics into DOM
+            function renderLyrics() {
+                lyricsContainer.innerHTML = '';
+                let currentSection = null;
+                let currentGroup = null;
+
+                lyricsData.forEach((item, index) => {
+                    if (item.section !== currentSection) {
+                        currentSection = item.section;
+                        currentGroup = document.createElement('div');
+                        currentGroup.className = 'anthem-lyrics-section-group';
+
+                        const badge = document.createElement('span');
+                        badge.className = 'anthem-lyrics-section-badge ' + item.badgeClass;
+                        badge.textContent = item.section;
+                        currentGroup.appendChild(badge);
+
+                        lyricsContainer.appendChild(currentGroup);
+                    }
+
+                    const line = document.createElement('div');
+                    line.className = 'anthem-lyric-line';
+                    line.dataset.index = index;
+                    line.dataset.start = item.start;
+                    line.dataset.end = item.end;
+                    line.textContent = item.text;
+
+                    // Click any lyric line to seek the ACTUAL audio directly to that timestamp
+                    line.addEventListener('click', function () {
+                        audioElement.currentTime = item.start;
+                        if (audioElement.paused) {
+                            audioElement.play().catch(err => console.warn(err));
+                        }
+                        syncLyricsToAudioPosition();
+                    });
+
+                    currentGroup.appendChild(line);
+                });
+            }
+
+            renderLyrics();
+
+            // TRUE SYNCHRONIZATION: Continuous tracking of audio.currentTime
+            function syncLyricsToAudioPosition() {
+                const currentAudioTime = audioElement.currentTime;
+                const totalDuration = (!isNaN(audioElement.duration) && audioElement.duration > 0)
+                    ? audioElement.duration
+                    : 149;
+
+                // Update timestamp display
+                currentTimeEl.textContent = formatTime(currentAudioTime);
+
+                // Update progress bar
+                const percent = Math.min(100, Math.max(0, (currentAudioTime / totalDuration) * 100));
+                progressFill.style.width = percent + '%';
+                progressThumb.style.left = percent + '%';
+                progressBar.setAttribute('aria-valuenow', Math.round(percent));
+
+                // Evaluate all lyric lines strictly against currentAudioTime
+                const lines = document.querySelectorAll('.anthem-lyric-line');
+                let activeLine = null;
+
+                lines.forEach(lineEl => {
+                    const start = parseFloat(lineEl.dataset.start);
+                    const end = parseFloat(lineEl.dataset.end);
+
+                    if (currentAudioTime >= start && currentAudioTime < end) {
+                        lineEl.classList.add('is-active');
+                        lineEl.classList.remove('is-past');
+                        activeLine = lineEl;
+                    } else if (currentAudioTime >= end) {
+                        lineEl.classList.remove('is-active');
+                        lineEl.classList.add('is-past');
+                    } else {
+                        lineEl.classList.remove('is-active');
+                        lineEl.classList.remove('is-past');
+                    }
+                });
+
+                // Smooth Auto-scroll to keep active line visible in the center
+                if (activeLine && activeLine !== lastActiveLine) {
+                    lastActiveLine = activeLine;
+                    const containerRect = lyricsContainer.getBoundingClientRect();
+                    const lineRect = activeLine.getBoundingClientRect();
+                    const relativeTop = lineRect.top - containerRect.top + lyricsContainer.scrollTop;
+                    const targetScroll = relativeTop - (lyricsContainer.clientHeight / 2) + (lineRect.height / 2);
+
+                    lyricsContainer.scrollTo({
+                        top: Math.max(0, targetScroll),
+                        behavior: 'smooth'
+                    });
+                }
+
+                // Continuously loop using requestAnimationFrame while audio is playing
+                if (!audioElement.paused && !audioElement.ended) {
+                    animationFrameId = requestAnimationFrame(syncLyricsToAudioPosition);
+                }
+            }
+
+            // HTML5 Audio Event Listeners (Audio API native events)
+            audioElement.addEventListener('play', function () {
+                playPauseBtn.classList.add('is-playing');
+                playIcon.className = 'fas fa-pause';
+                playPauseBtn.setAttribute('aria-label', 'Pause School Anthem');
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = requestAnimationFrame(syncLyricsToAudioPosition);
+            });
+
+            audioElement.addEventListener('pause', function () {
+                playPauseBtn.classList.remove('is-playing');
+                playIcon.className = 'fas fa-play';
+                playPauseBtn.setAttribute('aria-label', 'Play School Anthem');
+                cancelAnimationFrame(animationFrameId);
+                syncLyricsToAudioPosition();
+            });
+
+            audioElement.addEventListener('timeupdate', function () {
+                syncLyricsToAudioPosition();
+            });
+
+            audioElement.addEventListener('seeking', function () {
+                syncLyricsToAudioPosition();
+            });
+
+            audioElement.addEventListener('seeked', function () {
+                syncLyricsToAudioPosition();
+            });
+
+            audioElement.addEventListener('ended', function () {
+                playPauseBtn.classList.remove('is-playing');
+                playIcon.className = 'fas fa-play';
+                cancelAnimationFrame(animationFrameId);
+                audioElement.currentTime = 0;
+                syncLyricsToAudioPosition();
+            });
+
+            // Play / Pause Toggle Button
+            playPauseBtn.addEventListener('click', function () {
+                if (audioElement.paused) {
+                    audioElement.play().catch(err => {
+                        console.error('Audio playback error:', err);
+                    });
+                } else {
+                    audioElement.pause();
+                }
+            });
+
+            // Previous / Restart Button
+            prevBtn.addEventListener('click', function () {
+                audioElement.currentTime = 0;
+                syncLyricsToAudioPosition();
+            });
+
+            // Next Button (Jump to next section)
+            nextBtn.addEventListener('click', function () {
+                const cur = audioElement.currentTime;
+                const nextItem = lyricsData.find(item => item.start > (cur + 0.5));
+                if (nextItem) {
+                    audioElement.currentTime = nextItem.start;
+                } else {
+                    audioElement.currentTime = 0;
+                }
+                syncLyricsToAudioPosition();
+            });
+
+            // Seek Audio by Clicking Progress Bar
+            progressBar.addEventListener('click', function (e) {
+                const rect = progressBar.getBoundingClientRect();
+                const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                const totalDuration = (!isNaN(audioElement.duration) && audioElement.duration > 0)
+                    ? audioElement.duration
+                    : 149;
+                audioElement.currentTime = ratio * totalDuration;
+                syncLyricsToAudioPosition();
+            });
+
+            // Volume Slider directly sets HTML5 Audio volume
+            volumeSlider.addEventListener('input', function () {
+                audioElement.volume = parseFloat(this.value);
+            });
+            audioElement.volume = parseFloat(volumeSlider.value) || 0.85;
+
+            // Hero CTA Button Smooth Scroll & Play
+            if (heroListenBtn) {
+                heroListenBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.getElementById('anthem-experience');
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    if (audioElement.paused) {
+                        setTimeout(() => {
+                            audioElement.play().catch(err => console.warn(err));
+                        }, 400);
+                    }
+                });
+            }
+
+            // Initial alignment check
+            syncLyricsToAudioPosition();
         });
     </script>
 

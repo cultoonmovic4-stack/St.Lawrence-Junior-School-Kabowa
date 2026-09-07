@@ -1,0 +1,1258 @@
+/* ==========================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA — ADMISSIONS APPLICATION & HERO REDESIGN
+   Institutional, Human-Made, Clean Editorial Design
+   Official School Colors: Deep Navy (#0b3366), School Red (#dc3545), White (#ffffff)
+   ========================================================================== */
+
+/* ==========================================================================
+   ADMISSIONS HERO SECTION (LIGHT EDITORIAL REDESIGN)
+   ========================================================================== */
+.admissions-hero-editorial {
+    background-color: #ffffff;
+    padding: 50px 0 0 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.admissions-hero-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.admissions-hero-grid {
+    display: grid;
+    grid-template-columns: 46% 54%;
+    align-items: center;
+    min-height: 480px;
+}
+
+/* Left Content Column (approx 45%) */
+.admissions-hero-left {
+    padding: 10px 30px 40px 0;
+    z-index: 2;
+}
+
+/* Simple text-only breadcrumb */
+.admissions-hero-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 22px;
+}
+
+.admissions-hero-breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.admissions-hero-breadcrumb a:hover {
+    color: #0b3366;
+}
+
+.admissions-hero-breadcrumb .separator {
+    color: #cbd5e1;
+}
+
+.admissions-hero-breadcrumb .current {
+    color: #0b3366;
+    font-weight: 600;
+}
+
+/* Small Red Admissions Eyebrow Label */
+.admissions-hero-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.admissions-hero-eyebrow-bar {
+    width: 36px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.admissions-hero-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #dc3545;
+    text-transform: uppercase;
+}
+
+/* Large Editorial Headline */
+.admissions-hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1.14;
+    color: #0b3366;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.025em;
+}
+
+.admissions-hero-title .text-red {
+    color: #dc3545;
+}
+
+/* Supporting Text */
+.admissions-hero-description {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: #64748b;
+    margin: 0 0 32px 0;
+    max-width: 480px;
+}
+
+/* Prominent Primary CTA Button */
+.admissions-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.admissions-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #0b3366;
+    color: #ffffff !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 30px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(11, 51, 102, 0.15);
+}
+
+.admissions-hero-cta:hover {
+    background-color: #08254a;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(11, 51, 102, 0.25);
+}
+
+.admissions-hero-cta i {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+}
+
+.admissions-hero-cta:hover i {
+    transform: translateX(3px);
+}
+
+/* Right Media Column (approx 55%) */
+.admissions-hero-right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: relative;
+    height: 100%;
+}
+
+.admissions-hero-media-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.admissions-hero-img {
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: bottom right;
+}
+
+/* Hero Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .admissions-hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .admissions-hero-grid {
+        grid-template-columns: 48% 52%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admissions-hero-editorial {
+        padding: 36px 0 0 0;
+    }
+    
+    .admissions-hero-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    
+    .admissions-hero-left {
+        padding: 0 0 24px 0;
+    }
+    
+    .admissions-hero-title {
+        font-size: 2.4rem;
+        line-height: 1.18;
+    }
+    
+    .admissions-hero-description {
+        font-size: 1rem;
+        margin-bottom: 24px;
+    }
+    
+    .admissions-hero-right {
+        justify-content: center;
+    }
+    
+    .admissions-hero-img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .admissions-hero-title {
+        font-size: 2rem;
+    }
+    
+    .admissions-hero-cta {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   ADMISSIONS APPLICATION FORM SECTION
+   ========================================================================== */
+/* Section Outer Wrapper */
+.admission-form-section {
+    background-color: #f8fafc;
+    padding: 70px 0 90px 0;
+    position: relative;
+    color: #1e293b;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.admission-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --------------------------------------------------------------------------
+   1. SECTION INTRODUCTION
+   -------------------------------------------------------------------------- */
+.admission-intro-header {
+    margin-bottom: 36px;
+    text-align: left;
+}
+
+.admission-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.admission-eyebrow-bar {
+    width: 32px;
+    height: 3px;
+    background-color: #dc3545;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.admission-eyebrow-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #dc3545;
+    text-transform: uppercase;
+}
+
+.admission-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0b3366;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.02em;
+}
+
+.admission-main-title .text-red {
+    color: #dc3545;
+}
+
+.admission-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 640px;
+}
+
+/* --------------------------------------------------------------------------
+   2. HORIZONTAL STEP PROGRESS INDICATOR
+   -------------------------------------------------------------------------- */
+.admission-stepper-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(11, 51, 102, 0.03);
+}
+
+.admission-stepper-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.admission-stepper-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    padding: 4px 10px;
+    cursor: default;
+    user-select: none;
+    transition: all 0.25s ease;
+}
+
+.stepper-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    color: #64748b;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.stepper-circle .check-icon {
+    display: none;
+    font-size: 0.85rem;
+}
+
+.stepper-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    transition: color 0.25s ease;
+}
+
+/* Active Step */
+.admission-stepper-step.active .stepper-circle {
+    background: #0b3366;
+    border-color: #0b3366;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(11, 51, 102, 0.12);
+}
+
+.admission-stepper-step.active .stepper-label {
+    color: #0b3366;
+    font-weight: 700;
+}
+
+/* Completed Step */
+.admission-stepper-step.completed .stepper-circle {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0369a1;
+}
+
+.admission-stepper-step.completed .stepper-circle .step-num {
+    display: none;
+}
+
+.admission-stepper-step.completed .stepper-circle .check-icon {
+    display: inline-block;
+}
+
+.admission-stepper-step.completed .stepper-label {
+    color: #1e293b;
+}
+
+/* Connecting Line Between Steps */
+.stepper-connector {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.stepper-connector.completed {
+    background: #0284c7;
+}
+
+/* --------------------------------------------------------------------------
+   3. TWO-COLUMN MAIN APPLICATION LAYOUT
+   -------------------------------------------------------------------------- */
+.admission-app-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 32px;
+    align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   4. MAIN FORM CARD (LEFT COLUMN)
+   -------------------------------------------------------------------------- */
+.admission-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(11, 51, 102, 0.04);
+    padding: 36px 40px;
+    position: relative;
+}
+
+/* Step Content Panels */
+.wizard-form-step {
+    display: none;
+}
+
+.wizard-form-step.active {
+    display: block;
+    animation: fadeInStep 0.3s ease-in-out;
+}
+
+@keyframes fadeInStep {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Clean Step Header */
+.step-header-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.step-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: #0b3366;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.step-title-content h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.step-title-content p {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 3px 0 0 0;
+    line-height: 1.4;
+}
+
+/* Subheaders for emergency/previous school/docs */
+.step-sub-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 20px 0;
+    padding-top: 24px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.step-sub-icon {
+    color: #0b3366;
+    font-size: 1.05rem;
+}
+
+.step-sub-title-content h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0;
+}
+
+.step-sub-title-content p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 2px 0 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. FORM GRIDS & FIELD DESIGN
+   -------------------------------------------------------------------------- */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-grid-2 .input-group {
+    margin-bottom: 0;
+}
+
+.input-group.full-width {
+    width: 100%;
+}
+
+.input-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.input-group label .required {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper .input-icon {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+    z-index: 1;
+}
+
+.input-wrapper input,
+.input-wrapper select,
+.input-wrapper textarea {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #1e293b;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.92rem;
+    padding: 11px 14px 11px 40px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.input-wrapper textarea {
+    padding: 12px 14px 12px 40px;
+    min-height: 95px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* Custom Select Caret */
+.input-wrapper select {
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748b'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+}
+
+/* Field Focus States */
+.input-wrapper input:focus,
+.input-wrapper select:focus,
+.input-wrapper textarea:focus {
+    border-color: #0b3366;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(11, 51, 102, 0.12);
+    background-color: #ffffff;
+}
+
+.input-wrapper input:focus + .input-icon,
+.input-wrapper select:focus + .input-icon,
+.input-wrapper textarea:focus + .input-icon {
+    color: #0b3366;
+}
+
+/* Validation State */
+.input-group.error .input-wrapper input,
+.input-group.error .input-wrapper select,
+.input-group.error .input-wrapper textarea {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+}
+
+.validation-error {
+    color: #dc3545;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 5px;
+    display: none;
+}
+
+.input-group.error .validation-error {
+    display: block;
+}
+
+/* --------------------------------------------------------------------------
+   6. DOCUMENT UPLOAD ZONE
+   -------------------------------------------------------------------------- */
+.file-upload-zone {
+    position: relative;
+}
+
+.file-upload-zone input[type="file"] {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.file-drop-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    margin: 0;
+}
+
+.file-drop-area i {
+    font-size: 1.6rem;
+    color: #0b3366;
+    margin-bottom: 8px;
+    transition: transform 0.2s ease;
+}
+
+.file-drop-area .file-msg {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.file-drop-area .file-info {
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+.file-drop-area:hover {
+    border-color: #0b3366;
+    background: #f0f7ff;
+}
+
+.file-drop-area:hover i {
+    transform: translateY(-2px);
+}
+
+.file-drop-area.drag-over {
+    border-color: #0b3366;
+    background: #e0f2fe;
+}
+
+/* File Selected / Preview State */
+.file-preview {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+}
+
+.file-preview.active {
+    display: flex;
+}
+
+.file-preview-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.file-preview i {
+    font-size: 1.2rem;
+    color: #0284c7;
+    flex-shrink: 0;
+}
+
+.file-name-display {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0369a1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-remove {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.file-remove:hover {
+    background: #fee2e2;
+}
+
+/* --------------------------------------------------------------------------
+   7. STEP 4 REVIEW SUMMARY CARD
+   -------------------------------------------------------------------------- */
+.admission-review-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.admission-review-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admission-review-header i {
+    color: #0b3366;
+    font-size: 1.05rem;
+}
+
+.admission-review-header h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0;
+}
+
+.admission-review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    font-size: 0.86rem;
+}
+
+.admission-review-item {
+    line-height: 1.4;
+}
+
+.admission-review-label {
+    color: #64748b;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.admission-review-value {
+    color: #1e293b;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   8. FORM NAVIGATION CONTROLS
+   -------------------------------------------------------------------------- */
+.wizard-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.form-required-legend {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.form-required-legend .required {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+.wizard-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wizard-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 24px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+}
+
+/* Secondary Previous Button */
+.wizard-btn-prev {
+    background: #ffffff;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.wizard-btn-prev:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #94a3b8;
+}
+
+/* Primary Next Button */
+.wizard-btn-next {
+    background: #0b3366;
+    color: #ffffff;
+}
+
+.wizard-btn-next:hover {
+    background: #08254a;
+    box-shadow: 0 4px 12px rgba(11, 51, 102, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Submit Application Button */
+.wizard-btn-submit {
+    background: #0b3366;
+    color: #ffffff;
+    padding: 11px 28px;
+}
+
+.wizard-btn-submit:hover {
+    background: #08254a;
+    box-shadow: 0 4px 14px rgba(11, 51, 102, 0.3);
+    transform: translateY(-1px);
+}
+
+.wizard-btn-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Auto-Save Indicator */
+.auto-save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0b3366;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    z-index: 1050;
+    transition: all 0.3s ease;
+}
+
+.auto-save-indicator.show {
+    display: flex;
+}
+
+/* --------------------------------------------------------------------------
+   9. RIGHT SUPPORT SIDEBAR
+   -------------------------------------------------------------------------- */
+.admission-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Progress Sidebar Card */
+.sidebar-card-progress {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(11, 51, 102, 0.03);
+}
+
+.sidebar-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.sidebar-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: #e0f2fe;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.sidebar-card-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0b3366;
+    margin: 0;
+}
+
+.sidebar-step-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.sidebar-step-num {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.sidebar-step-percent {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0b3366;
+}
+
+.sidebar-progress-track {
+    width: 100%;
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.sidebar-progress-fill {
+    height: 100%;
+    width: 25%;
+    background: #0b3366;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+/* Step Checklist in Sidebar */
+.sidebar-steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.86rem;
+    color: #64748b;
+    transition: color 0.2s ease;
+}
+
+.sidebar-step-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.sidebar-step-item.active {
+    color: #0b3366;
+    font-weight: 700;
+}
+
+.sidebar-step-item.active .dot {
+    background: #0b3366;
+    transform: scale(1.2);
+}
+
+.sidebar-step-item.completed {
+    color: #1e293b;
+}
+
+.sidebar-step-item.completed .dot {
+    background: #0284c7;
+}
+
+/* Before You Start Card (Guidance) */
+.sidebar-card-guide {
+    background: #fdf6f6;
+    border: 1px solid #fee2e2;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.sidebar-guide-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.sidebar-guide-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #dc3545;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.sidebar-guide-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #991b1b;
+    margin: 0;
+}
+
+.sidebar-guide-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #4b5563;
+    margin: 0 0 14px 0;
+}
+
+.sidebar-guide-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.sidebar-guide-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.83rem;
+    line-height: 1.45;
+    color: #374151;
+}
+
+.sidebar-guide-list li i {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   10. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+    .admission-app-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    
+    .admission-sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 860px) {
+    .admission-form-card {
+        padding: 28px 24px;
+    }
+
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admission-stepper-container {
+        padding: 16px 20px;
+    }
+
+    .stepper-label {
+        font-size: 0.82rem;
+    }
+
+    .stepper-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.82rem;
+    }
+
+    .admission-sidebar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .admission-form-section {
+        padding: 40px 0 60px 0;
+    }
+
+    .admission-container {
+        padding: 0 16px;
+    }
+
+    .admission-main-title {
+        font-size: 1.95rem;
+    }
+
+    .admission-subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* Elegant Mobile Stepper */
+    .admission-stepper-container {
+        padding: 12px 14px;
+    }
+
+    .stepper-label {
+        display: none; /* Hide long labels on very small mobile to prevent cramped horizontal overflow */
+    }
+
+    .stepper-connector {
+        margin: 0 6px;
+    }
+
+    .admission-form-card {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .step-header-card {
+        gap: 12px;
+        padding-bottom: 18px;
+        margin-bottom: 20px;
+    }
+
+    .step-icon-badge {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .step-title-content h3 {
+        font-size: 1.15rem;
+    }
+
+    .wizard-navigation {
+        flex-direction: column-reverse;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .wizard-nav-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .wizard-btn {
+        flex: 1;
+        padding: 11px 16px;
+    }
+
+    .form-required-legend {
+        text-align: center;
+    }
+
+    .admission-review-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}

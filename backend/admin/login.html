@@ -4,20 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - St. Lawrence Junior School Kabowa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="../../img/favicon.ico" rel="icon">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-blue: #0066cc;
-            --dark-blue: #0052a3;
-            --accent-red: #dc3545;
-            --white: #ffffff;
-            --text-dark: #1a1a1a;
-            --text-gray: #666666;
+            --school-blue: #0066cc;
+            --school-blue-hover: #0052a3;
+            --school-red: #ef4444;
+            --page-bg: #090e17;
+            --card-bg: #0f1a2c;
+            --card-input-bg: #16243a;
+            --card-input-border: #263852;
+            --text-heading: #f8fafc;
+            --text-body: #94a3b8;
+            --text-label: #cbd5e1;
+            --accent-link: #60a5fa;
+            --accent-link-hover: #93c5fd;
         }
 
         * {
@@ -26,614 +36,637 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        html, body {
             min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Centered page container */
+        body {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            background: radial-gradient(circle at center, #111d30 0%, #080c14 100%);
+        }
+
+        /* 2-COLUMN SPLIT CARD — Dark Warm Eye-Friendly Theme */
+        .login-card {
+            display: flex;
+            width: 100%;
+            max-width: 1024px;
+            height: 682px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+
+        /* LEFT SIDE — School Identity & Campus Photo */
+        .login-identity-panel {
+            flex: 0 0 50%;
+            width: 50%;
+            height: 100%;
             position: relative;
+            background-color: #0c1524;
             overflow: hidden;
         }
 
-        /* Background Video */
-        .background-video {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .campus-photo {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 0;
+            object-position: center;
+            display: block;
         }
 
-        .background-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        /* RIGHT SIDE — Login Form (Dark Warm Background) */
+        .login-form-panel {
+            flex: 0 0 50%;
+            width: 50%;
             height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(0, 0, 0, 0.95) 0%, 
-                rgba(26, 26, 26, 0.92) 30%,
-                rgba(60, 10, 10, 0.88) 55%,
-                rgba(80, 20, 20, 0.85) 70%,
-                rgba(0, 0, 0, 0.93) 100%
-            );
-            z-index: 1;
-        }
-
-        /* Login Container */
-        .login-wrapper {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            gap: 0;
-            max-width: 1000px;
-            width: 100%;
-            min-height: 550px;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Left Side - Welcome Card */
-        .welcome-card {
-            flex: 1;
-            background: linear-gradient(135deg, rgba(0, 102, 204, 0.75) 0%, rgba(0, 82, 163, 0.8) 100%);
-            padding: 50px 40px;
+            background-color: var(--card-bg);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            padding: 40px 48px;
+            overflow-y: auto;
+        }
+
+        .login-form-wrapper {
+            width: 100%;
+            max-width: 380px;
+            margin: auto 0;
+        }
+
+        /* Crest Header */
+        .login-crest-header {
             text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            animation: rotate 30s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .welcome-content {
-            position: relative;
-            z-index: 1;
-            max-width: 400px;
-        }
-
-        .welcome-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 25px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            line-height: 1.3;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .welcome-subtitle {
-            font-size: 32px;
-            font-weight: 800;
             margin-bottom: 20px;
-            letter-spacing: 0.5px;
+        }
+
+        .school-crest-img {
+            width: 82px;
+            height: auto;
+            max-height: 90px;
+            object-fit: contain;
+            display: inline-block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .login-titles {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-titles h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
             line-height: 1.2;
         }
 
-        .welcome-description {
-            font-size: 16px;
-            line-height: 1.7;
-            opacity: 0.95;
-            font-weight: 400;
-        }
-
-        /* Right Side - Login Form (Glassmorphism) */
-        .login-card {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 50px 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .school-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 25px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--primary-blue);
-            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
-        }
-
-        .school-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .admin-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-        }
-
-        .login-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .login-subtitle {
+        .login-titles p {
             font-size: 14px;
-            color: var(--text-gray);
+            color: var(--text-body);
+            font-weight: 400;
+            line-height: 1.4;
         }
 
+        /* Alert Box */
         .alert {
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
             font-size: 13px;
             display: none;
-            animation: slideDown 0.3s ease;
+            line-height: 1.4;
+            animation: fadeIn 0.2s ease;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .alert-error {
-            background: #fee;
-            color: #c33;
-            border-left: 3px solid var(--accent-red);
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .alert-success {
-            background: #efe;
-            color: #3c3;
-            border-left: 3px solid #4caf50;
+            background-color: rgba(34, 197, 94, 0.15);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
+        /* Form Group */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-            font-weight: 600;
+            margin-bottom: 7px;
             font-size: 13px;
+            font-weight: 600;
+            color: var(--text-label);
         }
 
-        .input-wrapper {
+        .input-box {
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        .input-icon {
+        .input-box .field-icon {
             position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-blue);
-            font-size: 16px;
+            left: 14px;
+            color: #64748b;
+            font-size: 15px;
+            pointer-events: none;
+            transition: color 0.2s;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 16px 14px 45px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            height: 46px;
+            padding: 0 40px 0 42px;
+            font-family: inherit;
             font-size: 14px;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
+            color: #f8fafc;
+            background-color: var(--card-input-bg);
+            border: 1.5px solid var(--card-input-border);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .form-control::placeholder {
+            color: #64748b;
+            font-weight: 400;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-            background: white;
+            border-color: var(--school-blue);
+            background-color: #1a2b44;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.25);
         }
 
-        .form-control::placeholder {
-            color: #aaa;
+        .form-control:focus ~ .field-icon {
+            color: var(--accent-link);
         }
 
-        .form-options {
+        /* Password Toggle */
+        .btn-toggle-pw {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 15px;
+            padding: 6px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .btn-toggle-pw:hover {
+            color: var(--school-blue);
+        }
+
+        /* Actions: Remember Me & Forgot Password */
+        .actions-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin: 16px 0 22px;
             font-size: 13px;
         }
 
-        .remember-me {
-            display: flex;
+        .remember-wrap {
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
-            color: var(--text-gray);
+            gap: 7px;
+            color: var(--text-body);
+            cursor: pointer;
+            user-select: none;
         }
 
-        .remember-me input[type="checkbox"] {
+        .remember-wrap input[type="checkbox"] {
             width: 16px;
             height: 16px;
+            border-radius: 4px;
+            border: 1.5px solid #334155;
+            background-color: var(--card-input-bg);
+            accent-color: var(--school-blue);
             cursor: pointer;
         }
 
-        .forgot-password {
-            color: var(--primary-blue);
+        .forgot-link {
+            color: var(--accent-link);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: color 0.2s;
         }
 
-        .forgot-password:hover {
-            color: var(--accent-red);
+        .forgot-link:hover {
+            color: var(--accent-link-hover);
+            text-decoration: underline;
         }
 
-        .btn-login {
+        /* Primary Sign In Button */
+        .btn-signin {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-            color: white;
+            height: 46px;
+            background-color: var(--school-blue);
+            color: #ffffff;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
+            font-family: inherit;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.3);
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
         }
 
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.4);
+        .btn-signin:hover {
+            background-color: var(--school-blue-hover);
+            box-shadow: 0 6px 18px rgba(0, 102, 204, 0.45);
         }
 
-        .btn-login:active {
-            transform: translateY(0);
+        .btn-signin:active {
+            transform: translateY(1px);
         }
 
-        .btn-login:disabled {
-            opacity: 0.6;
+        .btn-signin:disabled {
+            opacity: 0.65;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 25px 0;
-            color: var(--text-gray);
-            font-size: 13px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .divider span {
-            padding: 0 15px;
-            font-weight: 500;
-        }
-
-        .social-login {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .btn-social {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
-            color: var(--text-dark);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-social:hover {
-            border-color: var(--primary-blue);
-            background: #f8f9fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-social i {
-            font-size: 18px;
-        }
-
-        .btn-google {
-            color: #db4437;
-        }
-
-        .btn-microsoft {
-            color: #00a4ef;
-        }
-
-        .loading {
+        /* Loading */
+        .loading-state {
             display: none;
             text-align: center;
             margin-top: 12px;
-            color: var(--primary-blue);
+            color: var(--accent-link);
             font-size: 13px;
+            font-weight: 500;
         }
 
-        .loading i {
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
+        .loading-state i {
+            margin-right: 6px;
         }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* OR Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            margin: 22px 0 18px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        .login-footer {
-            margin-top: 25px;
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-divider span {
+            padding: 0 12px;
+        }
+
+        /* Back to Website */
+        .back-link-box {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .login-footer p {
-            font-size: 12px;
-            color: var(--text-gray);
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--primary-blue);
+            color: var(--accent-link);
             text-decoration: none;
             font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
+            font-size: 13.5px;
+            transition: color 0.2s, transform 0.15s;
         }
 
         .back-link:hover {
-            color: var(--accent-red);
-            gap: 10px;
+            color: var(--accent-link-hover);
+            transform: translateX(-2px);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .login-wrapper {
-                flex-direction: column;
-                max-width: 450px;
-            }
+        /* Copyright */
+        .auth-copyright {
+            text-align: center;
+            font-size: 11.5px;
+            color: #475569;
+            margin-top: auto;
+            padding-top: 8px;
+        }
 
-            .welcome-card {
-                padding: 40px 30px;
-                min-height: auto;
-            }
+        /* Forgot Password Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(4, 8, 15, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
 
-            .welcome-title {
-                font-size: 24px;
-            }
+        .modal-card {
+            background: #111d30;
+            border: 1px solid #24354f;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
 
-            .welcome-subtitle {
-                font-size: 18px;
+        .modal-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        .modal-card p {
+            font-size: 13.5px;
+            color: var(--text-body);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .modal-card .contact-box {
+            background-color: #172438;
+            border: 1px solid #263852;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            color: var(--text-label);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .modal-card .btn-modal-close {
+            width: 100%;
+            height: 40px;
+            background-color: var(--school-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13.5px;
+        }
+
+        /* RESPONSIVE DESIGN FOR TABLET & MOBILE */
+        @media (max-width: 860px) {
+            body {
+                padding: 16px;
+                align-items: flex-start;
             }
 
             .login-card {
-                padding: 40px 30px;
+                flex-direction: column;
+                height: auto;
+                max-width: 460px;
+                border-radius: 14px;
             }
 
-            .login-title {
+            .login-identity-panel {
+                flex: none;
+                width: 100%;
+                height: 240px;
+            }
+
+            .login-form-panel {
+                flex: none;
+                width: 100%;
+                height: auto;
+                padding: 32px 24px 28px;
+            }
+
+            .login-form-wrapper {
+                max-width: 100%;
+            }
+
+            .login-titles h1 {
                 font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .login-identity-panel {
+                height: 200px;
+            }
+
+            .login-form-panel {
+                padding: 24px 18px 24px;
+            }
+
+            .school-crest-img {
+                width: 70px;
+            }
+
+            .actions-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="background-video" autoplay muted loop playsinline>
-        <source src="../../img/students walking.mp4" type="video/mp4">
-        <source src="../../img/Welcome to Cambridge!.mp4" type="video/mp4">
-    </video>
-    <div class="background-overlay"></div>
 
-    <!-- Login Container -->
-    <div class="login-wrapper">
-        <!-- Left Side - Welcome Card -->
-        <div class="welcome-card">
-            <div class="welcome-content">
-                <div class="welcome-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <h2 class="welcome-title">Welcome to</h2>
-                <h1 class="welcome-subtitle">ST. LAWRENCE<br>JUNIOR SCHOOL</h1>
-                <p class="welcome-description">Empowering students to learn, grow, and thrive in a vibrant school community</p>
-            </div>
+    <!-- Centered institutional login card -->
+    <div class="login-card">
+        <!-- 1. LEFT SIDE: Authentic School Identity & Campus Photo -->
+        <div class="login-identity-panel">
+            <img src="../../img/admin-login-campus.jpg" alt="St. Lawrence Junior School Kabowa Admin Portal" class="campus-photo">
         </div>
 
-        <!-- Right Side - Login Form -->
-        <div class="login-card">
-            <div class="school-logo">
-                <img src="../../img/5.jpg" alt="St. Lawrence School Logo">
-            </div>
+        <!-- 2. RIGHT SIDE: Clean Institutional Admin Login Form -->
+        <div class="login-form-panel">
+            <div class="login-form-wrapper">
+                
+                <!-- School Logo Crest -->
+                <div class="login-crest-header">
+                    <img src="../../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest" class="school-crest-img">
+                </div>
 
-            <div class="login-header">
-                <span class="admin-badge">Admin Portal</span>
-                <h2 class="login-title">Sign In</h2>
-                <p class="login-subtitle">Please sign in to your admin account</p>
-            </div>
+                <!-- Form Header -->
+                <div class="login-titles">
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to continue to the administration portal.</p>
+                </div>
 
-            <div id="alertBox" class="alert"></div>
+                <!-- Alert Messages -->
+                <div id="alertBox" class="alert" role="alert"></div>
 
-            <!-- Social Login Options -->
-            <div class="social-login">
-                <button type="button" class="btn-social btn-google" onclick="loginWithGoogle()">
-                    <i class="fab fa-google"></i>
-                    <span>Google</span>
-                </button>
-                <button type="button" class="btn-social btn-microsoft" onclick="loginWithMicrosoft()">
-                    <i class="fab fa-microsoft"></i>
-                    <span>Microsoft</span>
-                </button>
-            </div>
-
-            <div class="divider">
-                <span>OR</span>
-            </div>
-
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email or Username</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            class="form-control" 
-                            placeholder="Enter your email"
-                            required
-                        >
+                <!-- Login Form -->
+                <form id="loginForm" autocomplete="on">
+                    <!-- Email or Username Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email or Username</label>
+                        <div class="input-box">
+                            <i class="far fa-envelope field-icon" aria-hidden="true"></i>
+                            <input 
+                                type="text" 
+                                id="email" 
+                                name="email" 
+                                class="form-control" 
+                                placeholder="Enter your email or username"
+                                autocomplete="username"
+                                required
+                                autofocus
+                            >
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="form-control" 
-                            placeholder="Enter your password"
-                            required
-                        >
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-box">
+                            <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-control" 
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <button 
+                                type="button" 
+                                class="btn-toggle-pw" 
+                                id="togglePasswordBtn" 
+                                aria-label="Toggle password visibility" 
+                                title="Show/Hide password"
+                            >
+                                <i class="far fa-eye" id="togglePasswordIcon" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- Remember Me / Forgot Password -->
+                    <div class="actions-row">
+                        <label class="remember-wrap" for="rememberMe">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="javascript:void(0)" class="forgot-link" id="forgotPasswordLink">Forgot Password?</a>
+                    </div>
+
+                    <!-- Sign In Button -->
+                    <button type="submit" class="btn-signin" id="loginBtn">
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        <span>Sign In</span>
+                    </button>
+
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loading">
+                        <i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i>
+                        <span>Authenticating...</span>
+                    </div>
+                </form>
+
+                <!-- OR Divider -->
+                <div class="auth-divider">
+                    <span>OR</span>
                 </div>
 
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" id="rememberMe">
-                        <span>Remember Me</span>
-                    </label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                <!-- Back to Website Link -->
+                <div class="back-link-box">
+                    <a href="../../frontend/index-redesign.html" class="back-link">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to Website</span>
+                    </a>
                 </div>
 
-                <button type="submit" class="btn-login" id="loginBtn">
-                    <span>Login</span>
-                </button>
-
-                <div class="loading" id="loading">
-                    <i class="fas fa-spinner"></i>
-                    <span>Authenticating...</span>
-                </div>
-            </form>
-
-            <div class="login-footer">
-                <p>&copy; 2026 St. Lawrence Junior School Kabowa</p>
-                <a href="../../frontend/index-redesign.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Website</span>
-                </a>
+                <!-- Subtle Institutional Copyright -->
+                <p class="auth-copyright">&copy; 2026 St. Lawrence Junior School Kabowa</p>
             </div>
         </div>
     </div>
 
+    <!-- Password Recovery Modal -->
+    <div class="modal-backdrop" id="forgotModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <h3 id="modalTitle">Password Recovery</h3>
+            <p>For administrative security, administrator password resets are handled through the System Administrator or Head Office.</p>
+            <div class="contact-box">
+                <div><strong>System Administration:</strong></div>
+                <div><i class="fas fa-phone-alt" style="color:var(--school-blue); margin-right:6px;"></i> +256 772 420 506 / +256 701 420 506</div>
+                <div style="margin-top:4px;"><i class="fas fa-envelope" style="color:var(--school-blue); margin-right:6px;"></i> admin@stlawrencejuniorschool.sc.ug</div>
+            </div>
+            <button type="button" class="btn-modal-close" id="closeModalBtn">Understood</button>
+        </div>
+    </div>
+
+    <!-- Authentication JavaScript -->
     <script>
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         const loading = document.getElementById('loading');
         const alertBox = document.getElementById('alertBox');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const togglePwBtn = document.getElementById('togglePasswordBtn');
+        const togglePwIcon = document.getElementById('togglePasswordIcon');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const forgotModal = document.getElementById('forgotModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Check if already logged in
+        // Check if admin is already logged in
         checkSession();
+
+        // Restore remembered administrator email/username
+        const savedAdmin = localStorage.getItem('stlawrence_admin_remember');
+        if (savedAdmin) {
+            emailInput.value = savedAdmin;
+            rememberMeCheckbox.checked = true;
+        }
 
         async function checkSession() {
             try {
@@ -644,19 +677,58 @@
                     window.location.href = 'dashboard.html';
                 }
             } catch (error) {
-                console.log('Not logged in');
+                console.log('Not currently logged in');
             }
         }
 
+        // Functional Password Visibility Toggle
+        togglePwBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            
+            if (isPassword) {
+                togglePwIcon.classList.remove('fa-eye');
+                togglePwIcon.classList.add('fa-eye-slash');
+                togglePwBtn.setAttribute('title', 'Hide password');
+            } else {
+                togglePwIcon.classList.remove('fa-eye-slash');
+                togglePwIcon.classList.add('fa-eye');
+                togglePwBtn.setAttribute('title', 'Show password');
+            }
+        });
+
+        // Forgot Password Modal Handlers
+        forgotPasswordLink.addEventListener('click', () => {
+            forgotModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            forgotModal.style.display = 'none';
+        });
+
+        forgotModal.addEventListener('click', (e) => {
+            if (e.target === forgotModal) {
+                forgotModal.style.display = 'none';
+            }
+        });
+
+        // Form Submit Handler
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
 
             if (!email || !password) {
-                showAlert('Please fill in all fields', 'error');
+                showAlert('Please enter both your email/username and password.', 'error');
                 return;
+            }
+
+            // Handle Remember Me
+            if (rememberMeCheckbox.checked) {
+                localStorage.setItem('stlawrence_admin_remember', email);
+            } else {
+                localStorage.removeItem('stlawrence_admin_remember');
             }
 
             loginBtn.disabled = true;
@@ -675,19 +747,19 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    showAlert('Login successful! Redirecting...', 'success');
+                    showAlert('Authentication successful! Redirecting...', 'success');
                     localStorage.setItem('user', JSON.stringify(data.data));
                     
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
-                    }, 1000);
+                    }, 800);
                 } else {
-                    showAlert(data.message || 'Login failed', 'error');
+                    showAlert(data.message || 'Authentication failed. Please check your credentials.', 'error');
                     loginBtn.disabled = false;
                     loading.style.display = 'none';
                 }
             } catch (error) {
-                showAlert('Network error. Please try again.', 'error');
+                showAlert('Connection error. Please try again.', 'error');
                 loginBtn.disabled = false;
                 loading.style.display = 'none';
             }
@@ -701,62 +773,6 @@
 
         function hideAlert() {
             alertBox.style.display = 'none';
-        }
-
-        // Social Login Functions
-        function loginWithGoogle() {
-            // Initialize Google Sign-In
-            google.accounts.id.initialize({
-                client_id: '208073950289-13ga4hicat50qqg7bt1e3saie0r95d8i.apps.googleusercontent.com',
-                callback: handleGoogleResponse
-            });
-            
-            // Prompt the one-tap UI
-            google.accounts.id.prompt();
-        }
-
-        async function handleGoogleResponse(response) {
-            try {
-                loginBtn.disabled = true;
-                loading.style.display = 'block';
-                hideAlert();
-
-                // Send the credential to your backend
-                const res = await fetch('../api/auth/google-login.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        credential: response.credential
-                    })
-                });
-
-                const data = await res.json();
-
-                if (data.success) {
-                    showAlert('Google login successful! Redirecting...', 'success');
-                    localStorage.setItem('user', JSON.stringify(data.data));
-                    
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    showAlert(data.message || 'Google login failed', 'error');
-                    loginBtn.disabled = false;
-                    loading.style.display = 'none';
-                }
-            } catch (error) {
-                showAlert('Google login error. Please try again.', 'error');
-                loginBtn.disabled = false;
-                loading.style.display = 'none';
-            }
-        }
-
-        function loginWithMicrosoft() {
-            showAlert('Microsoft login coming soon!', 'error');
-            // TODO: Implement Microsoft OAuth
-            // window.location.href = '../api/auth/microsoft-login.php';
         }
     </script>
 </body>

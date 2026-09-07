@@ -22,6 +22,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/redesign-style.css?v=4.1">
+    <!-- Admission Application Section Redesign -->
+    <link rel="stylesheet" href="../css/admission-application-redesign.css?v=1.0">
 
     <!-- Unified Responsive Design (replaces 10 page-specific files) -->
     <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
@@ -203,523 +205,659 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="../img/new 4.JPG" alt="Admission">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
-                <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <span>Admission</span>
+    <!-- 1. LIGHT EDITORIAL ADMISSIONS HERO -->
+    <section class="admissions-hero-editorial">
+        <div class="admissions-hero-container">
+            <div class="admissions-hero-grid">
+                <!-- Left Side (approx 45%) -->
+                <div class="admissions-hero-left">
+                    <!-- Text-only breadcrumb -->
+                    <nav class="admissions-hero-breadcrumb" aria-label="Breadcrumb">
+                        <a href="index-redesign.html">Home</a>
+                        <span class="separator">/</span>
+                        <span class="current">Admissions</span>
+                    </nav>
+
+                    <!-- Small red label with horizontal accent line -->
+                    <div class="admissions-hero-eyebrow-wrap">
+                        <span class="admissions-hero-eyebrow-bar" aria-hidden="true"></span>
+                        <span class="admissions-hero-eyebrow-text">ADMISSIONS</span>
+                    </div>
+
+                    <!-- Editorial Headline -->
+                    <h1 class="admissions-hero-title">
+                        Join Our<br>School <span class="text-red">Family</span>
+                    </h1>
+
+                    <!-- Supporting Text -->
+                    <p class="admissions-hero-description">
+                        Begin your child’s journey to excellence at St. Lawrence Junior School Kabowa.
+                    </p>
+
+                    <!-- Primary CTA -->
+                    <div class="admissions-hero-actions">
+                        <a href="#admission-application-section" class="admissions-hero-cta" id="heroApplyCta">
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side (approx 55%) -->
+                <div class="admissions-hero-right">
+                    <div class="admissions-hero-media-wrap">
+                        <img src="../img/admissions-hero-students.png" alt="St. Lawrence Junior School Kabowa pupils smiling in uniform" class="admissions-hero-img" width="594" height="546">
+                    </div>
+                </div>
             </div>
-            <h1 data-aos="fade-up">Join Our School Family</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Begin Your Child's Journey to Excellence</p>
         </div>
     </section>
 
-    <!-- Admission Process Section -->
-    
-            
-            
-                            
-                
-                
-                
-                                
-                
-                
-                           
+        <!-- Application Form Section - HUMAN-CRAFTED INSTITUTIONAL REDESIGN -->
+    <section class="admission-form-section" id="admission-application-section">
+        <div class="admission-container">
+            <!-- 1. Section Introduction -->
+            <div class="admission-intro-header" data-aos="fade-up">
+                <div class="admission-eyebrow-wrap">
+                    <span class="admission-eyebrow-bar" aria-hidden="true"></span>
+                    <span class="admission-eyebrow-text">ADMISSIONS</span>
+                </div>
+                <h2 class="admission-main-title">
+                    Apply for <span class="text-red">Admission</span>
+                </h2>
+                <p class="admission-subtitle">
+                    Take the first step towards a brighter future at St. Lawrence Junior School Kabowa.
+                </p>
+            </div>
 
-    <!-- Application Form Section - PREMIUM MULTI-STEP WIZARD -->
-    <section class="admission-form-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Apply Now</span>
-                <h2 class="section-title">Start Your Application</h2>
-                <p class="section-description">Complete the form below to begin your child's journey with us</p>
-            </div>
-            
-            <!-- Multi-Step Progress Indicator -->
-            <div class="form-wizard-progress" data-aos="fade-up" data-aos-delay="100">
-                <div class="wizard-steps">
-                    <div class="wizard-step active completed" data-step="1">
-                        <div class="step-circle">
-                            <i class="fas fa-user-graduate"></i>
-                            <div class="step-check"><i class="fas fa-check"></i></div>
+            <!-- 2. Horizontal Stepper Progress Indicator -->
+            <div class="admission-stepper-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="admission-stepper-track">
+                    <!-- Step 1 -->
+                    <div class="admission-stepper-step active" data-step="1">
+                        <div class="stepper-circle">
+                            <span class="step-num">1</span>
+                            <i class="fas fa-check check-icon" aria-hidden="true"></i>
                         </div>
-                        <span class="step-label">Student</span>
+                        <span class="stepper-label">Student Information</span>
                     </div>
-                    <div class="wizard-step" data-step="2">
-                        <div class="step-circle">
-                            <i class="fas fa-users"></i>
-                            <div class="step-check"><i class="fas fa-check"></i></div>
+
+                    <div class="stepper-connector" data-connector="1"></div>
+
+                    <!-- Step 2 -->
+                    <div class="admission-stepper-step" data-step="2">
+                        <div class="stepper-circle">
+                            <span class="step-num">2</span>
+                            <i class="fas fa-check check-icon" aria-hidden="true"></i>
                         </div>
-                        <span class="step-label">Parent</span>
+                        <span class="stepper-label">Parent/Guardian</span>
                     </div>
-                    <div class="wizard-step" data-step="3">
-                        <div class="step-circle">
-                            <i class="fas fa-phone-alt"></i>
-                            <div class="step-check"><i class="fas fa-check"></i></div>
+
+                    <div class="stepper-connector" data-connector="2"></div>
+
+                    <!-- Step 3 -->
+                    <div class="admission-stepper-step" data-step="3">
+                        <div class="stepper-circle">
+                            <span class="step-num">3</span>
+                            <i class="fas fa-check check-icon" aria-hidden="true"></i>
                         </div>
-                        <span class="step-label">Emergency</span>
+                        <span class="stepper-label">Emergency & Previous School</span>
                     </div>
-                    <div class="wizard-step" data-step="4">
-                        <div class="step-circle">
-                            <i class="fas fa-file-upload"></i>
-                            <div class="step-check"><i class="fas fa-check"></i></div>
+
+                    <div class="stepper-connector" data-connector="3"></div>
+
+                    <!-- Step 4 -->
+                    <div class="admission-stepper-step" data-step="4">
+                        <div class="stepper-circle">
+                            <span class="step-num">4</span>
+                            <i class="fas fa-check check-icon" aria-hidden="true"></i>
                         </div>
-                        <span class="step-label">Documents</span>
+                        <span class="stepper-label">Documents</span>
                     </div>
                 </div>
-                <div class="wizard-progress-line">
-                    <div class="wizard-progress-fill"></div>
-                </div>
             </div>
-            
-            <!-- Form Card Container with Glassmorphism -->
-            <div class="form-wizard-card" data-aos="fade-up" data-aos-delay="200">
-                <form id="admissionWizardForm" class="wizard-form" novalidate>
-                    
-                    <!-- Step 1: Student Information -->
-                    <div class="wizard-form-step active" data-step="1">
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="step-title-content">
-                                <h3>Student Information</h3>
-                                <p>Tell us about the student applying</p>
-                            </div>
-                        </div>
+
+            <!-- 3. Main Two-Column Application Layout -->
+            <div class="admission-app-grid">
+                <!-- LEFT COLUMN: Main Form Card -->
+                <div class="admission-form-card" data-aos="fade-up" data-aos-delay="150">
+                    <form id="admissionWizardForm" class="wizard-form" novalidate>
                         
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="firstName">First Name <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-user input-icon"></i>
-                                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                        <!-- STEP 1: Student Information -->
+                        <div class="wizard-form-step active" data-step="1">
+                            <div class="step-header-card">
+                                <div class="step-icon-badge">
+                                    <i class="fas fa-user-graduate" aria-hidden="true"></i>
                                 </div>
-                                <span class="validation-error">Please enter first name</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="lastName">Last Name <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-user input-icon"></i>
-                                    <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
-                                </div>
-                                <span class="validation-error">Please enter last name</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-calendar input-icon"></i>
-                                    <input type="date" id="dateOfBirth" name="dateOfBirth" required>
-                                </div>
-                                <span class="validation-error">Please select date of birth</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="gender">Gender <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-venus-mars input-icon"></i>
-                                    <select id="gender" name="gender" required>
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
-                                <span class="validation-error">Please select gender</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="nationality">Nationality <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-flag input-icon"></i>
-                                    <input type="text" id="nationality" name="nationality" placeholder="Enter nationality" required>
-                                </div>
-                                <span class="validation-error">Please enter nationality</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="religion">Religion</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-pray input-icon"></i>
-                                    <input type="text" id="religion" name="religion" placeholder="Enter religion (optional)">
+                                <div class="step-title-content">
+                                    <h3>Student Information</h3>
+                                    <p>Tell us about the child you are applying for.</p>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="classToJoin">Class to Join <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-graduation-cap input-icon"></i>
-                                <select id="classToJoin" name="classToJoin" required>
-                                    <option value="">Select Class</option>
-                                    <optgroup label="Early Years">
-                                        <option value="baby">Baby Class</option>
-                                        <option value="middle">Middle Class</option>
-                                        <option value="top">Top Class</option>
-                                    </optgroup>
-                                    <optgroup label="Primary School">
-                                        <option value="p1">Primary 1</option>
-                                        <option value="p2">Primary 2</option>
-                                        <option value="p3">Primary 3</option>
-                                        <option value="p4">Primary 4</option>
-                                        <option value="p5">Primary 5</option>
-                                        <option value="p6">Primary 6</option>
-                                        <option value="p7">Primary 7</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <span class="validation-error">Please select a class</span>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="medicalConditions">Medical Conditions / Allergies</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-notes-medical input-icon"></i>
-                                <textarea id="medicalConditions" name="medicalConditions" rows="3" placeholder="Please list any medical conditions or allergies..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 2: Parent/Guardian Information -->
-                    <div class="wizard-form-step" data-step="2">
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="step-title-content">
-                                <h3>Parent/Guardian Information</h3>
-                                <p>Contact details of parent or guardian</p>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="parentName">Full Name <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-user-tie input-icon"></i>
-                                    <input type="text" id="parentName" name="parentName" placeholder="Enter full name" required>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="firstName">First Name <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required autocomplete="given-name">
+                                    </div>
+                                    <span class="validation-error">Please enter first name</span>
                                 </div>
-                                <span class="validation-error">Please enter parent/guardian name</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="relationship">Relationship to Child <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-heart input-icon"></i>
-                                    <select id="relationship" name="relationship" required>
-                                        <option value="">Select Relationship</option>
-                                        <option value="father">Father</option>
-                                        <option value="mother">Mother</option>
-                                        <option value="guardian">Guardian</option>
-                                        <option value="other">Other</option>
-                                    </select>
+
+                                <div class="input-group">
+                                    <label for="lastName">Last Name <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required autocomplete="family-name">
+                                    </div>
+                                    <span class="validation-error">Please enter last name</span>
                                 </div>
-                                <span class="validation-error">Please select relationship</span>
                             </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="parentPhone">Phone Number <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-phone input-icon"></i>
-                                    <input type="tel" id="parentPhone" name="parentPhone" placeholder="+256 XXX XXX XXX" required>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-calendar-alt input-icon" aria-hidden="true"></i>
+                                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                                    </div>
+                                    <span class="validation-error">Please select date of birth</span>
                                 </div>
-                                <span class="validation-error">Please enter phone number</span>
+
+                                <div class="input-group">
+                                    <label for="gender">Gender <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-venus-mars input-icon" aria-hidden="true"></i>
+                                        <select id="gender" name="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <span class="validation-error">Please select gender</span>
+                                </div>
                             </div>
-                            
-                            <div class="input-group">
-                                <label for="parentEmail">Email Address <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-envelope input-icon"></i>
-                                    <input type="email" id="parentEmail" name="parentEmail" placeholder="example@email.com" required>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="nationality">Nationality <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-flag input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="nationality" name="nationality" placeholder="Enter nationality" required>
+                                    </div>
+                                    <span class="validation-error">Please enter nationality</span>
                                 </div>
-                                <small style="display: block; margin-top: 5px; color: #0066cc; font-size: 12px;">
-                                    <i class="fas fa-info-circle"></i> You will receive admission updates at this email address
-                                </small>
-                                <small style="display: block; margin-top: 5px; color: #28a745; font-size: 12px;">
-                                    <i class="fas fa-users"></i> You can use the same email to apply for multiple children
-                                </small>
-                                <div id="existingApplicationsNotice" style="display: none; margin-top: 10px; padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                                    <div style="display: flex; align-items: start; gap: 10px;">
-                                        <i class="fas fa-exclamation-triangle" style="color: #ffc107; margin-top: 2px;"></i>
-                                        <div style="flex: 1;">
-                                            <strong style="color: #856404; font-size: 13px;">Existing Applications Found</strong>
-                                            <p id="existingApplicationsList" style="margin: 5px 0 0 0; font-size: 12px; color: #856404;"></p>
-                                        </div>
+
+                                <div class="input-group">
+                                    <label for="religion">Religion</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-church input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="religion" name="religion" placeholder="Enter religion (optional)">
                                     </div>
                                 </div>
-                                <span class="validation-error">Please enter valid email</span>
                             </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="occupation">Occupation <span class="required">*</span></label>
+
+                            <div class="input-group full-width">
+                                <label for="classToJoin">Class to Join <span class="required">*</span></label>
                                 <div class="input-wrapper">
-                                    <i class="fas fa-briefcase input-icon"></i>
-                                    <input type="text" id="occupation" name="occupation" placeholder="Enter occupation" required>
+                                    <i class="fas fa-graduation-cap input-icon" aria-hidden="true"></i>
+                                    <select id="classToJoin" name="classToJoin" required>
+                                        <option value="">Select Class</option>
+                                        <optgroup label="Early Years">
+                                            <option value="baby">Baby Class</option>
+                                            <option value="middle">Middle Class</option>
+                                            <option value="top">Top Class</option>
+                                        </optgroup>
+                                        <optgroup label="Primary School">
+                                            <option value="p1">Primary 1</option>
+                                            <option value="p2">Primary 2</option>
+                                            <option value="p3">Primary 3</option>
+                                            <option value="p4">Primary 4</option>
+                                            <option value="p5">Primary 5</option>
+                                            <option value="p6">Primary 6</option>
+                                            <option value="p7">Primary 7</option>
+                                        </optgroup>
+                                    </select>
                                 </div>
-                                <span class="validation-error">Please enter occupation</span>
+                                <span class="validation-error">Please select a class</span>
                             </div>
-                            
-                            <div class="input-group">
-                                <label for="nin">National ID Number <span class="required">*</span></label>
+
+                            <div class="input-group full-width">
+                                <label for="medicalConditions">Medical Conditions / Allergies</label>
                                 <div class="input-wrapper">
-                                    <i class="fas fa-id-card input-icon"></i>
-                                    <input type="text" id="nin" name="nin" placeholder="Enter NIN" required maxlength="14">
-                                </div>
-                                <span class="validation-error">Please enter NIN</span>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="address">Residential Address <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-map-marker-alt input-icon"></i>
-                                <textarea id="address" name="address" rows="3" placeholder="Enter full residential address" required></textarea>
-                            </div>
-                            <span class="validation-error">Please enter address</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 3: Emergency Contact & Previous School -->
-                    <div class="wizard-form-step" data-step="3">
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="step-title-content">
-                                <h3>Emergency Contact</h3>
-                                <p>Alternative contact person in case of emergency</p>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="emergencyName">Full Name <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-user-shield input-icon"></i>
-                                    <input type="text" id="emergencyName" name="emergencyName" placeholder="Enter full name" required>
-                                </div>
-                                <span class="validation-error">Please enter emergency contact name</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="emergencyRelationship">Relationship <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-user-friends input-icon"></i>
-                                    <input type="text" id="emergencyRelationship" name="emergencyRelationship" placeholder="e.g., Uncle, Aunt" required>
-                                </div>
-                                <span class="validation-error">Please enter relationship</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="emergencyPhone">Phone Number <span class="required">*</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-mobile-alt input-icon"></i>
-                                    <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="+256 XXX XXX XXX" required>
-                                </div>
-                                <span class="validation-error">Please enter phone number</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="emergencyEmail">Email Address</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-at input-icon"></i>
-                                    <input type="email" id="emergencyEmail" name="emergencyEmail" placeholder="example@email.com (optional)">
+                                    <i class="fas fa-heartbeat input-icon" aria-hidden="true"></i>
+                                    <textarea id="medicalConditions" name="medicalConditions" rows="3" placeholder="Please list any medical conditions or allergies..."></textarea>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="section-divider"></div>
-                        
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-school"></i>
-                            </div>
-                            <div class="step-title-content">
-                                <h3>Previous School Information</h3>
-                                <p>Details about previous school (if applicable)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="previousSchool">School Name</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-building input-icon"></i>
-                                    <input type="text" id="previousSchool" name="previousSchool" placeholder="Enter school name (optional)">
+
+                        <!-- STEP 2: Parent/Guardian Information -->
+                        <div class="wizard-form-step" data-step="2">
+                            <div class="step-header-card">
+                                <div class="step-icon-badge">
+                                    <i class="fas fa-users" aria-hidden="true"></i>
+                                </div>
+                                <div class="step-title-content">
+                                    <h3>Parent/Guardian Information</h3>
+                                    <p>Contact details of parent or guardian.</p>
                                 </div>
                             </div>
-                            
-                            <div class="input-group">
-                                <label for="previousClass">Last Class Attended</label>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="parentName">Full Name <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user-tie input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="parentName" name="parentName" placeholder="Enter full name" required autocomplete="name">
+                                    </div>
+                                    <span class="validation-error">Please enter parent/guardian name</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="relationship">Relationship to Child <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-hands-helping input-icon" aria-hidden="true"></i>
+                                        <select id="relationship" name="relationship" required>
+                                            <option value="">Select Relationship</option>
+                                            <option value="father">Father</option>
+                                            <option value="mother">Mother</option>
+                                            <option value="guardian">Guardian</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <span class="validation-error">Please select relationship</span>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="parentPhone">Phone Number <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-phone-alt input-icon" aria-hidden="true"></i>
+                                        <input type="tel" id="parentPhone" name="parentPhone" placeholder="+256 XXX XXX XXX" required autocomplete="tel">
+                                    </div>
+                                    <span class="validation-error">Please enter phone number</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="parentEmail">Email Address <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-envelope input-icon" aria-hidden="true"></i>
+                                        <input type="email" id="parentEmail" name="parentEmail" placeholder="example@email.com" required autocomplete="email">
+                                    </div>
+                                    <small style="display: block; margin-top: 5px; color: #0066cc; font-size: 12px;">
+                                        <i class="fas fa-info-circle"></i> You will receive admission updates at this email address
+                                    </small>
+                                    <small style="display: block; margin-top: 5px; color: #28a745; font-size: 12px;">
+                                        <i class="fas fa-users"></i> You can use the same email to apply for multiple children
+                                    </small>
+                                    <div id="existingApplicationsNotice" style="display: none; margin-top: 10px; padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+                                        <div style="display: flex; align-items: start; gap: 10px;">
+                                            <i class="fas fa-exclamation-triangle" style="color: #ffc107; margin-top: 2px;"></i>
+                                            <div style="flex: 1;">
+                                                <strong style="color: #856404; font-size: 13px;">Existing Applications Found</strong>
+                                                <p id="existingApplicationsList" style="margin: 5px 0 0 0; font-size: 12px; color: #856404;"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="validation-error">Please enter valid email</span>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="occupation">Occupation <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-briefcase input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="occupation" name="occupation" placeholder="Enter occupation" required>
+                                    </div>
+                                    <span class="validation-error">Please enter occupation</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="nin">National ID Number <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-id-card input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="nin" name="nin" placeholder="Enter NIN" required maxlength="14">
+                                    </div>
+                                    <span class="validation-error">Please enter NIN</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="address">Residential Address <span class="required">*</span></label>
                                 <div class="input-wrapper">
-                                    <i class="fas fa-chalkboard-teacher input-icon"></i>
-                                    <input type="text" id="previousClass" name="previousClass" placeholder="e.g., Primary 3 (optional)">
+                                    <i class="fas fa-map-marker-alt input-icon" aria-hidden="true"></i>
+                                    <textarea id="address" name="address" rows="3" placeholder="Enter full residential address" required></textarea>
+                                </div>
+                                <span class="validation-error">Please enter address</span>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Emergency Contact & Previous School -->
+                        <div class="wizard-form-step" data-step="3">
+                            <div class="step-header-card">
+                                <div class="step-icon-badge">
+                                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                                </div>
+                                <div class="step-title-content">
+                                    <h3>Emergency Contact</h3>
+                                    <p>Alternative contact person in case of emergency.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="emergencyName">Full Name <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user-shield input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="emergencyName" name="emergencyName" placeholder="Enter full name" required>
+                                    </div>
+                                    <span class="validation-error">Please enter emergency contact name</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="emergencyRelationship">Relationship <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user-friends input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="emergencyRelationship" name="emergencyRelationship" placeholder="e.g., Uncle, Aunt" required>
+                                    </div>
+                                    <span class="validation-error">Please enter relationship</span>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="emergencyPhone">Phone Number <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-mobile-alt input-icon" aria-hidden="true"></i>
+                                        <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="+256 XXX XXX XXX" required>
+                                    </div>
+                                    <span class="validation-error">Please enter phone number</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="emergencyEmail">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-at input-icon" aria-hidden="true"></i>
+                                        <input type="email" id="emergencyEmail" name="emergencyEmail" placeholder="example@email.com (optional)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Previous School Sub-section -->
+                            <div class="step-sub-header">
+                                <i class="fas fa-school step-sub-icon" aria-hidden="true"></i>
+                                <div class="step-sub-title-content">
+                                    <h4>Previous School Information</h4>
+                                    <p>Details about previous school (if applicable).</p>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="previousSchool">School Name</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-building input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="previousSchool" name="previousSchool" placeholder="Enter school name (optional)">
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="previousClass">Last Class Attended</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-chalkboard-teacher input-icon" aria-hidden="true"></i>
+                                        <input type="text" id="previousClass" name="previousClass" placeholder="e.g., Primary 3 (optional)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="reasonForLeaving">Reason for Leaving</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-comment-dots input-icon" aria-hidden="true"></i>
+                                    <textarea id="reasonForLeaving" name="reasonForLeaving" rows="3" placeholder="Enter reason for leaving previous school (optional)..."></textarea>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="reasonForLeaving">Reason for Leaving</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-comment-dots input-icon"></i>
-                                <textarea id="reasonForLeaving" name="reasonForLeaving" rows="3" placeholder="Enter reason for leaving previous school (optional)"></textarea>
+
+                        <!-- STEP 4: Documents & Additional Information -->
+                        <div class="wizard-form-step" data-step="4">
+                            <div class="step-header-card">
+                                <div class="step-icon-badge">
+                                    <i class="fas fa-file-upload" aria-hidden="true"></i>
+                                </div>
+                                <div class="step-title-content">
+                                    <h3>Document Upload</h3>
+                                    <p>Upload required documents (PDF, JPG, PNG - Max 5MB each).</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 4: Documents & Additional Info -->
-                    <div class="wizard-form-step" data-step="4">
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-file-upload"></i>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="birthCertificate">Birth Certificate <span class="required">*</span></label>
+                                    <div class="file-upload-zone">
+                                        <input type="file" id="birthCertificate" name="birthCertificate" accept=".pdf,.jpg,.jpeg,.png" required>
+                                        <label for="birthCertificate" class="file-drop-area">
+                                            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                            <span class="file-msg">Drag & drop or click to upload</span>
+                                            <span class="file-info">PDF, JPG, PNG (Max 5MB)</span>
+                                        </label>
+                                        <div class="file-preview">
+                                            <div class="file-preview-left">
+                                                <i class="fas fa-file-pdf" aria-hidden="true"></i>
+                                                <span class="file-name-display"></span>
+                                            </div>
+                                            <button type="button" class="file-remove" aria-label="Remove uploaded file"><i class="fas fa-times" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <span class="validation-error">Please upload birth certificate</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="passportPhoto">Passport Photo <span class="required">*</span></label>
+                                    <div class="file-upload-zone">
+                                        <input type="file" id="passportPhoto" name="passportPhoto" accept=".jpg,.jpeg,.png" required>
+                                        <label for="passportPhoto" class="file-drop-area">
+                                            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                            <span class="file-msg">Drag & drop or click to upload</span>
+                                            <span class="file-info">JPG, PNG (Max 5MB)</span>
+                                        </label>
+                                        <div class="file-preview">
+                                            <div class="file-preview-left">
+                                                <i class="fas fa-file-image" aria-hidden="true"></i>
+                                                <span class="file-name-display"></span>
+                                            </div>
+                                            <button type="button" class="file-remove" aria-label="Remove uploaded file"><i class="fas fa-times" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <span class="validation-error">Please upload passport photo</span>
+                                </div>
                             </div>
-                            <div class="step-title-content">
-                                <h3>Document Upload</h3>
-                                <p>Upload required documents (PDF, JPG, PNG - Max 5MB each)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grid-2">
-                            <div class="input-group">
-                                <label for="birthCertificate">Birth Certificate <span class="required">*</span></label>
+
+                            <div class="input-group full-width">
+                                <label for="previousReport">Previous School Report (Optional)</label>
                                 <div class="file-upload-zone">
-                                    <input type="file" id="birthCertificate" name="birthCertificate" accept=".pdf,.jpg,.jpeg,.png" required>
-                                    <label for="birthCertificate" class="file-drop-area">
-                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    <input type="file" id="previousReport" name="previousReport" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label for="previousReport" class="file-drop-area">
+                                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
                                         <span class="file-msg">Drag & drop or click to upload</span>
                                         <span class="file-info">PDF, JPG, PNG (Max 5MB)</span>
                                     </label>
                                     <div class="file-preview">
-                                        <i class="fas fa-file-pdf"></i>
-                                        <span class="file-name-display"></span>
-                                        <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
+                                        <div class="file-preview-left">
+                                            <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                            <span class="file-name-display"></span>
+                                        </div>
+                                        <button type="button" class="file-remove" aria-label="Remove uploaded file"><i class="fas fa-times" aria-hidden="true"></i></button>
                                     </div>
                                 </div>
-                                <span class="validation-error">Please upload birth certificate</span>
                             </div>
-                            
-                            <div class="input-group">
-                                <label for="passportPhoto">Passport Photo <span class="required">*</span></label>
-                                <div class="file-upload-zone">
-                                    <input type="file" id="passportPhoto" name="passportPhoto" accept=".jpg,.jpeg,.png" required>
-                                    <label for="passportPhoto" class="file-drop-area">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                        <span class="file-msg">Drag & drop or click to upload</span>
-                                        <span class="file-info">JPG, PNG (Max 5MB)</span>
-                                    </label>
-                                    <div class="file-preview">
-                                        <i class="fas fa-file-image"></i>
-                                        <span class="file-name-display"></span>
-                                        <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
+
+                            <!-- Additional Information Sub-section -->
+                            <div class="step-sub-header">
+                                <i class="fas fa-comment-alt step-sub-icon" aria-hidden="true"></i>
+                                <div class="step-sub-title-content">
+                                    <h4>Additional Information</h4>
+                                    <p>Any other information you would like to share.</p>
+                                </div>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="howHeard">How did you hear about us? <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-bullhorn input-icon" aria-hidden="true"></i>
+                                    <select id="howHeard" name="howHeard" required>
+                                        <option value="">Select an option</option>
+                                        <option value="friend">Friend / Family Recommendation</option>
+                                        <option value="social">Social Media</option>
+                                        <option value="search">Online Search</option>
+                                        <option value="event">School Event</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <span class="validation-error">Please select an option</span>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="comments">Additional Comments</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-pen input-icon" aria-hidden="true"></i>
+                                    <textarea id="comments" name="comments" rows="3" placeholder="Any additional information you would like to share..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Review Summary Box (Section 15) -->
+                            <div class="admission-review-box" id="admissionReviewBox">
+                                <div class="admission-review-header">
+                                    <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                    <h4>Application Summary (Review Before Submitting)</h4>
+                                </div>
+                                <div class="admission-review-grid">
+                                    <div class="admission-review-item">
+                                        <span class="admission-review-label">Pupil Name</span>
+                                        <span class="admission-review-value" id="reviewPupilName">—</span>
+                                    </div>
+                                    <div class="admission-review-item">
+                                        <span class="admission-review-label">Class to Join</span>
+                                        <span class="admission-review-value" id="reviewClass">—</span>
+                                    </div>
+                                    <div class="admission-review-item">
+                                        <span class="admission-review-label">Parent / Guardian</span>
+                                        <span class="admission-review-value" id="reviewParent">—</span>
+                                    </div>
+                                    <div class="admission-review-item">
+                                        <span class="admission-review-label">Emergency Contact</span>
+                                        <span class="admission-review-value" id="reviewEmergency">—</span>
                                     </div>
                                 </div>
-                                <span class="validation-error">Please upload passport photo</span>
                             </div>
                         </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="previousReport">Previous School Report (Optional)</label>
-                            <div class="file-upload-zone">
-                                <input type="file" id="previousReport" name="previousReport" accept=".pdf,.jpg,.jpeg,.png">
-                                <label for="previousReport" class="file-drop-area">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span class="file-msg">Drag & drop or click to upload</span>
-                                    <span class="file-info">PDF, JPG, PNG (Max 5MB)</span>
-                                </label>
-                                <div class="file-preview">
-                                    <i class="fas fa-file-alt"></i>
-                                    <span class="file-name-display"></span>
-                                    <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
-                                </div>
+
+                        <!-- Form Navigation -->
+                        <div class="wizard-navigation">
+                            <p class="form-required-legend"><span class="required">*</span> Required fields</p>
+
+                            <div class="wizard-nav-buttons">
+                                <button type="button" class="wizard-btn wizard-btn-prev" id="wizardPrevBtn" style="display: none;">
+                                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                                    <span>Previous</span>
+                                </button>
+
+                                <button type="button" class="wizard-btn wizard-btn-next" id="wizardNextBtn">
+                                    <span>Next Step</span>
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+
+                                <button type="submit" class="wizard-btn wizard-btn-submit" id="wizardSubmitBtn" style="display: none;">
+                                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                    <span>Submit Application</span>
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="section-divider"></div>
-                        
-                        <div class="step-header-card">
-                            <div class="step-icon-badge">
-                                <i class="fas fa-comment-alt"></i>
-                            </div>
-                            <div class="step-title-content">
-                                <h3>Additional Information</h3>
-                                <p>Any other information you'd like to share</p>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="howHeard">How did you hear about us? <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-bullhorn input-icon"></i>
-                                <select id="howHeard" name="howHeard" required>
-                                    <option value="">Select an option</option>
-                                    <option value="friend">Friend/Family Recommendation</option>
-                                    <option value="social">Social Media</option>
-                                    <option value="search">Online Search</option>
-                                    <option value="event">School Event</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <span class="validation-error">Please select an option</span>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label for="comments">Additional Comments</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-pen input-icon"></i>
-                                <textarea id="comments" name="comments" rows="4" placeholder="Any additional information you'd like to share..."></textarea>
-                            </div>
-                        </div>
+                    </form>
+
+                    <!-- Auto-save Indicator -->
+                    <div class="auto-save-indicator" id="autoSaveIndicator">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        <span>Draft saved automatically</span>
                     </div>
-                    
-                    <!-- Form Navigation -->
-                    <div class="wizard-navigation">
-                        <button type="button" class="wizard-btn wizard-btn-prev" id="wizardPrevBtn">
-                            <i class="fas fa-arrow-left"></i>
-                            <span>Previous</span>
-                        </button>
-                        
-                        <!-- <div class="wizard-actions">
-                            <button type="button" class="wizard-btn wizard-btn-save" id="wizardSaveBtn">
-                                <i class="fas fa-save"></i>
-                                 <span>Save Draft</span> -->
-                            <!-- </button>
-                        </div>  -->
-                        
-                        <button type="button" class="wizard-btn wizard-btn-next" id="wizardNextBtn">
-                            <span>Next Step</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                        
-                        <button type="submit" class="wizard-btn wizard-btn-submit" id="wizardSubmitBtn" style="display: none;">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Submit Application</span>
-                        </button>
-                    </div>
-                </form>
-                
-                <!-- Auto-save Indicator -->
-                <div class="auto-save-indicator" id="autoSaveIndicator">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Draft saved automatically</span>
                 </div>
+
+                <!-- RIGHT COLUMN: Light Support Area -->
+                <aside class="admission-sidebar" data-aos="fade-up" data-aos-delay="200">
+                    <!-- 1. Application Progress Card -->
+                    <div class="sidebar-card-progress">
+                        <div class="sidebar-card-header">
+                            <div class="sidebar-card-icon">
+                                <i class="fas fa-tasks" aria-hidden="true"></i>
+                            </div>
+                            <h3>Application Progress</h3>
+                        </div>
+
+                        <div class="sidebar-step-meta">
+                            <span class="sidebar-step-num">Step <span id="sidebarStepNum">1</span> of 4</span>
+                            <span class="sidebar-step-percent" id="sidebarProgressPercent">25%</span>
+                        </div>
+
+                        <div class="sidebar-progress-track">
+                            <div class="sidebar-progress-fill" id="sidebarProgressFill" style="width: 25%;"></div>
+                        </div>
+
+                        <ul class="sidebar-steps-list">
+                            <li class="sidebar-step-item active" data-sidebar-step="1">
+                                <span class="dot"></span>
+                                <span>Student Information</span>
+                            </li>
+                            <li class="sidebar-step-item" data-sidebar-step="2">
+                                <span class="dot"></span>
+                                <span>Parent / Guardian</span>
+                            </li>
+                            <li class="sidebar-step-item" data-sidebar-step="3">
+                                <span class="dot"></span>
+                                <span>Emergency & School</span>
+                            </li>
+                            <li class="sidebar-step-item" data-sidebar-step="4">
+                                <span class="dot"></span>
+                                <span>Documents & Review</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Before You Start Guidance Card -->
+                    <div class="sidebar-card-guide">
+                        <div class="sidebar-guide-header">
+                            <div class="sidebar-guide-icon">
+                                <i class="fas fa-info" aria-hidden="true"></i>
+                            </div>
+                            <h3>Before You Start</h3>
+                        </div>
+                        <p class="sidebar-guide-desc">Have the following ready as you complete the application:</p>
+                        <ul class="sidebar-guide-list">
+                            <li>
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <span>Child's personal & date of birth details</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <span>Parent/guardian contact & NIN</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <span>Emergency contact details</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <span>Previous school records (if applicable)</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check" aria-hidden="true"></i>
+                                <span>Required documents (PDF, JPG, PNG – Max 5MB)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
             </div>
         </div>
     </section>
@@ -871,14 +1009,19 @@
             let currentStep = 1;
             const totalSteps = 4;
             
-            const wizardSteps = document.querySelectorAll('.wizard-step');
             const formSteps = document.querySelectorAll('.wizard-form-step');
+            const stepperSteps = document.querySelectorAll('.admission-stepper-step');
+            const connectors = document.querySelectorAll('.stepper-connector');
             const prevBtn = document.getElementById('wizardPrevBtn');
             const nextBtn = document.getElementById('wizardNextBtn');
             const submitBtn = document.getElementById('wizardSubmitBtn');
-            const saveBtn = document.getElementById('wizardSaveBtn');
-            const progressFill = document.querySelector('.wizard-progress-fill');
             const autoSaveIndicator = document.getElementById('autoSaveIndicator');
+            
+            // Sidebar Progress Elements
+            const sidebarStepNum = document.getElementById('sidebarStepNum');
+            const sidebarProgressPercent = document.getElementById('sidebarProgressPercent');
+            const sidebarProgressFill = document.getElementById('sidebarProgressFill');
+            const sidebarStepItems = document.querySelectorAll('.sidebar-step-item');
             
             // Initialize
             updateWizardUI();
@@ -898,29 +1041,89 @@
                 updateWizardUI();
                 scrollToTop();
             });
+
+            // Clickable Stepper (Jump to previously completed steps)
+            stepperSteps.forEach(stepEl => {
+                stepEl.addEventListener('click', () => {
+                    const targetStep = parseInt(stepEl.dataset.step);
+                    if (targetStep < currentStep) {
+                        currentStep = targetStep;
+                        updateWizardUI();
+                        scrollToTop();
+                    }
+                });
+            });
             
             // Update Wizard UI
             function updateWizardUI() {
-                // Update form steps
+                // Update form step panels
                 formSteps.forEach((step, index) => {
                     step.classList.toggle('active', index + 1 === currentStep);
                 });
                 
-                // Update wizard steps
-                wizardSteps.forEach((step, index) => {
+                // Update top horizontal stepper
+                stepperSteps.forEach((stepEl, index) => {
                     const stepNum = index + 1;
-                    step.classList.toggle('active', stepNum === currentStep);
-                    step.classList.toggle('completed', stepNum < currentStep);
+                    stepEl.classList.toggle('active', stepNum === currentStep);
+                    stepEl.classList.toggle('completed', stepNum < currentStep);
+                });
+
+                // Update horizontal connectors
+                connectors.forEach((conn, index) => {
+                    conn.classList.toggle('completed', (index + 1) < currentStep);
                 });
                 
-                // Update progress bar
-                const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
-                progressFill.style.width = progress + '%';
+                // Update sidebar progress
+                const percent = Math.round((currentStep / totalSteps) * 100);
+                if (sidebarStepNum) sidebarStepNum.textContent = currentStep;
+                if (sidebarProgressPercent) sidebarProgressPercent.textContent = percent + '%';
+                if (sidebarProgressFill) sidebarProgressFill.style.width = percent + '%';
+                
+                sidebarStepItems.forEach((item, index) => {
+                    const itemNum = index + 1;
+                    item.classList.toggle('active', itemNum === currentStep);
+                    item.classList.toggle('completed', itemNum < currentStep);
+                });
                 
                 // Update buttons
-                prevBtn.style.display = currentStep === 1 ? 'none' : 'flex';
-                nextBtn.style.display = currentStep === totalSteps ? 'none' : 'flex';
-                submitBtn.style.display = currentStep === totalSteps ? 'flex' : 'none';
+                prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-flex';
+                nextBtn.style.display = currentStep === totalSteps ? 'none' : 'inline-flex';
+                submitBtn.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+
+                // Update Review Summary on Step 4
+                if (currentStep === 4) {
+                    updateReviewSummary();
+                }
+            }
+
+            // Populate Step 4 Review Summary Box
+            function updateReviewSummary() {
+                const fn = document.getElementById('firstName')?.value.trim() || '';
+                const ln = document.getElementById('lastName')?.value.trim() || '';
+                const pupilName = (fn + ' ' + ln).trim() || 'Not specified';
+                
+                const classEl = document.getElementById('classToJoin');
+                const classText = classEl && classEl.selectedIndex > 0 ? classEl.options[classEl.selectedIndex].text : 'Not selected';
+                
+                const pName = document.getElementById('parentName')?.value.trim() || '';
+                const relEl = document.getElementById('relationship');
+                const relText = relEl && relEl.selectedIndex > 0 ? relEl.options[relEl.selectedIndex].text : '';
+                const pPhone = document.getElementById('parentPhone')?.value.trim() || '';
+                const parentSummary = pName ? (pName + (relText ? ' (' + relText + ')' : '') + (pPhone ? ' • ' + pPhone : '')) : 'Not specified';
+                
+                const emName = document.getElementById('emergencyName')?.value.trim() || '';
+                const emPhone = document.getElementById('emergencyPhone')?.value.trim() || '';
+                const emergencySummary = emName ? (emName + (emPhone ? ' • ' + emPhone : '')) : 'Not specified';
+
+                const rName = document.getElementById('reviewPupilName');
+                const rClass = document.getElementById('reviewClass');
+                const rParent = document.getElementById('reviewParent');
+                const rEm = document.getElementById('reviewEmergency');
+
+                if (rName) rName.textContent = pupilName;
+                if (rClass) rClass.textContent = classText;
+                if (rParent) rParent.textContent = parentSummary;
+                if (rEm) rEm.textContent = emergencySummary;
             }
             
             // Validate Step
@@ -957,6 +1160,7 @@
             allInputs.forEach(input => {
                 input.addEventListener('blur', () => {
                     const inputGroup = input.closest('.input-group');
+                    if (!inputGroup) return;
                     
                     if (input.hasAttribute('required')) {
                         if (!input.value.trim()) {
@@ -976,7 +1180,7 @@
                 
                 input.addEventListener('input', () => {
                     const inputGroup = input.closest('.input-group');
-                    if (inputGroup.classList.contains('error')) {
+                    if (inputGroup && inputGroup.classList.contains('error')) {
                         inputGroup.classList.remove('error');
                     }
                 });
@@ -1035,6 +1239,7 @@
             
             fileInputs.forEach(input => {
                 const uploadZone = input.closest('.file-upload-zone');
+                if (!uploadZone) return;
                 const dropArea = uploadZone.querySelector('.file-drop-area');
                 const preview = uploadZone.querySelector('.file-preview');
                 const fileNameDisplay = uploadZone.querySelector('.file-name-display');
@@ -1046,32 +1251,36 @@
                 });
                 
                 // Drag & Drop
-                dropArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropArea.classList.add('drag-over');
-                });
-                
-                dropArea.addEventListener('dragleave', () => {
-                    dropArea.classList.remove('drag-over');
-                });
-                
-                dropArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropArea.classList.remove('drag-over');
+                if (dropArea) {
+                    dropArea.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        dropArea.classList.add('drag-over');
+                    });
                     
-                    const file = e.dataTransfer.files[0];
-                    if (file) {
-                        input.files = e.dataTransfer.files;
-                        handleFile(file);
-                    }
-                });
+                    dropArea.addEventListener('dragleave', () => {
+                        dropArea.classList.remove('drag-over');
+                    });
+                    
+                    dropArea.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        dropArea.classList.remove('drag-over');
+                        
+                        const file = e.dataTransfer.files[0];
+                        if (file) {
+                            input.files = e.dataTransfer.files;
+                            handleFile(file);
+                        }
+                    });
+                }
                 
                 // Remove file
-                removeBtn.addEventListener('click', () => {
-                    input.value = '';
-                    preview.classList.remove('active');
-                    dropArea.style.display = 'flex';
-                });
+                if (removeBtn) {
+                    removeBtn.addEventListener('click', () => {
+                        input.value = '';
+                        if (preview) preview.classList.remove('active');
+                        if (dropArea) dropArea.style.display = 'flex';
+                    });
+                }
                 
                 function handleFile(file) {
                     if (file) {
@@ -1081,9 +1290,9 @@
                             return;
                         }
                         
-                        fileNameDisplay.textContent = file.name;
-                        preview.classList.add('active');
-                        dropArea.style.display = 'none';
+                        if (fileNameDisplay) fileNameDisplay.textContent = file.name;
+                        if (preview) preview.classList.add('active');
+                        if (dropArea) dropArea.style.display = 'none';
                         
                         // Remove error if exists
                         const inputGroup = input.closest('.input-group');
@@ -1118,54 +1327,51 @@
                 localStorage.setItem('admissionDraft', JSON.stringify(draftData));
                 
                 // Show auto-save indicator
-                autoSaveIndicator.classList.add('show');
-                setTimeout(() => {
-                    autoSaveIndicator.classList.remove('show');
-                }, 2000);
+                if (autoSaveIndicator) {
+                    autoSaveIndicator.classList.add('show');
+                    setTimeout(() => {
+                        autoSaveIndicator.classList.remove('show');
+                    }, 2000);
+                }
             }
             
-            // Manual Save Draft
-            saveBtn.addEventListener('click', () => {
-                saveDraft();
-                alert('Draft saved successfully! You can continue later.');
-            });
-            
-            // Load Draft on Page Load (No Popup - Just Auto-Load)
+            // Load Draft on Page Load
             window.addEventListener('load', () => {
                 const savedDraft = localStorage.getItem('admissionDraft');
                 
                 if (savedDraft) {
-                    // Silently load the draft without popup
-                    const draftData = JSON.parse(savedDraft);
-                    
-                    // Restore form values
-                    for (let [key, value] of Object.entries(draftData)) {
-                        if (key !== 'currentStep') {
-                            const input = wizardForm.querySelector(`[name="${key}"]`);
-                            if (input && input.type !== 'file') {
-                                input.value = value;
+                    try {
+                        const draftData = JSON.parse(savedDraft);
+                        
+                        // Restore form values
+                        for (let [key, value] of Object.entries(draftData)) {
+                            if (key !== 'currentStep') {
+                                const input = wizardForm.querySelector(`[name="${key}"]`);
+                                if (input && input.type !== 'file') {
+                                    input.value = value;
+                                }
                             }
                         }
+                        
+                        // Restore step
+                        if (draftData.currentStep) {
+                            currentStep = parseInt(draftData.currentStep);
+                            updateWizardUI();
+                        }
+                        
+                        if (autoSaveIndicator) {
+                            autoSaveIndicator.innerHTML = '<i class="fas fa-info-circle"></i><span>Draft restored</span>';
+                            autoSaveIndicator.classList.add('show');
+                            setTimeout(() => {
+                                autoSaveIndicator.classList.remove('show');
+                                autoSaveIndicator.innerHTML = '<i class="fas fa-check-circle"></i><span>Draft saved automatically</span>';
+                            }, 3000);
+                        }
+                    } catch (e) {
+                        console.warn('Could not parse admissionDraft:', e);
                     }
-                    
-                    // Restore step
-                    if (draftData.currentStep) {
-                        currentStep = parseInt(draftData.currentStep);
-                        updateWizardUI();
-                    }
-                    
-                    // Show subtle notification
-                    autoSaveIndicator.innerHTML = '<i class="fas fa-info-circle"></i><span>Draft restored</span>';
-                    autoSaveIndicator.style.background = 'rgba(0, 102, 204, 0.95)';
-                    autoSaveIndicator.classList.add('show');
-                    setTimeout(() => {
-                        autoSaveIndicator.classList.remove('show');
-                        autoSaveIndicator.innerHTML = '<i class="fas fa-check-circle"></i><span>Draft saved automatically</span>';
-                        autoSaveIndicator.style.background = 'rgba(40, 167, 69, 0.95)';
-                    }, 3000);
                 }
                 
-                // Start auto-save
                 startAutoSave();
             });
             
@@ -1174,78 +1380,78 @@
                 e.preventDefault();
                 
                 if (validateStep(currentStep)) {
-                    // Show loading
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Submitting...</span>';
                     submitBtn.disabled = true;
                     
-                    // Collect form data
                     const formData = new FormData(wizardForm);
                     
-                    console.log('Form data being sent...');
-                    
                     try {
-                        // Submit form with files to API
                         const response = await fetch('../backend/api/admissions/create-public-with-files.php', {
                             method: 'POST',
-                            body: formData // Send FormData directly to include files
+                            body: formData
                         });
                         
                         const result = await response.json();
                         
                         if (result.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Application Submitted!',
-                                html: `
-                                    <p style="font-size: 16px; margin-bottom: 15px;">Your application has been submitted successfully!</p>
-                                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                                        <p style="font-size: 14px; color: #0066cc; margin: 0;">
-                                            <strong>Application ID:</strong> ${result.application_id}
-                                        </p>
-                                    </div>
-                                    <p style="font-size: 14px; color: #666;">We will contact you within 5 working days.</p>
-                                `,
-                                confirmButtonColor: '#0066cc',
-                                confirmButtonText: 'OK',
-                                allowOutsideClick: false
-                            }).then(() => {
-                                // Clear draft
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Application Submitted!',
+                                    html: `
+                                        <p style="font-size: 16px; margin-bottom: 15px;">Your application has been submitted successfully!</p>
+                                        <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                                            <p style="font-size: 14px; color: #0066cc; margin: 0;">
+                                                <strong>Application ID:</strong> ${result.application_id}
+                                            </p>
+                                        </div>
+                                        <p style="font-size: 14px; color: #666;">We will contact you within 5 working days.</p>
+                                    `,
+                                    confirmButtonColor: '#0b3366',
+                                    confirmButtonText: 'OK',
+                                    allowOutsideClick: false
+                                }).then(() => {
+                                    localStorage.removeItem('admissionDraft');
+                                    wizardForm.reset();
+                                    currentStep = 1;
+                                    updateWizardUI();
+                                    document.querySelectorAll('.file-preview').forEach(p => p.classList.remove('active'));
+                                    document.querySelectorAll('.file-drop-area').forEach(a => a.style.display = 'flex');
+                                    scrollToTop();
+                                });
+                            } else {
+                                alert('Application Submitted! Your Application ID: ' + result.application_id);
                                 localStorage.removeItem('admissionDraft');
-                                
-                                // Reset form
                                 wizardForm.reset();
                                 currentStep = 1;
                                 updateWizardUI();
-                                
-                                // Reset file previews
-                                document.querySelectorAll('.file-preview').forEach(preview => {
-                                    preview.classList.remove('active');
-                                });
-                                document.querySelectorAll('.file-drop-area').forEach(area => {
-                                    area.style.display = 'flex';
-                                });
-                                
-                                // Scroll to top
                                 scrollToTop();
-                            });
+                            }
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Submission Failed',
-                                text: result.message || 'Failed to submit application. Please try again.',
-                                confirmButtonColor: '#dc3545'
-                            });
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Submission Failed',
+                                    text: result.message || 'Failed to submit application. Please try again.',
+                                    confirmButtonColor: '#dc3545'
+                                });
+                            } else {
+                                alert('Failed to submit application: ' + (result.message || 'Please try again.'));
+                            }
                         }
                     } catch (error) {
                         console.error('Submission error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Connection Error',
-                            text: 'Error submitting application. Please check your internet connection and try again.',
-                            confirmButtonColor: '#dc3545'
-                        });
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Connection Error',
+                                text: 'Error submitting application. Please check your internet connection and try again.',
+                                confirmButtonColor: '#dc3545'
+                            });
+                        } else {
+                            alert('Connection error submitting application. Please try again.');
+                        }
                     } finally {
-                        // Reset button
                         submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Submit Application</span>';
                         submitBtn.disabled = false;
                     }
@@ -1254,9 +1460,24 @@
             
             // Scroll to top helper
             function scrollToTop() {
-                window.scrollTo({
-                    top: document.querySelector('.admission-form-section').offsetTop - 100,
-                    behavior: 'smooth'
+                const target = document.querySelector('.admission-form-section');
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            // Hero CTA Smooth Scroll
+            const heroApplyCta = document.getElementById('heroApplyCta');
+            if (heroApplyCta) {
+                heroApplyCta.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.getElementById('admission-application-section');
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 });
             }
         }

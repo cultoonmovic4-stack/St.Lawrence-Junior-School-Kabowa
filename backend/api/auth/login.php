@@ -42,18 +42,9 @@ if (empty($data->email) || empty($data->password)) {
 }
 
 // Sanitize input
-$email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
+$login = trim($data->email);
 $password = $data->password;
 
-// Validate email format
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Invalid email format'
-    ]);
-    exit();
-}
 
 try {
     // Create database connection
@@ -70,11 +61,12 @@ try {
                      r.id as role_id, r.role_name, r.role_level
               FROM users u
               LEFT JOIN roles r ON u.role_id = r.id
-              WHERE u.email = :email
+              WHERE (u.email = :login_email OR u.username = :login_user)
               LIMIT 1";
     
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':login_email', $login);
+    $stmt->bindParam(':login_user', $login);
     $stmt->execute();
     
     // Check if user exists
