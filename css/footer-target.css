@@ -3,6 +3,8 @@
    Option 3 — Split Layout with Tagline (Spacious Full-Width Layout)
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 .footer-target {
     background-color: #081426;
     color: #cbd5e1;
@@ -10,6 +12,7 @@
     overflow: hidden;
     padding-top: 72px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-sizing: border-box;
 }
 
 /* Wide, expansive horizontal container for maximum breathing room */
@@ -20,6 +23,7 @@
     padding: 0 24px;
     position: relative;
     z-index: 2;
+    box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
@@ -30,12 +34,14 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 36px;
+    box-sizing: border-box;
 }
 
 /* Column 1: Brand */
 .footer-target .footer-brand-col {
     flex: 0 1 320px;
     min-width: 270px;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-brand-header {
@@ -104,6 +110,7 @@
     flex: 0 0 150px;
     padding-top: 8px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-cursive-wrap {
@@ -134,6 +141,7 @@
 /* Navigation Columns */
 .footer-target .footer-nav-col {
     flex: 0 1 160px;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-col-accent {
@@ -141,6 +149,7 @@
     height: 2.5px;
     background-color: #d32f2f;
     margin-bottom: 12px;
+    border-radius: 2px;
 }
 
 .footer-target .footer-col-title {
@@ -180,6 +189,7 @@
 .footer-target .footer-contact-col {
     flex: 0 1 290px;
     min-width: 250px;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-contact-list {
@@ -209,6 +219,8 @@
     color: #cbd5e1;
     text-decoration: none;
     transition: color 0.2s ease;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .footer-target .footer-contact-item a:hover {
@@ -220,6 +232,7 @@
     flex: 0 0 160px;
     text-align: right;
     padding-top: 10px;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-pillars-text {
@@ -244,6 +257,7 @@
     justify-content: space-between;
     font-size: 13px;
     color: #94a3b8;
+    box-sizing: border-box;
 }
 
 .footer-target .footer-copyright-text {
@@ -271,18 +285,25 @@
 }
 
 /* --------------------------------------------------------------------------
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN — CLEAN, APPEALED INSTITUTIONAL MOBILE LAYOUT
    -------------------------------------------------------------------------- */
 @media (max-width: 1200px) {
     .footer-target .footer-top-row {
         gap: 28px;
     }
+    .footer-target .footer-cursive-text {
+        font-size: 28px;
+    }
 }
 
 @media (max-width: 1080px) {
+    .footer-target {
+        padding-top: 56px;
+    }
+
     .footer-target .footer-top-row {
         flex-wrap: wrap;
-        gap: 36px 30px;
+        gap: 32px 24px;
     }
 
     .footer-target .footer-brand-col {
@@ -291,38 +312,427 @@
     }
 
     .footer-target .footer-tagline-col {
+        flex: 0 0 100%;
+        text-align: left;
+        padding-top: 0;
+        margin: -8px 0 8px 0;
+    }
+
+    .footer-target .footer-cursive-wrap {
+        transform: none;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 12px;
+    }
+
+    .footer-target .footer-cursive-text {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+
+    .footer-target .footer-cursive-underline {
         display: none;
+    }
+
+    .footer-target .footer-nav-col {
+        flex: 0 0 calc(25% - 18px);
+        min-width: 140px;
+    }
+
+    .footer-target .footer-contact-col {
+        flex: 0 0 calc(50% - 18px);
+        min-width: 260px;
     }
 
     .footer-target .footer-pillars-col {
         flex: 0 0 100%;
         text-align: left;
-        margin-top: 10px;
+        margin-top: 8px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 }
 
+/* --------------------------------------------------------------------------
+   MOBILE SCREENS (SMARTPHONES & TABLETS <= 768px)
+   STRICT 2-COLUMN BALANCED INSTITUTIONAL GRID
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     .footer-target {
-        padding-top: 48px;
+        padding-top: 48px !important;
+        padding-bottom: 12px !important;
     }
 
+    .footer-target .footer-container {
+        width: 100% !important;
+        padding: 0 18px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* CSS Grid guarantees 2 equal columns for links, and clean full-width cards for brand/contact/pillars */
+    .footer-target .footer-top-row {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px 18px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 1. Brand Identity Card (Centered) */
+    .footer-target .footer-brand-col {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .footer-target .footer-brand-header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .footer-target .footer-school-logo {
+        height: 62px !important;
+        width: auto !important;
+        margin: 0 auto !important;
+        filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45)) !important;
+    }
+
+    .footer-target .footer-school-title {
+        font-family: 'Playfair Display', Georgia, serif !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        margin: 0 !important;
+        color: #ffffff !important;
+    }
+
+    .footer-target .footer-brand-desc {
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
+        color: #94a3b8 !important;
+        text-align: center !important;
+        max-width: 440px !important;
+        margin: 0 auto 16px auto !important;
+    }
+
+    .footer-target .footer-social-links {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        margin: 0 auto !important;
+    }
+
+    .footer-target .footer-social-btn {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 15px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        color: #ffffff !important;
+    }
+
+    /* 2. Cursive School Motto Pill Banner */
+    .footer-target .footer-tagline-col {
+        grid-column: 1 / -1 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 4px 0 8px 0 !important;
+        padding: 0 !important;
+    }
+
+    .footer-target .footer-cursive-wrap {
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        padding: 10px 24px !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 999px !important;
+        transform: none !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .footer-target .footer-cursive-text {
+        font-family: 'Caveat', cursive, sans-serif !important;
+        font-size: 26px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        letter-spacing: 0.5px !important;
+        white-space: nowrap !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .footer-target .footer-cursive-text br {
+        display: none !important;
+    }
+
+    .footer-target .footer-cursive-underline {
+        display: none !important;
+    }
+
+    /* 3 & 4. Symmetrical 2-Column Links (Quick Links & Programs side-by-side) */
     .footer-target .footer-nav-col {
-        flex: 0 0 calc(50% - 20px);
+        min-width: 0 !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .footer-target .footer-col-accent {
+        width: 26px !important;
+        height: 3px !important;
+        background-color: #d32f2f !important;
+        margin-bottom: 12px !important;
+        border-radius: 2px !important;
+    }
+
+    .footer-target .footer-col-title {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        margin: 0 0 14px 0 !important;
+        letter-spacing: 0.2px !important;
+        white-space: normal !important;
+    }
+
+    .footer-target .footer-nav-list {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .footer-target .footer-nav-list li {
+        margin-bottom: 10px !important;
+    }
+
+    .footer-target .footer-nav-list a {
+        font-size: 13.5px !important;
+        color: #cbd5e1 !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        padding: 3px 0 !important;
+    }
+
+    /* 5. Institutional Contact Information Card */
+    .footer-target .footer-contact-col {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: rgba(255, 255, 255, 0.035) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        padding: 22px 18px !important;
+        margin-top: 4px !important;
+        box-sizing: border-box !important;
+    }
+
+    .footer-target .footer-contact-col .footer-col-accent {
+        margin-bottom: 8px !important;
+    }
+
+    .footer-target .footer-contact-col .footer-col-title {
+        font-size: 16px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .footer-target .footer-contact-list {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+    }
+
+    .footer-target .footer-contact-item {
+        display: grid !important;
+        grid-template-columns: 28px 1fr !important;
+        gap: 12px !important;
+        align-items: start !important;
+        font-size: 13.5px !important;
+        line-height: 1.55 !important;
+        color: #cbd5e1 !important;
+        margin: 0 !important;
+    }
+
+    .footer-target .footer-contact-icon {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 50% !important;
+        background: rgba(211, 47, 47, 0.16) !important;
+        color: #ef4444 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 12px !important;
+        margin-top: 1px !important;
+    }
+
+    .footer-target .footer-contact-item a {
+        display: inline-block !important;
+        padding: 3px 8px !important;
+        margin: 2px 4px 2px 0 !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 6px !important;
+        color: #ffffff !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        font-size: 13px !important;
+    }
+
+    .footer-target .footer-contact-item a[href^="mailto:"] {
+        display: inline !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        color: #93c5fd !important;
+        text-decoration: underline !important;
+        text-underline-offset: 3px !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-all !important;
+    }
+
+    /* 6. Institutional Pillars Motto Banner */
+    .footer-target .footer-pillars-col {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        margin-top: 4px !important;
+        padding: 14px 16px !important;
+        background: rgba(211, 47, 47, 0.08) !important;
+        border: 1px solid rgba(211, 47, 47, 0.22) !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    .footer-target .footer-pillars-text {
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 2px !important;
+        line-height: 1.8 !important;
+        color: #fecaca !important;
+        text-align: center !important;
+        margin: 0 !important;
+        text-transform: uppercase !important;
+    }
+
+    .footer-target .footer-pillars-text br {
+        display: none !important;
+    }
+
+    /* 7. Bottom Copyright & Legal Strip */
+    .footer-target .footer-bottom-strip {
+        margin-top: 32px !important;
+        padding-top: 22px !important;
+        padding-bottom: 28px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 12px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .footer-target .footer-copyright-text {
+        font-size: 12.5px !important;
+        color: #94a3b8 !important;
+        line-height: 1.6 !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    .footer-target .footer-legal-links {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 8px 14px !important;
+    }
+
+    .footer-target .footer-legal-links a {
+        font-size: 12px !important;
+        color: #94a3b8 !important;
+        padding: 4px 6px !important;
+        text-decoration: none !important;
+    }
+
+    .footer-target .footer-legal-separator {
+        color: rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   VERY NARROW MOBILE SCREENS (<= 420px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 420px) {
+    .footer-target {
+        padding-top: 40px !important;
+    }
+
+    .footer-target .footer-container {
+        padding: 0 14px !important;
+    }
+
+    .footer-target .footer-school-logo {
+        height: 52px !important;
+    }
+
+    .footer-target .footer-school-title {
+        font-size: 18px !important;
+    }
+
+    .footer-target .footer-top-row {
+        gap: 20px 14px !important;
+    }
+
+    .footer-target .footer-cursive-text {
+        font-size: 22px !important;
+    }
+
+    .footer-target .footer-col-title {
+        font-size: 14px !important;
+    }
+
+    .footer-target .footer-nav-list a {
+        font-size: 13px !important;
     }
 
     .footer-target .footer-contact-col {
-        flex: 0 0 100%;
+        padding: 18px 14px !important;
     }
 
-    .footer-target .footer-bottom-strip {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+    .footer-target .footer-contact-item {
+        font-size: 13px !important;
     }
-}
 
-@media (max-width: 480px) {
-    .footer-target .footer-nav-col {
-        flex: 0 0 100%;
+    .footer-target .footer-pillars-text {
+        font-size: 10px !important;
+        letter-spacing: 1.4px !important;
     }
 }

@@ -2999,6 +2999,8 @@
             max-width: 100%;
         }
     </style>
+    <!-- St. Lawrence Dashboard Overview Redesign Styles -->
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.0">
 </head>
 <body>
     <div class="loading-screen" id="loadingScreen">
@@ -3006,141 +3008,110 @@
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="adminSidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
                 <img src="../../img/5.jpg" alt="School Logo">
             </div>
             <div class="sidebar-title">
                 <h3>ST. LAWRENCE</h3>
-                <p>JUNIOR SCHOOL</p>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
             </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
         </div>
 
         <div class="sidebar-menu">
             <a href="dashboard.html" class="menu-item active">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-home"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
 
-
-
+            <!-- Academics Section (Simplified: Admissions only) -->
             <div class="menu-item" onclick="toggleSubmenu(this)">
                 <i class="fas fa-graduation-cap"></i>
                 <span class="menu-text">Academics</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </div>
-            <div class="submenu">
-                <a href="#" class="submenu-item">
-                    <i class="fas fa-book"></i>
-                    <span>Classes</span>
-                </a>
-                <a href="#" class="submenu-item">
-                    <i class="fas fa-chalkboard"></i>
-                    <span>Subjects</span>
-                </a>
-                <a href="#" class="submenu-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Timetable</span>
-                </a>
-                <a href="#" class="submenu-item" onclick="showAdmissionsSection(); return false;">
-                    <i class="fas fa-user-graduate"></i>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Admissions</span>
                     <span class="notification-badge" id="admissionsBadge" style="display: none;">0</span>
                 </a>
             </div>
 
+            <!-- Content Section (Grouped: People, Calendar, Media, Community) -->
             <div class="menu-item" onclick="toggleSubmenu(this)">
                 <i class="fas fa-folder"></i>
                 <span class="menu-text">Content</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </div>
-            <div class="submenu">
-                <a href="#" class="submenu-item" onclick="showTeachersSection(); return false;">
-                    <i class="fas fa-chalkboard-teacher"></i>
+            <div class="submenu content-submenu">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Teachers</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showEventsModal(); return false;">
-                    <i class="fas fa-calendar-alt"></i>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Events</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showImportantDaysModal(); return false;">
-                    <i class="fas fa-star"></i>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Important Days</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showAcademicCalendarModal(); return false;">
-                    <i class="fas fa-calendar-check"></i>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Academic Calendar</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showLibrarySection(); return false;">
-                    <i class="fas fa-book"></i>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Library</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showGallerySection(); return false;">
-                    <i class="fas fa-images"></i>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Gallery</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="openModal('testimonialModal'); return false;">
-                    <i class="fas fa-quote-left"></i>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Testimonials</span>
                 </a>
-                <a href="#" class="submenu-item" onclick="showMessagesSection(); return false;">
-                    <i class="fas fa-envelope"></i>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
                     <span>Messages</span>
                     <span class="notification-badge" id="messagesBadge" style="display: none;">0</span>
                 </a>
             </div>
 
-
-
-            <a href="#" class="menu-item" onclick="openModal('userManagementModal'); return false;">
-                <i class="fas fa-users-cog"></i>
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
                 <span class="menu-text">User Management</span>
             </a>
 
+            <!-- Settings -->
             <a href="#" class="menu-item" onclick="openSystemSettings(); return false;">
                 <i class="fas fa-cog"></i>
                 <span class="menu-text">Settings</span>
             </a>
         </div>
-    </div>
 
-    <!-- Right Icon Rail -->
-    <div class="right-rail">
-        <div class="rail-icon" title="Notifications" onclick="showNotificationsPanel()">
-            <i class="fas fa-bell"></i>
-            <span class="badge" id="railNotificationsBadge" style="display: none;">0</span>
-        </div>
-        <div class="rail-icon" title="Messages" onclick="showMessagesSection()">
-            <i class="fas fa-envelope"></i>
-            <span class="badge" id="railMessagesBadge" style="display: none;">0</span>
-        </div>
-        <div class="rail-icon" title="Calendar" onclick="showAcademicCalendarModal()">
-            <i class="fas fa-calendar-alt"></i>
-        </div>
-        <div class="rail-icon" title="Admissions" onclick="openModal('admissionsModal'); loadAdmissions()">
-            <i class="fas fa-user-graduate"></i>
-            <span class="badge" id="railAdmissionsBadge" style="display: none;">0</span>
-        </div>
-        <div class="rail-divider"></div>
-        <div class="rail-icon" title="Teachers" onclick="showTeachersSection()">
-            <i class="fas fa-chalkboard-teacher"></i>
-        </div>
-        <div class="rail-icon" title="Gallery" onclick="showGallerySection()">
-            <i class="fas fa-images"></i>
-        </div>
-        <div class="rail-icon" title="Library" onclick="openModal('libraryModal')">
-            <i class="fas fa-book"></i>
-        </div>
-        <div class="rail-icon" title="User Management" onclick="openModal('userManagementModal')">
-            <i class="fas fa-users-cog"></i>
-        </div>
-        <div class="rail-divider"></div>
-        <div class="rail-icon" title="Help" onclick="showHelpPanel()">
-            <i class="fas fa-question-circle"></i>
-        </div>
-        <div class="rail-icon" title="Settings" onclick="openSystemSettings()">
-            <i class="fas fa-cog"></i>
+        <!-- Lower Sidebar (Admin Portal & Back to Website) -->
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
         </div>
     </div>
 
@@ -3149,11 +3120,12 @@
         <!-- Top Bar -->
         <div class="top-bar">
             <div class="top-bar-left">
-                <button class="menu-toggle">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="page-title">
-                    <h1><i class="fas fa-home"></i> Dashboard</h1>
+                    <h1>Dashboard</h1>
+                    <span class="page-subtitle">School Administration</span>
                 </div>
             </div>
 
@@ -3161,39 +3133,31 @@
                 <!-- Date Time Card -->
                 <div class="datetime-card">
                     <div class="datetime-icon">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="date-section">
-                        <div class="date">
-                            <span id="currentDate">Loading...</span>
-                        </div>
+                        <div class="date" id="currentDate">Loading...</div>
                         <div class="time" id="currentTime">00:00:00</div>
-                    </div>
-                </div>
-
-                <!-- Greeting Card -->
-                <div class="greeting-card">
-                    <div class="greeting-icon">
-                        <i class="fas fa-hand-sparkles"></i>
-                    </div>
-                    <div class="greeting-content">
-                        <div class="greeting-text" id="greetingText">Good Morning</div>
-                        <div class="greeting-name" id="greetingName">Welcome back!</div>
                     </div>
                 </div>
             </div>
 
             <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="showNotificationsPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="railNotificationsBadge" style="display: none;">0</span>
+                </button>
+
                 <div class="user-profile" onclick="toggleUserDropdown(event)">
                     <div class="user-avatar" id="userAvatar">A</div>
                     <div class="user-info">
                         <div class="name" id="userName">Loading...</div>
                         <div class="role" id="userRole">...</div>
                     </div>
-                    <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-gray);"></i>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
                 </div>
                 
-                <!-- Dropdown Menu (outside user-profile for proper positioning) -->
+                <!-- Dropdown Menu -->
                 <div class="user-dropdown" id="userDropdown">
                     <div class="user-dropdown-header">
                         <div class="avatar-large" id="userAvatarLarge">A</div>
@@ -3223,7 +3187,7 @@
                             <span>Activity Log</span>
                         </a>
                         <div class="user-dropdown-divider"></div>
-                        <a href="#" class="user-dropdown-item" style="color: #dc3545;" onclick="logout(); return false;">
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </a>
@@ -3238,135 +3202,67 @@
 
         <!-- Dashboard Content -->
         <div class="dashboard-content">
-            <!-- Enhanced Welcome Section -->
+            <!-- 1. Welcome Area -->
             <div class="welcome-section">
                 <div class="header-content">
-                    <div class="header-left">
-                        <div class="welcome-main">
-                            <h2><span class="welcome-icon">🌟</span> <span id="welcomeGreeting">Good Morning</span>, <span id="welcomeUserName">Administrator</span>!</h2>
-                            <p id="welcomeMessage">Welcome back to St. Lawrence Junior School Dashboard. Here's what's happening today.</p>
-                        </div>
-                        
-                        <!-- Welcome Highlight -->
-                        <div class="welcome-highlight">
-                            <p class="welcome-highlight-text">
-                                <span class="welcome-highlight-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </span>
-                                Dashboard is live and monitoring all school activities in real-time
-                            </p>
-                        </div>
+                    <div class="welcome-main">
+                        <span class="welcome-pretitle"><span id="welcomeGreeting">GOOD MORNING</span>,</span>
+                        <h2 class="welcome-title"><span id="welcomeUserName">Administrator</span>!</h2>
+                        <p class="welcome-subtitle" id="welcomeMessage">Welcome back to St. Lawrence Junior School Dashboard. Here's what's happening today.</p>
+                        <span id="greetingText" style="display: none;">Good Morning</span>
+                        <span id="greetingName" style="display: none;">Welcome back!</span>
                     </div>
                     <div class="header-right">
                         <button class="header-action-btn secondary" onclick="manualRefreshStats()">
-                            <i class="fas fa-sync-alt"></i>
-                            Refresh Stats
+                            <i class="fas fa-sync-alt"></i> Refresh Data
                         </button>
                         <button class="header-action-btn secondary" onclick="exportDashboardReport()">
-                            <i class="fas fa-download"></i>
-                            Export Report
+                            <i class="fas fa-download"></i> Export Report
                         </button>
-                        <button class="header-action-btn success" onclick="showNotificationCenter()">
-                            <i class="fas fa-bell"></i>
-                            Notifications
+                        <button class="header-action-btn primary" onclick="showNotificationCenter()">
+                            <i class="fas fa-bell"></i> Notifications
                             <span class="notification-count" id="headerNotificationCount" style="display: none;">0</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Dynamic Stats Grid -->
+            <!-- 2. Statistics Cards -->
             <div class="dynamic-stats-grid">
                 <div class="stat-card-modern" data-stat="teachers">
-                    <div class="stat-card-header">
-                        <div class="stat-icon-modern teachers">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="stat-trend" id="teachersTrend">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+0%</span>
-                        </div>
+                    <div class="stat-card-label">Teaching Staff</div>
+                    <div class="stat-value-modern" id="teachersCount">
+                        <span class="counter" data-target="0">0</span>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value-modern" id="teachersCount">
-                            <span class="counter" data-target="0">0</span>
-                        </div>
-                        <div class="stat-label">Teaching Staff</div>
-                        <div class="stat-subtitle" id="teachersSubtitle">Active Faculty</div>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar teachers" id="teachersProgress" style="width: 0%"></div>
-                    </div>
+                    <div class="stat-subtitle" id="teachersSubtitle">Active Faculty</div>
                 </div>
 
                 <div class="stat-card-modern" data-stat="messages">
-                    <div class="stat-card-header">
-                        <div class="stat-icon-modern messages">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="stat-trend" id="messagesTrend">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+0%</span>
-                        </div>
+                    <div class="stat-card-label">Contact Messages</div>
+                    <div class="stat-value-modern" id="messagesCount">
+                        <span class="counter" data-target="0">0</span>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value-modern" id="messagesCount">
-                            <span class="counter" data-target="0">0</span>
-                        </div>
-                        <div class="stat-label">Contact Messages</div>
-                        <div class="stat-subtitle" id="messagesSubtitle">New Messages</div>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar messages" id="messagesProgress" style="width: 0%"></div>
-                    </div>
+                    <div class="stat-subtitle" id="messagesSubtitle">New Messages</div>
                 </div>
 
                 <div class="stat-card-modern" data-stat="admissions">
-                    <div class="stat-card-header">
-                        <div class="stat-icon-modern admissions">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="stat-trend" id="admissionsTrend">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+0%</span>
-                        </div>
+                    <div class="stat-card-label">New Admissions</div>
+                    <div class="stat-value-modern" id="admissionsCount">
+                        <span class="counter" data-target="0">0</span>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value-modern" id="admissionsCount">
-                            <span class="counter" data-target="0">0</span>
-                        </div>
-                        <div class="stat-label">New Admissions</div>
-                        <div class="stat-subtitle" id="admissionsSubtitle">This Month</div>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar admissions" id="admissionsProgress" style="width: 0%"></div>
-                    </div>
+                    <div class="stat-subtitle" id="admissionsSubtitle">Total Applications</div>
                 </div>
 
                 <div class="stat-card-modern" data-stat="events">
-                    <div class="stat-card-header">
-                        <div class="stat-icon-modern events">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="stat-trend" id="eventsTrend">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+0%</span>
-                        </div>
+                    <div class="stat-card-label">Upcoming Events</div>
+                    <div class="stat-value-modern" id="eventsCount">
+                        <span class="counter" data-target="0">0</span>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value-modern" id="eventsCount">
-                            <span class="counter" data-target="0">0</span>
-                        </div>
-                        <div class="stat-label">Upcoming Events</div>
-                        <div class="stat-subtitle" id="eventsSubtitle">This Month</div>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar events" id="eventsProgress" style="width: 0%"></div>
-                    </div>
+                    <div class="stat-subtitle" id="eventsSubtitle">Upcoming Events</div>
                 </div>
             </div>
 
-            <!-- Real-time Status Indicator -->
+            <!-- 3. Live Data Strip -->
             <div class="realtime-status">
                 <div class="status-indicator">
                     <div class="pulse-dot"></div>
@@ -3377,126 +3273,72 @@
                 </div>
             </div>
 
-            <!-- Quick Actions (Full Width) -->
+            <!-- 4. Quick Actions -->
             <div class="quick-actions">
                 <div class="section-header">
-                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    <h3>Quick Actions</h3>
+                    <p>Access frequently used administration tools.</p>
                 </div>
                 <div class="actions-grid">
-                    <a href="#" class="action-card" data-module="content" data-permission="content.teacher.manage" onclick="showTeachersSection(); return false;">
-                        <div class="action-icon blue">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="teachers.html" class="action-card" data-module="content" data-permission="content.teacher.manage">
+                        <div class="action-card-top">
                             <h4>Add New Teacher</h4>
                             <p>Register and onboard new teaching staff members</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
 
-                    <a href="#" class="action-card" data-module="content" data-permission="content.event.manage" onclick="showEventsModal(); return false;">
-                        <div class="action-icon red">
-                            <i class="fas fa-calendar-plus"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="events.html" class="action-card" data-module="content" data-permission="content.event.manage">
+                        <div class="action-card-top">
                             <h4>Create Event</h4>
                             <p>Schedule and organize upcoming school events</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
 
-                    <a href="#" class="action-card" data-module="library" data-permission="library.upload" onclick="openModal('libraryModal'); return false;">
-                        <div class="action-icon green">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="library.html" class="action-card" data-module="library" data-permission="library.upload">
+                        <div class="action-card-top">
                             <h4>Upload Resources</h4>
                             <p>Add educational PDFs and materials to library</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
 
-                    <a href="#" class="action-card" data-module="admissions" data-permission="admission.view" onclick="openModal('admissionsModal'); loadAdmissions(); return false;">
-                        <div class="action-icon purple">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="admissions.html" class="action-card" data-module="admissions" data-permission="admission.view">
+                        <div class="action-card-top">
                             <h4>Manage Admissions <span class="notification-badge" id="admissionsBadgeQuick" style="display: none; margin-left: 8px;">0</span></h4>
                             <p>View and manage student admission applications</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
 
-                    <a href="#" class="action-card" data-module="content" data-permission="content.gallery.manage" onclick="showGallerySection(); return false;">
-                        <div class="action-icon orange">
-                            <i class="fas fa-images"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="gallery.html" class="action-card" data-module="content" data-permission="content.gallery.manage">
+                        <div class="action-card-top">
                             <h4>Upload Photos</h4>
                             <p>Add images to school gallery and albums</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
 
-                    <a href="#" class="action-card" data-module="communications" data-permission="comm.message.view" onclick="showMessagesSection(); return false;">
-                        <div class="action-icon blue">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="action-content">
+                    <a href="messages.html" class="action-card" data-module="communications" data-permission="comm.message.view">
+                        <div class="action-card-top">
                             <h4>View Messages <span class="notification-badge" id="messagesBadgeQuick" style="display: none; margin-left: 8px;">0</span></h4>
                             <p>Read and reply to contact form submissions</p>
                         </div>
                         <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
+                            Get Started &rarr;
                         </div>
                     </a>
-                </div>
-            </div>
-                        </div>
-                        <div class="action-content">
-                            <h4>Add Testimonial</h4>
-                            <p>Add parent/student feedback</p>
-                        </div>
-                        <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </a> -->
-
-                    <!-- <a href="#" class="action-card">
-                        <div class="action-icon orange">
-                            <i class="fas fa-images"></i>
-                        </div>
-                        <div class="action-content">
-                            <h4>Upload Photos</h4>
-                            <p>Add to gallery</p>
-                        </div>
-                        <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </a> -->
-
-                    <!-- <a href="#" class="action-card">
-                        <div class="action-icon green">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="action-content">
-                            <h4>Manage Library</h4>
-                            <p>Update and organize library books catalog</p>
-                        </div>
-                        <div class="action-link">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </a> -->
                 </div>
             </div>
         </div>
@@ -4091,7 +3933,7 @@
                             
                             <div class="form-group">
                                 <label style="color: #333; font-weight: 600;">Upload Date</label>
-                                <input type="date" name="upload_date" value="<?php echo date('Y-m-d'); ?>"
+                                <input type="date" name="upload_date"
                                        style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: all 0.3s;"
                                        onfocus="this.style.borderColor='#0066cc'; this.style.boxShadow='0 0 0 3px rgba(0,102,204,0.1)'"
                                        onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
@@ -4756,8 +4598,8 @@
             const searchableItems = [
                 { name: 'Dashboard', icon: 'fa-home', color: 'blue', action: () => window.location.reload() },
                 { name: 'Messages', icon: 'fa-envelope', color: 'blue', action: () => showMessagesSection() },
-                { name: 'Admissions', icon: 'fa-user-graduate', color: 'green', action: () => { openModal('admissionsModal'); loadAdmissions(); } },
-                { name: 'Teachers', icon: 'fa-chalkboard-teacher', color: 'blue', action: () => showTeachersSection() },
+                { name: 'Admissions', icon: 'fa-user-graduate', color: 'green', action: () => { window.location.href = 'admissions.html'; } },
+                { name: 'Teachers', icon: 'fa-chalkboard-teacher', color: 'blue', action: () => { window.location.href = 'teachers.html'; } },
                 { name: 'Gallery', icon: 'fa-images', color: 'green', action: () => showGallerySection() },
                 { name: 'Library', icon: 'fa-book', color: 'red', action: () => openModal('libraryModal') },
                 { name: 'User Management', icon: 'fa-users-cog', color: 'blue', action: () => openModal('userManagementModal') },
@@ -4898,490 +4740,360 @@
             }
         }, 3000);
 
-        // Welcome Popup Function
+        // Welcome Popup Function — Institutional & Professional (AI-Free)
         function showWelcomePopup(userData) {
-            const fullName = userData.full_name || userData.username;
-            const roleName = userData.role_name || 'User';
+            const fullName = userData.full_name || userData.username || 'Administrator';
+            const roleName = userData.role_name || 'Super Administrator';
             const currentHour = new Date().getHours();
             
             // Determine greeting based on time of day
             let greeting = 'Good Evening';
-            let greetingIcon = '🌙';
             if (currentHour < 12) {
                 greeting = 'Good Morning';
-                greetingIcon = '🌅';
             } else if (currentHour < 18) {
                 greeting = 'Good Afternoon';
-                greetingIcon = '☀️';
             }
             
-            // Get role-specific welcome message
+            // Professional institutional role description
             let roleMessage = '';
-            let roleIcon = '👤';
+            let roleIcon = 'fa-user-shield';
             
             switch(roleName) {
                 case 'Super Administrator':
-                    roleMessage = 'You have full system access. Manage the school with complete control.';
-                    roleIcon = '👑';
+                    roleMessage = 'Full administrative privileges active. You have comprehensive access to oversee school records, personnel rosters, student admissions, and system configurations.';
+                    roleIcon = 'fa-shield-alt';
                     break;
                 case 'Administrator':
-                    roleMessage = 'Welcome back! You have administrative access to manage the school.';
-                    roleIcon = '⚡';
+                    roleMessage = 'Administrative access active. Manage institutional operations, academic records, admissions, and communications.';
+                    roleIcon = 'fa-user-tie';
                     break;
                 case 'Teacher':
-                    roleMessage = 'Ready to inspire young minds? Access your classes and student records.';
-                    roleIcon = '👨‍🏫';
+                    roleMessage = 'Academic access active. Review your class schedules, learning resources, and student assessments.';
+                    roleIcon = 'fa-chalkboard-teacher';
                     break;
                 case 'Accountant':
-                    roleMessage = 'Manage school finances, fees, and generate financial reports.';
-                    roleIcon = '💰';
+                    roleMessage = 'Financial management access active. Review fee records, generate fiscal summaries, and track transactions.';
+                    roleIcon = 'fa-file-invoice-dollar';
                     break;
                 case 'Librarian':
-                    roleMessage = 'Manage library resources and help students access learning materials.';
-                    roleIcon = '📚';
+                    roleMessage = 'Library management access active. Organize catalog resources and facilitate student learning materials.';
+                    roleIcon = 'fa-book-reader';
                     break;
                 case 'Receptionist':
-                    roleMessage = 'Handle admissions, messages, and front desk operations.';
-                    roleIcon = '📋';
-                    break;
-                case 'Parent':
-                    roleMessage = 'View your children\'s progress, attendance, and school updates.';
-                    roleIcon = '👨‍👩‍👧‍👦';
-                    break;
-                case 'Student':
-                    roleMessage = 'Access your academic records, library resources, and school events.';
-                    roleIcon = '🎓';
+                    roleMessage = 'Front desk access active. Process admissions inquiries, incoming parent messages, and general submissions.';
+                    roleIcon = 'fa-headset';
                     break;
                 default:
-                    roleMessage = 'Welcome to St. Lawrence Junior School Management System.';
-                    roleIcon = '🏫';
+                    roleMessage = 'Authorized institutional session established. Access school management modules and administrative tools.';
+                    roleIcon = 'fa-school';
             }
-            
-            // Show enhanced welcome popup
+
+            const formattedDate = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
             Swal.fire({
                 title: '',
                 html: `
-                    <div class="enhanced-welcome-popup horizontal">
-                        <!-- Left Side - Visual Elements -->
-                        <div class="welcome-left-section">
-                            <!-- Success Check Animation -->
-                            <div class="welcome-check-container">
-                                <div class="welcome-check-circle">
-                                    <div class="welcome-check-mark">
-                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-                                </div>
+                    <div class="inst-welcome-card">
+                        <!-- Left Institutional Identity Column -->
+                        <div class="inst-welcome-sidebar">
+                            <div class="inst-welcome-logo-box">
+                                <img src="../../img/5.jpg" alt="School Logo" class="inst-welcome-logo">
                             </div>
-                            
-                            <!-- Role Icon -->
-                            <div class="welcome-role-icon-large">${roleIcon}</div>
-                            
-                            <!-- Greeting Icon -->
-                            <div class="welcome-greeting-icon-small">${greetingIcon}</div>
+                            <div class="inst-welcome-school-info">
+                                <div class="inst-welcome-school-title">ST. LAWRENCE</div>
+                                <div class="inst-welcome-school-sub">JUNIOR SCHOOL</div>
+                                <div class="inst-welcome-school-loc">KABOWA</div>
+                            </div>
+                            <div class="inst-welcome-tag">
+                                <i class="fas fa-shield-alt"></i> Verified Session
+                            </div>
                         </div>
-                        
-                        <!-- Right Side - Content -->
-                        <div class="welcome-right-section">
-                            <!-- Greeting -->
-                            <div class="welcome-greeting-section">
-                                <h2 class="welcome-greeting-title">${greeting}, ${fullName}!</h2>
-                            </div>
-                            
-                            <!-- Role Info -->
-                            <div class="welcome-role-section">
-                                <h3 class="welcome-role-title">${roleName}</h3>
-                                <p class="welcome-role-description">${roleMessage}</p>
-                            </div>
-                            
-                            <!-- Date and Action Row -->
-                            <div class="welcome-bottom-row">
-                                <div class="welcome-date-section">
-                                    <div class="welcome-date-icon">
-                                        <i class="fas fa-calendar-day"></i>
-                                    </div>
-                                    <p class="welcome-date-text">
-                                        ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                                    </p>
+
+                        <!-- Right Content Column -->
+                        <div class="inst-welcome-body">
+                            <div class="inst-welcome-header">
+                                <div class="inst-welcome-portal-label">ADMINISTRATIVE PORTAL</div>
+                                <h2 class="inst-welcome-title">${greeting}, ${fullName}</h2>
+                                <div class="inst-welcome-role-badge">
+                                    <i class="fas ${roleIcon}"></i> ${roleName}
                                 </div>
-                                
-                                <div class="welcome-action-section">
-                                    <button class="welcome-action-btn" onclick="Swal.close()">
-                                        <span class="welcome-btn-text">Let's Get Started!</span>
-                                        <span class="welcome-btn-icon">🚀</span>
-                                    </button>
+                            </div>
+
+                            <p class="inst-welcome-desc">${roleMessage}</p>
+
+                            <div class="inst-welcome-meta-bar">
+                                <div class="inst-welcome-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>${formattedDate}</span>
                                 </div>
+                                <div class="inst-welcome-status">
+                                    <span class="inst-status-indicator"></span>
+                                    <span>Active • Secure</span>
+                                </div>
+                            </div>
+
+                            <div class="inst-welcome-footer">
+                                <button class="inst-welcome-btn" onclick="Swal.close()">
+                                    <span>Proceed to Dashboard</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-                    
+
                     <style>
-                        .enhanced-welcome-popup.horizontal {
+                        .inst-welcome-card {
                             display: flex;
-                            align-items: center;
-                            gap: 40px;
-                            padding: 40px;
-                            max-width: 700px;
-                            min-height: 300px;
-                            margin: 0 auto;
+                            text-align: left;
+                            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                            background: #ffffff;
+                            border-radius: 12px;
+                            overflow: hidden;
                         }
-                        
-                        /* Left Section - Visual Elements */
-                        .welcome-left-section {
-                            flex: 0 0 200px;
+                        .inst-welcome-sidebar {
+                            width: 220px;
+                            background: #0b2545;
+                            color: #ffffff;
+                            padding: 32px 20px;
                             display: flex;
                             flex-direction: column;
                             align-items: center;
                             justify-content: center;
-                            position: relative;
-                            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-                            border-radius: 20px;
-                            padding: 30px 20px;
-                            border: 1px solid rgba(0, 102, 204, 0.1);
+                            text-align: center;
+                            flex-shrink: 0;
+                            border-right: 1px solid #133863;
                         }
-                        
-                        /* Right Section - Content */
-                        .welcome-right-section {
-                            flex: 1;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            gap: 20px;
-                        }
-                        
-                        /* Success Check Animation */
-                        .welcome-check-container {
-                            position: absolute;
-                            top: 15px;
-                            right: 15px;
-                            z-index: 10;
-                        }
-                        
-                        .welcome-check-circle {
-                            width: 50px;
-                            height: 50px;
+                        .inst-welcome-logo-box {
+                            width: 72px;
+                            height: 72px;
                             border-radius: 50%;
-                            background: linear-gradient(135deg, #10b981, #059669);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            animation: checkBounce 0.6s ease-out;
-                            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+                            background: #ffffff;
+                            padding: 3px;
+                            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+                            margin-bottom: 14px;
                         }
-                        
-                        .welcome-check-mark {
-                            color: white;
-                            animation: checkDraw 0.8s ease-out 0.3s both;
+                        .inst-welcome-logo {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            object-fit: cover;
+                            display: block;
                         }
-                        
-                        @keyframes checkBounce {
-                            0% { transform: scale(0); opacity: 0; }
-                            50% { transform: scale(1.1); }
-                            100% { transform: scale(1); opacity: 1; }
-                        }
-                        
-                        @keyframes checkDraw {
-                            0% { opacity: 0; transform: scale(0.5); }
-                            100% { opacity: 1; transform: scale(1); }
-                        }
-                        
-                        /* Role Icon Large */
-                        .welcome-role-icon-large {
-                            font-size: 80px;
-                            margin-bottom: 15px;
-                            animation: pulse 2s ease-in-out infinite;
-                            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-                        }
-                        
-                        .welcome-greeting-icon-small {
-                            font-size: 32px;
-                            animation: bounce 2s ease-in-out infinite;
-                        }
-                        
-                        @keyframes pulse {
-                            0%, 100% { transform: scale(1); }
-                            50% { transform: scale(1.05); }
-                        }
-                        
-                        @keyframes bounce {
-                            0%, 100% { transform: translateY(0); }
-                            50% { transform: translateY(-3px); }
-                        }
-                        
-                        /* Greeting Section */
-                        .welcome-greeting-section {
-                            animation: slideInRight 0.6s ease-out 0.4s both;
-                        }
-                        
-                        .welcome-greeting-title {
-                            font-size: 32px;
-                            font-weight: 700;
-                            color: #1e293b;
-                            margin: 0;
+                        .inst-welcome-school-title {
+                            font-size: 14px;
+                            font-weight: 800;
+                            letter-spacing: 0.5px;
+                            color: #ffffff;
                             font-family: 'Poppins', sans-serif;
-                            line-height: 1.2;
                         }
-                        
-                        /* Role Section */
-                        .welcome-role-section {
-                            animation: slideInRight 0.6s ease-out 0.6s both;
+                        .inst-welcome-school-sub {
+                            font-size: 11px;
+                            font-weight: 600;
+                            color: #cbd5e1;
+                            letter-spacing: 0.8px;
+                            margin-top: 2px;
                         }
-                        
-                        .welcome-role-title {
-                            font-size: 24px;
+                        .inst-welcome-school-loc {
+                            font-size: 10px;
+                            font-weight: 700;
+                            color: #94a3b8;
+                            letter-spacing: 1.5px;
+                            margin-top: 2px;
+                        }
+                        .inst-welcome-tag {
+                            margin-top: 20px;
+                            padding: 5px 12px;
+                            background: rgba(255, 255, 255, 0.08);
+                            border: 1px solid rgba(255, 255, 255, 0.15);
+                            border-radius: 20px;
+                            font-size: 11px;
+                            font-weight: 600;
+                            color: #e2e8f0;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                        }
+                        .inst-welcome-tag i {
+                            color: #60a5fa;
+                            font-size: 11px;
+                        }
+                        .inst-welcome-body {
+                            flex: 1;
+                            padding: 32px 32px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+                        .inst-welcome-header {
+                            margin-bottom: 12px;
+                        }
+                        .inst-welcome-portal-label {
+                            font-size: 11px;
+                            font-weight: 700;
+                            letter-spacing: 1px;
+                            color: #64748b;
+                            text-transform: uppercase;
+                            margin-bottom: 6px;
+                        }
+                        .inst-welcome-title {
+                            font-size: 22px;
+                            font-weight: 700;
+                            color: #0b2545;
+                            margin: 0 0 10px 0;
+                            line-height: 1.3;
+                            font-family: 'Poppins', sans-serif;
+                        }
+                        .inst-welcome-role-badge {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                            font-size: 12px;
                             font-weight: 600;
                             color: #0066cc;
-                            margin: 0 0 8px 0;
-                            font-family: 'Poppins', sans-serif;
+                            background: #eff6ff;
+                            padding: 4px 10px;
+                            border-radius: 6px;
+                            border: 1px solid #bfdbfe;
                         }
-                        
-                        .welcome-role-description {
-                            font-size: 16px;
+                        .inst-welcome-desc {
+                            font-size: 13.5px;
+                            line-height: 1.6;
                             color: #475569;
-                            line-height: 1.5;
-                            margin: 0;
+                            margin: 0 0 20px 0;
                         }
-                        
-                        /* Bottom Row */
-                        .welcome-bottom-row {
+                        .inst-welcome-meta-bar {
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
-                            gap: 20px;
-                            animation: slideInRight 0.6s ease-out 0.8s both;
+                            background: #f8fafc;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 8px;
+                            padding: 10px 14px;
+                            margin-bottom: 22px;
+                            font-size: 12px;
                         }
-                        
-                        /* Date Section */
-                        .welcome-date-section {
-                            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(16, 185, 129, 0.1));
-                            padding: 12px 16px;
-                            border-radius: 10px;
-                            border-left: 3px solid #0066cc;
+                        .inst-welcome-date {
                             display: flex;
                             align-items: center;
-                            gap: 8px;
-                            flex: 1;
+                            gap: 7px;
+                            color: #334155;
+                            font-weight: 500;
                         }
-                        
-                        .welcome-date-icon {
+                        .inst-welcome-date i {
                             color: #0066cc;
-                            font-size: 16px;
+                            font-size: 13px;
                         }
-                        
-                        .welcome-date-text {
-                            margin: 0;
-                            color: #0369a1;
-                            font-size: 14px;
+                        .inst-welcome-status {
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+                            color: #166534;
                             font-weight: 600;
+                            font-size: 11.5px;
                         }
-                        
-                        /* Action Button */
-                        .welcome-action-section {
-                            flex-shrink: 0;
+                        .inst-status-indicator {
+                            width: 8px;
+                            height: 8px;
+                            border-radius: 50%;
+                            background: #16a34a;
+                            display: inline-block;
                         }
-                        
-                        .welcome-action-btn {
-                            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-                            color: white;
+                        .inst-welcome-footer {
+                            display: flex;
+                            justify-content: flex-end;
+                        }
+                        .inst-welcome-btn {
+                            background: #0066cc;
+                            color: #ffffff;
                             border: none;
-                            padding: 14px 24px;
-                            border-radius: 10px;
-                            font-size: 15px;
+                            padding: 11px 22px;
+                            border-radius: 6px;
+                            font-size: 13.5px;
                             font-weight: 600;
                             cursor: pointer;
-                            display: flex;
+                            display: inline-flex;
                             align-items: center;
-                            justify-content: center;
                             gap: 8px;
-                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
-                            position: relative;
-                            overflow: hidden;
-                            white-space: nowrap;
+                            font-family: inherit;
+                            transition: background 0.2s, transform 0.1s;
                         }
-                        
-                        .welcome-action-btn::before {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            left: -100%;
-                            width: 100%;
-                            height: 100%;
-                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-                            transition: left 0.5s;
+                        .inst-welcome-btn:hover {
+                            background: #0052a3;
                         }
-                        
-                        .welcome-action-btn:hover::before {
-                            left: 100%;
+                        .inst-welcome-btn:active {
+                            transform: translateY(1px);
                         }
-                        
-                        .welcome-action-btn:hover {
-                            transform: translateY(-2px);
-                            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
-                        }
-                        
-                        .welcome-btn-text {
-                            font-family: 'Poppins', sans-serif;
-                        }
-                        
-                        .welcome-btn-icon {
-                            font-size: 16px;
-                            animation: rocket 1s ease-in-out infinite alternate;
-                        }
-                        
-                        @keyframes rocket {
-                            0% { transform: translateX(0); }
-                            100% { transform: translateX(2px); }
-                        }
-                        
-                        @keyframes slideInRight {
-                            0% {
-                                opacity: 0;
-                                transform: translateX(30px);
-                            }
-                            100% {
-                                opacity: 1;
-                                transform: translateX(0);
-                            }
-                        }
-                        
-                        /* Mobile Responsive - Stack Vertically */
-                        @media (max-width: 768px) {
-                            .enhanced-welcome-popup.horizontal {
+
+                        @media (max-width: 640px) {
+                            .inst-welcome-card {
                                 flex-direction: column;
-                                gap: 25px;
-                                padding: 30px 20px;
-                                max-width: 400px;
                             }
-                            
-                            .welcome-left-section {
-                                flex: none;
+                            .inst-welcome-sidebar {
                                 width: 100%;
                                 padding: 20px;
-                                flex-direction: row;
-                                justify-content: space-around;
+                                border-right: none;
+                                border-bottom: 1px solid #133863;
                             }
-                            
-                            .welcome-role-icon-large {
-                                font-size: 60px;
-                                margin-bottom: 0;
+                            .inst-welcome-body {
+                                padding: 20px;
                             }
-                            
-                            .welcome-greeting-icon-small {
-                                font-size: 28px;
-                            }
-                            
-                            .welcome-check-container {
-                                position: static;
-                                margin-bottom: 0;
-                            }
-                            
-                            .welcome-greeting-title {
-                                font-size: 26px;
-                                text-align: center;
-                            }
-                            
-                            .welcome-role-title {
-                                font-size: 20px;
-                                text-align: center;
-                            }
-                            
-                            .welcome-role-description {
-                                font-size: 14px;
-                                text-align: center;
-                            }
-                            
-                            .welcome-bottom-row {
+                            .inst-welcome-meta-bar {
                                 flex-direction: column;
-                                gap: 15px;
+                                align-items: flex-start;
+                                gap: 6px;
                             }
-                            
-                            .welcome-date-section {
+                            .inst-welcome-footer {
+                                justify-content: stretch;
+                            }
+                            .inst-welcome-btn {
+                                width: 100%;
                                 justify-content: center;
-                            }
-                            
-                            .welcome-action-btn {
-                                padding: 12px 20px;
-                                font-size: 14px;
-                            }
-                        }
-                        
-                        @media (max-width: 480px) {
-                            .enhanced-welcome-popup.horizontal {
-                                padding: 20px 15px;
-                            }
-                            
-                            .welcome-greeting-title {
-                                font-size: 22px;
-                            }
-                            
-                            .welcome-role-title {
-                                font-size: 18px;
-                            }
-                            
-                            .welcome-date-text {
-                                font-size: 12px;
                             }
                         }
                     </style>
                 `,
                 showConfirmButton: false,
                 showCloseButton: true,
-                closeButtonHtml: '<i class="fas fa-times" style="color: #64748b;"></i>',
-                showClass: {
-                    popup: 'animate__animated animate__zoomIn animate__faster'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__zoomOut animate__faster'
-                },
-                backdrop: `
-                    rgba(0, 0, 0, 0.6)
-                    left top
-                    no-repeat
-                `,
+                closeButtonHtml: '&times;',
+                backdrop: 'rgba(11, 37, 69, 0.45)',
                 allowOutsideClick: true,
                 allowEscapeKey: true,
                 timer: 12000,
                 timerProgressBar: true,
                 customClass: {
-                    popup: 'enhanced-welcome-modal-horizontal',
-                    closeButton: 'enhanced-welcome-close'
+                    popup: 'inst-welcome-modal-popup',
+                    closeButton: 'inst-welcome-modal-close'
                 },
                 didOpen: (popup) => {
-                    // Add custom styling to the modal
-                    popup.style.borderRadius = '24px';
+                    popup.style.borderRadius = '12px';
                     popup.style.padding = '0';
-                    popup.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.3)';
-                    popup.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-                    popup.style.maxWidth = '750px';
-                    popup.style.width = '90%';
+                    popup.style.boxShadow = '0 24px 48px rgba(11, 37, 69, 0.2)';
+                    popup.style.border = '1px solid #cbd5e1';
+                    popup.style.maxWidth = '680px';
+                    popup.style.width = '95%';
                     
-                    // Style the close button
                     const closeBtn = popup.querySelector('.swal2-close');
                     if (closeBtn) {
                         closeBtn.style.position = 'absolute';
-                        closeBtn.style.top = '15px';
-                        closeBtn.style.right = '15px';
-                        closeBtn.style.width = '35px';
-                        closeBtn.style.height = '35px';
-                        closeBtn.style.borderRadius = '50%';
-                        closeBtn.style.background = 'rgba(100, 116, 139, 0.1)';
-                        closeBtn.style.transition = 'all 0.2s';
+                        closeBtn.style.top = '14px';
+                        closeBtn.style.right = '14px';
+                        closeBtn.style.width = '30px';
+                        closeBtn.style.height = '30px';
+                        closeBtn.style.borderRadius = '6px';
+                        closeBtn.style.background = '#f1f5f9';
+                        closeBtn.style.color = '#64748b';
+                        closeBtn.style.fontSize = '20px';
+                        closeBtn.style.border = '1px solid #e2e8f0';
+                        closeBtn.style.lineHeight = '28px';
                         closeBtn.style.display = 'flex';
                         closeBtn.style.alignItems = 'center';
                         closeBtn.style.justifyContent = 'center';
-                        closeBtn.style.zIndex = '20';
-                        
-                        closeBtn.addEventListener('mouseenter', () => {
-                            closeBtn.style.background = 'rgba(100, 116, 139, 0.2)';
-                            closeBtn.style.transform = 'scale(1.1)';
-                        });
-                        
-                        closeBtn.addEventListener('mouseleave', () => {
-                            closeBtn.style.background = 'rgba(100, 116, 139, 0.1)';
-                            closeBtn.style.transform = 'scale(1)';
-                        });
+                        closeBtn.style.zIndex = '30';
                     }
                 }
             });
@@ -5605,6 +5317,10 @@
                 greeting = 'Good Afternoon';
             }
             document.getElementById('greetingText').textContent = greeting;
+            const welcomeGreetingEl = document.getElementById('welcomeGreeting');
+            if (welcomeGreetingEl) {
+                welcomeGreetingEl.textContent = greeting.toUpperCase();
+            }
         }
 
         async function logout() {
@@ -5669,6 +5385,38 @@
                     showConfirmButton: false
                 });
             }, 1500);
+        }
+
+        // Export Dashboard Report
+        function exportDashboardReport() {
+            const now = new Date().toLocaleDateString('en-US');
+            const teachers = document.querySelector('#teachersCount .counter')?.textContent || '0';
+            const messages = document.querySelector('#messagesCount .counter')?.textContent || '0';
+            const admissions = document.querySelector('#admissionsCount .counter')?.textContent || '0';
+            const events = document.querySelector('#eventsCount .counter')?.textContent || '0';
+            const messagesSub = document.getElementById('messagesSubtitle')?.textContent || 'Messages';
+            
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "St. Lawrence Junior School - Dashboard Summary Report\r\n"
+                + `Generated,${now}\r\n\r\n`
+                + "Administrative Area,Count,Status\r\n"
+                + `Teaching Staff,${teachers},Active Faculty\r\n`
+                + `Contact Messages,${messages},${messagesSub}\r\n`
+                + `New Admissions,${admissions},Total Applications\r\n`
+                + `Upcoming Events,${events},Upcoming Events\r\n`;
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `dashboard_summary_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Notification Center Trigger
+        function showNotificationCenter() {
+            showNotificationsPanel();
         }
 
         // Load Dynamic Stats using existing modal APIs
@@ -5980,7 +5728,7 @@
                         // If both fail, set to 5 (from debug we know there are 5 events)
                         console.log('Using fallback events count: 5');
                         if (currentCounts) currentCounts.events = 5;
-                        updateStatCard('events', 5, 'Total Events', 78);
+                        updateStatCard('events', 5, 'Upcoming Events', 78);
                         animateCounters();
                     }
                     if (callback) callback();
@@ -5989,7 +5737,7 @@
                     console.error('Events API error:', error);
                     // Use fallback count from debug
                     if (currentCounts) currentCounts.events = 5;
-                    updateStatCard('events', 5, 'Total Events', 78);
+                    updateStatCard('events', 5, 'Upcoming Events', 78);
                     animateCounters();
                     if (callback) callback();
                 });
@@ -6014,10 +5762,10 @@
             console.log('Admissions count:', admissionsCount);
             updateStatCard('admissions', admissionsCount, admissionsCount > 0 ? 'Total Applications' : 'No Applications', admissionsCount > 0 ? 65 : 0);
             
-            // Events (working - you have 5)
+            // Events
             const eventsCount = stats.events_count || 0;
             console.log('Events count:', eventsCount);
-            updateStatCard('events', eventsCount, 'Total Events', 78);
+            updateStatCard('events', eventsCount, 'Upcoming Events', 78);
 
             // Animate counters
             animateCounters();
@@ -6025,51 +5773,36 @@
 
         // Update Individual Stat Card
         function updateStatCard(type, value, subtitle, progressPercent) {
-            console.log(`Updating ${type} card: value=${value}, subtitle=${subtitle}`);
-            
             // Update counter
             const counter = document.querySelector(`#${type}Count .counter`);
             if (counter) {
                 counter.setAttribute('data-target', value);
-                console.log(`Set ${type} counter target to:`, value);
-            } else {
-                console.error(`Counter element not found for ${type}:`, `#${type}Count .counter`);
             }
 
             // Update subtitle
             const subtitleElement = document.getElementById(`${type}Subtitle`);
             if (subtitleElement) {
                 subtitleElement.textContent = subtitle;
-                console.log(`Updated ${type} subtitle to:`, subtitle);
-            } else {
-                console.error(`Subtitle element not found for ${type}:`, `${type}Subtitle`);
             }
 
-            // Update progress bar
+            // Update progress bar (if present in DOM)
             const progressBar = document.getElementById(`${type}Progress`);
             if (progressBar) {
                 setTimeout(() => {
                     progressBar.style.width = progressPercent + '%';
-                    console.log(`Updated ${type} progress to:`, progressPercent + '%');
                 }, 500);
-            } else {
-                console.error(`Progress bar not found for ${type}:`, `${type}Progress`);
             }
 
-            // Update trend (random for demo - replace with real calculation)
+            // Update trend (if present in DOM)
             const trend = document.getElementById(`${type}Trend`);
             if (trend) {
                 const isPositive = Math.random() > 0.3;
                 const percentage = Math.floor(Math.random() * 15) + 1;
-                
                 trend.className = isPositive ? 'stat-trend' : 'stat-trend negative';
                 trend.innerHTML = `
                     <i class="fas fa-arrow-${isPositive ? 'up' : 'down'}"></i>
                     <span>${isPositive ? '+' : '-'}${percentage}%</span>
                 `;
-                console.log(`Updated ${type} trend`);
-            } else {
-                console.error(`Trend element not found for ${type}:`, `${type}Trend`);
             }
         }
 
@@ -6127,6 +5860,7 @@
         // Toggle submenu
         function toggleSubmenu(element) {
             const submenu = element.nextElementSibling;
+            if (!submenu) return;
             const isOpen = submenu.classList.contains('open');
             
             // Close all submenus
@@ -6135,42 +5869,33 @@
             });
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('expanded');
+                item.classList.remove('open');
             });
             
             // Toggle current submenu
             if (!isOpen) {
                 submenu.classList.add('open');
                 element.classList.add('expanded');
+                element.classList.add('open');
             }
         }
 
-        // Background color rotation
-        const backgrounds = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5', 'bg-6'];
-        let currentBgIndex = 0;
-
-        function changeBackground() {
-            const mainContent = document.querySelector('.main-content');
-            
-            // Remove all background classes
-            backgrounds.forEach(bg => mainContent.classList.remove(bg));
-            
-            // Add new background class
-            mainContent.classList.add(backgrounds[currentBgIndex]);
-            
-            console.log('Background changed to:', backgrounds[currentBgIndex], 'at', new Date().toLocaleTimeString());
-            
-            // Move to next background
-            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+        // Toggle Sidebar (Desktop Collapse / Mobile Drawer)
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            if (window.innerWidth <= 1080) {
+                sidebar.classList.toggle('open');
+            } else {
+                const isCollapsed = sidebar.classList.toggle('collapsed');
+                document.body.classList.toggle('sidebar-collapsed', isCollapsed);
+            }
         }
 
-        // Initialize with first background immediately
-        setTimeout(() => {
-            changeBackground();
-            console.log('Background rotation started - changes every 5 minutes');
-        }, 100);
-
-        // Change background every 5 minutes (300000 milliseconds)
-        setInterval(changeBackground, 300000);
+        // Background color rotation (disabled in favor of institutional palette)
+        function changeBackground() {
+            // Maintained for compatibility
+        }
 
         // Show Modal Loading with Animation
         function showModalLoading(title, loaderType) {
@@ -7105,12 +6830,7 @@
 
         // Show Teachers Section
         function showTeachersSection() {
-            showModalLoading('Loading Teachers...', 'dual-ring');
-            setTimeout(() => {
-                hideModalLoading();
-                openModal('teachersModal');
-                loadTeachers();
-            }, 800);
+            window.location.href = 'teachers.html';
         }
 
         // Show Events Modal
@@ -7921,8 +7641,7 @@
         // ============================================
 
         function showAdmissionsSection() {
-            openModal('admissionsModal');
-            loadAdmissions();
+            window.location.href = 'admissions.html';
         }
 
         async function loadAdmissions() {
@@ -9099,15 +8818,44 @@
             }
         });
         
+        // Dashboard Activity and Event helper functions
+        function loadActivities() {
+            const container = document.getElementById('recentActivitiesList');
+            if (!container) return;
+            fetch('../api/dashboard/get_activities.php')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && Array.isArray(data.data) && container) {
+                        // Populate activities if UI container exists
+                    }
+                })
+                .catch(err => console.warn('Activity stream unavailable:', err));
+        }
+
+        function loadUpcomingEvents() {
+            const container = document.getElementById('upcomingEventsList');
+            if (!container) return;
+            fetch('../api/dashboard/get_events.php')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && Array.isArray(data.data) && container) {
+                        // Populate upcoming events if UI container exists
+                    }
+                })
+                .catch(err => console.warn('Upcoming events list unavailable:', err));
+        }
+
         // Initialize dashboard on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadDashboardSettings(); // Load saved UI settings
-            loadActivities();
-            loadNotifications();
-            loadUserProfile();
-            loadUpcomingEvents();
+            if (typeof loadDashboardSettings === 'function') loadDashboardSettings();
+            if (typeof loadActivities === 'function') loadActivities();
+            if (typeof loadNotifications === 'function') loadNotifications();
+            if (typeof loadUserProfile === 'function') loadUserProfile();
+            if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
             // Refresh notifications every 30 seconds
-            setInterval(loadNotifications, 30000);
+            if (typeof loadNotifications === 'function') {
+                setInterval(loadNotifications, 30000);
+            }
             
             // Close dropdown when clicking outside
             document.addEventListener('click', function(event) {
@@ -9130,13 +8878,16 @@
                         const user = data.data;
                         const initial = user.full_name ? user.full_name.charAt(0).toUpperCase() : 'A';
                         
-                        // Update navbar
-                        document.getElementById('userName').textContent = user.full_name || 'Administrator';
+                        // Update navbar & welcome area
+                        const fullName = user.full_name || 'Administrator';
+                        document.getElementById('userName').textContent = fullName;
+                        const welcomeUserEl = document.getElementById('welcomeUserName');
+                        if (welcomeUserEl) welcomeUserEl.textContent = fullName;
                         document.getElementById('userRole').textContent = 'SUPER ADMINISTRATOR';
                         document.getElementById('userAvatar').textContent = initial;
                         
                         // Update dropdown
-                        document.getElementById('userNameDropdown').textContent = user.full_name || 'Administrator';
+                        document.getElementById('userNameDropdown').textContent = fullName;
                         document.getElementById('userEmailDropdown').textContent = user.email || '';
                         document.getElementById('userAvatarLarge').textContent = initial;
                         
@@ -9156,6 +8907,8 @@
                         console.error('Profile load failed:', data.message);
                         // Set default values
                         document.getElementById('userName').textContent = 'Administrator';
+                        const welcomeUserEl = document.getElementById('welcomeUserName');
+                        if (welcomeUserEl) welcomeUserEl.textContent = 'Administrator';
                         document.getElementById('userRole').textContent = 'SUPER ADMINISTRATOR';
                         document.getElementById('userAvatar').textContent = 'A';
                         document.getElementById('userNameDropdown').textContent = 'Administrator';

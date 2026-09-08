@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Important Days - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Important Days</h1>
+                    <span class="page-subtitle">School Calendar</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Content</span>
+                        <span class="separator">/</span>
+                        <span>Important Days</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Important Days</h1>
+                        <p>Manage important dates and school observances.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-primary" onclick="openAddImportantDayModal()">
+                        <i class="fas fa-plus"></i> Add Important Day
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="daysSearchInput" class="admin-search-input" placeholder="Search by title or description..." oninput="filterDays()">
+                </div>
+                <select id="dayTypeFilter" class="admin-filter-select" onchange="filterDays()">
+                    <option value="">All Types</option>
+                    <option value="holiday">Holiday</option>
+                    <option value="activity">Activity</option>
+                    <option value="other">Other</option>
+                </select>
+                <button class="admin-btn admin-btn-secondary" onclick="loadImportantDays()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Content Card -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-star"></i> Observances & Important Dates (<span id="daysCount">0</span>)</h2>
+                </div>
+
+                <div id="daysContainer">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading important days...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="admin-modal-backdrop" id="dayModal">
+        <div class="admin-modal-box">
+            <div class="admin-modal-header">
+                <h3 id="dayModalTitle"><i class="fas fa-star"></i> Add Important Day</h3>
+                <button class="admin-modal-close" onclick="closeDayModal()">&times;</button>
+            </div>
+            <form id="dayForm" onsubmit="submitDay(event)">
+                <input type="hidden" id="dayId" name="id">
+                <input type="hidden" name="all_day" value="1">
+                <input type="hidden" name="color" value="#dc3545">
+
+                <div class="admin-modal-body">
+                    <div class="admin-form-group" style="margin-bottom: 16px;">
+                        <label>Observance Title <span class="required">*</span></label>
+                        <input type="text" id="dayTitle" name="event_title" required class="admin-form-input" placeholder="e.g., Independence Day">
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Date <span class="required">*</span></label>
+                            <input type="date" id="dayStartDate" name="start_date" required class="admin-form-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Event Type <span class="required">*</span></label>
+                            <select id="dayType" name="event_type" required class="admin-form-select">
+                                <option value="holiday">Holiday</option>
+                                <option value="activity">Activity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label>Description</label>
+                        <textarea id="dayDescription" name="event_description" rows="3" class="admin-form-textarea" placeholder="Brief description of the important day..."></textarea>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeDayModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="daySubmitBtn">
+                        <i class="fas fa-save"></i> Save Important Day
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allDays = [];
+        let isEditing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadImportantDays();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth check error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        async function loadImportantDays() {
+            const container = document.getElementById('daysContainer');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading important days...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/calendar/get_all.php?types=important_days');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allDays = result.data;
+                    document.getElementById('daysCount').textContent = allDays.length;
+                    renderDays(allDays);
+                } else {
+                    showEmptyState('No Important Days Found', 'There are currently no important days or observances recorded.');
+                }
+            } catch (error) {
+                console.error('Error loading important days:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Data</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadImportantDays()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderDays(days) {
+            const container = document.getElementById('daysContainer');
+            if (!days || days.length === 0) {
+                showEmptyState('No Important Days Found', 'There are currently no important days or observances recorded.');
+                return;
+            }
+
+            const typeBadges = {
+                'holiday': 'admin-badge-red',
+                'activity': 'admin-badge-blue',
+                'other': 'admin-badge-gray'
+            };
+
+            let html = `
+                <div class="admin-table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Observance / Day</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            days.forEach(day => {
+                const badgeClass = typeBadges[day.event_type] || 'admin-badge-gray';
+                
+                let displayDate = day.start_date || '';
+                if (displayDate) {
+                    try {
+                        const d = new Date(day.start_date + 'T00:00:00');
+                        displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    } catch (e) {}
+                }
+
+                html += `
+                    <tr>
+                        <td style="white-space: nowrap;">
+                            <div style="font-weight: 600; color: var(--inst-blue);">${displayDate}</div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: var(--inst-text);">${escapeHtml(day.event_title || '')}</div>
+                        </td>
+                        <td>
+                            <span class="admin-badge ${badgeClass}">
+                                ${escapeHtml(day.event_type || 'holiday')}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px; color: var(--inst-text-muted); max-width: 380px;">${escapeHtml(day.event_description || '-')}</div>
+                        </td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: flex-end;">
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editDay(${day.id})" title="Edit">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteDay(${day.id})" title="Delete">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('daysContainer');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-star"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterDays() {
+            const search = document.getElementById('daysSearchInput').value.toLowerCase();
+            const type = document.getElementById('dayTypeFilter').value;
+
+            let filtered = allDays.filter(day => {
+                const matchesSearch = !search || 
+                    (day.event_title && day.event_title.toLowerCase().includes(search)) ||
+                    (day.event_description && day.event_description.toLowerCase().includes(search));
+                
+                const matchesType = !type || day.event_type === type;
+                return matchesSearch && matchesType;
+            });
+
+            document.getElementById('daysCount').textContent = filtered.length;
+            renderDays(filtered);
+        }
+
+        function openAddImportantDayModal() {
+            isEditing = false;
+            document.getElementById('dayForm').reset();
+            document.getElementById('dayId').value = '';
+            document.getElementById('dayModalTitle').innerHTML = '<i class="fas fa-star"></i> Add Important Day';
+            document.getElementById('daySubmitBtn').innerHTML = '<i class="fas fa-save"></i> Save Important Day';
+            document.getElementById('dayType').value = 'holiday';
+            document.getElementById('dayModal').classList.add('active');
+        }
+
+        function editDay(id) {
+            const day = allDays.find(d => d.id == id);
+            if (!day) return;
+
+            isEditing = true;
+            document.getElementById('dayId').value = day.id;
+            document.getElementById('dayTitle').value = day.event_title || '';
+            document.getElementById('dayStartDate').value = day.start_date || '';
+            document.getElementById('dayType').value = day.event_type || 'holiday';
+            document.getElementById('dayDescription').value = day.event_description || '';
+
+            document.getElementById('dayModalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Important Day';
+            document.getElementById('daySubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Important Day';
+            document.getElementById('dayModal').classList.add('active');
+        }
+
+        function closeDayModal() {
+            document.getElementById('dayModal').classList.remove('active');
+        }
+
+        async function submitDay(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const submitBtn = document.getElementById('daySubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            const endpoint = isEditing ? '../api/calendar/update.php' : '../api/calendar/create.php';
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: isEditing ? 'Updated!' : 'Added!',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    closeDayModal();
+                    loadImportantDays();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Operation failed',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        async function deleteDay(id) {
+            const day = allDays.find(d => d.id == id);
+            const title = day ? day.event_title : 'this item';
+
+            const res = await Swal.fire({
+                title: 'Delete Important Day?',
+                html: `Are you sure you want to delete <strong>${escapeHtml(title)}</strong>?<br><span style="color:#dc3545;font-size:13px;">This action cannot be undone.</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/calendar/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Important day has been removed.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadImportantDays();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

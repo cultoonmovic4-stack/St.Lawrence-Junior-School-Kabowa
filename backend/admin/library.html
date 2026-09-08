@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Library Management - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Library Management</h1>
+                    <span class="page-subtitle">Educational Resources</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Content</span>
+                        <span class="separator">/</span>
+                        <span>Library</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Library Management</h1>
+                        <p>Manage learning resources and school materials.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-primary" onclick="openUploadModal()">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Resource
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="librarySearchInput" class="admin-search-input" placeholder="Search resources by title, subject or class..." oninput="filterResources()">
+                </div>
+                <select id="libraryCategoryFilter" class="admin-filter-select" onchange="filterResources()">
+                    <option value="">All Categories</option>
+                    <option value="assignment">Assignment</option>
+                    <option value="reading">Reading Material</option>
+                    <option value="past_exam">Past Exam</option>
+                    <option value="revision">Revision Notes</option>
+                    <option value="multimedia">Multimedia</option>
+                    <option value="study_guide">Study Guide</option>
+                </select>
+                <select id="libraryClassFilter" class="admin-filter-select" onchange="filterResources()">
+                    <option value="">All Classes</option>
+                    <option value="all">General / All Classes</option>
+                    <option value="p1">Primary 1</option>
+                    <option value="p2">Primary 2</option>
+                    <option value="p3">Primary 3</option>
+                    <option value="p4">Primary 4</option>
+                    <option value="p5">Primary 5</option>
+                    <option value="p6">Primary 6</option>
+                    <option value="p7">Primary 7</option>
+                </select>
+                <button class="admin-btn admin-btn-secondary" onclick="loadResources()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Content Card -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-books"></i> Learning Materials (<span id="resourcesCount">0</span>)</h2>
+                </div>
+
+                <div id="resourcesContainer">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading library resources...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Resource Modal -->
+    <div class="admin-modal-backdrop" id="uploadModal">
+        <div class="admin-modal-box modal-large">
+            <div class="admin-modal-header">
+                <h3><i class="fas fa-cloud-upload-alt"></i> Upload Learning Resources</h3>
+                <button class="admin-modal-close" onclick="closeUploadModal()">&times;</button>
+            </div>
+            <form id="uploadForm" onsubmit="submitUpload(event)" enctype="multipart/form-data">
+                <div class="admin-modal-body">
+                    <div class="admin-form-group" style="margin-bottom: 18px;">
+                        <label>Select Files <span class="required">*</span> (Max 100MB each)</label>
+                        <input type="file" id="libraryFileInput" name="files[]" multiple required class="admin-form-input"
+                               accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4" onchange="previewFiles(this)">
+                        <span class="admin-form-help"><i class="fas fa-info-circle"></i> Supported formats: PDF, DOC, DOCX, XLS, PPT, JPG, PNG, MP4. Multiple file selection allowed.</span>
+                    </div>
+
+                    <!-- Files Preview -->
+                    <div id="filePreviewArea" style="display: none; margin-bottom: 18px; padding: 12px; background: var(--inst-surface-muted); border-radius: 6px;">
+                        <div style="font-size: 12px; font-weight: 600; color: var(--inst-text); margin-bottom: 8px;">
+                            Selected Files (<span id="selectedFileCount">0</span>):
+                        </div>
+                        <div id="filePreviewList" style="display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto;"></div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Resource Title (Optional for single file)</label>
+                            <input type="text" name="title" class="admin-form-input" placeholder="Custom resource title">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Category <span class="required">*</span></label>
+                            <select name="category" required class="admin-form-select">
+                                <option value="assignment">Assignment</option>
+                                <option value="reading">Reading Material</option>
+                                <option value="past_exam">Past Exam</option>
+                                <option value="revision">Revision Notes</option>
+                                <option value="multimedia">Multimedia</option>
+                                <option value="study_guide">Study Guide</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-3">
+                        <div class="admin-form-group">
+                            <label>Class Level <span class="required">*</span></label>
+                            <select name="class_level" required class="admin-form-select">
+                                <option value="all">All Classes</option>
+                                <option value="p1">Primary 1</option>
+                                <option value="p2">Primary 2</option>
+                                <option value="p3">Primary 3</option>
+                                <option value="p4">Primary 4</option>
+                                <option value="p5">Primary 5</option>
+                                <option value="p6">Primary 6</option>
+                                <option value="p7">Primary 7</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Subject</label>
+                            <input type="text" name="subject" class="admin-form-input" placeholder="e.g., Mathematics">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Upload Date</label>
+                            <input type="date" name="upload_date" id="uploadDateInput" class="admin-form-input">
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label>Description</label>
+                        <textarea name="description" rows="3" class="admin-form-textarea" placeholder="Brief description of the resource..."></textarea>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeUploadModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="uploadSubmitBtn">
+                        <i class="fas fa-upload"></i> Upload Resources
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allResources = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            document.getElementById('uploadDateInput').value = new Date().toISOString().split('T')[0];
+            loadResources();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        async function loadResources() {
+            const container = document.getElementById('resourcesContainer');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading resources...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/library/get_all.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allResources = result.data;
+                    document.getElementById('resourcesCount').textContent = allResources.length;
+                    renderResources(allResources);
+                } else {
+                    showEmptyState('No Resources Found', 'There are currently no learning resources in the library.');
+                }
+            } catch (error) {
+                console.error('Error loading library resources:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Library</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadResources()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderResources(resources) {
+            const container = document.getElementById('resourcesContainer');
+            if (!resources || resources.length === 0) {
+                showEmptyState('No Resources Found', 'There are currently no learning resources matching your filter.');
+                return;
+            }
+
+            const catBadges = {
+                'assignment': 'admin-badge-blue',
+                'reading': 'admin-badge-green',
+                'past_exam': 'admin-badge-red',
+                'revision': 'admin-badge-amber',
+                'multimedia': 'admin-badge-purple',
+                'study_guide': 'admin-badge-blue'
+            };
+
+            let html = `
+                <div class="admin-table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Resource Title</th>
+                                <th>Category</th>
+                                <th>Class & Subject</th>
+                                <th>Format & Size</th>
+                                <th>Upload Date</th>
+                                <th>Downloads</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            resources.forEach(res => {
+                const catClass = catBadges[res.category] || 'admin-badge-gray';
+                const fileIcon = getFileIcon(res.file_type || '');
+                const formattedSize = formatFileSize(res.file_size || 0);
+
+                let displayDate = res.upload_date || '';
+                if (displayDate && displayDate !== '0000-00-00') {
+                    try {
+                        const d = new Date(res.upload_date + 'T00:00:00');
+                        displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    } catch (e) {}
+                } else {
+                    displayDate = '-';
+                }
+
+                html += `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 34px; height: 34px; border-radius: 6px; background: var(--inst-surface-muted); display: flex; align-items: center; justify-content: center; color: var(--inst-blue); font-size: 15px; flex-shrink: 0;">
+                                    <i class="fas fa-${fileIcon}"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--inst-text);">${escapeHtml(res.title || 'Untitled Resource')}</div>
+                                    ${res.description ? `<div style="font-size: 12px; color: var(--inst-text-muted); max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(res.description)}</div>` : ''}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="admin-badge ${catClass}">
+                                ${escapeHtml((res.category || 'other').replace('_', ' '))}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 12px; color: var(--inst-blue);">${(res.class_level || 'all').toUpperCase()}</div>
+                            <div style="font-size: 12px; color: var(--inst-text-muted);">${escapeHtml(res.subject || '-')}</div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 12px; text-transform: uppercase;">${escapeHtml(res.file_type || 'file')}</div>
+                            <div style="font-size: 11px; color: var(--inst-text-muted);">${formattedSize}</div>
+                        </td>
+                        <td style="white-space: nowrap; font-size: 12px; color: var(--inst-text-muted);">
+                            ${displayDate}
+                        </td>
+                        <td style="font-size: 12px; color: var(--inst-text-muted);">
+                            <i class="fas fa-download" style="font-size: 11px;"></i> ${res.download_count || 0}
+                        </td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: flex-end;">
+                                <a href="../api/library/download.php?id=${res.id}" class="admin-btn admin-btn-secondary admin-btn-sm" title="Download File">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteResource(${res.id})" title="Delete Resource">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function getFileIcon(type) {
+            const icons = {
+                'pdf': 'file-pdf',
+                'doc': 'file-word',
+                'docx': 'file-word',
+                'xls': 'file-excel',
+                'xlsx': 'file-excel',
+                'ppt': 'file-powerpoint',
+                'pptx': 'file-powerpoint',
+                'jpg': 'file-image',
+                'jpeg': 'file-image',
+                'png': 'file-image',
+                'mp4': 'file-video'
+            };
+            return icons[type.toLowerCase()] || 'file';
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes || bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('resourcesContainer');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterResources() {
+            const search = document.getElementById('librarySearchInput').value.toLowerCase();
+            const cat = document.getElementById('libraryCategoryFilter').value;
+            const cls = document.getElementById('libraryClassFilter').value;
+
+            let filtered = allResources.filter(res => {
+                const matchesSearch = !search || 
+                    (res.title && res.title.toLowerCase().includes(search)) ||
+                    (res.subject && res.subject.toLowerCase().includes(search)) ||
+                    (res.description && res.description.toLowerCase().includes(search));
+                
+                const matchesCat = !cat || res.category === cat;
+                const matchesCls = !cls || res.class_level === cls;
+
+                return matchesSearch && matchesCat && matchesCls;
+            });
+
+            document.getElementById('resourcesCount').textContent = filtered.length;
+            renderResources(filtered);
+        }
+
+        function openUploadModal() {
+            document.getElementById('uploadForm').reset();
+            document.getElementById('filePreviewArea').style.display = 'none';
+            document.getElementById('uploadModal').classList.add('active');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+        }
+
+        function previewFiles(input) {
+            const list = document.getElementById('filePreviewList');
+            const area = document.getElementById('filePreviewArea');
+            list.innerHTML = '';
+
+            if (input.files && input.files.length > 0) {
+                document.getElementById('selectedFileCount').textContent = input.files.length;
+                Array.from(input.files).forEach(f => {
+                    const row = document.createElement('div');
+                    row.style.cssText = 'display: flex; justify-content: space-between; font-size: 11px; color: var(--inst-text);';
+                    row.innerHTML = `<span><i class="fas fa-file"></i> ${escapeHtml(f.name)}</span><span>${formatFileSize(f.size)}</span>`;
+                    list.appendChild(row);
+                });
+                area.style.display = 'block';
+            } else {
+                area.style.display = 'none';
+            }
+        }
+
+        async function submitUpload(e) {
+            e.preventDefault();
+            const form = e.target;
+            const fileInput = document.getElementById('libraryFileInput');
+            const files = fileInput.files;
+
+            if (files.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Files Selected',
+                    text: 'Please select at least one resource file to upload.',
+                    confirmButtonColor: '#0066cc'
+                });
+                return;
+            }
+
+            const submitBtn = document.getElementById('uploadSubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+
+            const title = form.querySelector('[name="title"]').value;
+            const description = form.querySelector('[name="description"]').value;
+            const category = form.querySelector('[name="category"]').value;
+            const classLevel = form.querySelector('[name="class_level"]').value;
+            const subject = form.querySelector('[name="subject"]').value;
+            const uploadDate = form.querySelector('[name="upload_date"]').value;
+
+            let uploadedCount = 0;
+            let failedCount = 0;
+
+            for (let i = 0; i < files.length; i++) {
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading ${i + 1}/${files.length}...`;
+                const formData = new FormData();
+                formData.append('file', files[i]);
+                if (files.length === 1 && title) {
+                    formData.append('title', title);
+                }
+                formData.append('description', description);
+                formData.append('category', category);
+                formData.append('class_level', classLevel);
+                formData.append('subject', subject);
+                formData.append('upload_date', uploadDate);
+
+                try {
+                    const response = await fetch('../api/library/create.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        uploadedCount++;
+                    } else {
+                        failedCount++;
+                    }
+                } catch (err) {
+                    failedCount++;
+                }
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = origHtml;
+
+            if (uploadedCount > 0) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Upload Complete!',
+                    html: `<strong>${uploadedCount}</strong> file(s) uploaded successfully!${failedCount > 0 ? `<br><span style="color:#dc3545;">${failedCount} failed.</span>` : ''}`,
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+                closeUploadModal();
+                loadResources();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: 'All selected files failed to upload. Please check file sizes and formats.',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+
+        async function deleteResource(id) {
+            const res = allResources.find(r => r.id == id);
+            const title = res ? res.title : 'this resource';
+
+            const swalRes = await Swal.fire({
+                title: 'Delete Resource?',
+                html: `Are you sure you want to permanently delete <strong>${escapeHtml(title)}</strong>?<br><span style="color:#dc3545;font-size:13px;">The file will be deleted from storage.</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (swalRes.isConfirmed) {
+                try {
+                    const response = await fetch('../api/library/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Resource has been removed.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadResources();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

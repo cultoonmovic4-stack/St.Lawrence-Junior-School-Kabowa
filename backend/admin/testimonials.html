@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Testimonials Management - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Testimonials</h1>
+                    <span class="page-subtitle">Community Feedback</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Content</span>
+                        <span class="separator">/</span>
+                        <span>Testimonials</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Testimonials Management</h1>
+                        <p>Manage testimonials displayed on the school website.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-primary" onclick="openAddTestimonialModal()">
+                        <i class="fas fa-quote-left"></i> Add Testimonial
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="testimonialSearchInput" class="admin-search-input" placeholder="Search by parent/student name or content..." oninput="filterTestimonials()">
+                </div>
+                <select id="testimonialRoleFilter" class="admin-filter-select" onchange="filterTestimonials()">
+                    <option value="">All Roles</option>
+                    <option value="parent">Parent</option>
+                    <option value="student">Student</option>
+                    <option value="old_student">Old Student</option>
+                </select>
+                <select id="testimonialStatusFilter" class="admin-filter-select" onchange="filterTestimonials()">
+                    <option value="">All Statuses</option>
+                    <option value="approved">Approved</option>
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                <button class="admin-btn admin-btn-secondary" onclick="loadTestimonials()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Content Card -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-quote-right"></i> Testimonials (<span id="testimonialCount">0</span>)</h2>
+                </div>
+
+                <div id="testimonialContainer">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading testimonials...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="admin-modal-backdrop" id="testimonialModal">
+        <div class="admin-modal-box">
+            <div class="admin-modal-header">
+                <h3 id="testimonialModalTitle"><i class="fas fa-quote-left"></i> Add New Testimonial</h3>
+                <button class="admin-modal-close" onclick="closeTestimonialModal()">&times;</button>
+            </div>
+            <form id="testimonialForm" onsubmit="submitTestimonial(event)" enctype="multipart/form-data">
+                <input type="hidden" id="testimonialId" name="id">
+
+                <div class="admin-modal-body">
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Name <span class="required">*</span></label>
+                            <input type="text" id="parentNameInput" name="parent_name" required class="admin-form-input" placeholder="Full name">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Role / Relationship <span class="required">*</span></label>
+                            <select id="parentRoleInput" name="testimonial_type" required class="admin-form-select">
+                                <option value="parent">Parent</option>
+                                <option value="student">Student</option>
+                                <option value="old_student">Old Student</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Rating <span class="required">*</span></label>
+                            <select id="ratingInput" name="rating" required class="admin-form-select">
+                                <option value="5">5 Stars - Excellent</option>
+                                <option value="4">4 Stars - Very Good</option>
+                                <option value="3">3 Stars - Good</option>
+                                <option value="2">2 Stars - Fair</option>
+                                <option value="1">1 Star - Poor</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group" id="statusGroup" style="display: none;">
+                            <label>Approval Status</label>
+                            <select id="statusInput" name="status" class="admin-form-select">
+                                <option value="approved">Approved</option>
+                                <option value="pending">Pending</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group" style="margin-bottom: 16px;">
+                        <label>Testimonial Content <span class="required">*</span></label>
+                        <textarea id="testimonialTextInput" name="testimonial_text" rows="4" required class="admin-form-textarea" placeholder="Share the feedback or testimonial..."></textarea>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label>Photo (Optional)</label>
+                        <input type="file" name="photo" accept="image/*" class="admin-form-input">
+                        <span class="admin-form-help">Supported formats: JPG, PNG, WEBP (Max 100MB).</span>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeTestimonialModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="testimonialSubmitBtn">
+                        <i class="fas fa-save"></i> Save Testimonial
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allTestimonials = [];
+        let isEditing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadTestimonials();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth check error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        async function loadTestimonials() {
+            const container = document.getElementById('testimonialContainer');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading testimonials...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/testimonials/get_all.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allTestimonials = result.data;
+                    document.getElementById('testimonialCount').textContent = allTestimonials.length;
+                    renderTestimonials(allTestimonials);
+                } else {
+                    showEmptyState('No Testimonials Found', 'There are currently no testimonials in the database.');
+                }
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Testimonials</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadTestimonials()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderTestimonials(testimonials) {
+            const container = document.getElementById('testimonialContainer');
+            if (!testimonials || testimonials.length === 0) {
+                showEmptyState('No Testimonials Found', 'No testimonials match your filter criteria.');
+                return;
+            }
+
+            const statusBadges = {
+                'approved': 'admin-badge-green',
+                'pending': 'admin-badge-amber',
+                'rejected': 'admin-badge-red'
+            };
+
+            let html = `
+                <div class="admin-table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Role</th>
+                                <th>Rating</th>
+                                <th>Testimonial Text</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            testimonials.forEach(t => {
+                const statClass = statusBadges[t.status] || 'admin-badge-gray';
+                const initial = (t.parent_name || 'U').charAt(0).toUpperCase();
+
+                // Stars
+                let stars = '';
+                const r = parseInt(t.rating) || 5;
+                for (let i = 1; i <= 5; i++) {
+                    stars += `<i class="fas fa-star" style="color: ${i <= r ? '#f59e0b' : '#cbd5e1'}; font-size: 11px;"></i>`;
+                }
+
+                html += `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                ${t.photo_url ? `
+                                    <img src="../${t.photo_url}" alt="${escapeHtml(t.parent_name)}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--inst-border);" onerror="this.outerHTML='<div style=\\'width:38px;height:38px;border-radius:50%;background:var(--inst-surface-muted);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--inst-blue);\\'>${initial}</div>'">
+                                ` : `
+                                    <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--inst-surface-muted); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--inst-blue);">
+                                        ${initial}
+                                    </div>
+                                `}
+                                <div>
+                                    <div style="font-weight: 600; color: var(--inst-text);">${escapeHtml(t.parent_name || '')}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="admin-badge admin-badge-blue" style="text-transform: capitalize;">
+                                ${escapeHtml((t.parent_role || 'parent').replace('_', ' '))}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 2px;">${stars}</div>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px; color: var(--inst-text-muted); max-width: 320px; line-height: 1.4;">
+                                "${escapeHtml(t.testimonial_text || '')}"
+                            </div>
+                        </td>
+                        <td>
+                            <span class="admin-badge ${statClass}">
+                                ${escapeHtml(t.status || 'approved')}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: flex-end;">
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editTestimonial(${t.id})" title="Edit">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteTestimonial(${t.id})" title="Delete">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('testimonialContainer');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-quote-left"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterTestimonials() {
+            const search = document.getElementById('testimonialSearchInput').value.toLowerCase();
+            const role = document.getElementById('testimonialRoleFilter').value;
+            const status = document.getElementById('testimonialStatusFilter').value;
+
+            let filtered = allTestimonials.filter(t => {
+                const matchesSearch = !search || 
+                    (t.parent_name && t.parent_name.toLowerCase().includes(search)) ||
+                    (t.testimonial_text && t.testimonial_text.toLowerCase().includes(search));
+
+                const matchesRole = !role || t.parent_role === role;
+                const matchesStatus = !status || t.status === status;
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            document.getElementById('testimonialCount').textContent = filtered.length;
+            renderTestimonials(filtered);
+        }
+
+        function openAddTestimonialModal() {
+            isEditing = false;
+            document.getElementById('testimonialForm').reset();
+            document.getElementById('testimonialId').value = '';
+            document.getElementById('statusGroup').style.display = 'none';
+            document.getElementById('testimonialModalTitle').innerHTML = '<i class="fas fa-quote-left"></i> Add New Testimonial';
+            document.getElementById('testimonialSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Save Testimonial';
+            document.getElementById('parentRoleInput').value = 'parent';
+            document.getElementById('ratingInput').value = '5';
+            document.getElementById('testimonialModal').classList.add('active');
+        }
+
+        function editTestimonial(id) {
+            const t = allTestimonials.find(item => item.id == id);
+            if (!t) return;
+
+            isEditing = true;
+            document.getElementById('testimonialId').value = t.id;
+            document.getElementById('parentNameInput').value = t.parent_name || '';
+            document.getElementById('parentRoleInput').value = t.parent_role || 'parent';
+            document.getElementById('ratingInput').value = t.rating || '5';
+            document.getElementById('testimonialTextInput').value = t.testimonial_text || '';
+            document.getElementById('statusInput').value = t.status || 'approved';
+            document.getElementById('statusGroup').style.display = 'flex';
+
+            document.getElementById('testimonialModalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Testimonial';
+            document.getElementById('testimonialSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Testimonial';
+            document.getElementById('testimonialModal').classList.add('active');
+        }
+
+        function closeTestimonialModal() {
+            document.getElementById('testimonialModal').classList.remove('active');
+        }
+
+        async function submitTestimonial(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const submitBtn = document.getElementById('testimonialSubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            const endpoint = isEditing ? '../api/testimonials/update.php' : '../api/testimonials/create.php';
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: isEditing ? 'Updated!' : 'Added!',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    closeTestimonialModal();
+                    loadTestimonials();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Operation failed',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        async function deleteTestimonial(id) {
+            const t = allTestimonials.find(item => item.id == id);
+            const name = t ? t.parent_name : 'this testimonial';
+
+            const res = await Swal.fire({
+                title: 'Delete Testimonial?',
+                html: `Are you sure you want to delete testimonial from <strong>${escapeHtml(name)}</strong>?<br><span style="color:#dc3545;font-size:13px;">This action cannot be undone.</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/testimonials/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Testimonial has been removed.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadTestimonials();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

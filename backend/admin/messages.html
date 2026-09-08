@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Messages Management - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Messages Management</h1>
+                    <span class="page-subtitle">Website Inquiries</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Content</span>
+                        <span class="separator">/</span>
+                        <span>Messages</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Messages Management</h1>
+                        <p>View and manage messages received from the school website.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-secondary" onclick="loadMessages()">
+                        <i class="fas fa-sync-alt"></i> Refresh Messages
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="messageSearchInput" class="admin-search-input" placeholder="Search by name, email, or subject..." oninput="filterMessages()">
+                </div>
+                <select id="messageStatusFilter" class="admin-filter-select" onchange="filterMessages()">
+                    <option value="">All Statuses</option>
+                    <option value="new">New</option>
+                    <option value="read">Read</option>
+                    <option value="replied">Replied</option>
+                </select>
+            </div>
+
+            <!-- Content Card -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-envelope"></i> Inquiries & Contact Form Submissions (<span id="messageCount">0</span>)</h2>
+                </div>
+
+                <div id="messagesList">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading messages...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reply Modal -->
+    <div class="admin-modal-backdrop" id="replyModal">
+        <div class="admin-modal-box modal-large">
+            <div class="admin-modal-header">
+                <h3><i class="fas fa-reply"></i> Reply to Message</h3>
+                <button class="admin-modal-close" onclick="closeReplyModal()">&times;</button>
+            </div>
+            <form id="replyForm" onsubmit="submitReply(event)">
+                <input type="hidden" name="submission_id" id="replySubmissionId">
+                <div class="admin-modal-body">
+                    <!-- Original Message Box -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 12px; font-weight: 700; color: var(--inst-text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
+                            Original Inquirer Message
+                        </label>
+                        <div id="originalMessageBox" style="padding: 16px; background: var(--inst-surface-muted); border: 1px solid var(--inst-border); border-radius: 6px;"></div>
+                    </div>
+
+                    <!-- Reply Textarea -->
+                    <div class="admin-form-group">
+                        <label>Your Reply <span class="required">*</span></label>
+                        <textarea name="reply_message" id="replyMessageText" rows="6" required class="admin-form-textarea" placeholder="Type your institutional response here..."></textarea>
+                        <span class="admin-form-help"><i class="fas fa-info-circle"></i> The response will be emailed to the inquirer's email address.</span>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeReplyModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="replySubmitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Reply
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allMessages = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadMessages();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        async function loadMessages() {
+            const container = document.getElementById('messagesList');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading messages...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/messages/get_all.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+                    allMessages = result.data;
+                    document.getElementById('messageCount').textContent = allMessages.length;
+                    renderMessages(allMessages);
+                } else {
+                    document.getElementById('messageCount').textContent = '0';
+                    showEmptyState('No Messages Found', 'There are currently no website inquiries or messages to display.');
+                }
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Messages</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadMessages()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderMessages(messages) {
+            const container = document.getElementById('messagesList');
+            if (!messages || messages.length === 0) {
+                showEmptyState('No Messages Found', 'No messages match your current filter.');
+                return;
+            }
+
+            const statusColors = {
+                'new': 'admin-badge-blue',
+                'read': 'admin-badge-gray',
+                'replied': 'admin-badge-green'
+            };
+
+            let html = `<div style="display: flex; flex-direction: column; gap: 16px;">`;
+
+            messages.forEach(msg => {
+                const badgeClass = statusColors[msg.status] || 'admin-badge-gray';
+                const initial = (msg.name || 'U').charAt(0).toUpperCase();
+
+                let dateDisplay = '';
+                try {
+                    const d = new Date(msg.submitted_date);
+                    dateDisplay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+                                  ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                } catch (e) {
+                    dateDisplay = msg.submitted_date || '';
+                }
+
+                html += `
+                    <div style="background: #ffffff; border: 1px solid var(--inst-border); border-left: 4px solid ${msg.status === 'new' ? 'var(--inst-blue)' : 'var(--inst-border)'}; border-radius: 8px; padding: 20px; box-shadow: var(--inst-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--inst-surface-muted); color: var(--inst-blue); font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--inst-border);">
+                                    ${initial}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--inst-text); font-size: 15px;">${escapeHtml(msg.name || '')}</div>
+                                    <div style="font-size: 12px; color: var(--inst-text-muted); display: flex; align-items: center; gap: 6px;">
+                                        <i class="fas fa-envelope"></i> ${escapeHtml(msg.email || '')}
+                                        ${msg.phone ? ` &bull; <i class="fas fa-phone"></i> ${escapeHtml(msg.phone)}` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                                <span class="admin-badge ${badgeClass}">${escapeHtml(msg.status || 'new')}</span>
+                                <span style="font-size: 11px; color: var(--inst-text-light);"><i class="fas fa-clock"></i> ${dateDisplay}</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 12px; padding: 10px 14px; background: var(--inst-surface-muted); border-radius: 6px;">
+                            <span style="font-size: 11px; font-weight: 700; color: var(--inst-text-muted); text-transform: uppercase;">Subject:</span>
+                            <span style="font-size: 13px; font-weight: 600; color: var(--inst-text); margin-left: 6px;">${escapeHtml(msg.subject || 'No Subject')}</span>
+                        </div>
+
+                        <div style="margin-bottom: 16px; font-size: 13px; line-height: 1.6; color: var(--inst-text); white-space: pre-wrap; padding: 0 4px;">${escapeHtml(msg.message || '')}</div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--inst-border); padding-top: 12px;">
+                            <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="openReplyModal(${msg.id})">
+                                <i class="fas fa-reply"></i> Reply
+                            </button>
+                            ${msg.status === 'new' ? `
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="markAsRead(${msg.id})">
+                                    <i class="fas fa-check-circle"></i> Mark as Read
+                                </button>
+                            ` : ''}
+                            <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteMessage(${msg.id})">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('messagesList');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-inbox"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterMessages() {
+            const search = document.getElementById('messageSearchInput').value.toLowerCase();
+            const stat = document.getElementById('messageStatusFilter').value;
+
+            let filtered = allMessages.filter(msg => {
+                const matchesSearch = !search || 
+                    (msg.name && msg.name.toLowerCase().includes(search)) ||
+                    (msg.email && msg.email.toLowerCase().includes(search)) ||
+                    (msg.subject && msg.subject.toLowerCase().includes(search)) ||
+                    (msg.message && msg.message.toLowerCase().includes(search));
+
+                const matchesStat = !stat || msg.status === stat;
+                return matchesSearch && matchesStat;
+            });
+
+            document.getElementById('messageCount').textContent = filtered.length;
+            renderMessages(filtered);
+        }
+
+        function openReplyModal(id) {
+            const msg = allMessages.find(m => m.id == id);
+            if (!msg) return;
+
+            document.getElementById('replySubmissionId').value = msg.id;
+            document.getElementById('replyMessageText').value = '';
+            
+            document.getElementById('originalMessageBox').innerHTML = `
+                <div style="font-weight: 700; color: var(--inst-blue); margin-bottom: 4px;">From: ${escapeHtml(msg.name)} &lt;${escapeHtml(msg.email)}&gt;</div>
+                <div style="font-size: 12px; font-weight: 600; color: var(--inst-text); margin-bottom: 6px;">Subject: ${escapeHtml(msg.subject || 'No Subject')}</div>
+                <div style="font-size: 13px; color: var(--inst-text-muted); line-height: 1.5; white-space: pre-wrap;">${escapeHtml(msg.message || '')}</div>
+            `;
+
+            document.getElementById('replyModal').classList.add('active');
+        }
+
+        function closeReplyModal() {
+            document.getElementById('replyModal').classList.remove('active');
+        }
+
+        async function submitReply(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const submitBtn = document.getElementById('replySubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            try {
+                const response = await fetch('../api/messages/reply.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Reply Sent!',
+                        text: result.message || 'Your email reply was dispatched successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    closeReplyModal();
+                    loadMessages();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Failed to send reply',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        async function markAsRead(id) {
+            try {
+                const response = await fetch('../api/messages/mark_read.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    loadMessages();
+                }
+            } catch (err) {
+                console.error('Error marking as read:', err);
+            }
+        }
+
+        async function deleteMessage(id) {
+            const res = await Swal.fire({
+                title: 'Delete Message?',
+                text: 'This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/messages/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Message has been removed.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadMessages();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

@@ -22,6 +22,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/redesign-style.css?v=3.2">
+    <!-- Editorial Hero & Application Styles -->
+    <link rel="stylesheet" href="../css/admission-application-redesign.css?v=1.1">
 
     <!-- Unified Responsive Design (replaces 10 page-specific files) -->
     <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
@@ -367,11 +369,202 @@
     <link rel="stylesheet" href="../css/contact-mobile-fix.css?v=2.0">
 
     <!-- Target Institutional Navbar Styles -->
-    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=1.0">
+    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=2.0">
     <!-- Target Final Footer Redesign Styles -->
-    <link rel="stylesheet" href="../css/footer-target.css?v=1.1">
+    <link rel="stylesheet" href="../css/footer-target.css?v=3.0">
     <!-- Chatbot CSS -->
     <link rel="stylesheet" href="../css/chatbot.css?v=21.0">
+
+    <!-- Mobile Footer Ultra-Resilient Layout Fix -->
+    <style id="sls-mobile-footer-fix">
+        @media (max-width: 768px) {
+            .footer-target {
+                padding-top: 48px !important;
+                padding-bottom: 12px !important;
+            }
+            .footer-target .footer-container {
+                width: 100% !important;
+                padding: 0 18px !important;
+                box-sizing: border-box !important;
+            }
+            .footer-target .footer-top-row {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 24px 18px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .footer-target .footer-brand-col {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            .footer-target .footer-brand-header {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                gap: 12px !important;
+                margin-bottom: 12px !important;
+            }
+            .footer-target .footer-school-logo {
+                height: 62px !important;
+                margin: 0 auto !important;
+            }
+            .footer-target .footer-school-title {
+                font-family: 'Playfair Display', Georgia, serif !important;
+                font-size: 20px !important;
+                text-align: center !important;
+                line-height: 1.25 !important;
+            }
+            .footer-target .footer-brand-desc {
+                font-size: 13.5px !important;
+                text-align: center !important;
+                max-width: 440px !important;
+                margin: 0 auto 16px auto !important;
+            }
+            .footer-target .footer-social-links {
+                display: flex !important;
+                justify-content: center !important;
+                gap: 12px !important;
+            }
+            .footer-target .footer-social-btn {
+                width: 42px !important;
+                height: 42px !important;
+                font-size: 15px !important;
+            }
+            .footer-target .footer-tagline-col {
+                grid-column: 1 / -1 !important;
+                display: flex !important;
+                justify-content: center !important;
+                margin: 4px 0 8px 0 !important;
+            }
+            .footer-target .footer-cursive-wrap {
+                display: inline-flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 10px 24px !important;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-radius: 999px !important;
+                transform: none !important;
+            }
+            .footer-target .footer-cursive-text {
+                font-family: 'Caveat', cursive, sans-serif !important;
+                font-size: 26px !important;
+                font-weight: 700 !important;
+                color: #ffffff !important;
+                margin: 0 !important;
+                white-space: nowrap !important;
+            }
+            .footer-target .footer-cursive-text br {
+                display: none !important;
+            }
+            .footer-target .footer-cursive-underline {
+                display: none !important;
+            }
+            .footer-target .footer-nav-col {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            .footer-target .footer-col-accent {
+                width: 26px !important;
+                height: 3px !important;
+                margin-bottom: 12px !important;
+            }
+            .footer-target .footer-col-title {
+                font-size: 15px !important;
+                margin-bottom: 14px !important;
+            }
+            .footer-target .footer-nav-list li {
+                margin-bottom: 10px !important;
+            }
+            .footer-target .footer-nav-list a {
+                font-size: 13.5px !important;
+                line-height: 1.4 !important;
+                word-break: break-word !important;
+                white-space: normal !important;
+            }
+            .footer-target .footer-contact-col {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+                background: rgba(255, 255, 255, 0.035) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 14px !important;
+                padding: 22px 18px !important;
+                margin-top: 4px !important;
+                box-sizing: border-box !important;
+            }
+            .footer-target .footer-contact-item {
+                display: grid !important;
+                grid-template-columns: 28px 1fr !important;
+                gap: 12px !important;
+                font-size: 13.5px !important;
+                margin-bottom: 14px !important;
+            }
+            .footer-target .footer-contact-icon {
+                width: 28px !important;
+                height: 28px !important;
+                border-radius: 50% !important;
+                background: rgba(211, 47, 47, 0.16) !important;
+                color: #ef4444 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 12px !important;
+            }
+            .footer-target .footer-contact-item a {
+                display: inline-block !important;
+                padding: 3px 8px !important;
+                margin: 2px 4px 2px 0 !important;
+                background: rgba(255, 255, 255, 0.06) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-radius: 6px !important;
+                color: #ffffff !important;
+            }
+            .footer-target .footer-contact-item a[href^="mailto:"] {
+                display: inline !important;
+                padding: 0 !important;
+                background: none !important;
+                border: none !important;
+                color: #93c5fd !important;
+                text-decoration: underline !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-all !important;
+            }
+            .footer-target .footer-pillars-col {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+                text-align: center !important;
+                margin-top: 4px !important;
+                padding: 14px 16px !important;
+                background: rgba(211, 47, 47, 0.08) !important;
+                border: 1px solid rgba(211, 47, 47, 0.22) !important;
+                border-radius: 10px !important;
+            }
+            .footer-target .footer-pillars-text {
+                font-size: 11px !important;
+                letter-spacing: 1.8px !important;
+                line-height: 1.8 !important;
+                color: #fecaca !important;
+                margin: 0 !important;
+            }
+            .footer-target .footer-pillars-text br {
+                display: none !important;
+            }
+            .footer-target .footer-bottom-strip {
+                margin-top: 32px !important;
+                padding-top: 22px !important;
+                padding-bottom: 28px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                gap: 12px !important;
+            }
+        }
+    </style>
 </head>
 <body>
     
@@ -406,7 +599,7 @@
                     <li><a href="index-redesign.html" class="nav-link">Home</a></li>
                     <li><a href="About-redesign.html" class="nav-link">About Us</a></li>
                     <li class="nav-dropdown">
-                        <a href="Academics.html" class="nav-link">Academics <i class="fas fa-chevron-down"></i></a>
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" aria-expanded="false">Academics <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="Fees.html">Fees Structure</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
@@ -417,14 +610,7 @@
                     <li><a href="Gallery-redesign.html" class="nav-link">Gallery</a></li>
                     <li><a href="Library-redesign.html" class="nav-link">Library</a></li>
                     <li><a href="Contact-redesign.html" class="nav-link active">Contact</a></li>
-                    
-                    <!-- Mobile Admin Portal CTA (pinned at bottom of drawer) -->
-                    <li class="mobile-menu-admin-item mobile-only">
-                        <a href="../backend/admin/login.html" class="mobile-menu-admin-btn">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Admin Portal</span>
-                        </a>
-                    </li>
+
                 </ul>
                 
                 <!-- Admin Portal Button (Desktop) -->
@@ -445,25 +631,60 @@
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1600&q=80" alt="Contact Us">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <div class="breadcrumb" data-aos="fade-down">
-                <a href="index-redesign.html">Home</a>
-                <span>/</span>
-                <span>Contact Us</span>
+    <!-- 1. LIGHT EDITORIAL CONTACT HERO (MATCHING ADMISSION PAGE) -->
+    <section class="admissions-hero-editorial contact-hero-editorial">
+        <div class="admissions-hero-container">
+            <div class="admissions-hero-grid">
+                <!-- Left Side (approx 45%) -->
+                <div class="admissions-hero-left">
+                    <!-- Text-only breadcrumb -->
+                    <nav class="admissions-hero-breadcrumb" aria-label="Breadcrumb">
+                        <a href="index-redesign.html">Home</a>
+                        <span class="separator">/</span>
+                        <span class="current">Contact Us</span>
+                    </nav>
+
+                    <!-- Small red label with horizontal accent line -->
+                    <div class="admissions-hero-eyebrow-wrap">
+                        <span class="admissions-hero-eyebrow-bar" aria-hidden="true"></span>
+                        <span class="admissions-hero-eyebrow-text">CONTACT US</span>
+                    </div>
+
+                    <!-- Editorial Headline -->
+                    <h1 class="admissions-hero-title">
+                        Get In Touch<br>With Our <span class="text-red">School</span>
+                    </h1>
+
+                    <!-- Supporting Text -->
+                    <p class="admissions-hero-description">
+                        We're here to help and answer your questions. Reach out to St. Lawrence Junior School Kabowa for admissions inquiries, campus visits, or general guidance.
+                    </p>
+
+                    <!-- Primary & Secondary Actions -->
+                    <div class="admissions-hero-actions">
+                        <a href="#contactSection" class="admissions-hero-cta" id="heroContactCta">
+                            <span>Send Us a Message</span>
+                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                        <a href="tel:+256701420506" class="admissions-hero-cta-secondary" title="Call Our Office">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                            <span>Call Office</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side (approx 55%) -->
+                <div class="admissions-hero-right">
+                    <div class="admissions-hero-media-wrap">
+                        <img src="../img/admissions-hero-students.png" alt="St. Lawrence Junior School Kabowa pupils smiling in uniform" class="admissions-hero-img" width="594" height="546">
+                    </div>
+                </div>
             </div>
-            <h1 data-aos="fade-up">Get In Touch</h1>
-            <p data-aos="fade-up" data-aos-delay="100">We're Here to Help and Answer Your Questions</p>
         </div>
     </section>
 
     <!-- Contact Section with World Map Background -->
-    <section class="contact-main-section">
+    <section class="contact-main-section" id="contactSection">
         <div class="contact-intro-text" data-aos="fade-up">
             <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         </div>
@@ -625,9 +846,9 @@
                     <div class="footer-col-accent"></div>
                     <h4 class="footer-col-title">Our Programs</h4>
                     <ul class="footer-nav-list">
-                        <li><a href="Academics.html#nursery">Nursery School</a></li>
-                        <li><a href="Academics.html#primary">Primary School</a></li>
-                        <li><a href="Academics.html#day-schooling">Day & Boarding</a></li>
+                        <li><a href="index-redesign.html#programs">Nursery School</a></li>
+                        <li><a href="index-redesign.html#programs">Primary School</a></li>
+                        <li><a href="index-redesign.html#programs">Day & Boarding</a></li>
                     </ul>
                 </div>
 
@@ -695,13 +916,13 @@
     <script src="../js/mobile-edge-fixes.js"></script>
     
     <!-- Hamburger Menu Functionality Fix -->
-    <script src="../js/hamburger-menu-fix.js"></script>
+    <script src="../js/hamburger-menu-fix.js?v=3.0"></script>
 
     <!-- Unified Floating Elements Handler -->
     <script src="../js/unified-floating-elements.js?v=1.0"></script>
     
     <!-- Dropdown Navigation Fix -->
-    <script src="../js/dropdown-fix.js"></script>
+    <script src="../js/dropdown-fix.js?v=3.0"></script>
     
     <!-- API Integration -->
     <script src="../js/api-config.js?v=2.0"></script>
@@ -774,18 +995,6 @@
                 }
             }
         }, { passive: true });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.header .nav-dropdown > a').forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 991) {
-                        e.preventDefault();
-                        const menu = this.nextElementSibling;
-                        if (menu) menu.classList.toggle('mobile-open');
-                    }
-                });
-            });
-        });
     </script>
 
 </body>

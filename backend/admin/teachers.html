@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Teachers Management - St. Lawrence Junior School Kabowa</title>
+    
+    <!-- External Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Institutional Admin CSS -->
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.2">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <!-- Sidebar Header with Official School Logo -->
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                    <span class="notification-badge" id="admissionsBadge" style="display: none;">0</span>
+                </a>
+            </div>
+
+            <!-- Content Section (Open & Teachers active) -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <!-- Sidebar Bottom Info -->
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Teachers Management</h1>
+                    <span class="page-subtitle">School Administration</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <!-- Date Time Card -->
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="railNotificationsBadge" style="display: none;">0</span>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <!-- Dropdown Menu -->
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Teachers Management Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            
+            <!-- 1. Page Header with Breadcrumb -->
+            <div class="teachers-header-card">
+                <div class="teachers-breadcrumb">
+                    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="separator">/</span>
+                    <span>Content</span>
+                    <span class="separator">/</span>
+                    <span>Teachers</span>
+                </div>
+                <div class="teachers-title-wrap">
+                    <h1>Teachers Management</h1>
+                    <p>Manage teaching staff information, add new teachers and update existing records.</p>
+                </div>
+            </div>
+
+            <!-- 2. Add New Teacher Form -->
+            <div class="teachers-form-card" id="teacherFormContainer">
+                <div class="teachers-form-header">
+                    <h2 id="formHeaderTitle">
+                        <i class="fas fa-user-plus"></i> Add New Teacher
+                    </h2>
+                </div>
+
+                <form id="teacherForm" onsubmit="submitTeacher(event)" enctype="multipart/form-data">
+                    <div class="teachers-form-grid">
+                        <!-- Full Name * -->
+                        <div class="teachers-form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" name="full_name" required placeholder="Enter teacher's full name" class="teachers-form-input">
+                        </div>
+
+                        <!-- Department * -->
+                        <div class="teachers-form-group">
+                            <label>Department <span class="required">*</span></label>
+                            <select name="department" required class="teachers-form-select">
+                                <option value="">Select Department</option>
+                                <option value="administration">Administration</option>
+                                <option value="english">English</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="social">Social Studies</option>
+                            </select>
+                        </div>
+
+                        <!-- Position -->
+                        <div class="teachers-form-group">
+                            <label>Position</label>
+                            <input type="text" name="position" placeholder="e.g., Head Teacher, Senior Teacher" class="teachers-form-input">
+                        </div>
+
+                        <!-- Qualification -->
+                        <div class="teachers-form-group">
+                            <label>Qualification</label>
+                            <input type="text" name="qualification" placeholder="e.g., Bachelor of Education" class="teachers-form-input">
+                        </div>
+
+                        <!-- Experience (Years) -->
+                        <div class="teachers-form-group">
+                            <label>Experience (Years)</label>
+                            <input type="number" name="experience_years" min="0" placeholder="Years of experience" class="teachers-form-input">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="teachers-form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="teacher@example.com" class="teachers-form-input">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="teachers-form-group full-width">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" placeholder="+256 XXX XXX XXX" class="teachers-form-input">
+                        </div>
+
+                        <!-- Bio / About -->
+                        <div class="teachers-form-group full-width">
+                            <label>Bio / About</label>
+                            <textarea name="bio" rows="3" placeholder="Brief biographical information about the teacher" class="teachers-form-textarea"></textarea>
+                        </div>
+
+                        <!-- Specialization / Subjects -->
+                        <div class="teachers-form-group full-width">
+                            <label>Specialization / Subjects</label>
+                            <input type="text" name="specialization" placeholder="e.g., Primary Mathematics, English Literature" class="teachers-form-input">
+                        </div>
+
+                        <!-- Photo Upload (Max 100MB) -->
+                        <div class="teachers-form-group full-width">
+                            <label>Photo (Max 100MB)</label>
+                            <div class="teachers-photo-upload-wrap">
+                                <input type="file" name="photo" id="teacherPhotoInput" accept="image/*" onchange="previewTeacherPhoto(this)" class="teachers-form-input" style="flex: 1; min-width: 220px;">
+                                <div class="teachers-photo-preview" id="teacherPhotoPreview">
+                                    <img id="previewTeacherImg" src="" alt="Teacher Photo Preview">
+                                </div>
+                            </div>
+                            <small style="color: var(--inst-text-muted); font-size: 11px; margin-top: 4px;">
+                                Supported formats: JPG, PNG, GIF, WEBP.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="teachers-form-actions">
+                        <button type="button" id="btnCancelEdit" class="btn-teacher-cancel" onclick="cancelEditTeacher()" style="display: none;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" id="btnSubmitTeacher" class="btn-teacher-submit">
+                            <i class="fas fa-user-plus"></i> Add Teacher
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 3. All Teachers Section -->
+            <div class="teachers-section-card">
+                <div class="teachers-section-header">
+                    <h2>All Teachers</h2>
+                    <span class="teachers-count-badge" id="teachersCountBadge">0 Teachers</span>
+                </div>
+
+                <!-- Loading State -->
+                <div id="teachersLoadingState" class="teachers-loading-state" style="display: none;">
+                    <div class="teachers-spinner"></div>
+                    <p>Loading teachers from database...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="teachersEmptyState" class="teachers-empty-state" style="display: none;">
+                    <div class="teachers-empty-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>No Teachers Found</h3>
+                    <p>Add a teacher to begin building the staff directory.</p>
+                </div>
+
+                <!-- Dynamic Teachers Grid -->
+                <div class="teachers-grid" id="teachersGrid">
+                    <!-- Dynamic database teacher cards will be injected here -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State
+        let allTeachers = [];
+        let editingTeacherId = null;
+
+        // Authentication check
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                if (!response.ok) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const data = await response.json();
+                if (!data.logged_in) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const fullName = data.data.full_name || data.data.username || 'Administrator';
+                const roleName = data.data.role_name || 'Admin';
+                
+                document.getElementById('userName').textContent = fullName;
+                document.getElementById('userRole').textContent = roleName;
+                document.getElementById('userAvatar').textContent = fullName.charAt(0).toUpperCase();
+
+                const userAvatarLarge = document.getElementById('userAvatarLarge');
+                if (userAvatarLarge) userAvatarLarge.textContent = fullName.charAt(0).toUpperCase();
+
+                const userNameDropdown = document.getElementById('userNameDropdown');
+                if (userNameDropdown) userNameDropdown.textContent = fullName;
+
+                const userEmailDropdown = document.getElementById('userEmailDropdown');
+                if (userEmailDropdown && data.data.email) userEmailDropdown.textContent = data.data.email;
+
+            } catch (error) {
+                console.error('Session check failed:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Live Clock
+        function updateDateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const currentTimeEl = document.getElementById('currentTime');
+            if (currentTimeEl) currentTimeEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDateEl = document.getElementById('currentDate');
+            if (currentDateEl) currentDateEl.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Sidebar and UI Controls
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            if (window.innerWidth <= 1080) {
+                sidebar.classList.toggle('open');
+            } else {
+                const isCollapsed = sidebar.classList.toggle('collapsed');
+                document.body.classList.toggle('sidebar-collapsed', isCollapsed);
+            }
+        }
+
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            if (!submenu) return;
+            const isOpen = submenu.classList.contains('open');
+            
+            document.querySelectorAll('.submenu').forEach(sub => sub.classList.remove('open'));
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('expanded');
+                item.classList.remove('open');
+            });
+            
+            if (!isOpen) {
+                submenu.classList.add('open');
+                element.classList.add('expanded');
+                element.classList.add('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const userProfile = document.querySelector('.user-profile');
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown && userProfile && !userProfile.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            const result = await Swal.fire({
+                title: 'Logout Confirmation',
+                text: 'Are you sure you want to log out?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0b2545',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, Logout'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await fetch('../api/auth/logout.php', { method: 'POST' });
+                    sessionStorage.clear();
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                } catch (e) {
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+
+        // Preview Teacher Photo
+        function previewTeacherPhoto(input) {
+            const preview = document.getElementById('teacherPhotoPreview');
+            const previewImg = document.getElementById('previewTeacherImg');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Department Color Helper
+        function getDepartmentColor(department) {
+            const colors = {
+                'administration': '#c53030',
+                'english': '#0b2545',
+                'mathematics': '#10b981',
+                'science': '#6366f1',
+                'social': '#d97706'
+            };
+            return colors[department] || '#0b2545';
+        }
+
+        // Format Department Display
+        function formatDepartment(department) {
+            if (!department) return '';
+            const names = {
+                'administration': 'Administration',
+                'english': 'English',
+                'mathematics': 'Mathematics',
+                'science': 'Science',
+                'social': 'Social Studies'
+            };
+            return names[department] || department.charAt(0).toUpperCase() + department.slice(1);
+        }
+
+        // Get initials from teacher name
+        function getInitials(name) {
+            if (!name) return 'T';
+            const parts = name.trim().split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Load Teachers dynamically from Database API
+        async function loadTeachers() {
+            const loadingState = document.getElementById('teachersLoadingState');
+            const emptyState = document.getElementById('teachersEmptyState');
+            const grid = document.getElementById('teachersGrid');
+            const badge = document.getElementById('teachersCountBadge');
+
+            loadingState.style.display = 'block';
+            emptyState.style.display = 'none';
+            grid.innerHTML = '';
+
+            try {
+                const response = await fetch('../api/teachers/get_all.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allTeachers = result.data;
+                    badge.textContent = `${allTeachers.length} ${allTeachers.length === 1 ? 'Teacher' : 'Teachers'}`;
+                    displayTeachers(allTeachers);
+                } else {
+                    throw new Error(result.message || 'Failed to retrieve teachers');
+                }
+            } catch (error) {
+                console.error('Error loading teachers:', error);
+                allTeachers = [];
+                badge.textContent = '0 Teachers';
+                displayTeachers([]);
+            } finally {
+                loadingState.style.display = 'none';
+            }
+        }
+
+        // Display Teachers Grid
+        function displayTeachers(teachers) {
+            const grid = document.getElementById('teachersGrid');
+            const emptyState = document.getElementById('teachersEmptyState');
+
+            if (!teachers || teachers.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            let html = '';
+            teachers.forEach(teacher => {
+                const deptColor = getDepartmentColor(teacher.department);
+                const deptName = formatDepartment(teacher.department);
+                const initials = getInitials(teacher.full_name);
+
+                // Photo or neutral initials fallback
+                const photoMarkup = teacher.photo_url ? `
+                    <img src="../${teacher.photo_url}" alt="${escapeHTML(teacher.full_name)}" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\\\'teacher-fallback-photo\\\'><div class=\\\'initials\\\'>${initials}</div></div>';">
+                ` : `
+                    <div class="teacher-fallback-photo">
+                        <div class="initials">${initials}</div>
+                    </div>
+                `;
+
+                html += `
+                    <div class="teacher-card">
+                        <div class="teacher-photo-wrap">
+                            ${photoMarkup}
+                            <span class="teacher-card-dept-badge" style="background: ${deptColor};">
+                                ${escapeHTML(deptName)}
+                            </span>
+                        </div>
+
+                        <div class="teacher-card-body">
+                            <h3 class="teacher-card-name">${escapeHTML(teacher.full_name)}</h3>
+                            
+                            ${teacher.position ? `<div class="teacher-card-position">${escapeHTML(teacher.position)}</div>` : ''}
+
+                            <div class="teacher-card-meta">
+                                ${teacher.qualification ? `
+                                    <div class="teacher-card-meta-item">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>${escapeHTML(teacher.qualification)}</span>
+                                    </div>
+                                ` : ''}
+
+                                ${teacher.experience_years !== null && teacher.experience_years !== undefined && teacher.experience_years !== '' ? `
+                                    <div class="teacher-card-meta-item">
+                                        <i class="fas fa-history"></i>
+                                        <span>${escapeHTML(teacher.experience_years)} ${Number(teacher.experience_years) === 1 ? 'year' : 'years'} experience</span>
+                                    </div>
+                                ` : ''}
+
+                                ${teacher.email ? `
+                                    <div class="teacher-card-meta-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>${escapeHTML(teacher.email)}</span>
+                                    </div>
+                                ` : ''}
+
+                                ${teacher.phone ? `
+                                    <div class="teacher-card-meta-item">
+                                        <i class="fas fa-phone"></i>
+                                        <span>${escapeHTML(teacher.phone)}</span>
+                                    </div>
+                                ` : ''}
+
+                                ${teacher.specialization ? `
+                                    <div class="teacher-card-meta-item" style="color: var(--inst-blue); font-weight: 500;">
+                                        <i class="fas fa-book"></i>
+                                        <span>${escapeHTML(teacher.specialization)}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            ${teacher.bio ? `
+                                <div class="teacher-card-bio">
+                                    ${escapeHTML(teacher.bio)}
+                                </div>
+                            ` : ''}
+
+                            <div class="teacher-card-actions">
+                                <button class="btn-card-action btn-edit" onclick="editTeacher(${teacher.id})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn-card-action btn-delete" onclick="deleteTeacher(${teacher.id})">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Submit Teacher Form (Create or Update)
+        async function submitTeacher(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const isEditing = editingTeacherId !== null;
+
+            if (isEditing) {
+                formData.append('id', editingTeacherId);
+            }
+
+            const submitBtn = document.getElementById('btnSubmitTeacher');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${isEditing ? 'Updating...' : 'Saving...'}`;
+
+            try {
+                const endpoint = isEditing ? '../api/teachers/update.php' : '../api/teachers/create.php';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: isEditing ? 'Teacher Updated!' : 'Teacher Added!',
+                        text: result.message || 'Record saved successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    cancelEditTeacher();
+                    await loadTeachers();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Save Failed',
+                        text: result.message || 'Could not save teacher information.',
+                        confirmButtonColor: '#0b2545'
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: error.message,
+                    confirmButtonColor: '#0b2545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        // Edit Teacher (In-Page Mode)
+        function editTeacher(id) {
+            const teacher = allTeachers.find(t => Number(t.id) === Number(id));
+            if (!teacher) return;
+
+            editingTeacherId = id;
+            const form = document.getElementById('teacherForm');
+
+            // Populate form fields
+            form.querySelector('[name="full_name"]').value = teacher.full_name || '';
+            form.querySelector('[name="department"]').value = teacher.department || '';
+            form.querySelector('[name="position"]').value = teacher.position || '';
+            form.querySelector('[name="qualification"]').value = teacher.qualification || '';
+            form.querySelector('[name="experience_years"]').value = teacher.experience_years ?? '';
+            form.querySelector('[name="email"]').value = teacher.email || '';
+            form.querySelector('[name="phone"]').value = teacher.phone || '';
+            form.querySelector('[name="bio"]').value = teacher.bio || '';
+            form.querySelector('[name="specialization"]').value = teacher.specialization || '';
+
+            // Photo preview if teacher has photo
+            const preview = document.getElementById('teacherPhotoPreview');
+            const previewImg = document.getElementById('previewTeacherImg');
+            if (teacher.photo_url) {
+                previewImg.src = '../' + teacher.photo_url;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+
+            // Update Header & Button
+            document.getElementById('formHeaderTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Teacher';
+            document.getElementById('btnSubmitTeacher').innerHTML = '<i class="fas fa-save"></i> Update Teacher';
+            document.getElementById('btnCancelEdit').style.display = 'inline-flex';
+
+            // Smooth scroll to form
+            document.getElementById('teacherFormContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Cancel Edit Mode
+        function cancelEditTeacher() {
+            editingTeacherId = null;
+            const form = document.getElementById('teacherForm');
+            form.reset();
+            document.getElementById('teacherPhotoPreview').style.display = 'none';
+            document.getElementById('formHeaderTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add New Teacher';
+            document.getElementById('btnSubmitTeacher').innerHTML = '<i class="fas fa-user-plus"></i> Add Teacher';
+            document.getElementById('btnCancelEdit').style.display = 'none';
+        }
+
+        // Delete Teacher
+        async function deleteTeacher(id) {
+            const result = await Swal.fire({
+                title: 'Delete Teacher?',
+                text: 'This teacher will be permanently deleted from the staff directory.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: 'Cancel'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('../api/teachers/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: data.message || 'Teacher has been deleted.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        // If deleted the one currently being edited, cancel edit
+                        if (editingTeacherId === id) {
+                            cancelEditTeacher();
+                        }
+
+                        await loadTeachers();
+                    } else {
+                        throw new Error(data.message || 'Could not delete teacher.');
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Delete Failed',
+                        text: error.message,
+                        confirmButtonColor: '#dc2626'
+                    });
+                }
+            }
+        }
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            await loadTeachers();
+        });
+    </script>
+</body>
+</html>

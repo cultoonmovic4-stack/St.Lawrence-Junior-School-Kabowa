@@ -701,8 +701,26 @@
     }
 
     #navMenu .dropdown-menu.mobile-open,
-    .header#header .dropdown-menu.mobile-open {
+    #navMenu .nav-dropdown.open > .dropdown-menu,
+    #navMenu .nav-dropdown.dropdown-active > .dropdown-menu,
+    .header#header .dropdown-menu.mobile-open,
+    .header#header .nav-dropdown.open > .dropdown-menu,
+    .header#header .nav-dropdown.dropdown-active > .dropdown-menu {
         display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    #navMenu .nav-link i,
+    .header#header .nav-link i {
+        transition: transform 0.3s ease !important;
+    }
+
+    #navMenu .nav-dropdown.open > .nav-link i,
+    #navMenu .nav-dropdown.dropdown-active > .nav-link i,
+    .header#header .nav-dropdown.open > .nav-link i,
+    .header#header .nav-dropdown.dropdown-active > .nav-link i {
+        transform: rotate(180deg) !important;
     }
 
     #navMenu .dropdown-menu li a,
@@ -712,32 +730,24 @@
         font-size: 14px !important;
     }
 
-    /* Admin Portal CTA inside mobile menu */
-    .header#header .nav-actions {
-        display: none !important; /* Hide desktop header button */
-    }
-
-    .mobile-menu-admin-item {
-        margin-top: 24px !important;
-        width: 100% !important;
-        border-bottom: none !important;
-        display: block !important;
-    }
-
-    .mobile-menu-admin-btn {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 9px !important;
-        width: 100% !important;
-        background-color: var(--sls-red) !important;
-        color: var(--sls-white) !important;
-        padding: 14px 20px !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        font-size: 15px !important;
-        text-decoration: none !important;
-        box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+    /* Admin Portal Button — Completely disabled & hidden on mobile devices */
+    .header#header .nav-actions,
+    .nav-actions,
+    .btn-admin,
+    .header#header .btn-admin,
+    .mobile-menu-admin-item,
+    .mobile-menu-admin-btn,
+    .mobile-only.mobile-menu-admin-item {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        overflow: hidden !important;
     }
 
     /* Hero adjustments on tablet & mobile */

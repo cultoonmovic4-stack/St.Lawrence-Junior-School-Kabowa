@@ -62,24 +62,24 @@ try {
             email,
             subject,
             message,
-            submitted_at
+            submitted_date
         FROM contact_submissions 
         WHERE status = 'new'
-        ORDER BY submitted_at DESC
+        ORDER BY submitted_date DESC
         LIMIT 10
     ");
     $stmt->execute();
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     foreach ($messages as $message) {
-        $timeAgo = getTimeAgo($message['submitted_at']);
+        $timeAgo = getTimeAgo($message['submitted_date']);
         $notifications[] = [
             'id' => 'message_' . $message['id'],
             'type' => 'message',
             'title' => 'New Contact Message',
             'text' => $message['name'] . ': ' . substr($message['subject'], 0, 50) . (strlen($message['subject']) > 50 ? '...' : ''),
             'time' => $timeAgo,
-            'timestamp' => $message['submitted_at'],
+            'timestamp' => $message['submitted_date'],
             'unread' => true,
             'icon' => 'fa-envelope',
             'color' => 'green',
@@ -129,22 +129,24 @@ try {
 }
 
 // Helper function to calculate time ago
-function getTimeAgo($datetime) {
-    $timestamp = strtotime($datetime);
-    $diff = time() - $timestamp;
-    
-    if ($diff < 60) {
-        return 'Just now';
-    } elseif ($diff < 3600) {
-        $mins = floor($diff / 60);
-        return $mins . ' min' . ($mins > 1 ? 's' : '') . ' ago';
-    } elseif ($diff < 86400) {
-        $hours = floor($diff / 3600);
-        return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
-    } elseif ($diff < 604800) {
-        $days = floor($diff / 86400);
-        return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
-    } else {
-        return date('M j, Y', $timestamp);
+if (!function_exists('getTimeAgo')) {
+    function getTimeAgo($datetime) {
+        $timestamp = strtotime($datetime);
+        $diff = time() - $timestamp;
+        
+        if ($diff < 60) {
+            return 'Just now';
+        } elseif ($diff < 3600) {
+            $mins = floor($diff / 60);
+            return $mins . ' min' . ($mins > 1 ? 's' : '') . ' ago';
+        } elseif ($diff < 86400) {
+            $hours = floor($diff / 3600);
+            return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+        } elseif ($diff < 604800) {
+            $days = floor($diff / 86400);
+            return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+        } else {
+            return date('M j, Y', $timestamp);
+        }
     }
 }

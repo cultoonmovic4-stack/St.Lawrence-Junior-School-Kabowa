@@ -22,82 +22,94 @@
             .nav-dropdown {
                 position: relative;
             }
-            
-            .dropdown-menu {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px);
-                transition: all 0.3s ease;
-                z-index: 1000;
-                min-width: 200px;
-                padding: 10px 0;
-                margin-top: 5px;
+
+            /* Desktop Dropdown Styles */
+            @media (min-width: 992px) {
+                .dropdown-menu {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-10px);
+                    transition: all 0.3s ease;
+                    z-index: 1000;
+                    min-width: 200px;
+                    padding: 10px 0;
+                    margin-top: 5px;
+                }
+                
+                .nav-dropdown:hover .dropdown-menu,
+                .nav-dropdown.dropdown-active .dropdown-menu,
+                .nav-dropdown.open .dropdown-menu {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+                
+                .dropdown-menu li {
+                    list-style: none;
+                }
+                
+                .dropdown-menu li a {
+                    display: block;
+                    padding: 12px 20px;
+                    color: #333;
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+                    border-left: 3px solid transparent;
+                }
+                
+                .dropdown-menu li a:hover {
+                    background: linear-gradient(90deg, rgba(0, 102, 204, 0.1) 0%, transparent 100%);
+                    border-left-color: #0066cc;
+                    color: #0066cc;
+                }
             }
-            
-            .nav-dropdown:hover .dropdown-menu,
-            .nav-dropdown.dropdown-active .dropdown-menu {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-            }
-            
-            .dropdown-menu li {
-                list-style: none;
-            }
-            
-            .dropdown-menu li a {
-                display: block;
-                padding: 12px 20px;
-                color: #333;
-                text-decoration: none;
-                transition: all 0.2s ease;
-                border-left: 3px solid transparent;
-            }
-            
-            .dropdown-menu li a:hover {
-                background: linear-gradient(90deg, rgba(0, 102, 204, 0.1) 0%, transparent 100%);
-                border-left-color: #0066cc;
-                color: #0066cc;
-            }
-            
-            /* Mobile expandable styles */
-            .mobile-expandable .mobile-submenu {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                background: rgba(255, 255, 255, 0.1);
-                margin-top: 10px;
-                border-radius: 8px;
-            }
-            
-            .mobile-expandable.active .mobile-submenu {
-                max-height: 200px;
-            }
-            
-            .mobile-expand-icon {
-                font-size: 1.2rem;
-                font-weight: bold;
-                transition: transform 0.3s ease;
-            }
-            
-            .mobile-expandable.active .mobile-expand-icon {
-                transform: rotate(180deg);
-            }
-            
-            /* Ensure dropdowns work with anti-shake CSS */
-            @media (max-width: 768px) {
-                .dropdown-menu,
-                .mobile-submenu,
-                .nav-dropdown,
-                .mobile-expandable {
-                    transition: all 0.3s ease !important;
-                    -webkit-transition: all 0.3s ease !important;
+
+            /* Mobile Dropdown Styles */
+            @media (max-width: 991px) {
+                .dropdown-menu {
+                    display: none;
+                    position: static !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                    background: rgba(255, 255, 255, 0.06) !important;
+                    border-radius: 6px !important;
+                    margin: 0 0 10px 0 !important;
+                    padding: 4px 0 !important;
+                    width: 100% !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    transform: none !important;
+                }
+
+                .dropdown-menu.mobile-open,
+                .nav-dropdown.open > .dropdown-menu,
+                .nav-dropdown.dropdown-active > .dropdown-menu {
+                    display: block !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+
+                .dropdown-menu li a {
+                    display: block !important;
+                    color: rgba(255, 255, 255, 0.85) !important;
+                    padding: 12px 18px !important;
+                    font-size: 14px !important;
+                    text-decoration: none !important;
+                }
+
+                .nav-dropdown .nav-link i {
+                    transition: transform 0.3s ease !important;
+                }
+
+                .nav-dropdown.open > .nav-link i,
+                .nav-dropdown.dropdown-active > .nav-link i {
+                    transform: rotate(180deg) !important;
                 }
             }
         `;

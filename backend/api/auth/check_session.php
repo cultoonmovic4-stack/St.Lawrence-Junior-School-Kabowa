@@ -20,24 +20,28 @@ require_once __DIR__ . '/../helpers/SessionHelper.php';
 SessionHelper::start();
 
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    $userData = [
+        'user_id'    => $_SESSION['user_id']    ?? null,
+        'username'   => $_SESSION['username']   ?? null,
+        'email'      => $_SESSION['email']      ?? null,
+        'full_name'  => $_SESSION['full_name']  ?? null,
+        'role_name'  => $_SESSION['role_name']  ?? null,
+        'role_level' => $_SESSION['role_level'] ?? null
+    ];
     http_response_code(200);
     echo json_encode([
-        'success'    => true,
-        'logged_in'  => true,
-        'data' => [
-            'user_id'    => $_SESSION['user_id']    ?? null,
-            'username'   => $_SESSION['username']   ?? null,
-            'email'      => $_SESSION['email']      ?? null,
-            'full_name'  => $_SESSION['full_name']  ?? null,
-            'role_name'  => $_SESSION['role_name']  ?? null,
-            'role_level' => $_SESSION['role_level'] ?? null
-        ]
+        'success'       => true,
+        'logged_in'     => true,
+        'authenticated' => true,
+        'data'          => $userData,
+        'user'          => $userData
     ]);
 } else {
     http_response_code(401);
     echo json_encode([
-        'success'   => false,
-        'logged_in' => false,
-        'message'   => 'No active session'
+        'success'       => false,
+        'logged_in'     => false,
+        'authenticated' => false,
+        'message'       => 'No active session'
     ]);
 }

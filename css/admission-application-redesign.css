@@ -153,6 +153,34 @@
     transform: translateX(3px);
 }
 
+.admissions-hero-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #0b3366 !important;
+    border: 1.5px solid #0b3366;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 13px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.admissions-hero-cta-secondary:hover {
+    background-color: #0b3366;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 51, 102, 0.2);
+}
+
+.admissions-hero-cta-secondary i {
+    font-size: 0.85rem;
+}
+
 /* Right Media Column (approx 55%) */
 .admissions-hero-right {
     display: flex;
@@ -228,7 +256,14 @@
         font-size: 2rem;
     }
     
-    .admissions-hero-cta {
+    .admissions-hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .admissions-hero-cta,
+    .admissions-hero-cta-secondary {
         width: 100%;
     }
 }

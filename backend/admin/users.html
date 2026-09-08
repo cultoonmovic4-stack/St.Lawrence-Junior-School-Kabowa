@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>User Management - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item active">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>User Management</h1>
+                    <span class="page-subtitle">Security & Access Control</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Administration</span>
+                        <span class="separator">/</span>
+                        <span>User Management</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>User Management</h1>
+                        <p>Manage administrator and staff accounts and their access.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-primary" onclick="toggleAddUserSection()">
+                        <i class="fas fa-user-plus"></i> <span id="toggleAddBtnText">Add New User</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add User Form Card (Two-column Desktop Layout) -->
+            <div class="admin-content-card" id="addUserCard" style="display: none;">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-user-plus"></i> Add New User Account</h2>
+                    <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="toggleAddUserSection()">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+
+                <form id="addUserForm" onsubmit="submitAddUser(event)">
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Username <span class="required">*</span></label>
+                            <input type="text" name="username" required class="admin-form-input" placeholder="e.g., jdoe">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" name="full_name" required class="admin-form-input" placeholder="e.g., John Doe">
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" name="email" required class="admin-form-input" placeholder="user@stlawrence.edu">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Role <span class="required">*</span></label>
+                            <select name="role_id" id="addRoleSelect" required class="admin-form-select">
+                                <option value="">Select Role</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Password <span class="required">*</span></label>
+                            <input type="password" name="password" required class="admin-form-input" placeholder="Enter secure password">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Confirm Password <span class="required">*</span></label>
+                            <input type="password" name="confirm_password" required class="admin-form-input" placeholder="Re-enter password">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px; padding-top: 16px; border-top: 1px solid var(--inst-border);">
+                        <button type="reset" class="admin-btn admin-btn-secondary">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button type="submit" class="admin-btn admin-btn-primary" id="addUserSubmitBtn">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="userSearchInput" class="admin-search-input" placeholder="Search by username, name, or email..." oninput="filterUsers()">
+                </div>
+                <select id="userRoleFilter" class="admin-filter-select" onchange="filterUsers()">
+                    <option value="">All Roles</option>
+                </select>
+                <select id="userStatusFilter" class="admin-filter-select" onchange="filterUsers()">
+                    <option value="">All Statuses</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+                <button class="admin-btn admin-btn-secondary" onclick="loadUsers()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Existing Users Card -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-users"></i> Existing Users (<span id="userCount">0</span>)</h2>
+                </div>
+
+                <div id="usersContainer">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading users...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal (Preserved) -->
+    <div class="admin-modal-backdrop" id="editUserModal">
+        <div class="admin-modal-box">
+            <div class="admin-modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit User Account</h3>
+                <button class="admin-modal-close" onclick="closeEditUserModal()">&times;</button>
+            </div>
+            <form id="editUserForm" onsubmit="submitEditUser(event)">
+                <input type="hidden" id="editUserId" name="user_id">
+                <div class="admin-modal-body">
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Username <span class="required">*</span></label>
+                            <input type="text" id="editUsername" name="username" required class="admin-form-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="editFullName" name="full_name" required class="admin-form-input">
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" id="editEmail" name="email" required class="admin-form-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Role <span class="required">*</span></label>
+                            <select id="editRoleId" name="role_id" required class="admin-form-select"></select>
+                        </div>
+                    </div>
+
+                    <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 12px; color: #92400e;">
+                        <i class="fas fa-info-circle"></i> Leave password fields blank if you do not wish to change the user's password.
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>New Password</label>
+                            <input type="password" id="editPassword" name="password" class="admin-form-input" placeholder="New password (optional)">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="editConfirmPassword" name="confirm_password" class="admin-form-input" placeholder="Confirm new password">
+                        </div>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="editUserSubmitBtn">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allUsers = [];
+        let allRoles = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadRoles();
+            loadUsers();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        function toggleAddUserSection() {
+            const card = document.getElementById('addUserCard');
+            const btnText = document.getElementById('toggleAddBtnText');
+            if (card.style.display === 'none' || !card.style.display) {
+                card.style.display = 'block';
+                btnText.textContent = 'Hide Form';
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                card.style.display = 'none';
+                btnText.textContent = 'Add New User';
+            }
+        }
+
+        async function loadRoles() {
+            try {
+                const response = await fetch('../api/users/get_roles.php');
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    allRoles = result.data;
+                    populateRoleSelects(allRoles);
+                }
+            } catch (err) {
+                console.error('Error loading roles:', err);
+            }
+        }
+
+        function populateRoleSelects(roles) {
+            const addSelect = document.getElementById('addRoleSelect');
+            const filterSelect = document.getElementById('userRoleFilter');
+            const editSelect = document.getElementById('editRoleId');
+
+            addSelect.innerHTML = '<option value="">Select Role</option>';
+            filterSelect.innerHTML = '<option value="">All Roles</option>';
+            editSelect.innerHTML = '';
+
+            roles.forEach(r => {
+                addSelect.innerHTML += `<option value="${r.id}">${escapeHtml(r.role_name)}</option>`;
+                filterSelect.innerHTML += `<option value="${r.id}">${escapeHtml(r.role_name)}</option>`;
+                editSelect.innerHTML += `<option value="${r.id}">${escapeHtml(r.role_name)}</option>`;
+            });
+        }
+
+        async function loadUsers() {
+            const container = document.getElementById('usersContainer');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading users...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/users/list.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allUsers = result.data;
+                    document.getElementById('userCount').textContent = allUsers.length;
+                    renderUsers(allUsers);
+                } else {
+                    showEmptyState('No Users Found', result.message || 'There are currently no user accounts.');
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Users</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadUsers()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderUsers(users) {
+            const container = document.getElementById('usersContainer');
+            if (!users || users.length === 0) {
+                showEmptyState('No Users Found', 'No user accounts match your search or filter.');
+                return;
+            }
+
+            const roleBadges = {
+                'Super Administrator': 'admin-badge-red',
+                'Administrator': 'admin-badge-blue',
+                'Editor': 'admin-badge-amber',
+                'Viewer': 'admin-badge-gray',
+                'Teacher': 'admin-badge-green'
+            };
+
+            let html = `
+                <div class="admin-table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            users.forEach(u => {
+                const roleBadgeClass = roleBadges[u.role_name] || 'admin-badge-gray';
+                const isActive = u.status === 'active' || u.is_active == 1;
+                const statusBadgeClass = isActive ? 'admin-badge-green' : 'admin-badge-red';
+                const statusLabel = isActive ? 'Active' : 'Inactive';
+
+                html += `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--inst-blue);">
+                            ${escapeHtml(u.username || '')}
+                        </td>
+                        <td style="color: var(--inst-text);">
+                            ${escapeHtml(u.full_name || '-')}
+                        </td>
+                        <td style="color: var(--inst-text-muted);">
+                            ${escapeHtml(u.email || '-')}
+                        </td>
+                        <td>
+                            <span class="admin-badge ${roleBadgeClass}">
+                                ${escapeHtml(u.role_name || 'No Role')}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="admin-badge ${statusBadgeClass}">
+                                ${statusLabel}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: flex-end;">
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editUser(${u.id})" title="Edit Account">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="toggleUserStatus(${u.id}, ${isActive ? 1 : 0})" title="${isActive ? 'Deactivate Account' : 'Activate Account'}">
+                                    <i class="fas fa-${isActive ? 'ban' : 'check-circle'}" style="color: ${isActive ? 'var(--inst-red)' : '#16a34a'};"></i>
+                                    <span>${isActive ? 'Deactivate' : 'Activate'}</span>
+                                </button>
+                                <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteUser(${u.id}, '${escapeHtml(u.username)}')" title="Delete Account">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('usersContainer');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-user-friends"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('userSearchInput').value.toLowerCase();
+            const role = document.getElementById('userRoleFilter').value;
+            const status = document.getElementById('userStatusFilter').value;
+
+            let filtered = allUsers.filter(u => {
+                const matchesSearch = !search || 
+                    (u.username && u.username.toLowerCase().includes(search)) ||
+                    (u.full_name && u.full_name.toLowerCase().includes(search)) ||
+                    (u.email && u.email.toLowerCase().includes(search));
+
+                const matchesRole = !role || u.role_id == role;
+
+                let matchesStatus = true;
+                if (status !== '') {
+                    const isActive = u.status === 'active' || u.is_active == 1 ? '1' : '0';
+                    matchesStatus = isActive === status;
+                }
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            document.getElementById('userCount').textContent = filtered.length;
+            renderUsers(filtered);
+        }
+
+        async function submitAddUser(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Mismatch',
+                    text: 'Passwords do not match! Please check and re-enter.',
+                    confirmButtonColor: '#dc3545'
+                });
+                return;
+            }
+
+            const submitBtn = document.getElementById('addUserSubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+
+            try {
+                const response = await fetch('../api/users/create.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Created!',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    form.reset();
+                    document.getElementById('addUserCard').style.display = 'none';
+                    document.getElementById('toggleAddBtnText').textContent = 'Add New User';
+                    loadUsers();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Creation Failed',
+                        text: result.message || 'Unable to create user account.',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        function editUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editUsername').value = user.username || '';
+            document.getElementById('editFullName').value = user.full_name || '';
+            document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editRoleId').value = user.role_id || '';
+            document.getElementById('editPassword').value = '';
+            document.getElementById('editConfirmPassword').value = '';
+
+            document.getElementById('editUserModal').classList.add('active');
+        }
+
+        function closeEditUserModal() {
+            document.getElementById('editUserModal').classList.remove('active');
+        }
+
+        async function submitEditUser(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+
+            if (password && password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Mismatch',
+                    text: 'New passwords do not match!',
+                    confirmButtonColor: '#dc3545'
+                });
+                return;
+            }
+
+            const submitBtn = document.getElementById('editUserSubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const response = await fetch('../api/users/update.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Updated!',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    closeEditUserModal();
+                    loadUsers();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Update Failed',
+                        text: result.message || 'Unable to update user account.',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        async function toggleUserStatus(userId, currentStatus) {
+            const newStatus = currentStatus === 1 ? 0 : 1;
+            const action = newStatus === 1 ? 'activate' : 'deactivate';
+
+            const res = await Swal.fire({
+                title: `${action.charAt(0).toUpperCase() + action.slice(1)} User?`,
+                text: `Are you sure you want to ${action} this account access?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: newStatus === 1 ? '#0066cc' : '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: `Yes, ${action}!`
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/users/toggle-status.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user_id: userId, is_active: newStatus })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated!',
+                            text: result.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadUsers();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        async function deleteUser(userId, username) {
+            const res = await Swal.fire({
+                title: 'Delete User Account?',
+                html: `Are you sure you want to delete account <strong>${escapeHtml(username)}</strong>?<br><span style="color:#dc3545;font-size:13px;">This action cannot be undone!</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/users/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user_id: userId })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'User account has been deleted.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadUsers();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

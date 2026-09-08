@@ -38,18 +38,18 @@ try {
     // Get upcoming events
     $stmt = $db->prepare("
         SELECT 
-            event_id,
-            event_title,
-            event_description,
+            id,
+            title,
+            description,
             event_date,
-            start_time,
-            end_time,
+            event_time,
             location,
-            status
+            category,
+            status,
+            image_url
         FROM events
-        WHERE event_date >= CURDATE()
-        AND status = 'active'
-        ORDER BY event_date ASC, start_time ASC
+        WHERE status IN ('upcoming', 'ongoing') OR event_date >= CURDATE()
+        ORDER BY event_date ASC, event_time ASC
         LIMIT :limit
     ");
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -59,18 +59,20 @@ try {
     // Format events
     $formattedEvents = array_map(function($event) {
         $eventDate = new DateTime($event['event_date']);
+        $timeFormatted = !empty($event['event_time']) ? date('g:i A', strtotime($event['event_time'])) : 'All Day';
         
         return [
-            'id' => $event['event_id'],
-            'title' => $event['event_title'],
-            'description' => $event['event_description'],
+            'id' => $event['id'],
+            'title' => $event['title'],
+            'description' => $event['description'],
             'date' => $event['event_date'],
             'day' => $eventDate->format('d'),
             'month' => strtoupper($eventDate->format('M')),
-            'start_time' => date('g:i A', strtotime($event['start_time'])),
-            'end_time' => date('g:i A', strtotime($event['end_time'])),
-            'time_range' => date('g:i A', strtotime($event['start_time'])) . ' - ' . date('g:i A', strtotime($event['end_time'])),
-            'location' => $event['location'],
+            'start_time' => $timeFormatted,
+            'end_time' => '',
+            'time_range' => $timeFormatted,
+            'location' => $event['location'] ?? 'School Campus',
+            'category' => $event['category'] ?? 'academic',
             'status' => $event['status']
         ];
     }, $events);

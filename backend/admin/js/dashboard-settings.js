@@ -562,6 +562,9 @@ function openSystemSettings() {
         }
     });
 }
+
+// Open advanced settings modal
+function openAdvancedSettings() {
     // Get current settings from localStorage or defaults
     const savedSettings = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
     const root = document.documentElement;

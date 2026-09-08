@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Events Management - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item expanded open" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu open">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item active">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings -->
+            <a href="dashboard.html?action=settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Events Management</h1>
+                    <span class="page-subtitle">School Calendar</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Content</span>
+                        <span class="separator">/</span>
+                        <span>Events</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Events Management</h1>
+                        <p>Manage school events and upcoming activities.</p>
+                    </div>
+                </div>
+                <div class="admin-page-actions">
+                    <button class="admin-btn admin-btn-primary" onclick="openAddEventModal()">
+                        <i class="fas fa-calendar-plus"></i> Add Event
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar / Filters -->
+            <div class="admin-toolbar">
+                <div class="admin-search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="eventsSearchInput" class="admin-search-input" placeholder="Search events by title, location or description..." oninput="filterEvents()">
+                </div>
+                <select id="eventCategoryFilter" class="admin-filter-select" onchange="filterEvents()">
+                    <option value="">All Categories</option>
+                    <option value="academic">Academic</option>
+                    <option value="sports">Sports</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="religious">Religious</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="eventStatusFilter" class="admin-filter-select" onchange="filterEvents()">
+                    <option value="">All Statuses</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <button class="admin-btn admin-btn-secondary" onclick="loadEvents()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Events Content -->
+            <div class="admin-content-card">
+                <div class="admin-content-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Events List (<span id="eventsCount">0</span>)</h2>
+                </div>
+
+                <div id="eventsContainer">
+                    <div class="admin-loading-state">
+                        <div class="admin-spinner"></div>
+                        <p style="color: var(--inst-text-muted); font-size: 13px;">Loading events...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Event Modal -->
+    <div class="admin-modal-backdrop" id="eventModal">
+        <div class="admin-modal-box">
+            <div class="admin-modal-header">
+                <h3 id="eventModalTitle"><i class="fas fa-calendar-plus"></i> Add New Event</h3>
+                <button class="admin-modal-close" onclick="closeEventModal()">&times;</button>
+            </div>
+            <form id="eventForm" onsubmit="submitEvent(event)">
+                <input type="hidden" id="eventId" name="id">
+                <div class="admin-modal-body">
+                    <div class="admin-form-group" style="margin-bottom: 16px;">
+                        <label>Event Title <span class="required">*</span></label>
+                        <input type="text" id="eventTitle" name="event_title" required class="admin-form-input" placeholder="e.g., Annual Sports Day">
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Event Date <span class="required">*</span></label>
+                            <input type="date" id="eventDate" name="event_date" required class="admin-form-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Category <span class="required">*</span></label>
+                            <select id="eventCategory" name="category" required class="admin-form-select">
+                                <option value="">Select Category</option>
+                                <option value="academic">Academic</option>
+                                <option value="sports">Sports</option>
+                                <option value="cultural">Cultural</option>
+                                <option value="religious">Religious</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Start Time <span class="required">*</span></label>
+                            <input type="time" id="eventStartTime" name="start_time" required class="admin-form-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>End Time</label>
+                            <input type="time" id="eventEndTime" name="end_time" class="admin-form-input">
+                        </div>
+                    </div>
+
+                    <div class="admin-form-grid-2">
+                        <div class="admin-form-group">
+                            <label>Location <span class="required">*</span></label>
+                            <input type="text" id="eventLocation" name="location" required class="admin-form-input" placeholder="e.g., Main School Campus">
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Status</label>
+                            <select id="eventStatus" name="status" class="admin-form-select">
+                                <option value="upcoming">Upcoming</option>
+                                <option value="ongoing">Ongoing</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label>Description</label>
+                        <textarea id="eventDescription" name="event_description" rows="3" class="admin-form-textarea" placeholder="Detailed description of the event..."></textarea>
+                    </div>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEventModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="eventSubmitBtn">
+                        <i class="fas fa-save"></i> Save Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let allEvents = [];
+        let isEditing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadEvents();
+        });
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Auth verification error:', err);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOpts = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOpts);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOpts);
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('adminSidebar');
+            if (sb) sb.classList.toggle('active');
+        }
+
+        function toggleSubmenu(elem) {
+            elem.classList.toggle('open');
+            const sub = elem.nextElementSibling;
+            if (sub && sub.classList.contains('submenu')) {
+                sub.classList.toggle('open');
+            }
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dd = document.getElementById('userDropdown');
+            if (dd) dd.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dd = document.getElementById('userDropdown');
+            if (dd && !e.target.closest('.user-profile')) {
+                dd.classList.remove('active');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+            window.location.href = 'login.html';
+        }
+
+        async function loadEvents() {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = `
+                <div class="admin-loading-state">
+                    <div class="admin-spinner"></div>
+                    <p style="color: var(--inst-text-muted); font-size: 13px;">Loading events...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('../api/events/get_all.php');
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    allEvents = result.data;
+                    document.getElementById('eventsCount').textContent = allEvents.length;
+                    renderEvents(allEvents);
+                } else {
+                    showEmptyState('No Events Found', result.message || 'There are currently no events to display.');
+                }
+            } catch (error) {
+                console.error('Error loading events:', error);
+                container.innerHTML = `
+                    <div class="admin-empty-state">
+                        <div class="admin-empty-icon"><i class="fas fa-exclamation-triangle" style="color: var(--inst-red);"></i></div>
+                        <h3>Failed to Load Events</h3>
+                        <p>${error.message || 'Unable to communicate with the database.'}</p>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadEvents()" style="margin-top: 12px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderEvents(events) {
+            const container = document.getElementById('eventsContainer');
+            if (!events || events.length === 0) {
+                showEmptyState('No Events Found', 'There are currently no events to display.');
+                return;
+            }
+
+            const categoryBadgeClasses = {
+                'academic': 'admin-badge-blue',
+                'sports': 'admin-badge-green',
+                'cultural': 'admin-badge-purple',
+                'religious': 'admin-badge-amber',
+                'other': 'admin-badge-gray'
+            };
+
+            const statusBadgeClasses = {
+                'upcoming': 'admin-badge-blue',
+                'ongoing': 'admin-badge-green',
+                'completed': 'admin-badge-gray',
+                'cancelled': 'admin-badge-red'
+            };
+
+            let html = `
+                <div class="admin-table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Event Title</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            events.forEach(event => {
+                const catClass = categoryBadgeClasses[event.category] || 'admin-badge-gray';
+                const statClass = statusBadgeClasses[event.status] || 'admin-badge-gray';
+                
+                // Format event date
+                let displayDate = event.event_date || '';
+                if (displayDate) {
+                    try {
+                        const d = new Date(event.event_date + 'T00:00:00');
+                        displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    } catch (e) {}
+                }
+
+                const displayTime = event.event_time ? event.event_time.substring(0, 5) : '';
+
+                html += `
+                    <tr>
+                        <td style="white-space: nowrap;">
+                            <div style="font-weight: 600; color: var(--inst-blue);">${displayDate}</div>
+                            ${displayTime ? `<div style="font-size: 11px; color: var(--inst-text-muted);"><i class="fas fa-clock"></i> ${displayTime}</div>` : ''}
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: var(--inst-text);">${escapeHtml(event.title || '')}</div>
+                            ${event.description ? `<div style="font-size: 12px; color: var(--inst-text-muted); max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(event.description)}</div>` : ''}
+                        </td>
+                        <td>
+                            <span class="admin-badge ${catClass}">
+                                ${escapeHtml(event.category || 'other')}
+                            </span>
+                        </td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px; color: var(--inst-text-muted);">
+                                <i class="fas fa-map-marker-alt" style="font-size: 11px;"></i> ${escapeHtml(event.location || '-')}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="admin-badge ${statClass}">
+                                ${escapeHtml(event.status || 'upcoming')}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: flex-end;">
+                                <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editEvent(${event.id})" title="Edit Event">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteEvent(${event.id})" title="Delete Event">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = `
+                <div class="admin-empty-state">
+                    <div class="admin-empty-icon"><i class="fas fa-calendar"></i></div>
+                    <h3>${escapeHtml(title)}</h3>
+                    <p>${escapeHtml(message)}</p>
+                </div>
+            `;
+        }
+
+        function filterEvents() {
+            const search = document.getElementById('eventsSearchInput').value.toLowerCase();
+            const cat = document.getElementById('eventCategoryFilter').value;
+            const stat = document.getElementById('eventStatusFilter').value;
+
+            let filtered = allEvents.filter(ev => {
+                const matchesSearch = !search || 
+                    (ev.title && ev.title.toLowerCase().includes(search)) ||
+                    (ev.location && ev.location.toLowerCase().includes(search)) ||
+                    (ev.description && ev.description.toLowerCase().includes(search));
+                
+                const matchesCat = !cat || ev.category === cat;
+                const matchesStat = !stat || ev.status === stat;
+
+                return matchesSearch && matchesCat && matchesStat;
+            });
+
+            document.getElementById('eventsCount').textContent = filtered.length;
+            renderEvents(filtered);
+        }
+
+        function openAddEventModal() {
+            isEditing = false;
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventModalTitle').innerHTML = '<i class="fas fa-calendar-plus"></i> Add New Event';
+            document.getElementById('eventSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Save Event';
+            document.getElementById('eventStatus').value = 'upcoming';
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function editEvent(id) {
+            const ev = allEvents.find(e => e.id == id);
+            if (!ev) return;
+
+            isEditing = true;
+            document.getElementById('eventId').value = ev.id;
+            document.getElementById('eventTitle').value = ev.title || '';
+            document.getElementById('eventDate').value = ev.event_date || '';
+            document.getElementById('eventCategory').value = ev.category || 'other';
+            document.getElementById('eventStartTime').value = ev.event_time ? ev.event_time.substring(0, 5) : '';
+            document.getElementById('eventEndTime').value = '';
+            document.getElementById('eventLocation').value = ev.location || '';
+            document.getElementById('eventStatus').value = ev.status || 'upcoming';
+            document.getElementById('eventDescription').value = ev.description || '';
+
+            document.getElementById('eventModalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Event';
+            document.getElementById('eventSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Event';
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').classList.remove('active');
+        }
+
+        async function submitEvent(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            const submitBtn = document.getElementById('eventSubmitBtn');
+            submitBtn.disabled = true;
+            const origHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            const endpoint = isEditing ? '../api/events/update.php' : '../api/events/create.php';
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: isEditing ? 'Event Updated!' : 'Event Created!',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    closeEventModal();
+                    loadEvents();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Operation failed',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network Error',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origHtml;
+            }
+        }
+
+        async function deleteEvent(id) {
+            const ev = allEvents.find(e => e.id == id);
+            const title = ev ? ev.title : 'this event';
+
+            const res = await Swal.fire({
+                title: 'Delete Event?',
+                html: `Are you sure you want to delete <strong>${escapeHtml(title)}</strong>?<br><span style="color:#dc3545;font-size:13px;">This action cannot be undone.</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    const response = await fetch('../api/events/delete.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Event has been removed.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        loadEvents();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: err.message,
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
