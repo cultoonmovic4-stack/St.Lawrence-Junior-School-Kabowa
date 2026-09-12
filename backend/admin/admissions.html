@@ -169,6 +169,42 @@
             align-items: center;
             gap: 8px;
         }
+    
+        .status-waitlist, .status-waitlisted {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .fee-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .fee-paid {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .fee-unpaid {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        .official-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 <body>
@@ -263,7 +299,7 @@
             </a>
 
             <!-- Settings -->
-            <a href="dashboard.html?action=settings" class="menu-item">
+            <a href="settings.html" class="menu-item">
                 <i class="fas fa-cog"></i>
                 <span class="menu-text">Settings</span>
             </a>
@@ -378,7 +414,7 @@
                         <option value="pending">Pending</option>
                         <option value="accepted">Accepted</option>
                         <option value="rejected">Rejected</option>
-                        <option value="waitlisted">Waitlisted</option>
+                        <option value="waitlist">Waitlist</option>
                     </select>
 
                     <button id="refreshBtn" class="btn-admissions-refresh" onclick="refreshAdmissions()">
@@ -422,7 +458,7 @@
                 <!-- Waitlisted -->
                 <div class="admissions-stat-card stat-waitlisted">
                     <div class="admissions-stat-header">
-                        <span class="admissions-stat-label">Waitlisted</span>
+                        <span class="admissions-stat-label">Waitlist</span>
                         <span class="admissions-stat-dot"></span>
                     </div>
                     <div class="admissions-stat-number" id="waitlistedCount">0</div>
@@ -463,11 +499,12 @@
                     <table class="admissions-table">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">#</th>
+                                <th style="width: 40px;">#</th>
                                 <th>Student Name</th>
-                                <th>Class Applied</th>
-                                <th>Parent / Guardian</th>
-                                <th>Contact</th>
+                                <th>Reference</th>
+                                <th>Class & Type</th>
+                                <th>Person Responsible</th>
+                                <th>Fee Status</th>
                                 <th>Status</th>
                                 <th>Date Submitted</th>
                                 <th style="text-align: right;">Actions</th>
@@ -503,59 +540,36 @@
 
     <!-- Edit Application Modal -->
     <div class="modal" id="editAdmissionModal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Edit Application</h3>
+                <h3><i class="fas fa-edit"></i> Edit Official Application Record</h3>
                 <button class="modal-close" onclick="closeModal('editAdmissionModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="editAdmissionForm" onsubmit="submitEditAdmission(event)">
                     <input type="hidden" id="editAdmissionId" name="id">
                     
-                    <!-- Student Information -->
+                    <!-- 1. Academic & Application Details -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-user-graduate"></i> Student Information
+                            <i class="fas fa-calendar-alt"></i> 01. Application & Class Details
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px;">
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">First Name *</label>
-                                <input type="text" name="student_first_name" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Academic Year *</label>
+                                <input type="text" name="academic_year" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Last Name *</label>
-                                <input type="text" name="student_last_name" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
-                            </div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Date of Birth *</label>
-                                <input type="date" name="date_of_birth" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
-                            </div>
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Gender *</label>
-                                <select name="gender" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Nationality *</label>
-                                <input type="text" name="nationality" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
-                            </div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Religion</label>
-                                <input type="text" name="religion" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Term *</label>
+                                <input type="text" name="term" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                             <div>
                                 <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Class to Join *</label>
-                                <input type="text" name="class_to_join" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <input type="text" name="class_to_join" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                             <div>
                                 <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Admission Type *</label>
-                                <select name="admission_type" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <select name="admission_type" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                                     <option value="day">Day</option>
                                     <option value="boarding">Boarding</option>
                                 </select>
@@ -563,58 +577,225 @@
                         </div>
                     </div>
 
-                    <!-- Parent Information -->
+                    <!-- 2. Student Information -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-users"></i> Parent / Guardian Information
+                            <i class="fas fa-user-graduate"></i> 02. Child Information
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">First Name *</label>
-                                <input type="text" name="parent_first_name" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Child Surname *</label>
+                                <input type="text" name="student_surname" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Last Name *</label>
-                                <input type="text" name="parent_last_name" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
-                            </div>
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Relationship *</label>
-                                <input type="text" name="parent_relationship" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Other Names *</label>
+                                <input type="text" name="student_other_names" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 14px;">
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Phone Number *</label>
-                                <input type="tel" name="parent_phone" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Date of Birth *</label>
+                                <input type="date" name="date_of_birth" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
                             </div>
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Email Address</label>
-                                <input type="email" name="parent_email" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Gender *</label>
+                                <select name="gender" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
                             </div>
-                        </div>
-                        <div>
-                            <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Home Address</label>
-                            <textarea name="parent_address" rows="2" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px; font-family:'Inter', sans-serif;"></textarea>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Religion</label>
+                                <input type="text" name="religion" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Tribe</label>
+                                <input type="text" name="tribe" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Family Position</label>
+                                <input type="text" name="position_in_family" placeholder="e.g. 1st, 2nd" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Emergency Contact -->
+                    <!-- 3. Person Responsible & Parents -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-phone-alt"></i> Emergency Contact
+                            <i class="fas fa-users"></i> 03. Person Responsible & Parents
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
-                            <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Name *</label>
-                                <input type="text" name="emergency_contact_name" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                        <div style="background:#f8fafc; padding:12px; border-radius:6px; margin-bottom:14px; border:1px solid #e2e8f0;">
+                            <strong style="display:block; font-size:12px; color:#0b2545; margin-bottom:8px; text-transform:uppercase;">Person Responsible for Child</strong>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom:8px;">
+                                <div>
+                                    <label style="display:block; margin-bottom:4px; color:#475569; font-size:11px; font-weight:600;">Name *</label>
+                                    <input type="text" name="responsible_person_name" required style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
+                                <div>
+                                    <label style="display:block; margin-bottom:4px; color:#475569; font-size:11px; font-weight:600;">Telephone *</label>
+                                    <input type="tel" name="responsible_person_phone" required style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom:8px;">
+                                <div>
+                                    <label style="display:block; margin-bottom:4px; color:#475569; font-size:11px; font-weight:600;">Email Address *</label>
+                                    <input type="email" name="responsible_person_email" required style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
+                                <div>
+                                    <label style="display:block; margin-bottom:4px; color:#475569; font-size:11px; font-weight:600;">Postal Address</label>
+                                    <input type="text" name="responsible_person_postal" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
                             </div>
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Relationship *</label>
-                                <input type="text" name="emergency_contact_relationship" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:4px; color:#475569; font-size:11px; font-weight:600;">Home Address *</label>
+                                <input type="text" name="responsible_person_address" required style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:12px;">
+                            <label style="color:#475569; font-size:12px; font-weight:600;">Do Parents Live Together?</label>
+                            <select name="parents_live_together" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-left:8px;">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                            <div style="background:#ffffff; padding:12px; border:1px solid #e2e8f0; border-radius:6px;">
+                                <strong style="font-size:12px; color:#1e293b; display:block; margin-bottom:6px;">Father's Information</strong>
+                                <label style="display:block; font-size:11px; color:#64748b; margin-top:4px;">Full Name *</label>
+                                <input type="text" name="father_name" required style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Occupation</label>
+                                <input type="text" name="father_occupation" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Place of Work</label>
+                                <input type="text" name="father_workplace" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Home Address</label>
+                                <input type="text" name="father_address" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                            <div style="background:#ffffff; padding:12px; border:1px solid #e2e8f0; border-radius:6px;">
+                                <strong style="font-size:12px; color:#1e293b; display:block; margin-bottom:6px;">Mother's Information</strong>
+                                <label style="display:block; font-size:11px; color:#64748b; margin-top:4px;">Full Name *</label>
+                                <input type="text" name="mother_name" required style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Occupation</label>
+                                <input type="text" name="mother_occupation" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Place of Work</label>
+                                <input type="text" name="mother_workplace" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; margin-bottom:6px;">
+                                <label style="display:block; font-size:11px; color:#64748b;">Home Address</label>
+                                <input type="text" name="mother_address" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Emergency & Health -->
+                    <div class="detail-section">
+                        <div class="detail-section-title">
+                            <i class="fas fa-heartbeat"></i> 04. Emergency & Health
+                        </div>
+                        <div style="margin-bottom:14px;">
+                            <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Next of Kin in Case of Emergency *</label>
+                            <input type="text" name="emergency_next_of_kin" required style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Bed Wetting Problem?</label>
+                                <select name="bed_wetting" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
                             </div>
                             <div>
-                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Phone *</label>
-                                <input type="tel" name="emergency_contact_phone" required style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:14px;">
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Health Handicap / Condition?</label>
+                                <select name="has_health_handicap" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Immunized Against Measles?</label>
+                                <select name="is_immunized" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:14px;">
+                            <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Handicap / Health Details (if applicable)</label>
+                            <input type="text" name="health_handicap_details" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Family Doctor / Clinic</label>
+                                <input type="text" name="doctor_name" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Doctor Location / Hospital</label>
+                                <input type="text" name="doctor_location" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Other Information -->
+                    <div class="detail-section">
+                        <div class="detail-section-title">
+                            <i class="fas fa-info-circle"></i> 05. Other Information
+                        </div>
+                        <div style="display: grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; margin-bottom:14px;">
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Attended School?</label>
+                                <select name="has_attended_school" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Previous School Name</label>
+                                <input type="text" name="previous_school_name" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Previous School Location</label>
+                                <input type="text" name="previous_school_location" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom:14px;">
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">1st Language Child Speaks *</label>
+                                <input type="text" name="language_1" required style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">2nd Language (Optional)</label>
+                                <input type="text" name="language_2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:6px; color:#475569; font-weight:600; font-size:12px;">Other Information / Special Notes</label>
+                            <textarea name="other_information" rows="2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; font-family:'Inter', sans-serif;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 6. Official Use / Administrative Processing -->
+                    <div class="detail-section" style="background:#eff6ff; border:1px solid #bfdbfe;">
+                        <div class="detail-section-title" style="color:#1e40af; border-color:#bfdbfe;">
+                            <i class="fas fa-stamp"></i> Official Use / Administrative Processing
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px;">
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Form Fee Status</label>
+                                <select name="form_fee_status" style="width:100%; padding:8px 10px; border:1px solid #93c5fd; border-radius:4px; font-size:13px; background:white;">
+                                    <option value="unpaid">Unpaid</option>
+                                    <option value="paid">Paid</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Form Fee Receipt No.</label>
+                                <input type="text" name="form_fee_receipt" placeholder="e.g. REC-2026-001" style="width:100%; padding:8px 10px; border:1px solid #93c5fd; border-radius:4px; font-size:13px; background:white;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Admitted On</label>
+                                <input type="date" name="admitted_on" style="width:100%; padding:8px 10px; border:1px solid #93c5fd; border-radius:4px; font-size:13px; background:white;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Reported On</label>
+                                <input type="date" name="reported_on" style="width:100%; padding:8px 10px; border:1px solid #93c5fd; border-radius:4px; font-size:13px; background:white;">
                             </div>
                         </div>
                     </div>
@@ -624,25 +805,13 @@
                             Cancel
                         </button>
                         <button type="submit" style="padding: 10px 20px; background: var(--inst-blue); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;">
-                            <i class="fas fa-save"></i> Save Changes
+                            <i class="fas fa-save"></i> Save Official Changes
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Siblings Modal -->
-    <div class="modal" id="siblingsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-users"></i> Family Applications</h3>
-                <button class="modal-close" onclick="closeModal('siblingsModal')">&times;</button>
-            </div>
-            <div class="modal-body" id="siblingsModalContent">
-                <!-- Sibling applications injected dynamically -->
-            </div>
-        </div>
     </div>
 
     <!-- JavaScript Logic -->
@@ -789,8 +958,6 @@
         async function loadAdmissions() {
             const loadingState = document.getElementById('loadingState');
             const emptyState = document.getElementById('emptyState');
-            const tableContainer = document.getElementById('tableContainer');
-            const mobileCards = document.getElementById('admissionsCardsWrapper');
             const refreshBtn = document.getElementById('refreshBtn');
 
             if (refreshBtn) refreshBtn.classList.add('loading');
@@ -836,24 +1003,13 @@
                 waitlisted: 0
             };
 
-            // Group sibling counts by parent email
-            const emailCounts = {};
-            allAdmissions.forEach(item => {
-                if (item.parent_email) {
-                    emailCounts[item.parent_email] = (emailCounts[item.parent_email] || 0) + 1;
-                }
-            });
-            allAdmissions.forEach(item => {
-                item._siblingCount = item.parent_email ? emailCounts[item.parent_email] : 1;
-            });
-
             allAdmissions.forEach(app => {
                 const s = (app.status || 'pending').toLowerCase();
                 if (s === 'accepted') {
                     stats.accepted++;
                 } else if (s === 'rejected') {
                     stats.rejected++;
-                } else if (s === 'waitlisted' || s === 'waitlist') {
+                } else if (s === 'waitlist' || s === 'waitlisted') {
                     stats.waitlisted++;
                 } else {
                     stats.pending++;
@@ -877,20 +1033,18 @@
             const statusFilter = (document.getElementById('statusFilter').value || '').toLowerCase();
 
             filteredAdmissions = allAdmissions.filter(item => {
-                // Search match across student name, parent name, phone, application_id
                 const searchMatch = !searchTerm ||
-                    (item.student_first_name && item.student_first_name.toLowerCase().includes(searchTerm)) ||
-                    (item.student_last_name && item.student_last_name.toLowerCase().includes(searchTerm)) ||
-                    (item.parent_first_name && item.parent_first_name.toLowerCase().includes(searchTerm)) ||
-                    (item.parent_last_name && item.parent_last_name.toLowerCase().includes(searchTerm)) ||
-                    (item.parent_phone && item.parent_phone.includes(searchTerm)) ||
-                    (item.parent_email && item.parent_email.toLowerCase().includes(searchTerm)) ||
-                    (item.application_id && item.application_id.toLowerCase().includes(searchTerm)) ||
+                    (item.student_surname && item.student_surname.toLowerCase().includes(searchTerm)) ||
+                    (item.student_other_names && item.student_other_names.toLowerCase().includes(searchTerm)) ||
+                    (item.application_reference && item.application_reference.toLowerCase().includes(searchTerm)) ||
+                    (item.responsible_person_name && item.responsible_person_name.toLowerCase().includes(searchTerm)) ||
+                    (item.responsible_person_phone && item.responsible_person_phone.includes(searchTerm)) ||
+                    (item.responsible_person_email && item.responsible_person_email.toLowerCase().includes(searchTerm)) ||
                     (item.class_to_join && item.class_to_join.toLowerCase().includes(searchTerm));
 
-                // Status match
                 let itemStatus = (item.status || 'pending').toLowerCase();
-                if (itemStatus === 'waitlist') itemStatus = 'waitlisted';
+                if (itemStatus === 'waitlisted') itemStatus = 'waitlist';
+                
                 const statusMatch = !statusFilter || itemStatus === statusFilter;
 
                 return searchMatch && statusMatch;
@@ -910,7 +1064,6 @@
         function renderAdmissions() {
             const tbody = document.getElementById('admissionsTableBody');
             const cardsWrapper = document.getElementById('admissionsCardsWrapper');
-            const tableContainer = document.getElementById('tableContainer');
             const emptyState = document.getElementById('emptyState');
 
             if (!filteredAdmissions || filteredAdmissions.length === 0) {
@@ -922,13 +1075,12 @@
 
             emptyState.style.display = 'none';
 
-            // Desktop Table Rows
             let tableHTML = '';
             let cardsHTML = '';
 
             filteredAdmissions.forEach((app, idx) => {
                 const normStatus = (app.status || 'pending').toLowerCase();
-                const displayStatus = (normStatus === 'waitlist' ? 'waitlisted' : normStatus);
+                const displayStatus = (normStatus === 'waitlisted' ? 'waitlist' : normStatus);
                 const statusBadgeClass = `status-${displayStatus}`;
                 const submittedDate = app.submitted_date ? new Date(app.submitted_date).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -936,35 +1088,33 @@
                     day: 'numeric'
                 }) : 'N/A';
 
-                const siblingPill = app._siblingCount > 1 ? `
-                    <span class="sibling-pill" title="${app._siblingCount} applications with same parent email" onclick="viewSiblings('${app.parent_email}'); event.stopPropagation();" style="cursor: pointer;">
-                        <i class="fas fa-users"></i> ${app._siblingCount}
-                    </span>
-                ` : '';
+                const feeStatus = (app.form_fee_status || 'unpaid').toLowerCase();
+                const feeBadge = feeStatus === 'paid' 
+                    ? '<span class="fee-badge fee-paid"><i class="fas fa-check-circle"></i> Paid</span>'
+                    : '<span class="fee-badge fee-unpaid"><i class="fas fa-clock"></i> Unpaid</span>';
 
-                // Table Row
+                const studentFullName = `${escapeHTML(app.student_surname)} ${escapeHTML(app.student_other_names)}`;
+
+                // Desktop Table Row
                 tableHTML += `
                     <tr>
                         <td class="col-id">${idx + 1}</td>
                         <td>
-                            <div class="col-student-name">
-                                ${escapeHTML(app.student_first_name)} ${escapeHTML(app.student_last_name)}
-                                ${siblingPill}
-                            </div>
-                            <div class="col-subtext"><i class="fas fa-id-card"></i> ${escapeHTML(app.application_id || 'ID-' + app.id)}</div>
+                            <div class="col-student-name">${studentFullName}</div>
+                            <div class="col-subtext"><i class="fas fa-venus-mars"></i> ${escapeHTML((app.gender || '').toUpperCase())} &bull; DOB: ${escapeHTML(app.date_of_birth || 'N/A')}</div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 700; color: var(--inst-blue); font-family: monospace;">${escapeHTML(app.application_reference)}</div>
                         </td>
                         <td>
                             <div style="font-weight: 600; color: #1e293b;"><i class="fas fa-graduation-cap" style="color: #0b2545; margin-right: 4px;"></i>${escapeHTML(app.class_to_join || 'N/A')}</div>
-                            <div class="col-subtext">${escapeHTML(app.admission_type ? app.admission_type.toUpperCase() : 'DAY')}</div>
+                            <div class="col-subtext">${escapeHTML((app.admission_type || 'day').toUpperCase())} &bull; ${escapeHTML(app.academic_year || '')}</div>
                         </td>
                         <td>
-                            <div style="font-weight: 600; color: #1e293b;"><i class="fas fa-user" style="color: #64748b; margin-right: 4px;"></i>${escapeHTML(app.parent_first_name)} ${escapeHTML(app.parent_last_name)}</div>
-                            <div class="col-subtext">${escapeHTML(app.parent_relationship || 'Parent')}</div>
+                            <div style="font-weight: 600; color: #1e293b;"><i class="fas fa-user-shield" style="color: #64748b; margin-right: 4px;"></i>${escapeHTML(app.responsible_person_name || 'N/A')}</div>
+                            <div class="col-subtext"><i class="fas fa-phone"></i> ${escapeHTML(app.responsible_person_phone || 'N/A')}</div>
                         </td>
-                        <td>
-                            <div style="font-weight: 600; color: #1e293b;"><i class="fas fa-phone" style="color: #64748b; margin-right: 4px;"></i>${escapeHTML(app.parent_phone || 'N/A')}</div>
-                            <div class="col-subtext">${escapeHTML(app.parent_email || '')}</div>
-                        </td>
+                        <td>${feeBadge}</td>
                         <td>
                             <span class="status-badge ${statusBadgeClass}">
                                 <i class="fas ${getStatusIcon(displayStatus)}"></i>
@@ -976,10 +1126,10 @@
                         </td>
                         <td style="text-align: right;">
                             <div class="admissions-actions" style="justify-content: flex-end;">
-                                <button class="btn-table-action btn-view" title="View Details" onclick="viewAdmission(${app.id})">
+                                <button class="btn-table-action btn-view" title="View Dossier" onclick="viewAdmission(${app.id})">
                                     <i class="fas fa-eye"></i> View
                                 </button>
-                                <button class="btn-table-action btn-edit" title="Edit Application" onclick="editAdmission(${app.id})">
+                                <button class="btn-table-action btn-edit" title="Edit Record" onclick="editAdmission(${app.id})">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
                                 ${displayStatus === 'pending' ? `
@@ -989,7 +1139,7 @@
                                     <button class="btn-table-action btn-reject" title="Reject Application" onclick="updateAdmissionStatus(${app.id}, 'rejected')">
                                         <i class="fas fa-times"></i>
                                     </button>
-                                    <button class="btn-table-action btn-waitlist" title="Move to Waitlist" onclick="updateAdmissionStatus(${app.id}, 'waitlisted')">
+                                    <button class="btn-table-action btn-waitlist" title="Move to Waitlist" onclick="updateAdmissionStatus(${app.id}, 'waitlist')">
                                         <i class="fas fa-clock"></i>
                                     </button>
                                 ` : `
@@ -997,7 +1147,7 @@
                                         <i class="fas fa-undo"></i> Undo
                                     </button>
                                 `}
-                                <button class="btn-table-action btn-delete" title="Delete Record" onclick="deleteAdmission(${app.id})">
+                                <button class="btn-table-action btn-delete" title="Delete Application" onclick="deleteAdmission(${app.id})">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -1011,11 +1161,10 @@
                         <div class="admissions-mobile-card-header">
                             <div>
                                 <div style="font-weight: 700; font-size: 15px; color: var(--inst-blue);">
-                                    ${escapeHTML(app.student_first_name)} ${escapeHTML(app.student_last_name)}
-                                    ${siblingPill}
+                                    ${studentFullName}
                                 </div>
-                                <div style="font-size: 12px; color: var(--inst-text-muted);">
-                                    <i class="fas fa-id-card"></i> ${escapeHTML(app.application_id || 'ID-' + app.id)}
+                                <div style="font-size: 12px; color: var(--inst-text-muted); font-family: monospace;">
+                                    <i class="fas fa-id-card"></i> ${escapeHTML(app.application_reference)}
                                 </div>
                             </div>
                             <span class="status-badge ${statusBadgeClass}">
@@ -1026,26 +1175,26 @@
 
                         <div class="admissions-mobile-card-grid">
                             <div>
-                                <div class="field-label">Class Applied</div>
-                                <div class="field-value">${escapeHTML(app.class_to_join || 'N/A')} (${escapeHTML(app.admission_type || 'Day')})</div>
+                                <div class="field-label">Class & Type</div>
+                                <div class="field-value">${escapeHTML(app.class_to_join || 'N/A')} (${escapeHTML((app.admission_type || 'Day').toUpperCase())})</div>
                             </div>
                             <div>
-                                <div class="field-label">Parent / Guardian</div>
-                                <div class="field-value">${escapeHTML(app.parent_first_name)} ${escapeHTML(app.parent_last_name)}</div>
+                                <div class="field-label">Person Responsible</div>
+                                <div class="field-value">${escapeHTML(app.responsible_person_name || 'N/A')}</div>
                             </div>
                             <div>
-                                <div class="field-label">Contact Phone</div>
-                                <div class="field-value">${escapeHTML(app.parent_phone || 'N/A')}</div>
+                                <div class="field-label">Telephone</div>
+                                <div class="field-value">${escapeHTML(app.responsible_person_phone || 'N/A')}</div>
                             </div>
                             <div>
-                                <div class="field-label">Date Submitted</div>
-                                <div class="field-value">${submittedDate}</div>
+                                <div class="field-label">Form Fee</div>
+                                <div class="field-value">${feeBadge}</div>
                             </div>
                         </div>
 
                         <div class="admissions-actions">
                             <button class="btn-table-action btn-view" onclick="viewAdmission(${app.id})">
-                                <i class="fas fa-eye"></i> View Details
+                                <i class="fas fa-eye"></i> View
                             </button>
                             <button class="btn-table-action btn-edit" onclick="editAdmission(${app.id})">
                                 <i class="fas fa-edit"></i> Edit
@@ -1057,7 +1206,7 @@
                                 <button class="btn-table-action btn-reject" onclick="updateAdmissionStatus(${app.id}, 'rejected')">
                                     <i class="fas fa-times"></i> Reject
                                 </button>
-                                <button class="btn-table-action btn-waitlist" onclick="updateAdmissionStatus(${app.id}, 'waitlisted')">
+                                <button class="btn-table-action btn-waitlist" onclick="updateAdmissionStatus(${app.id}, 'waitlist')">
                                     <i class="fas fa-clock"></i> Waitlist
                                 </button>
                             ` : `
@@ -1097,7 +1246,7 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // View Single Application Details
+        // View Official Application Dossier Details
         async function viewAdmission(id) {
             try {
                 const response = await fetch(`../api/admissions/get.php?id=${id}`);
@@ -1109,137 +1258,288 @@
 
                 const app = result.data;
                 const normStatus = (app.status || 'pending').toLowerCase();
-                const displayStatus = (normStatus === 'waitlist' ? 'waitlisted' : normStatus);
+                const displayStatus = (normStatus === 'waitlisted' ? 'waitlist' : normStatus);
                 const statusBadgeClass = `status-${displayStatus}`;
                 const submittedDate = app.submitted_date ? new Date(app.submitted_date).toLocaleString() : 'N/A';
+                const studentFullName = `${escapeHTML(app.student_surname)} ${escapeHTML(app.student_other_names)}`;
+
+                const feeStatus = (app.form_fee_status || 'unpaid').toLowerCase();
+                const feeBadge = feeStatus === 'paid' 
+                    ? '<span class="fee-badge fee-paid"><i class="fas fa-check-circle"></i> Paid</span>'
+                    : '<span class="fee-badge fee-unpaid"><i class="fas fa-clock"></i> Unpaid</span>';
 
                 const contentHTML = `
                     <!-- Header Strip -->
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid #e2e8f0; flex-wrap:wrap; gap:10px;">
                         <div>
-                            <h3 style="margin:0 0 4px 0; color:#0b2545; font-size:20px; font-weight:700;">
-                                ${escapeHTML(app.student_first_name)} ${escapeHTML(app.student_last_name)}
+                            <h3 style="margin:0 0 4px 0; color:#0b2545; font-size:22px; font-weight:700;">
+                                ${studentFullName}
                             </h3>
-                            <div style="font-size:12px; color:#64748b;">
-                                <i class="fas fa-id-card"></i> Application Ref: <strong>${escapeHTML(app.application_id || 'ID-' + app.id)}</strong> &bull; Submitted: ${submittedDate}
+                            <div style="font-size:13px; color:#64748b;">
+                                <i class="fas fa-id-card"></i> Ref: <strong style="color:var(--inst-blue); font-family:monospace;">${escapeHTML(app.application_reference)}</strong> &bull; Submitted: ${submittedDate}
                             </div>
                         </div>
-                        <span class="status-badge ${statusBadgeClass}" style="font-size:12px; padding:6px 14px;">
-                            <i class="fas ${getStatusIcon(displayStatus)}"></i> ${displayStatus.toUpperCase()}
-                        </span>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <a href="../api/admissions/download-pdf.php?id=${app.id}" target="_blank" style="padding:8px 14px; background:#0b2545; color:white; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                                <i class="fas fa-file-pdf"></i> Download Submitted PDF
+                            </a>
+                            <span class="status-badge ${statusBadgeClass}" style="font-size:12px; padding:6px 14px;">
+                                <i class="fas ${getStatusIcon(displayStatus)}"></i> ${displayStatus.toUpperCase()}
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Student Information -->
+                    <!-- Stage 01: Application & Class Details -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-user-graduate"></i> Student Profile
+                            <i class="fas fa-calendar-alt"></i> 01. Application & Class Details
                         </div>
                         <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="label">Academic Year</div>
+                                <div class="value">${escapeHTML(app.academic_year || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Term</div>
+                                <div class="value">${escapeHTML(app.term || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Class to Join</div>
+                                <div class="value">${escapeHTML(app.class_to_join || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Admission Type</div>
+                                <div class="value">${escapeHTML((app.admission_type || 'day').toUpperCase())}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 02: Child Information -->
+                    <div class="detail-section">
+                        <div class="detail-section-title">
+                            <i class="fas fa-user-graduate"></i> 02. Child Information
+                        </div>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="label">Surname</div>
+                                <div class="value">${escapeHTML(app.student_surname || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Other Names</div>
+                                <div class="value">${escapeHTML(app.student_other_names || 'N/A')}</div>
+                            </div>
                             <div class="detail-item">
                                 <div class="label">Date of Birth</div>
                                 <div class="value">${escapeHTML(app.date_of_birth || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="label">Gender</div>
-                                <div class="value">${escapeHTML(app.gender ? app.gender.toUpperCase() : 'N/A')}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="label">Nationality</div>
-                                <div class="value">${escapeHTML(app.nationality || 'N/A')}</div>
+                                <div class="value">${escapeHTML((app.gender || 'N/A').toUpperCase())}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="label">Religion</div>
                                 <div class="value">${escapeHTML(app.religion || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Class Applied</div>
-                                <div class="value">${escapeHTML(app.class_to_join || 'N/A')}</div>
+                                <div class="label">Tribe</div>
+                                <div class="value">${escapeHTML(app.tribe || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Admission Type</div>
-                                <div class="value">${escapeHTML(app.admission_type ? app.admission_type.toUpperCase() : 'DAY')}</div>
+                                <div class="label">Position in Family</div>
+                                <div class="value">${escapeHTML(app.position_in_family || 'N/A')}</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Parent / Guardian Information -->
+                    <!-- Stage 03: Person Responsible & Parents -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-users"></i> Parent / Guardian Information
+                            <i class="fas fa-users"></i> 03. Person Responsible & Parents
+                        </div>
+                        <div style="background:#f8fafc; padding:12px 14px; border-radius:6px; margin-bottom:14px; border:1px solid #e2e8f0;">
+                            <strong style="color:#0b2545; font-size:12px; display:block; margin-bottom:8px; text-transform:uppercase;">Person Responsible for the Child</strong>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="label">Full Name</div>
+                                    <div class="value">${escapeHTML(app.responsible_person_name || 'N/A')}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Telephone</div>
+                                    <div class="value"><i class="fas fa-phone" style="color:#0b2545;"></i> ${escapeHTML(app.responsible_person_phone || 'N/A')}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Email Address</div>
+                                    <div class="value"><i class="fas fa-envelope" style="color:#0b2545;"></i> ${escapeHTML(app.responsible_person_email || 'None')}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Postal Address</div>
+                                    <div class="value">${escapeHTML(app.responsible_person_postal || 'None')}</div>
+                                </div>
+                                <div class="detail-item" style="grid-column: 1 / -1;">
+                                    <div class="label">Home Address</div>
+                                    <div class="value">${escapeHTML(app.responsible_person_address || 'N/A')}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:12px; font-size:13px; color:#475569;">
+                            <strong>Parents Live Together:</strong> <span class="official-badge">${(app.parents_live_together || 'yes').toUpperCase()}</span>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+                            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                                <strong style="font-size:12px; color:#1e293b; display:block; margin-bottom:8px; border-bottom:1px solid #f1f5f9; padding-bottom:4px;">Father's Details</strong>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Name:</strong> ${escapeHTML(app.father_name || 'N/A')}</div>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Occupation:</strong> ${escapeHTML(app.father_occupation || 'N/A')}</div>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Place of Work:</strong> ${escapeHTML(app.father_workplace || 'N/A')}</div>
+                                <div style="font-size:13px;"><strong>Home Address:</strong> ${escapeHTML(app.father_address || 'N/A')}</div>
+                            </div>
+
+                            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                                <strong style="font-size:12px; color:#1e293b; display:block; margin-bottom:8px; border-bottom:1px solid #f1f5f9; padding-bottom:4px;">Mother's Details</strong>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Name:</strong> ${escapeHTML(app.mother_name || 'N/A')}</div>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Occupation:</strong> ${escapeHTML(app.mother_occupation || 'N/A')}</div>
+                                <div style="font-size:13px; margin-bottom:4px;"><strong>Place of Work:</strong> ${escapeHTML(app.mother_workplace || 'N/A')}</div>
+                                <div style="font-size:13px;"><strong>Home Address:</strong> ${escapeHTML(app.mother_address || 'N/A')}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 04: Emergency & Health -->
+                    <div class="detail-section">
+                        <div class="detail-section-title">
+                            <i class="fas fa-heartbeat"></i> 04. Emergency & Health
+                        </div>
+                        <div class="detail-grid">
+                            <div class="detail-item" style="grid-column: 1 / -1; background:#fef2f2; padding:10px; border-radius:6px; border:1px solid #fee2e2;">
+                                <div class="label" style="color:#991b1b;">Next of Kin in Case of Emergency</div>
+                                <div class="value" style="color:#7f1d1d; font-size:15px;"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i>${escapeHTML(app.emergency_next_of_kin || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Bed Wetting Problem</div>
+                                <div class="value">${(app.bed_wetting || 'no').toUpperCase()}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Health Handicap / Condition</div>
+                                <div class="value">${(app.has_health_handicap || 'no').toUpperCase()}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Measles Immunization</div>
+                                <div class="value">${(app.is_immunized || 'yes').toUpperCase()}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Family Doctor / Clinic</div>
+                                <div class="value">${escapeHTML(app.doctor_name || 'None')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Doctor Location</div>
+                                <div class="value">${escapeHTML(app.doctor_location || 'None')}</div>
+                            </div>
+                            ${app.has_health_handicap === 'yes' || app.health_handicap_details ? `
+                            <div class="detail-item" style="grid-column: 1 / -1;">
+                                <div class="label">Handicap / Condition Specifics</div>
+                                <div class="value" style="color:#b91c1c;">${escapeHTML(app.health_handicap_details || 'N/A')}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Stage 05: Other Information -->
+                    <div class="detail-section">
+                        <div class="detail-section-title">
+                            <i class="fas fa-info-circle"></i> 05. Other Information
                         </div>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <div class="label">Full Name</div>
-                                <div class="value">${escapeHTML(app.parent_first_name)} ${escapeHTML(app.parent_last_name)}</div>
+                                <div class="label">Attended School Before?</div>
+                                <div class="value">${app.has_attended_school ? 'YES' : 'NO'}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Relationship</div>
-                                <div class="value">${escapeHTML(app.parent_relationship || 'Parent')}</div>
+                                <div class="label">Previous School Name</div>
+                                <div class="value">${escapeHTML(app.previous_school_name || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Phone Number</div>
-                                <div class="value"><i class="fas fa-phone" style="color:#0b2545;"></i> ${escapeHTML(app.parent_phone || 'N/A')}</div>
+                                <div class="label">Previous School Location</div>
+                                <div class="value">${escapeHTML(app.previous_school_location || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Email Address</div>
-                                <div class="value"><i class="fas fa-envelope" style="color:#0b2545;"></i> ${escapeHTML(app.parent_email || 'N/A')}</div>
+                                <div class="label">1st Language Spoken</div>
+                                <div class="value">${escapeHTML(app.language_1 || 'N/A')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Occupation</div>
-                                <div class="value">${escapeHTML(app.parent_occupation || 'N/A')}</div>
+                                <div class="label">2nd Language Spoken</div>
+                                <div class="value">${escapeHTML(app.language_2 || 'None')}</div>
                             </div>
                             <div class="detail-item" style="grid-column: 1 / -1;">
-                                <div class="label">Home Address</div>
-                                <div class="value">${escapeHTML(app.parent_address || 'N/A')}</div>
+                                <div class="label">Other Information / Notes</div>
+                                <div class="value">${escapeHTML(app.other_information || 'None provided')}</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Emergency Contact -->
+                    <!-- Stage 06 & 07: Rules, Declaration & Digital Signature -->
                     <div class="detail-section">
                         <div class="detail-section-title">
-                            <i class="fas fa-phone-alt"></i> Emergency Contact
+                            <i class="fas fa-file-signature"></i> 06 & 07. Rules, Declaration & Signature
+                        </div>
+                        <div class="detail-grid" style="margin-bottom:14px;">
+                            <div class="detail-item">
+                                <div class="label">School Rules & Regulations</div>
+                                <div class="value"><i class="fas fa-check-circle" style="color:#16a34a;"></i> ${app.rules_acknowledged ? 'Acknowledged & Agreed' : 'Pending'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Declaration Accepted</div>
+                                <div class="value"><i class="fas fa-check-circle" style="color:#16a34a;"></i> ${app.declaration_accepted ? 'Yes (Version ' + escapeHTML(app.declaration_version || 'v1.0') + ')' : 'No'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Signed By (Print Name)</div>
+                                <div class="value">${escapeHTML(app.declaration_name || 'N/A')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Signed At (Timestamp)</div>
+                                <div class="value">${app.declaration_accepted_at ? new Date(app.declaration_accepted_at).toLocaleString() : 'N/A'}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="label" style="font-size:11px; font-weight:600; color:var(--inst-text-muted); text-transform:uppercase; margin-bottom:6px;">Applicant Digital Signature:</div>
+                            ${app.signature_path ? `
+                                <div style="display:inline-block; border:1px solid #cbd5e1; background:#ffffff; padding:10px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                                    <img src="../../${app.signature_path}" alt="Applicant Signature" style="max-height:90px; max-width:280px; display:block;">
+                                </div>
+                            ` : '<span style="color:#ef4444; font-size:13px;"><i class="fas fa-exclamation-triangle"></i> No digital signature on file</span>'}
+                        </div>
+                    </div>
+
+                    <!-- Stage 08 / Official Administration -->
+                    <div class="detail-section" style="background:#eff6ff; border:1px solid #bfdbfe;">
+                        <div class="detail-section-title" style="color:#1e40af; border-color:#bfdbfe;">
+                            <i class="fas fa-stamp"></i> Official Use / Administrative Processing
                         </div>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <div class="label">Name</div>
-                                <div class="value">${escapeHTML(app.emergency_contact_name || 'N/A')}</div>
+                                <div class="label" style="color:#1e40af;">Form Fee Status</div>
+                                <div class="value">${feeBadge}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Relationship</div>
-                                <div class="value">${escapeHTML(app.emergency_contact_relationship || 'N/A')}</div>
+                                <div class="label" style="color:#1e40af;">Fee Receipt No.</div>
+                                <div class="value">${escapeHTML(app.form_fee_receipt || 'None')}</div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Emergency Phone</div>
-                                <div class="value">${escapeHTML(app.emergency_contact_phone || 'N/A')}</div>
+                                <div class="label" style="color:#1e40af;">Admitted On</div>
+                                <div class="value">${escapeHTML(app.admitted_on || 'Not set')}</div>
                             </div>
+                            <div class="detail-item">
+                                <div class="label" style="color:#1e40af;">Reported On</div>
+                                <div class="value">${escapeHTML(app.reported_on || 'Not set')}</div>
+                            </div>
+                            ${app.review_notes ? `
+                            <div class="detail-item" style="grid-column: 1 / -1;">
+                                <div class="label" style="color:#1e40af;">Review Notes</div>
+                                <div class="value" style="color:#1e3a8a;">${escapeHTML(app.review_notes)}</div>
+                            </div>
+                            ` : ''}
                         </div>
                     </div>
-
-                    <!-- Uploaded Documents -->
-                    <div class="detail-section">
-                        <div class="detail-section-title">
-                            <i class="fas fa-folder-open"></i> Uploaded Documents
-                        </div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
-                            ${renderDocLink('Birth Certificate', app.birth_certificate_url, 'fa-file-pdf')}
-                            ${renderDocLink('Passport Photo', app.passport_photo_url, 'fa-file-image')}
-                            ${renderDocLink('Previous School Report', app.previous_school_report_url, 'fa-file-alt')}
-                            ${renderDocLink('Immunization Record', app.immunization_record_url, 'fa-file-medical')}
-                            ${renderDocLink('Parent Identification', app.parent_id_url, 'fa-id-badge')}
-                            ${renderDocLink('Transfer Letter', app.transfer_letter_url, 'fa-file-export')}
-                        </div>
-                    </div>
-
-                    ${app.review_notes ? `
-                    <div class="detail-section" style="background:#fffbeb; border-color:#fde68a;">
-                        <div class="detail-section-title" style="color:#b45309; border-color:#fde68a;">
-                            <i class="fas fa-sticky-note"></i> Review Notes
-                        </div>
-                        <p style="margin:0; font-size:13px; color:#78350f;">${escapeHTML(app.review_notes)}</p>
-                        ${app.review_date ? `<div style="font-size:11px; color:#92400e; margin-top:6px;"><i class="fas fa-clock"></i> Reviewed on: ${new Date(app.review_date).toLocaleString()}</div>` : ''}
-                    </div>
-                    ` : ''}
 
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; flex-wrap:wrap; gap:10px;">
                         <div class="admissions-actions">
@@ -1250,8 +1550,8 @@
                                 <button class="btn-table-action btn-reject" onclick="closeModal('viewAdmissionModal'); updateAdmissionStatus(${app.id}, 'rejected');">
                                     <i class="fas fa-times"></i> Reject
                                 </button>
-                                <button class="btn-table-action btn-waitlist" onclick="closeModal('viewAdmissionModal'); updateAdmissionStatus(${app.id}, 'waitlisted');">
-                                    <i class="fas fa-clock"></i> Waitlist
+                                <button class="btn-table-action btn-waitlist" onclick="closeModal('viewAdmissionModal'); updateAdmissionStatus(${app.id}, 'waitlist');">
+                                    <i class="fas fa-clock"></i> Move to Waitlist
                                 </button>
                             ` : `
                                 <button class="btn-table-action btn-undo" onclick="closeModal('viewAdmissionModal'); updateAdmissionStatus(${app.id}, 'pending');">
@@ -1260,7 +1560,7 @@
                             `}
                         </div>
                         <button onclick="closeModal('viewAdmissionModal')" style="padding:10px 18px; background:#64748b; color:white; border:none; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer;">
-                            Close
+                            Close Dossier
                         </button>
                     </div>
                 `;
@@ -1274,27 +1574,6 @@
                     text: error.message,
                     confirmButtonColor: '#0b2545'
                 });
-            }
-        }
-
-        function renderDocLink(name, url, icon) {
-            if (url) {
-                return `
-                    <a href="../${url}" target="_blank" class="doc-link-card">
-                        <i class="fas ${icon}"></i>
-                        <div>
-                            <div class="doc-name">${name}</div>
-                            <div class="doc-sub">Click to view document &rarr;</div>
-                        </div>
-                    </a>
-                `;
-            } else {
-                return `
-                    <div class="doc-missing">
-                        <i class="fas fa-minus-circle"></i>
-                        <span>${name}: Not provided</span>
-                    </div>
-                `;
             }
         }
 
@@ -1312,23 +1591,31 @@
                 const form = document.getElementById('editAdmissionForm');
                 
                 document.getElementById('editAdmissionId').value = app.id;
-                form.querySelector('[name="student_first_name"]').value = app.student_first_name || '';
-                form.querySelector('[name="student_last_name"]').value = app.student_last_name || '';
-                form.querySelector('[name="date_of_birth"]').value = app.date_of_birth || '';
-                form.querySelector('[name="gender"]').value = app.gender || 'male';
-                form.querySelector('[name="nationality"]').value = app.nationality || '';
-                form.querySelector('[name="religion"]').value = app.religion || '';
-                form.querySelector('[name="class_to_join"]').value = app.class_to_join || '';
-                form.querySelector('[name="admission_type"]').value = app.admission_type || 'day';
-                form.querySelector('[name="parent_first_name"]').value = app.parent_first_name || '';
-                form.querySelector('[name="parent_last_name"]').value = app.parent_last_name || '';
-                form.querySelector('[name="parent_relationship"]').value = app.parent_relationship || '';
-                form.querySelector('[name="parent_phone"]').value = app.parent_phone || '';
-                form.querySelector('[name="parent_email"]').value = app.parent_email || '';
-                form.querySelector('[name="parent_address"]').value = app.parent_address || '';
-                form.querySelector('[name="emergency_contact_name"]').value = app.emergency_contact_name || '';
-                form.querySelector('[name="emergency_contact_relationship"]').value = app.emergency_contact_relationship || '';
-                form.querySelector('[name="emergency_contact_phone"]').value = app.emergency_contact_phone || '';
+                
+                // Populate all fields
+                const fields = [
+                    'academic_year', 'term', 'class_to_join', 'admission_type',
+                    'student_surname', 'student_other_names', 'date_of_birth', 'gender',
+                    'religion', 'tribe', 'position_in_family',
+                    'has_attended_school', 'previous_school_name', 'previous_school_location',
+                    'language_1', 'language_2',
+                    'responsible_person_name', 'responsible_person_address', 'responsible_person_phone', 'responsible_person_email', 'responsible_person_postal',
+                    'parents_live_together',
+                    'father_name', 'father_occupation', 'father_workplace', 'father_address',
+                    'mother_name', 'mother_occupation', 'mother_workplace', 'mother_address',
+                    'emergency_next_of_kin', 'bed_wetting',
+                    'has_health_handicap', 'health_handicap_details',
+                    'doctor_name', 'doctor_location', 'is_immunized',
+                    'other_information',
+                    'form_fee_status', 'form_fee_receipt', 'admitted_on', 'reported_on'
+                ];
+
+                fields.forEach(field => {
+                    const el = form.querySelector(`[name="${field}"]`);
+                    if (el) {
+                        el.value = app[field] !== null && app[field] !== undefined ? app[field] : '';
+                    }
+                });
 
                 openModal('editAdmissionModal');
             } catch (error) {
@@ -1383,9 +1670,9 @@
         // Status Management
         async function updateAdmissionStatus(id, status) {
             const statusLabels = {
-                accepted: 'Accept',
-                rejected: 'Reject',
-                waitlisted: 'Waitlist',
+                accepted: 'Accept Student',
+                rejected: 'Reject Application',
+                waitlist: 'Move to Waitlist',
                 pending: 'Move back to Pending'
             };
 
@@ -1410,11 +1697,12 @@
                     const resData = await response.json();
 
                     if (resData.success) {
+                        const emailNote = resData.email_status ? `<br><small style="color:#475569; font-size:12px;">${escapeHTML(resData.email_status)}</small>` : '';
                         Swal.fire({
                             icon: 'success',
                             title: 'Status Updated!',
-                            text: `Application status changed to ${status}.`,
-                            timer: 2000,
+                            html: `Application status changed to <strong>${status}</strong>.${emailNote}`,
+                            timer: 3000,
                             showConfirmButton: false
                         });
                         await loadAdmissions();
@@ -1436,7 +1724,7 @@
         async function deleteAdmission(id) {
             const result = await Swal.fire({
                 title: 'Delete Application?',
-                text: 'This action cannot be undone. All application data will be permanently removed.',
+                text: 'This action cannot be undone. All application data and associated signatures will be permanently removed.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
@@ -1474,62 +1762,6 @@
                         confirmButtonColor: '#dc2626'
                     });
                 }
-            }
-        }
-
-        // View Siblings Modal
-        async function viewSiblings(parentEmail) {
-            if (!parentEmail) return;
-            try {
-                const response = await fetch(`../api/admissions/check-email.php?email=${encodeURIComponent(parentEmail)}`);
-                const result = await response.json();
-
-                if (result.success && Array.isArray(result.applications) && result.applications.length > 0) {
-                    let html = `
-                        <div style="margin-bottom: 16px; padding: 12px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe;">
-                            <div style="font-weight: 700; color: #1d4ed8; font-size: 13px;">Parent / Guardian: ${escapeHTML(parentEmail)}</div>
-                            <div style="font-size: 12px; color: #3b82f6;">Found ${result.applications.length} applications linked to this family account.</div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
-                    `;
-
-                    result.applications.forEach(sib => {
-                        const sibStatus = (sib.status || 'pending').toLowerCase();
-                        html += `
-                            <div style="padding: 14px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                                <div>
-                                    <div style="font-weight: 700; font-size: 14px; color: #0b2545;">
-                                        ${escapeHTML(sib.student_first_name)} ${escapeHTML(sib.student_last_name)}
-                                    </div>
-                                    <div style="font-size: 12px; color: #64748b;">
-                                        Class: <strong>${escapeHTML(sib.class_to_join || 'N/A')}</strong> &bull; Ref: ${escapeHTML(sib.application_id || 'ID-' + sib.id)}
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <span class="status-badge status-${sibStatus}">
-                                        ${sibStatus.toUpperCase()}
-                                    </span>
-                                    <button class="btn-table-action btn-view" onclick="closeModal('siblingsModal'); viewAdmission(${sib.id});">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    html += `</div>`;
-                    document.getElementById('siblingsModalContent').innerHTML = html;
-                    openModal('siblingsModal');
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'No Sibling Applications',
-                        text: 'No additional applications found under this parent email.',
-                        confirmButtonColor: '#0b2545'
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching siblings:', error);
             }
         }
 

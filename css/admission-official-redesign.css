@@ -1,0 +1,861 @@
+/* ==========================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA
+   OFFICIAL DIGITAL ADMISSION SYSTEM - INSTITUTIONAL REDESIGN
+   Clean, Authoritative, Centered A4/Dossier Layout
+   Palette: Institutional Navy (#0b2545), Crimson Red (#c9182b), Crisp White (#ffffff)
+   ========================================================================== */
+
+:root {
+    --inst-navy: #0b2545;
+    --inst-navy-dark: #07192f;
+    --inst-red: #c9182b;
+    --inst-red-hover: #a81322;
+    --inst-bg: #f8fafc;
+    --inst-card-bg: #ffffff;
+    --inst-border: #e2e8f0;
+    --inst-border-focus: #0b2545;
+    --inst-text: #1e293b;
+    --inst-text-muted: #64748b;
+    --inst-text-light: #94a3b8;
+    --inst-success: #15803d;
+    --inst-warning: #b45309;
+}
+
+/* Base Wrapper */
+.admission-official-wrapper {
+    background-color: var(--inst-bg);
+    padding: 40px 16px 80px 16px;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--inst-text);
+}
+
+.admission-official-container {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+/* Institutional Application Card */
+.admission-dossier-card {
+    background: var(--inst-card-bg);
+    border: 1px solid var(--inst-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(11, 37, 69, 0.06);
+    overflow: hidden;
+}
+
+/* Top Institutional Header */
+.admission-official-header {
+    padding: 32px 36px 24px 36px;
+    border-bottom: 2px solid var(--inst-navy);
+    background: #ffffff;
+    text-align: center;
+}
+
+.admission-crest-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.admission-crest-img {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+}
+
+.admission-school-name {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    letter-spacing: 0.02em;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+}
+
+.admission-school-meta {
+    font-size: 0.85rem;
+    color: var(--inst-text-muted);
+    margin: 0 0 6px 0;
+}
+
+.admission-school-motto {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--inst-red);
+    letter-spacing: 0.08em;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+}
+
+.admission-doc-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-top: 10px;
+}
+
+.admission-doc-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.admission-doc-badge {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #475569;
+    background: #ffffff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+}
+
+/* Institutional Form Fee Banner */
+.admission-fee-notice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--inst-border);
+    padding: 12px 36px;
+    font-size: 0.86rem;
+    color: var(--inst-navy);
+    font-weight: 500;
+}
+
+.admission-fee-notice i {
+    color: var(--inst-red);
+    font-size: 1rem;
+}
+
+/* 8-Stage Progress Navigation Track */
+.admission-stages-nav {
+    display: flex;
+    align-items: stretch;
+    background: #ffffff;
+    border-bottom: 1px solid var(--inst-border);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.admission-stage-tab {
+    flex: 1;
+    min-width: 96px;
+    padding: 14px 8px;
+    text-align: center;
+    background: #ffffff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: default;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.admission-stage-tab.active {
+    border-bottom-color: var(--inst-red);
+    background: #fdfdfd;
+}
+
+.admission-stage-tab.completed {
+    border-bottom-color: var(--inst-navy);
+}
+
+.stage-num-bubble {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.admission-stage-tab.active .stage-num-bubble {
+    background: var(--inst-navy);
+    color: #ffffff;
+}
+
+.admission-stage-tab.completed .stage-num-bubble {
+    background: var(--inst-navy);
+    color: #ffffff;
+}
+
+.stage-tab-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--inst-text-muted);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.admission-stage-tab.active .stage-tab-label {
+    color: var(--inst-navy);
+    font-weight: 700;
+}
+
+.admission-stage-tab.completed .stage-tab-label {
+    color: var(--inst-navy);
+}
+
+/* Stage Form Body */
+.admission-form-body {
+    padding: 36px;
+}
+
+.admission-stage-panel {
+    display: none;
+}
+
+.admission-stage-panel.active {
+    display: block;
+}
+
+/* Section Header inside Stage */
+.stage-section-header {
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--inst-border);
+}
+
+.stage-section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    margin: 0 0 4px 0;
+}
+
+.stage-section-desc {
+    font-size: 0.85rem;
+    color: var(--inst-text-muted);
+    margin: 0;
+}
+
+/* Form Grids */
+.form-grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+/* Form Field Groups */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+}
+
+.form-label .req {
+    color: var(--inst-red);
+    margin-left: 2px;
+}
+
+.form-control {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--inst-text);
+    background-color: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--inst-navy);
+    box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.1);
+}
+
+.form-control.error {
+    border-color: var(--inst-red);
+    background-color: #fffbfa;
+}
+
+.field-error-text {
+    font-size: 0.76rem;
+    color: var(--inst-red);
+    margin-top: 4px;
+    display: none;
+}
+
+.form-group.has-error .field-error-text {
+    display: block;
+}
+
+/* Radio Cards (Admission Type, Live Together, etc.) */
+.radio-pill-group {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-pill-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.radio-pill-label:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+.radio-pill-label input[type="radio"] {
+    accent-color: var(--inst-navy);
+    margin: 0;
+}
+
+.radio-pill-label.checked {
+    border-color: var(--inst-navy);
+    background: #f0f4f9;
+    color: var(--inst-navy);
+    font-weight: 600;
+}
+
+/* Sub-card within stage */
+.form-subcard {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.form-subcard-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    margin: 0 0 14px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Formal Document Boxes (Rules & Declaration) */
+.official-text-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #334155;
+}
+
+.official-text-placeholder {
+    font-style: italic;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 14px 18px;
+    border-left: 3px solid var(--inst-navy);
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 0.86rem;
+}
+
+.official-ack-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.official-ack-checkbox input[type="checkbox"] {
+    margin-top: 3px;
+    width: 17px;
+    height: 17px;
+    accent-color: var(--inst-navy);
+}
+
+.official-ack-checkbox span {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+/* Digital Signature Pad */
+.signature-section-wrap {
+    margin-top: 20px;
+}
+
+.signature-pad-container {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    padding: 12px;
+    position: relative;
+}
+
+.signature-canvas-wrapper {
+    width: 100%;
+    height: 180px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 4px;
+    background: #fafbfc;
+    position: relative;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.signature-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.signature-pad-guideline {
+    position: absolute;
+    bottom: 34px;
+    left: 40px;
+    right: 40px;
+    border-bottom: 1px solid #e2e8f0;
+    pointer-events: none;
+}
+
+.signature-pad-label {
+    position: absolute;
+    bottom: 12px;
+    left: 40px;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.signature-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sig-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sig-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.sig-status-indicator {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.sig-status-indicator.signed {
+    color: var(--inst-success);
+    font-weight: 600;
+}
+
+/* Stage 08 Structured Review Summary */
+.review-dossier-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.review-section-card {
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.review-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--inst-border);
+}
+
+.review-section-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+.review-edit-btn {
+    background: none;
+    border: none;
+    color: var(--inst-red);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 20px;
+    padding: 14px 16px;
+    background: #ffffff;
+}
+
+.review-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-label {
+    font-size: 0.74rem;
+    color: var(--inst-text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.review-val {
+    font-size: 0.88rem;
+    color: var(--inst-text);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.review-val.empty {
+    color: var(--inst-text-light);
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Stage Navigation Buttons Bar */
+.admission-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 36px 32px 36px;
+    border-top: 1px solid var(--inst-border);
+    background: #ffffff;
+}
+
+.btn-nav-prev {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: var(--inst-navy);
+    padding: 11px 22px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-nav-prev:hover {
+    background: #f1f5f9;
+}
+
+.btn-nav-next {
+    background: var(--inst-navy);
+    border: 1px solid var(--inst-navy);
+    color: #ffffff;
+    padding: 11px 26px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.btn-nav-next:hover {
+    background: var(--inst-navy-dark);
+}
+
+.btn-nav-submit {
+    background: var(--inst-red);
+    border: 1px solid var(--inst-red);
+    color: #ffffff;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.02em;
+    margin-left: auto;
+}
+
+.btn-nav-submit:hover:not(:disabled) {
+    background: var(--inst-red-hover);
+}
+
+.btn-nav-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Confirmation Card */
+.admission-confirm-card {
+    display: none;
+    padding: 48px 36px;
+    text-align: center;
+}
+
+.admission-confirm-card.active {
+    display: block;
+}
+
+.confirm-icon-wrap {
+    width: 64px;
+    height: 64px;
+    background: #dcfce7;
+    color: var(--inst-success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 18px auto;
+}
+
+.confirm-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    margin: 0 0 8px 0;
+}
+
+.confirm-subtitle {
+    font-size: 0.92rem;
+    color: var(--inst-text-muted);
+    margin: 0 0 24px 0;
+}
+
+.confirm-ref-badge-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: #f8fafc;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 24px;
+    margin-bottom: 28px;
+}
+
+.confirm-ref-text {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    letter-spacing: 0.05em;
+}
+
+.confirm-copy-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.confirm-dual-downloads {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-download-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--inst-navy);
+    color: #ffffff !important;
+    padding: 13px 24px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-download-primary:hover {
+    background: var(--inst-navy-dark);
+    transform: translateY(-1px);
+}
+
+.btn-download-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    color: var(--inst-navy) !important;
+    border: 1.5px solid var(--inst-navy);
+    padding: 13px 24px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-download-secondary:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+.confirm-instructions-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f8fafc;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    padding: 18px 24px;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.confirm-instructions-box h5 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .admission-official-wrapper {
+        padding: 16px 8px 60px 8px;
+    }
+
+    .admission-official-header {
+        padding: 24px 18px 18px 18px;
+    }
+
+    .admission-school-name {
+        font-size: 1.2rem;
+    }
+
+    .admission-fee-notice {
+        padding: 10px 18px;
+        font-size: 0.82rem;
+    }
+
+    .admission-form-body {
+        padding: 20px 16px;
+    }
+
+    .form-grid-2,
+    .form-grid-3 {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .radio-pill-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .admission-actions-bar {
+        padding: 18px 16px 24px 16px;
+    }
+
+    .confirm-dual-downloads {
+        flex-direction: column;
+    }
+
+    .btn-download-primary,
+    .btn-download-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .review-grid {
+        grid-template-columns: 1fr;
+    }
+}

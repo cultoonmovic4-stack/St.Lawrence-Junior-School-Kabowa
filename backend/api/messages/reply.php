@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../helpers/ContactReplyEmailService.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -21,7 +22,7 @@ try {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Missing required fields'
+            'message' => 'Missing required fields (submission_id or reply_message)'
         ]);
         exit;
     }
@@ -30,19 +31,22 @@ try {
     $db = $database->getConnection();
     
     $currentUser = getCurrentUser();
-    $userId = $currentUser['user_id'];
+    $userId = $currentUser['user_id'] ?? 1;
+    $adminName = $currentUser['full_name'] ?? $currentUser['username'] ?? 'School Administration';
     
-    // Get original submission details
-    $getStmt = $db->prepare("SELECT name, email, subject FROM contact_submissions WHERE id = :id");
-    $getStmt->bindParam(':id', $data['submission_id']);
+    // Get full original submission details
+    $getStmt = $db->prepare("SELECT id, name, email, phone, subject, message, submitted_date FROM contact_submissions WHERE id = :id LIMIT 1");
+    $getStmt->bindParam(':id', $data['submission_id'], PDO::PARAM_INT);
     $getStmt->execute();
     $submission = $getStmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$submission) {
-        throw new Exception('Submission not found');
+        throw new Exception('Contact submission not found');
     }
     
-    // Insert reply
+    $replyMessage = trim($data['reply_message']);
+    
+    // Insert reply into contact_replies
     $stmt = $db->prepare("
         INSERT INTO contact_replies 
         (contact_submission_id, replied_by, reply_message, reply_date) 
@@ -50,12 +54,12 @@ try {
         (:submission_id, :replied_by, :reply_message, NOW())
     ");
     
-    $stmt->bindParam(':submission_id', $data['submission_id']);
-    $stmt->bindParam(':replied_by', $userId);
-    $stmt->bindParam(':reply_message', $data['reply_message']);
+    $stmt->bindParam(':submission_id', $data['submission_id'], PDO::PARAM_INT);
+    $stmt->bindParam(':replied_by', $userId, PDO::PARAM_INT);
+    $stmt->bindParam(':reply_message', $replyMessage);
     
     if ($stmt->execute()) {
-        // Update submission status to 'replied'
+        // Update contact_submissions status to 'replied'
         $updateStmt = $db->prepare("
             UPDATE contact_submissions 
             SET status = 'replied', 
@@ -65,42 +69,27 @@ try {
             WHERE id = :submission_id
         ");
         
-        $updateStmt->bindParam(':replied_by', $userId);
-        $updateStmt->bindParam(':reply_message', $data['reply_message']);
-        $updateStmt->bindParam(':submission_id', $data['submission_id']);
+        $updateStmt->bindParam(':replied_by', $userId, PDO::PARAM_INT);
+        $updateStmt->bindParam(':reply_message', $replyMessage);
+        $updateStmt->bindParam(':submission_id', $data['submission_id'], PDO::PARAM_INT);
         $updateStmt->execute();
         
-        // Try to send email (if PHPMailer is installed)
-        $emailSent = false;
-        $emailError = null;
-        if (file_exists('../../vendor/autoload.php')) {
-            require_once '../../vendor/autoload.php';
-            require_once '../config/Email.php';
-            
-            try {
-                $emailer = new Email();
-                $emailSent = $emailer->sendReply(
-                    $submission['email'],
-                    $submission['name'],
-                    $submission['subject'],
-                    $data['reply_message']
-                );
-            } catch (Exception $e) {
-                $emailError = $e->getMessage();
-                error_log('Email sending failed: ' . $emailError);
-            }
-        } else {
-            $emailError = 'PHPMailer not found';
-        }
+        // Dispatch styled institutional email using ContactReplyEmailService
+        $emailResult = ContactReplyEmailService::sendReplyEmail(
+            $db,
+            $submission,
+            $replyMessage,
+            $adminName
+        );
         
         echo json_encode([
-            'success' => true,
-            'message' => 'Reply saved successfully' . ($emailSent ? ' and email sent' : ''),
-            'email_sent' => $emailSent,
-            'email_error' => $emailError
+            'success'     => true,
+            'message'     => 'Institutional reply successfully recorded' . ($emailResult['success'] ? ' and email dispatched to ' . htmlspecialchars($submission['email']) : ' (email dispatch status: ' . ($emailResult['error_message'] ?? 'could not send') . ')'),
+            'email_sent'  => $emailResult['success'],
+            'email_error' => $emailResult['error_message'] ?? null
         ]);
     } else {
-        throw new Exception('Failed to send reply');
+        throw new Exception('Failed to save message reply');
     }
     
 } catch (Exception $e) {

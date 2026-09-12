@@ -14,6 +14,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script>
+        (function() {
+            try {
+                var saved = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+                if (saved.themeMode === 'dark' || saved.theme_mode === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -3097,7 +3107,7 @@
             </a>
 
             <!-- Settings -->
-            <a href="#" class="menu-item" onclick="openSystemSettings(); return false;">
+            <a href="settings.html" class="menu-item">
                 <i class="fas fa-cog"></i>
                 <span class="menu-text">Settings</span>
             </a>
@@ -3178,7 +3188,7 @@
                             <span>Change Password</span>
                         </a>
                         <div class="user-dropdown-divider"></div>
-                        <a href="#" class="user-dropdown-item" onclick="openSystemSettings(); return false;">
+                        <a href="settings.html" class="user-dropdown-item">
                             <i class="fas fa-sliders-h"></i>
                             <span>System Settings</span>
                         </a>
@@ -5221,7 +5231,7 @@
             
             // Hide Settings if no access
             if (!canAccessModule('settings')) {
-                const settingsMenuItem = document.querySelector('.menu-item[onclick*="openSystemSettings"]');
+                const settingsMenuItem = document.querySelector('.menu-item[href*="settings.html"], .menu-item[onclick*="openSystemSettings"]');
                 if (settingsMenuItem) settingsMenuItem.style.display = 'none';
                 
                 const settingsRail = document.querySelector('.rail-icon[title="Settings"]');
@@ -5648,8 +5658,8 @@
                 .then(data => {
                     console.log('Messages stats data:', data);
                     if (data.success && data.data) {
-                        // Count unread messages (is_read = 0 or null)
-                        const unreadCount = data.data.filter(msg => !msg.is_read || msg.is_read == 0 || msg.is_read === '0').length;
+                        // Count unread messages (status === 'new' or is_read = 0)
+                        const unreadCount = data.data.filter(msg => msg.status === 'new' || (!msg.status && (!msg.is_read || msg.is_read == 0 || msg.is_read === '0'))).length;
                         console.log('Messages unread count:', unreadCount);
                         if (currentCounts) currentCounts.messages = unreadCount;
                         updateStatCard('messages', unreadCount, unreadCount > 0 ? 'New Messages' : 'All Read', unreadCount > 0 ? 40 : 0);
@@ -6286,15 +6296,26 @@
                                 </div>
                                 
                                 <!-- Message Body -->
-                                <div style="margin-bottom:20px;padding:15px;background:#f8fafc;border-radius:8px;line-height:1.7;">
+                                <div style="margin-bottom:15px;padding:15px;background:#f8fafc;border-radius:8px;line-height:1.7;">
                                     <p style="margin:0;font-size:14px;color:#475569;white-space:pre-wrap;">${msg.message}</p>
                                 </div>
+
+                                ${msg.reply_message ? `
+                                    <!-- Official Reply Display -->
+                                    <div style="margin-bottom:15px;padding:14px 16px;background:#eff6ff;border-left:3px solid #0066cc;border-radius:8px;">
+                                        <div style="font-size:11px;font-weight:700;color:#0066cc;text-transform:uppercase;margin-bottom:5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+                                            <span><i class="fas fa-reply"></i> Official Sent Reply${msg.replied_by_name ? ' (' + msg.replied_by_name + ')' : ''}:</span>
+                                            <span style="color:#64748b;font-weight:normal;font-size:11px;">${msg.reply_date || ''}</span>
+                                        </div>
+                                        <p style="margin:0;font-size:13px;line-height:1.6;color:#1e293b;white-space:pre-wrap;">${msg.reply_message}</p>
+                                    </div>
+                                ` : ''}
                                 
                                 <!-- Actions -->
                                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
                                     <button onclick="openReplyModal(${msg.id}, '${msg.name.replace(/'/g, "\\'")}', '${msg.email}', '${msg.subject.replace(/'/g, "\\'")}', \`${msg.message.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" style="padding:10px 20px;background:#0066cc;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;font-size:13px;box-shadow:0 2px 4px rgba(0,102,204,0.2);" onmouseover="this.style.background='#0052a3';this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 8px rgba(0,102,204,0.3)'" onmouseout="this.style.background='#0066cc';this.style.transform='translateY(0)';this.style.boxShadow='0 2px 4px rgba(0,102,204,0.2)'">
                                         <i class="fas fa-reply"></i>
-                                        Reply to Message
+                                        ${msg.reply_message ? 'Send Another Reply' : 'Reply to Message'}
                                     </button>
                                     ${msg.status === 'new' ? `
                                         <button onclick="markAsRead(${msg.id})" style="padding:10px 20px;background:#10b981;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;font-size:13px;box-shadow:0 2px 4px rgba(16,185,129,0.2);" onmouseover="this.style.background='#059669';this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 8px rgba(16,185,129,0.3)'" onmouseout="this.style.background='#10b981';this.style.transform='translateY(0)';this.style.boxShadow='0 2px 4px rgba(16,185,129,0.2)'">
@@ -8847,6 +8868,11 @@
 
         // Initialize dashboard on page load
         document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('action') === 'settings') {
+                window.location.href = 'settings.html';
+                return;
+            }
             if (typeof loadDashboardSettings === 'function') loadDashboardSettings();
             if (typeof loadActivities === 'function') loadActivities();
             if (typeof loadNotifications === 'function') loadNotifications();
@@ -9242,16 +9268,12 @@
             }
         }
         
-        // System Settings - Enhanced UI Customization
-        // Enhanced Compact System Settings
+        // System Settings - Dedicated Page Navigation
         function openSystemSettings() {
-            // Get current settings from localStorage or defaults
-            const savedSettings = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
-            const root = document.documentElement;
-            const currentPrimaryColor = savedSettings.primaryColor || getComputedStyle(root).getPropertyValue('--primary-blue').trim() || '#0066cc';
-            const currentAccentColor = savedSettings.accentColor || getComputedStyle(root).getPropertyValue('--accent-red').trim() || '#dc3545';
-            const currentFontSize = savedSettings.fontSize || '14px';
-            const currentThemeMode = savedSettings.themeMode || 'dark';
+            window.location.href = 'settings.html';
+            return;
+        }
+        function _legacyOpenSystemSettingsModal() {
             
             Swal.fire({
                 title: '<i class="fas fa-cog"></i> Dashboard Settings',
@@ -9479,9 +9501,16 @@
             const saved = localStorage.getItem('dashboardSettings');
             if (saved) {
                 const settings = JSON.parse(saved);
-                document.documentElement.style.setProperty('--primary-blue', settings.primaryColor);
-                document.documentElement.style.setProperty('--accent-red', settings.accentColor);
-                document.body.style.fontSize = settings.fontSize;
+                const currentTheme = settings.themeMode || settings.theme_mode || 'light';
+                if (typeof applyThemeMode === 'function') {
+                    applyThemeMode(currentTheme);
+                } else if (currentTheme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    if (document.body) document.body.classList.add('dark-theme');
+                }
+                if (settings.primaryColor) document.documentElement.style.setProperty('--primary-blue', settings.primaryColor);
+                if (settings.accentColor) document.documentElement.style.setProperty('--accent-red', settings.accentColor);
+                if (settings.fontSize) document.body.style.fontSize = settings.fontSize;
             }
         }
         

@@ -28,6 +28,23 @@
     --sidebar-width: 260px;
 }
 
+/* Institutional Dark Theme Variables */
+:root[data-theme="dark"],
+html[data-theme="dark"],
+body.dark-theme,
+[data-theme="dark"] {
+    --inst-bg: #0b1329;
+    --inst-surface: #131d38;
+    --inst-surface-muted: #1e2c52;
+    --inst-border: #233562;
+    --inst-border-focus: #3b5288;
+    --inst-text: #f8fafc;
+    --inst-text-muted: #94a3b8;
+    --inst-text-light: #64748b;
+    --inst-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --inst-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
 /* Base resets & typography */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
@@ -36,6 +53,7 @@ body {
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Hide right rail to maintain strict page hierarchy */

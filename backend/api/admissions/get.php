@@ -5,6 +5,7 @@ header('Access-Control-Allow-Methods: GET');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../middleware/permission_middleware.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -12,6 +13,8 @@ if (!isAuthenticated()) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
+
+requirePermission('admission.view');
 
 try {
     if (empty($_GET['id'])) {

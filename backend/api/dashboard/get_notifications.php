@@ -12,6 +12,29 @@ if (!isAuthenticated()) {
     exit;
 }
 
+// Helper function to calculate time ago
+if (!function_exists('getTimeAgo')) {
+    function getTimeAgo($datetime) {
+        $timestamp = strtotime($datetime);
+        $diff = time() - $timestamp;
+        
+        if ($diff < 60) {
+            return 'Just now';
+        } elseif ($diff < 3600) {
+            $mins = floor($diff / 60);
+            return $mins . ' min' . ($mins > 1 ? 's' : '') . ' ago';
+        } elseif ($diff < 86400) {
+            $hours = floor($diff / 3600);
+            return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+        } elseif ($diff < 604800) {
+            $days = floor($diff / 86400);
+            return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+        } else {
+            return date('M j, Y', $timestamp);
+        }
+    }
+}
+
 try {
     $database = new Database();
     $db = $database->getConnection();
@@ -22,9 +45,9 @@ try {
     $stmt = $db->prepare("
         SELECT 
             id,
-            application_id,
-            student_first_name,
-            student_last_name,
+            application_reference,
+            student_surname,
+            student_other_names,
             class_to_join,
             submitted_date
         FROM admission_applications 
@@ -37,11 +60,12 @@ try {
     
     foreach ($admissions as $admission) {
         $timeAgo = getTimeAgo($admission['submitted_date']);
+        $studentFullName = trim($admission['student_surname'] . ' ' . $admission['student_other_names']);
         $notifications[] = [
             'id' => 'admission_' . $admission['id'],
             'type' => 'admission',
             'title' => 'New Admission Application',
-            'text' => $admission['student_first_name'] . ' ' . $admission['student_last_name'] . ' applied for ' . $admission['class_to_join'],
+            'text' => $studentFullName . ' applied for ' . $admission['class_to_join'],
             'time' => $timeAgo,
             'timestamp' => $admission['submitted_date'],
             'unread' => true,
@@ -49,7 +73,7 @@ try {
             'color' => 'blue',
             'data' => [
                 'admission_id' => $admission['id'],
-                'application_id' => $admission['application_id']
+                'application_reference' => $admission['application_reference']
             ]
         ];
     }
@@ -128,25 +152,3 @@ try {
     ]);
 }
 
-// Helper function to calculate time ago
-if (!function_exists('getTimeAgo')) {
-    function getTimeAgo($datetime) {
-        $timestamp = strtotime($datetime);
-        $diff = time() - $timestamp;
-        
-        if ($diff < 60) {
-            return 'Just now';
-        } elseif ($diff < 3600) {
-            $mins = floor($diff / 60);
-            return $mins . ' min' . ($mins > 1 ? 's' : '') . ' ago';
-        } elseif ($diff < 86400) {
-            $hours = floor($diff / 3600);
-            return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
-        } elseif ($diff < 604800) {
-            $days = floor($diff / 86400);
-            return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
-        } else {
-            return date('M j, Y', $timestamp);
-        }
-    }
-}

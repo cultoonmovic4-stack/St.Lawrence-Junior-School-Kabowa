@@ -64,6 +64,72 @@
             pointer-events: none;
             overflow: hidden;
         }
+
+        /* ===== jQuery Validation Styling ===== */
+        .modern-contact-form .form-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+        .modern-contact-form .form-input.error {
+            border-color: #dc3545 !important;
+            background-color: #fff9f9 !important;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+        }
+        .modern-contact-form .form-input.valid {
+            border-color: #198754 !important;
+        }
+        .modern-contact-form label.error {
+            color: #dc3545;
+            font-size: 0.83rem;
+            font-weight: 600;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1.4;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        .modern-contact-form label.error::before {
+            content: "\f06a";
+            font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+            font-weight: 900;
+            font-size: 0.82rem;
+            color: #dc3545;
+        }
+
+        /* ===== Branded SweetAlert2 Institutional Styling ===== */
+        .swal-inst-popup {
+            border-radius: 16px !important;
+            padding: 28px 24px !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 20px 40px rgba(11, 37, 69, 0.18) !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .swal-inst-title {
+            color: #0B2545 !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 1.4rem !important;
+            letter-spacing: -0.3px;
+        }
+        .swal-inst-confirm {
+            background: linear-gradient(135deg, #0B2545 0%, #153e70 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 0.95rem !important;
+            padding: 13px 34px !important;
+            border-radius: 8px !important;
+            letter-spacing: 0.5px !important;
+            border: none !important;
+            border-bottom: 3px solid #C9182B !important;
+            box-shadow: 0 4px 14px rgba(11, 37, 69, 0.25) !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+        .swal-inst-confirm:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 18px rgba(11, 37, 69, 0.35) !important;
+        }
         
         .contact-info .contact-item {
             display: flex;
@@ -924,10 +990,10 @@
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js?v=3.0"></script>
     
-    <!-- API Integration -->
-    <script src="../js/api-config.js?v=2.0"></script>
-    <script src="../js/custom-alerts.js?v=2.0"></script>
-    <script src="../js/api-contact.js?v=2.0"></script>
+    <!-- jQuery, jQuery Validation & SweetAlert2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         // Initialize AOS
@@ -954,27 +1020,246 @@
                 }
             });
         });
-        
-        // Contact Form Validation
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Basic validation
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value.trim();
-                
-                if (name && email && subject && message) {
-                    alert('Thank you for your message! We will get back to you soon.');
-                    contactForm.reset();
-                } else {
-                    alert('Please fill in all required fields.');
-                }
-            });
+
+        // Initialize form timestamp
+        (function() {
+            var ts = document.getElementById('form_loaded_at');
+            if (ts) ts.value = Math.floor(Date.now() / 1000);
+        })();
+
+        // HTML escaping helper
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
+
+        // jQuery Form Validation & Institutional Submission
+        $(document).ready(function() {
+            var $contactForm = $('#contactForm');
+            if ($contactForm.length) {
+                $contactForm.validate({
+                    errorElement: 'label',
+                    errorClass: 'error',
+                    validClass: 'valid',
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 100
+                        },
+                        email: {
+                            required: true,
+                            email: true,
+                            maxlength: 150
+                        },
+                        phone: {
+                            maxlength: 20
+                        },
+                        subject: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 150
+                        },
+                        message: {
+                            required: true,
+                            minlength: 20,
+                            maxlength: 2000
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "Please enter your full name.",
+                            minlength: "Name must be at least 2 characters."
+                        },
+                        email: {
+                            required: "Please enter your email address.",
+                            email: "Please enter a valid email address (e.g., parent@gmail.com)."
+                        },
+                        phone: {
+                            maxlength: "Phone number is too long."
+                        },
+                        subject: {
+                            required: "Please enter the subject of your message.",
+                            minlength: "Subject must be at least 3 characters."
+                        },
+                        message: {
+                            required: "Please enter your message.",
+                            minlength: "Please provide more details in your message (at least 20 characters)."
+                        }
+                    },
+                    highlight: function(element, errorClass, validClass) {
+                        $(element).addClass(errorClass).removeClass(validClass);
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).removeClass(errorClass).addClass(validClass);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.insertAfter(element);
+                    },
+                    submitHandler: function(form, event) {
+                        event.preventDefault();
+
+                        var $btn = $('#contactSubmitBtn');
+                        var originalBtnHtml = $btn.html();
+
+                        // 1. Honeypot check (hidden field bots fill)
+                        var honeypot = $('#website_url').val();
+                        if (honeypot && honeypot.trim() !== '') {
+                            Swal.fire({
+                                icon: 'success',
+                                iconColor: '#0B2545',
+                                title: 'Message Sent Successfully!',
+                                text: 'Thank you! Your message has been received.',
+                                confirmButtonText: 'Done',
+                                confirmButtonColor: '#0B2545',
+                                customClass: {
+                                    popup: 'swal-inst-popup',
+                                    title: 'swal-inst-title',
+                                    confirmButton: 'swal-inst-confirm'
+                                }
+                            });
+                            form.reset();
+                            return false;
+                        }
+
+                        // 2. Time-gate verification (prevent sub-second bot automated spam)
+                        var loadedAt = parseInt($('#form_loaded_at').val() || '0', 10);
+                        var now = Math.floor(Date.now() / 1000);
+                        if (loadedAt > 0 && (now - loadedAt) < 4) {
+                            Swal.fire({
+                                icon: 'info',
+                                iconColor: '#0B2545',
+                                title: 'Submission Notice',
+                                text: 'Please take a moment to review your message details before sending.',
+                                confirmButtonColor: '#0B2545',
+                                customClass: {
+                                    popup: 'swal-inst-popup',
+                                    title: 'swal-inst-title',
+                                    confirmButton: 'swal-inst-confirm'
+                                }
+                            });
+                            return false;
+                        }
+
+                        // 3. Meaningful subject check (at least 2 words)
+                        var subjectText = $('#subject').val().trim();
+                        if (subjectText.split(/\s+/).length < 2) {
+                            Swal.fire({
+                                icon: 'warning',
+                                iconColor: '#C9182B',
+                                title: 'Descriptive Subject Required',
+                                text: 'Please enter a more descriptive subject (at least 2 words) so we can direct your inquiry appropriately.',
+                                confirmButtonColor: '#0B2545',
+                                customClass: {
+                                    popup: 'swal-inst-popup',
+                                    title: 'swal-inst-title',
+                                    confirmButton: 'swal-inst-confirm'
+                                }
+                            });
+                            return false;
+                        }
+
+                        var payload = {
+                            name: $('#name').val().trim(),
+                            email: $('#email').val().trim(),
+                            phone: $('#phone').val().trim(),
+                            subject: subjectText,
+                            message: $('#message').val().trim(),
+                            _hp: honeypot || '',
+                            _ts: loadedAt
+                        };
+
+                        // Button loading state
+                        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Sending Message...');
+
+                        fetch('../backend/api/public/submit_contact.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(function(response) {
+                            return response.json().then(function(data) {
+                                return { ok: response.ok, status: response.status, data: data };
+                            });
+                        })
+                        .then(function(res) {
+                            var data = res.data;
+                            if (res.ok && data.success) {
+                                form.reset();
+                                $('#form_loaded_at').val(Math.floor(Date.now() / 1000));
+                                $contactForm.find('.valid, .error').removeClass('valid error');
+
+                                // Well-designed, branded SweetAlert2 notification
+                                Swal.fire({
+                                    icon: 'success',
+                                    iconColor: '#0B2545',
+                                    title: 'Message Sent Successfully!',
+                                    html: `
+                                        <div style="text-align: center; margin-top: 8px;">
+                                            <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
+                                                Thank you, <strong style="color: #0B2545;">${escapeHtml(payload.name)}</strong>! Your inquiry has been delivered to <strong>St. Lawrence Junior School Kabowa</strong>.
+                                            </p>
+                                            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
+                                                <div style="font-size: 11px; font-weight: 700; color: #0B2545; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Subject</div>
+                                                <div style="font-size: 13px; font-weight: 600; color: #1E293B;">${escapeHtml(payload.subject)}</div>
+                                            </div>
+                                            <p style="font-size: 13px; color: #64748B; line-height: 1.5; margin: 0;">
+                                                Our administrative office has received your message and will send an official response directly to <strong style="color: #0B2545;">${escapeHtml(payload.email)}</strong>.
+                                            </p>
+                                        </div>
+                                    `,
+                                    confirmButtonText: 'Done',
+                                    confirmButtonColor: '#0B2545',
+                                    customClass: {
+                                        popup: 'swal-inst-popup',
+                                        title: 'swal-inst-title',
+                                        confirmButton: 'swal-inst-confirm'
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    iconColor: '#C9182B',
+                                    title: 'Unable to Send Message',
+                                    text: data.message || 'An error occurred while submitting your message. Please try again or reach us directly by telephone.',
+                                    confirmButtonColor: '#0B2545',
+                                    customClass: {
+                                        popup: 'swal-inst-popup',
+                                        title: 'swal-inst-title',
+                                        confirmButton: 'swal-inst-confirm'
+                                    }
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            console.error('Contact submission error:', err);
+                            Swal.fire({
+                                icon: 'error',
+                                iconColor: '#C9182B',
+                                title: 'Connection Error',
+                                text: 'Unable to communicate with the school server. Please verify your internet connection and try again.',
+                                confirmButtonColor: '#0B2545',
+                                customClass: {
+                                    popup: 'swal-inst-popup',
+                                    title: 'swal-inst-title',
+                                    confirmButton: 'swal-inst-confirm'
+                                }
+                            });
+                        })
+                        .finally(function() {
+                            $btn.prop('disabled', false).html(originalBtnHtml);
+                        });
+
+                        return false;
+                    }
+                });
+            }
+        });
     </script>
     
     <!-- Page Loader Script -->

@@ -17,22 +17,32 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Get all contact submissions
+    // Get all contact submissions including reply info
     $stmt = $db->prepare("
         SELECT 
-            id,
-            name,
-            email,
-            phone,
-            subject,
-            message,
-            status,
-            submitted_date
-        FROM contact_submissions
-        ORDER BY submitted_date DESC
+            cs.id,
+            cs.name,
+            cs.email,
+            cs.phone,
+            cs.subject,
+            cs.message,
+            cs.status,
+            cs.submitted_date,
+            cs.replied_by,
+            cs.reply_date,
+            cs.reply_message,
+            u.full_name AS replied_by_name
+        FROM contact_submissions cs
+        LEFT JOIN users u ON cs.replied_by = u.id
+        ORDER BY cs.submitted_date DESC
     ");
     $stmt->execute();
-    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $rawMessages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $messages = array_map(function($msg) {
+        $msg['is_read'] = ($msg['status'] !== 'new') ? 1 : 0;
+        return $msg;
+    }, $rawMessages);
     
     echo json_encode([
         'success' => true,

@@ -5,13 +5,16 @@ header('Access-Control-Allow-Methods: GET');
 
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
+require_once '../middleware/permission_middleware.php';
 
-// Check authentication
+// Check authentication and permission
 if (!isAuthenticated()) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
+
+requirePermission('admission.view');
 
 try {
     $database = new Database();
@@ -20,36 +23,61 @@ try {
     $stmt = $db->prepare("
         SELECT 
             id,
-            application_id,
-            student_first_name,
-            student_last_name,
-            date_of_birth,
-            gender,
-            nationality,
-            religion,
+            application_reference,
+            academic_year,
+            term,
             class_to_join,
             admission_type,
-            parent_first_name,
-            parent_last_name,
-            parent_relationship,
-            parent_phone,
-            parent_email,
-            parent_address,
-            parent_occupation,
-            emergency_contact_name,
-            emergency_contact_relationship,
-            emergency_contact_phone,
-            birth_certificate_url,
-            previous_school_report_url,
-            passport_photo_url,
-            immunization_record_url,
-            parent_id_url,
-            transfer_letter_url,
-            status,
+            student_surname,
+            student_other_names,
+            date_of_birth,
+            gender,
+            religion,
+            tribe,
+            position_in_family,
+            has_attended_school,
+            previous_school_name,
+            previous_school_location,
+            language_1,
+            language_2,
+            responsible_person_name,
+            responsible_person_address,
+            responsible_person_phone,
+            responsible_person_email,
+            responsible_person_postal,
+            parents_live_together,
+            father_name,
+            father_occupation,
+            father_workplace,
+            father_address,
+            mother_name,
+            mother_occupation,
+            mother_workplace,
+            mother_address,
+            emergency_next_of_kin,
+            bed_wetting,
+            has_health_handicap,
+            health_handicap_details,
+            doctor_name,
+            doctor_location,
+            is_immunized,
+            other_information,
+            rules_acknowledged,
+            declaration_accepted,
+            declaration_accepted_at,
+            declaration_name,
+            declaration_version,
+            signature_path,
+            security_token,
             submitted_date,
+            status,
             reviewed_by,
             review_date,
-            review_notes
+            review_notes,
+            form_fee_status,
+            form_fee_receipt,
+            admitted_on,
+            reported_on
         FROM admission_applications
         ORDER BY submitted_date DESC
     ");

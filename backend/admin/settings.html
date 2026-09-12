@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>System Settings - St. Lawrence Junior School Kabowa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.4">
+    <script>
+        (function() {
+            try {
+                var saved = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+                if (saved.themeMode === 'dark' || saved.theme_mode === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
+    
+    <style>
+        /* Institutional System Settings Layout */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+            align-items: start;
+            margin-top: 16px;
+        }
+
+        /* Left Side: Settings Navigation & Information Panel */
+        .settings-nav-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .settings-nav-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .settings-nav-item.active {
+            background: #f1f5f9;
+            color: #0b2545;
+            border-left: 3px solid #0b2545;
+        }
+
+        .settings-nav-item i {
+            color: #0b2545;
+            font-size: 15px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .settings-nav-item .active-badge {
+            margin-left: auto;
+            background: #e2e8f0;
+            color: #0b2545;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Left Side: Informational Note Panel */
+        .settings-info-panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px 16px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        .settings-info-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #0b2545;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .settings-info-header i {
+            color: #0b2545;
+            font-size: 14px;
+        }
+
+        .settings-info-text {
+            font-size: 13px;
+            line-height: 1.55;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Right Side: System Settings Container */
+        .settings-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 28px 32px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        .settings-header-section {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+        }
+
+        .settings-header-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0b2545;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .settings-header-section p {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Vertical Settings Rows */
+        .settings-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .settings-row {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: start;
+        }
+
+        .settings-row:last-of-type {
+            border-bottom: none;
+            padding-bottom: 8px;
+        }
+
+        .settings-row-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .settings-row-desc {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .settings-row-control {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Form Inputs & Selects */
+        .settings-select,
+        .settings-input {
+            width: 100%;
+            max-width: 380px;
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #0f172a;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .settings-select:focus,
+        .settings-input:focus {
+            outline: none;
+            border-color: #0b2545;
+            box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.08);
+        }
+
+        /* Theme Mode Selection Cards */
+        .theme-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 180px));
+            gap: 12px;
+        }
+
+        .theme-card-option {
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-card-option:hover {
+            border-color: #0b2545;
+            background: #f8fafc;
+        }
+
+        .theme-card-option.selected {
+            border: 2px solid #0b2545;
+            background: #f1f5f9;
+        }
+
+        .theme-card-option input[type="radio"] {
+            margin: 0;
+            accent-color: #0b2545;
+        }
+
+        .theme-card-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Toggle Switches */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.25s;
+            border-radius: 24px;
+        }
+
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.25s;
+            border-radius: 50%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .slider-switch {
+            background-color: #0b2545;
+        }
+
+        input:checked + .slider-switch:before {
+            transform: translateX(20px);
+        }
+
+        .switch-label-text {
+            font-size: 13px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        /* Actions Footer */
+        .settings-footer-actions {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-reset-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset-action:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        .btn-save-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 22px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            background: #0b2545;
+            border: 1px solid #0b2545;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-save-action:hover {
+            background: #133a6b;
+            border-color: #133a6b;
+        }
+
+        .btn-save-action:disabled,
+        .btn-reset-action:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Institutional Dark Theme Support */
+        body.dark-theme,
+        [data-theme="dark"] body {
+            background-color: #0b1329 !important;
+            color: #f8fafc !important;
+        }
+
+        body.dark-theme .main-content,
+        [data-theme="dark"] .main-content {
+            background: #0b1329 !important;
+        }
+
+        body.dark-theme .top-bar,
+        [data-theme="dark"] .top-bar {
+            background: #131d38 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .page-title h1,
+        [data-theme="dark"] .page-title h1 {
+            color: #ffffff !important;
+        }
+
+        body.dark-theme .datetime-card,
+        [data-theme="dark"] .datetime-card {
+            background: #1e2c52 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .date,
+        [data-theme="dark"] .date,
+        body.dark-theme .time,
+        [data-theme="dark"] .time {
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-theme .user-profile,
+        [data-theme="dark"] .user-profile {
+            background: #1e2c52 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .user-profile .name,
+        [data-theme="dark"] .user-profile .name {
+            color: #ffffff !important;
+        }
+
+        body.dark-theme .admin-page-header,
+        [data-theme="dark"] .admin-page-header {
+            background: #131d38 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .admin-page-title h1,
+        [data-theme="dark"] .admin-page-title h1 {
+            color: #ffffff !important;
+        }
+
+        body.dark-theme .settings-card,
+        [data-theme="dark"] .settings-card,
+        body.dark-theme .settings-nav-box,
+        [data-theme="dark"] .settings-nav-box,
+        body.dark-theme .settings-info-panel,
+        [data-theme="dark"] .settings-info-panel {
+            background: #131d38 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .settings-header-section,
+        [data-theme="dark"] .settings-header-section {
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .settings-header-section h2,
+        [data-theme="dark"] .settings-header-section h2,
+        body.dark-theme .settings-row-label,
+        [data-theme="dark"] .settings-row-label,
+        body.dark-theme .settings-nav-item,
+        [data-theme="dark"] .settings-nav-item,
+        body.dark-theme .theme-card-label,
+        [data-theme="dark"] .theme-card-label,
+        body.dark-theme .switch-label-text,
+        [data-theme="dark"] .switch-label-text {
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-theme .settings-row,
+        [data-theme="dark"] .settings-row {
+            border-color: #1e2c52 !important;
+        }
+
+        body.dark-theme .settings-row-desc,
+        [data-theme="dark"] .settings-row-desc,
+        body.dark-theme .settings-header-section p,
+        [data-theme="dark"] .settings-header-section p,
+        body.dark-theme .settings-info-text,
+        [data-theme="dark"] .settings-info-text {
+            color: #94a3b8 !important;
+        }
+
+        body.dark-theme .settings-info-header,
+        [data-theme="dark"] .settings-info-header {
+            color: #38bdf8 !important;
+        }
+        body.dark-theme .settings-info-header i,
+        [data-theme="dark"] .settings-info-header i {
+            color: #38bdf8 !important;
+        }
+
+        body.dark-theme .settings-nav-item i,
+        [data-theme="dark"] .settings-nav-item i {
+            color: #38bdf8 !important;
+        }
+
+        body.dark-theme .settings-nav-item.active,
+        [data-theme="dark"] .settings-nav-item.active {
+            background: #1e2c52 !important;
+            color: #38bdf8 !important;
+            border-left-color: #38bdf8 !important;
+        }
+
+        body.dark-theme .settings-nav-item .active-badge,
+        [data-theme="dark"] .settings-nav-item .active-badge {
+            background: #233562 !important;
+            color: #38bdf8 !important;
+        }
+
+        body.dark-theme .settings-select,
+        [data-theme="dark"] .settings-select,
+        body.dark-theme .settings-input,
+        [data-theme="dark"] .settings-input {
+            background: #0b1329 !important;
+            border-color: #233562 !important;
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-theme .theme-card-option,
+        [data-theme="dark"] .theme-card-option {
+            background: #0b1329 !important;
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .theme-card-option.selected,
+        [data-theme="dark"] .theme-card-option.selected {
+            background: #1e2c52 !important;
+            border-color: #38bdf8 !important;
+        }
+
+        body.dark-theme .settings-footer-actions,
+        [data-theme="dark"] .settings-footer-actions {
+            border-color: #233562 !important;
+        }
+
+        body.dark-theme .btn-reset-action,
+        [data-theme="dark"] .btn-reset-action {
+            background: #1e2c52 !important;
+            border-color: #233562 !important;
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-theme .btn-save-action,
+        [data-theme="dark"] .btn-save-action {
+            background: #0284c7 !important;
+            border-color: #0284c7 !important;
+            color: #ffffff !important;
+        }
+        body.dark-theme .btn-save-action:hover,
+        [data-theme="dark"] .btn-save-action:hover {
+            background: #0369a1 !important;
+        }
+
+        body.dark-theme .user-dropdown,
+        [data-theme="dark"] .user-dropdown {
+            background: #131d38 !important;
+            border-color: #233562 !important;
+        }
+        body.dark-theme .user-dropdown-header,
+        [data-theme="dark"] .user-dropdown-header {
+            background: #0b1329 !important;
+            border-color: #233562 !important;
+        }
+        body.dark-theme .user-dropdown-item,
+        [data-theme="dark"] .user-dropdown-item {
+            color: #cbd5e1 !important;
+        }
+        body.dark-theme .user-dropdown-item:hover,
+        [data-theme="dark"] .user-dropdown-item:hover {
+            background: #1e2c52 !important;
+            color: #ffffff !important;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+            .settings-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .settings-select,
+            .settings-input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../../img/5.jpg" alt="St. Lawrence Junior School Logo">
+            </div>
+            <div class="sidebar-title">
+                <h3>ST. LAWRENCE</h3>
+                <div class="school-sub">JUNIOR SCHOOL</div>
+                <div class="location-sub">KABOWA</div>
+            </div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <!-- Academics Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="menu-text">Academics</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu academics-submenu">
+                <a href="admissions.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Admissions</span>
+                </a>
+            </div>
+
+            <!-- Content Section -->
+            <div class="menu-item" onclick="toggleSubmenu(this)">
+                <i class="fas fa-folder"></i>
+                <span class="menu-text">Content</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="submenu content-submenu">
+                <div class="submenu-group-title">PEOPLE</div>
+                <a href="teachers.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Teachers</span>
+                </a>
+
+                <div class="submenu-group-title">SCHOOL CALENDAR</div>
+                <a href="events.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Events</span>
+                </a>
+                <a href="important-days.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Important Days</span>
+                </a>
+                <a href="academic-calendar.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Academic Calendar</span>
+                </a>
+
+                <div class="submenu-group-title">MEDIA</div>
+                <a href="library.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Library</span>
+                </a>
+                <a href="gallery.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Gallery</span>
+                </a>
+
+                <div class="submenu-group-title">COMMUNITY</div>
+                <a href="testimonials.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Testimonials</span>
+                </a>
+                <a href="messages.html" class="submenu-item">
+                    <span class="submenu-dot"></span>
+                    <span>Messages</span>
+                </a>
+            </div>
+
+            <!-- User Management -->
+            <a href="users.html" class="menu-item">
+                <i class="fas fa-user-friends"></i>
+                <span class="menu-text">User Management</span>
+            </a>
+
+            <!-- Settings (Active) -->
+            <a href="settings.html" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-bottom">
+            <div class="admin-portal-label">ADMIN PORTAL</div>
+            <div class="admin-portal-sub">St. Lawrence Junior School Kabowa</div>
+            <a href="../../index.html" class="back-website-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Website</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Settings</h1>
+                    <span class="page-subtitle">Administration System Preferences</span>
+                </div>
+            </div>
+
+            <div class="top-bar-center">
+                <div class="datetime-card">
+                    <div class="datetime-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="date-section">
+                        <div class="date" id="currentDate">Loading...</div>
+                        <div class="time" id="currentTime">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="top-bar-notification-btn" title="Notifications" onclick="window.location.href='dashboard.html?action=notifications'">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div class="user-profile" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role" id="userRole">Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px; color: var(--inst-text-muted);"></i>
+                </div>
+                
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="avatar-large" id="userAvatarLarge">A</div>
+                        <div class="name" id="userNameDropdown">Administrator</div>
+                        <div class="email" id="userEmailDropdown">admin@stlawrence.edu</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="user-dropdown-item">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                        <a href="settings.html" class="user-dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>System Settings</span>
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" style="color: var(--inst-red);" onclick="logout(); return false;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content" style="padding-top: 20px;">
+            <!-- Header Card -->
+            <div class="admin-page-header">
+                <div>
+                    <div class="admin-breadcrumb">
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <span class="separator">/</span>
+                        <span>Administration</span>
+                        <span class="separator">/</span>
+                        <span>Settings</span>
+                    </div>
+                    <div class="admin-page-title">
+                        <h1>Settings</h1>
+                        <p>Configure system preferences for the administration dashboard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approved Two-Column Settings Layout -->
+            <div class="settings-layout">
+                <!-- Left Side: System Navigation and Information Panel -->
+                <div class="settings-nav-panel">
+                    <div class="settings-nav-box">
+                        <div class="settings-nav-item active">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>System</span>
+                            <span class="active-badge">Active</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-info-panel">
+                        <div class="settings-info-header">
+                            <i class="fas fa-info-circle"></i>
+                            <span>System Control</span>
+                        </div>
+                        <p class="settings-info-text">
+                            These settings control general administration-dashboard behaviour, session timeout, visual mode, and data presentation across all management modules.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Side: System Settings Form -->
+                <div class="settings-card">
+                    <div class="settings-header-section">
+                        <h2>System Settings</h2>
+                        <p>Configure general system preferences for the administration dashboard.</p>
+                    </div>
+
+                    <form id="systemSettingsForm" onsubmit="event.preventDefault(); saveSystemSettings();">
+                        <div class="settings-group">
+                            
+                            <!-- 1. Theme Mode -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Theme Mode</div>
+                                    <p class="settings-row-desc">Select the dashboard interface visual appearance.</p>
+                                </div>
+                                <div class="settings-row-control">
+                                    <div class="theme-selection-grid">
+                                        <label class="theme-card-option selected" id="themeOptLight" onclick="selectThemeOption('light')">
+                                            <input type="radio" name="theme_mode" value="light" checked>
+                                            <span class="theme-card-label">
+                                                <i class="fas fa-sun" style="color: #f59e0b;"></i> Light
+                                            </span>
+                                        </label>
+                                        <label class="theme-card-option" id="themeOptDark" onclick="selectThemeOption('dark')">
+                                            <input type="radio" name="theme_mode" value="dark">
+                                            <span class="theme-card-label">
+                                                <i class="fas fa-moon" style="color: #0b2545;"></i> Dark
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Sidebar Behaviour -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Sidebar Behaviour</div>
+                                    <p class="settings-row-desc">Control default navigation menu display state.</p>
+                                </div>
+                                <div class="settings-row-control">
+                                    <select name="sidebar_behavior" id="sidebarBehaviorSelect" class="settings-select">
+                                        <option value="expanded">Expanded by Default</option>
+                                        <option value="collapsed">Collapsed (Icons Only)</option>
+                                        <option value="auto">Auto-collapse on Smaller Screens</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 3. Notifications -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Notifications</div>
+                                    <p class="settings-row-desc">Enable administrative alerts and in-app system notices.</p>
+                                </div>
+                                <div class="settings-row-control">
+                                    <div class="switch-container">
+                                        <label class="switch">
+                                            <input type="checkbox" id="notificationsEnabledCheck" name="notifications_enabled" value="1" checked>
+                                            <span class="slider-switch"></span>
+                                        </label>
+                                        <span class="switch-label-text" id="notificationsLabel">Enabled</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Confirmation Dialogs -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Confirmation Dialogs</div>
+                                    <p class="settings-row-desc">Prompt for confirmation before performing delete or sensitive operations.</p>
+                                </div>
+                                <div class="settings-row-control">
+                                    <div class="switch-container">
+                                        <label class="switch">
+                                            <input type="checkbox" id="confirmDialogsCheck" name="confirm_dialogs" value="1" checked>
+                                            <span class="slider-switch"></span>
+                                        </label>
+                                        <span class="switch-label-text" id="confirmDialogsLabel">Always prompt for confirmation</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Auto Logout -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Auto Logout</div>
+                                    <p class="settings-row-desc">Automatically log out administrator after inactivity.</p>
+                                </div>
+                                <div class="settings-row-control">
+                                    <select name="auto_logout" id="autoLogoutSelect" class="settings-select">
+                                        <option value="15">15 Minutes</option>
+                                        <option value="30" selected>30 Minutes (Recommended)</option>
+                                        <option value="60">60 Minutes (1 Hour)</option>
+                                        <option value="120">120 Minutes (2 Hours)</option>
+                                        <option value="0">Disabled (Keep session active)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 6. Date and Time Format -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Date and Time Format</div>
+                                    <p class="settings-row-desc">Standard presentation for administrative timestamps.</p>
+                                </div>
+                                <div class="settings-row-control" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; max-width: 380px;">
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; display: block;">DATE FORMAT</label>
+                                        <select name="date_format" id="dateFormatSelect" class="settings-select" style="max-width: 100%;">
+                                            <option value="DD MMM YYYY">DD MMM YYYY (e.g. 12 Sep 2026)</option>
+                                            <option value="DD/MM/YYYY">DD/MM/YYYY (e.g. 12/09/2026)</option>
+                                            <option value="YYYY-MM-DD">YYYY-MM-DD (e.g. 2026-09-12)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; display: block;">TIME FORMAT</label>
+                                        <select name="time_format" id="timeFormatSelect" class="settings-select" style="max-width: 100%;">
+                                            <option value="12h">12-Hour (e.g. 07:30 PM)</option>
+                                            <option value="24h">24-Hour (e.g. 19:30)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 7. Academic Period (Supported in Database) -->
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-row-label">Academic Period</div>
+                                    <p class="settings-row-desc">Current active academic year and school term.</p>
+                                </div>
+                                <div class="settings-row-control" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; max-width: 380px;">
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; display: block;">ACADEMIC YEAR</label>
+                                        <input type="number" name="academic_year" id="academicYearInput" min="2020" max="2050" value="2026" class="settings-input" style="max-width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; display: block;">CURRENT TERM</label>
+                                        <select name="current_term" id="currentTermSelect" class="settings-select" style="max-width: 100%;">
+                                            <option value="1">Term 1</option>
+                                            <option value="2">Term 2</option>
+                                            <option value="3">Term 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="settings-footer-actions">
+                            <button type="button" class="btn-reset-action" id="resetDefaultsBtn" onclick="confirmResetDefaults()">
+                                <i class="fas fa-undo"></i>
+                                <span>Reset to Defaults</span>
+                            </button>
+                            <button type="submit" class="btn-save-action" id="saveSettingsBtn">
+                                <i class="fas fa-save"></i>
+                                <span>Save Settings</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="js/dashboard-settings.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            loadSystemSettings();
+
+            // Toggle switch event listeners
+            document.getElementById('notificationsEnabledCheck').addEventListener('change', function(e) {
+                document.getElementById('notificationsLabel').textContent = e.target.checked ? 'Enabled' : 'Disabled';
+            });
+            document.getElementById('confirmDialogsCheck').addEventListener('change', function(e) {
+                document.getElementById('confirmDialogsLabel').textContent = e.target.checked ? 'Always prompt for confirmation' : 'Disabled';
+            });
+        });
+
+        // Theme radio card selection helper
+        function selectThemeOption(mode) {
+            const lightCard = document.getElementById('themeOptLight');
+            const darkCard = document.getElementById('themeOptDark');
+            const lightRadio = lightCard.querySelector('input');
+            const darkRadio = darkCard.querySelector('input');
+
+            if (mode === 'dark') {
+                lightCard.classList.remove('selected');
+                darkCard.classList.add('selected');
+                darkRadio.checked = true;
+            } else {
+                darkCard.classList.remove('selected');
+                lightCard.classList.add('selected');
+                lightRadio.checked = true;
+            }
+
+            // Preview theme mode immediately
+            applyThemeMode(mode);
+        }
+
+        // Apply theme mode directly to DOM
+        function applyThemeMode(mode) {
+            const isDark = (mode === 'dark');
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if (document.body) document.body.classList.add('dark-theme');
+                document.documentElement.style.setProperty('--inst-bg', '#0b1329');
+                document.documentElement.style.setProperty('--inst-surface', '#131d38');
+                document.documentElement.style.setProperty('--inst-surface-muted', '#1e2c52');
+                document.documentElement.style.setProperty('--inst-border', '#233562');
+                document.documentElement.style.setProperty('--inst-border-focus', '#3b5288');
+                document.documentElement.style.setProperty('--inst-text', '#f8fafc');
+                document.documentElement.style.setProperty('--inst-text-muted', '#94a3b8');
+                document.documentElement.style.setProperty('--inst-text-light', '#64748b');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                if (document.body) document.body.classList.remove('dark-theme');
+                document.documentElement.style.setProperty('--inst-bg', '#f8fafc');
+                document.documentElement.style.setProperty('--inst-surface', '#ffffff');
+                document.documentElement.style.setProperty('--inst-surface-muted', '#f1f5f9');
+                document.documentElement.style.setProperty('--inst-border', '#e2e8f0');
+                document.documentElement.style.setProperty('--inst-border-focus', '#cbd5e1');
+                document.documentElement.style.setProperty('--inst-text', '#0f172a');
+                document.documentElement.style.setProperty('--inst-text-muted', '#64748b');
+                document.documentElement.style.setProperty('--inst-text-light', '#94a3b8');
+            }
+        }
+
+        // Check active administrator session
+        async function checkAuth() {
+            try {
+                const response = await fetch('../api/auth/check_session.php');
+                const data = await response.json();
+                if (!data.logged_in && !data.authenticated && !data.success) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const user = data.data || data.user || {};
+                const name = user.full_name || user.username || 'Administrator';
+                const initial = name.charAt(0).toUpperCase();
+                if (document.getElementById('userName')) document.getElementById('userName').textContent = name;
+                if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = initial;
+                if (document.getElementById('userNameDropdown')) {
+                    document.getElementById('userNameDropdown').textContent = name;
+                    document.getElementById('userAvatarLarge').textContent = initial;
+                    document.getElementById('userEmailDropdown').textContent = user.email || 'admin@stlawrence.edu';
+                }
+                if (document.getElementById('userRole')) {
+                    document.getElementById('userRole').textContent = user.role_name || 'Admin';
+                }
+            } catch (err) {
+                console.error('Authentication verification error:', err);
+            }
+        }
+
+        // Live Date & Time Display
+        function updateDateTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+            if (dateEl) {
+                const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+                dateEl.textContent = now.toLocaleDateString('en-GB', options);
+            }
+            if (timeEl) {
+                timeEl.textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            }
+        }
+
+        // Toggle Sidebar on mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            if (sidebar) sidebar.classList.toggle('active');
+        }
+
+        // Toggle user dropdown menu
+        function toggleUserDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) dropdown.classList.toggle('show');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown && !e.target.closest('.user-profile')) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+                submenu.classList.toggle('show');
+                element.classList.toggle('expanded');
+            }
+        }
+
+        // Load settings from backend API (and sync with localStorage)
+        async function loadSystemSettings() {
+            try {
+                const response = await fetch('../api/settings/get.php');
+                const result = await response.json();
+
+                let settings = {};
+                if (result.success && result.data) {
+                    settings = result.data;
+                } else {
+                    // Fallback to localStorage if offline/session
+                    settings = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+                }
+
+                // Apply Theme Mode
+                const currentTheme = settings.theme_mode || settings.themeMode || 'light';
+                selectThemeOption(currentTheme);
+
+                // Apply Sidebar Behaviour
+                const currentSidebar = settings.sidebar_behavior || settings.sidebarBehavior || 'expanded';
+                const sidebarSelect = document.getElementById('sidebarBehaviorSelect');
+                if (sidebarSelect) sidebarSelect.value = currentSidebar;
+
+                // Apply Notifications
+                const notifEnabled = settings.notifications_enabled !== undefined ? 
+                    (settings.notifications_enabled == '1' || settings.notifications_enabled === true) : true;
+                const notifCheck = document.getElementById('notificationsEnabledCheck');
+                if (notifCheck) {
+                    notifCheck.checked = notifEnabled;
+                    document.getElementById('notificationsLabel').textContent = notifEnabled ? 'Enabled' : 'Disabled';
+                }
+
+                // Apply Confirmation Dialogs
+                const confirmEnabled = settings.confirm_dialogs !== undefined ? 
+                    (settings.confirm_dialogs == '1' || settings.confirm_dialogs === true) : true;
+                const confirmCheck = document.getElementById('confirmDialogsCheck');
+                if (confirmCheck) {
+                    confirmCheck.checked = confirmEnabled;
+                    document.getElementById('confirmDialogsLabel').textContent = confirmEnabled ? 'Always prompt for confirmation' : 'Disabled';
+                }
+
+                // Apply Auto Logout
+                const autoLogout = settings.auto_logout !== undefined ? String(settings.auto_logout) : '30';
+                const autoLogoutSelect = document.getElementById('autoLogoutSelect');
+                if (autoLogoutSelect) autoLogoutSelect.value = autoLogout;
+
+                // Apply Date Format
+                const dateFormat = settings.date_format || 'DD MMM YYYY';
+                const dateFormatSelect = document.getElementById('dateFormatSelect');
+                if (dateFormatSelect) dateFormatSelect.value = dateFormat;
+
+                // Apply Time Format
+                const timeFormat = settings.time_format || '12h';
+                const timeFormatSelect = document.getElementById('timeFormatSelect');
+                if (timeFormatSelect) timeFormatSelect.value = timeFormat;
+
+                // Apply Academic Year
+                const academicYear = settings.academic_year || '2026';
+                const academicYearInput = document.getElementById('academicYearInput');
+                if (academicYearInput) academicYearInput.value = academicYear;
+
+                // Apply Current Term
+                const currentTerm = settings.current_term || '1';
+                const currentTermSelect = document.getElementById('currentTermSelect');
+                if (currentTermSelect) currentTermSelect.value = currentTerm;
+
+            } catch (err) {
+                console.error('Error loading settings from API:', err);
+            }
+        }
+
+        // Save Settings to Backend API and persist client state
+        async function saveSystemSettings() {
+            const saveBtn = document.getElementById('saveSettingsBtn');
+            const originalBtnHtml = saveBtn.innerHTML;
+
+            const selectedTheme = document.querySelector('input[name="theme_mode"]:checked')?.value || 'light';
+            const sidebarBehavior = document.getElementById('sidebarBehaviorSelect').value;
+            const notificationsEnabled = document.getElementById('notificationsEnabledCheck').checked ? '1' : '0';
+            const confirmDialogs = document.getElementById('confirmDialogsCheck').checked ? '1' : '0';
+            const autoLogout = document.getElementById('autoLogoutSelect').value;
+            const dateFormat = document.getElementById('dateFormatSelect').value;
+            const timeFormat = document.getElementById('timeFormatSelect').value;
+            const academicYear = document.getElementById('academicYearInput').value;
+            const currentTerm = document.getElementById('currentTermSelect').value;
+
+            // Validate year
+            if (!academicYear || academicYear < 2020 || academicYear > 2050) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Academic Year',
+                    text: 'Please enter a valid academic year between 2020 and 2050.',
+                    confirmButtonColor: '#0b2545'
+                });
+                return;
+            }
+
+            const payload = {
+                theme_mode: selectedTheme,
+                sidebar_behavior: sidebarBehavior,
+                notifications_enabled: notificationsEnabled,
+                confirm_dialogs: confirmDialogs,
+                auto_logout: autoLogout,
+                date_format: dateFormat,
+                time_format: timeFormat,
+                academic_year: academicYear,
+                current_term: currentTerm
+            };
+
+            try {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+                const response = await fetch('../api/settings/update.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update client-side localStorage for instant compatibility with existing pages
+                    const existingClientSettings = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+                    const updatedClientSettings = {
+                        ...existingClientSettings,
+                        themeMode: selectedTheme,
+                        sidebarBehavior: sidebarBehavior,
+                        notificationsEnabled: notificationsEnabled === '1',
+                        confirmDialogs: confirmDialogs === '1',
+                        autoLogout: autoLogout,
+                        dateFormat: dateFormat,
+                        timeFormat: timeFormat
+                    };
+                    localStorage.setItem('dashboardSettings', JSON.stringify(updatedClientSettings));
+
+                    // Apply theme immediately
+                    if (typeof applyThemeMode === 'function') {
+                        applyThemeMode(selectedTheme);
+                    }
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Settings Saved',
+                        text: 'System preferences have been successfully updated and persisted.',
+                        confirmButtonColor: '#0b2545',
+                        timer: 2200,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Saving Settings',
+                        text: result.message || 'An unexpected error occurred.',
+                        confirmButtonColor: '#0b2545'
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Connection Error',
+                    text: 'Unable to reach the server. Please verify your connection.',
+                    confirmButtonColor: '#0b2545'
+                });
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalBtnHtml;
+            }
+        }
+
+        // Reset to Defaults with Institutional Confirmation
+        function confirmResetDefaults() {
+            Swal.fire({
+                title: 'Reset to System Defaults?',
+                text: 'This will restore all general system preferences to their original institutional defaults.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0b2545',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, Reset Settings',
+                cancelButtonText: 'Cancel'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const defaultPayload = {
+                        theme_mode: 'light',
+                        sidebar_behavior: 'expanded',
+                        notifications_enabled: '1',
+                        confirm_dialogs: '1',
+                        auto_logout: '30',
+                        date_format: 'DD MMM YYYY',
+                        time_format: '12h',
+                        academic_year: '2026',
+                        current_term: '1'
+                    };
+
+                    try {
+                        const response = await fetch('../api/settings/update.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(defaultPayload)
+                        });
+                        const resData = await response.json();
+
+                        // Reset localStorage
+                        localStorage.removeItem('dashboardSettings');
+
+                        // Reset UI form values
+                        selectThemeOption('light');
+                        document.getElementById('sidebarBehaviorSelect').value = 'expanded';
+                        document.getElementById('notificationsEnabledCheck').checked = true;
+                        document.getElementById('notificationsLabel').textContent = 'Enabled';
+                        document.getElementById('confirmDialogsCheck').checked = true;
+                        document.getElementById('confirmDialogsLabel').textContent = 'Always prompt for confirmation';
+                        document.getElementById('autoLogoutSelect').value = '30';
+                        document.getElementById('dateFormatSelect').value = 'DD MMM YYYY';
+                        document.getElementById('timeFormatSelect').value = '12h';
+                        document.getElementById('academicYearInput').value = '2026';
+                        document.getElementById('currentTermSelect').value = '1';
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Settings Reset',
+                            text: 'Default system preferences have been restored.',
+                            confirmButtonColor: '#0b2545',
+                            timer: 1800,
+                            showConfirmButton: false
+                        });
+                    } catch (err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Reset Failed',
+                            text: 'Failed to reset settings on the server.',
+                            confirmButtonColor: '#0b2545'
+                        });
+                    }
+                }
+            });
+        }
+
+        // Logout function
+        async function logout() {
+            try {
+                await fetch('../api/auth/logout.php', { method: 'POST' });
+                window.location.href = 'login.html';
+            } catch (err) {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

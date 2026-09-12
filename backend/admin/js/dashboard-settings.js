@@ -14,37 +14,40 @@ function adjustColor(color, amount) {
 
 // Apply theme mode
 function applyThemeMode(mode) {
-    const sidebar = document.querySelector('.sidebar');
-    const topBar = document.querySelector('.top-bar');
+    const isDark = (mode === 'dark');
     
-    if (mode === 'light') {
-        document.body.style.background = '#f8f9fa';
-        if (sidebar) {
-            sidebar.style.background = '#ffffff';
-            sidebar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-        }
-        if (topBar) {
-            topBar.style.background = '#ffffff';
-        }
-        document.documentElement.style.setProperty('--dark-bg', '#f8f9fa');
+    if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if (document.body) document.body.classList.add('dark-theme');
+        document.documentElement.style.setProperty('--inst-bg', '#0b1329');
+        document.documentElement.style.setProperty('--inst-surface', '#131d38');
+        document.documentElement.style.setProperty('--inst-surface-muted', '#1e2c52');
+        document.documentElement.style.setProperty('--inst-border', '#233562');
+        document.documentElement.style.setProperty('--inst-border-focus', '#3b5288');
+        document.documentElement.style.setProperty('--inst-text', '#f8fafc');
+        document.documentElement.style.setProperty('--inst-text-muted', '#94a3b8');
+        document.documentElement.style.setProperty('--inst-text-light', '#64748b');
+        document.documentElement.style.setProperty('--dark-bg', '#0b1329');
+        document.documentElement.style.setProperty('--darker-bg', '#131d38');
+        document.documentElement.style.setProperty('--card-bg', '#131d38');
+        document.documentElement.style.setProperty('--text-light', '#f8fafc');
+        document.documentElement.style.setProperty('--text-gray', '#94a3b8');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (document.body) document.body.classList.remove('dark-theme');
+        document.documentElement.style.setProperty('--inst-bg', '#f8fafc');
+        document.documentElement.style.setProperty('--inst-surface', '#ffffff');
+        document.documentElement.style.setProperty('--inst-surface-muted', '#f1f5f9');
+        document.documentElement.style.setProperty('--inst-border', '#e2e8f0');
+        document.documentElement.style.setProperty('--inst-border-focus', '#cbd5e1');
+        document.documentElement.style.setProperty('--inst-text', '#0f172a');
+        document.documentElement.style.setProperty('--inst-text-muted', '#64748b');
+        document.documentElement.style.setProperty('--inst-text-light', '#94a3b8');
+        document.documentElement.style.setProperty('--dark-bg', '#f8fafc');
         document.documentElement.style.setProperty('--darker-bg', '#ffffff');
         document.documentElement.style.setProperty('--card-bg', '#ffffff');
         document.documentElement.style.setProperty('--text-light', '#1a1a1a');
         document.documentElement.style.setProperty('--text-gray', '#666666');
-    } else {
-        document.body.style.background = '#1a1d2e';
-        if (sidebar) {
-            sidebar.style.background = '#151824';
-            sidebar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-        }
-        if (topBar) {
-            topBar.style.background = '#151824';
-        }
-        document.documentElement.style.setProperty('--dark-bg', '#1a1d2e');
-        document.documentElement.style.setProperty('--darker-bg', '#151824');
-        document.documentElement.style.setProperty('--card-bg', '#22283a');
-        document.documentElement.style.setProperty('--text-light', '#e4e6eb');
-        document.documentElement.style.setProperty('--text-gray', '#9ca3af');
     }
 }
 

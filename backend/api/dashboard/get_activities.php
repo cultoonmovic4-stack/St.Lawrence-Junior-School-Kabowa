@@ -17,7 +17,7 @@ try {
     $stmt = $db->prepare("
         SELECT 
             'admission' as type,
-            CONCAT('New admission application from ', student_first_name, ' ', student_last_name) as title,
+            CONCAT('New admission application from ', student_surname, ' ', student_other_names) as title,
             CONCAT('Applied for ', class_to_join) as description,
             submitted_date as activity_time
         FROM admission_applications

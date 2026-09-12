@@ -15,7 +15,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
-    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.3">
+    <link rel="stylesheet" href="css/dashboard-redesign.css?v=2.4">
+    <script>
+        (function() {
+            try {
+                var saved = JSON.parse(localStorage.getItem('dashboardSettings') || '{}');
+                if (saved.themeMode === 'dark' || saved.theme_mode === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
 </head>
 <body>
     <!-- Sidebar Navigation -->
@@ -106,7 +116,7 @@
             </a>
 
             <!-- Settings -->
-            <a href="dashboard.html?action=settings" class="menu-item">
+            <a href="settings.html" class="menu-item">
                 <i class="fas fa-cog"></i>
                 <span class="menu-text">Settings</span>
             </a>
