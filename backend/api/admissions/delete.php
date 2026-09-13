@@ -19,24 +19,24 @@ requirePermission('admission.delete');
 
 try {
     $data = json_decode(file_get_contents('php://input'), true);
-    
+
     if (empty($data['id'])) {
         throw new Exception('Application ID is required');
     }
-    
+
     $database = new Database();
     $db = $database->getConnection();
-    
+
     // Get application to retrieve and securely delete signature file
     $stmt = $db->prepare("SELECT * FROM admission_applications WHERE id = :id");
     $stmt->bindParam(':id', $data['id']);
     $stmt->execute();
     $application = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$application) {
         throw new Exception('Application not found');
     }
-    
+
     // Safely delete signature PNG file if it exists
     if (!empty($application['signature_path'])) {
         $sigRelative = ltrim($application['signature_path'], '/\\');
@@ -47,11 +47,11 @@ try {
             @unlink($targetFile);
         }
     }
-    
+
     // Delete from database
     $stmt = $db->prepare("DELETE FROM admission_applications WHERE id = :id");
     $stmt->bindParam(':id', $data['id']);
-    
+
     if ($stmt->execute()) {
         echo json_encode([
             'success' => true,
@@ -60,7 +60,7 @@ try {
     } else {
         throw new Exception('Failed to delete application');
     }
-    
+
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([

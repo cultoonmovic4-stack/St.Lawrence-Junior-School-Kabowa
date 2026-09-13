@@ -28,6 +28,11 @@
     min-height: 100vh;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--inst-text);
+    scroll-margin-top: 85px;
+}
+
+#admission-application-section {
+    scroll-margin-top: 85px;
 }
 
 .admission-official-container {
@@ -323,27 +328,32 @@
     display: block;
 }
 
-/* Radio Cards (Admission Type, Live Together, etc.) */
+/* Radio Cards & Segmented Controls (Admission Type, Live Together, etc.) */
 .radio-pill-group {
-    display: flex;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
 }
 
 .radio-pill-label {
-    flex: 1;
-    display: flex;
+    position: relative;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
+    gap: 10px;
+    padding: 12px 16px;
+    min-height: 48px;
     background: #ffffff;
-    border: 1px solid var(--inst-border);
+    border: 1.5px solid var(--inst-border);
     border-radius: 6px;
-    font-size: 0.88rem;
-    font-weight: 500;
+    font-size: 0.90rem;
+    font-weight: 600;
     color: #334155;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
 }
 
 .radio-pill-label:hover {
@@ -351,16 +361,229 @@
     background: #f8fafc;
 }
 
+/* Visually hide native OS radio input completely across all mobile engines */
 .radio-pill-label input[type="radio"] {
-    accent-color: var(--inst-navy);
-    margin: 0;
+    position: absolute !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
 }
 
-.radio-pill-label.checked {
+/* Custom crisp circular radio indicator */
+.radio-pill-label::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #94a3b8;
+    background: #ffffff;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: all 0.18s ease;
+}
+
+.radio-pill-label.checked::before,
+.radio-pill-label:has(input[type="radio"]:checked)::before {
+    border-color: var(--inst-navy);
+    background: radial-gradient(circle, var(--inst-navy) 40%, #ffffff 46%);
+}
+
+.radio-pill-label.checked,
+.radio-pill-label:has(input[type="radio"]:checked) {
     border-color: var(--inst-navy);
     background: #f0f4f9;
     color: var(--inst-navy);
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(11, 37, 69, 0.08);
+}
+
+/* ==========================================================================
+   CUSTOM ACCESSIBLE DROPDOWN / SELECT COMPONENT
+   Subtle fade-in + slight downward slide (180ms), aligned directly beneath field
+   ========================================================================== */
+.sljk-dropdown-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.sljk-dropdown-wrap select.form-control {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    overflow: hidden !important;
+}
+
+.sljk-dropdown-trigger {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--inst-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    text-align: left;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sljk-dropdown-trigger:focus,
+.sljk-dropdown-wrap.is-open .sljk-dropdown-trigger {
+    border-color: var(--inst-navy);
+    box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.1);
+}
+
+.sljk-dropdown-wrap.has-error .sljk-dropdown-trigger {
+    border-color: var(--inst-red);
+    background-color: #fffbfa;
+}
+
+.sljk-dropdown-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sljk-dropdown-text.is-placeholder {
+    color: var(--inst-text-muted);
+}
+
+.sljk-dropdown-chevron {
+    flex-shrink: 0;
+    width: 10px;
+    height: 6px;
+    color: #64748b;
+    transition: transform 0.18s ease;
+    pointer-events: none;
+}
+
+.sljk-dropdown-wrap.is-open .sljk-dropdown-chevron {
+    transform: rotate(180deg);
+    color: var(--inst-navy);
+}
+
+.sljk-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(11, 37, 69, 0.08);
+    max-height: 260px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1), visibility 180ms;
+    padding: 4px 0;
+}
+
+.sljk-dropdown-wrap.is-open .sljk-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.sljk-dropdown-wrap.opens-up .sljk-dropdown-menu {
+    top: auto;
+    bottom: calc(100% + 4px);
+    transform: translateY(6px);
+}
+
+.sljk-dropdown-wrap.opens-up.is-open .sljk-dropdown-menu {
+    transform: translateY(0);
+}
+
+.sljk-dropdown-optgroup {
+    padding: 8px 14px 4px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--inst-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: default;
+    user-select: none;
+}
+
+.sljk-dropdown-optgroup:first-child {
+    border-top: none;
+}
+
+.sljk-dropdown-item {
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.12s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sljk-dropdown-item:hover,
+.sljk-dropdown-item.is-focused {
+    background: #f1f5f9;
+}
+
+.sljk-dropdown-item.is-selected {
+    background: #f0f4f9;
+    color: var(--inst-navy);
     font-weight: 600;
+}
+
+.sljk-dropdown-item-check {
+    width: 14px;
+    height: 14px;
+    color: var(--inst-navy);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.sljk-dropdown-item.is-selected .sljk-dropdown-item-check {
+    opacity: 1;
+}
+
+/* Conditional Field Subtle Transition */
+.conditional-animated {
+    animation: sljkFadeDown 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sljkFadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Sub-card within stage */
@@ -604,11 +827,31 @@
     padding: 24px 36px 32px 36px;
     border-top: 1px solid var(--inst-border);
     background: #ffffff;
+    gap: 16px;
+}
+
+/* Strict visibility overrides to guarantee hidden buttons are never displayed */
+.btn-nav-prev.is-hidden,
+.btn-nav-next.is-hidden,
+.btn-nav-submit.is-hidden,
+.admission-actions-bar button[style*="display: none"],
+.admission-actions-bar button.is-hidden,
+.admission-actions-bar [style*="display: none"] {
+    display: none !important;
+}
+
+.btn-nav-prev,
+.btn-nav-next,
+.btn-nav-submit {
+    white-space: nowrap;
+    text-align: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn-nav-prev {
     background: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1.5px solid #cbd5e1;
     color: var(--inst-navy);
     padding: 11px 22px;
     border-radius: 6px;
@@ -623,11 +866,12 @@
 
 .btn-nav-prev:hover {
     background: #f1f5f9;
+    border-color: #94a3b8;
 }
 
 .btn-nav-next {
     background: var(--inst-navy);
-    border: 1px solid var(--inst-navy);
+    border: 1.5px solid var(--inst-navy);
     color: #ffffff;
     padding: 11px 26px;
     border-radius: 6px;
@@ -643,11 +887,12 @@
 
 .btn-nav-next:hover {
     background: var(--inst-navy-dark);
+    border-color: var(--inst-navy-dark);
 }
 
 .btn-nav-submit {
     background: var(--inst-red);
-    border: 1px solid var(--inst-red);
+    border: 1.5px solid var(--inst-red);
     color: #ffffff;
     padding: 12px 30px;
     border-radius: 6px;
@@ -664,6 +909,33 @@
 
 .btn-nav-submit:hover:not(:disabled) {
     background: var(--inst-red-hover);
+    border-color: var(--inst-red-hover);
+}
+
+.admission-actions-bar.is-stage-1 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.admission-actions-bar.is-stage-1 .btn-nav-next {
+    margin-left: auto;
+}
+
+.admission-actions-bar.is-mid-stage {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admission-actions-bar.is-final-stage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admission-actions-bar.is-final-stage .btn-nav-submit {
+    min-height: 48px;
+    padding: 12px 32px;
+    font-size: 0.96rem;
 }
 
 .btn-nav-submit:disabled {
@@ -807,55 +1079,453 @@
     text-transform: uppercase;
 }
 
-/* Responsive Styles */
+/* ==========================================================================
+   FLOATING ELEMENTS SUPPRESSION FOR OFFICIAL ADMISSION INTERFACE
+   Removes floating red up-arrow and avoids school logo collisions on mobile
+   ========================================================================== */
+.back-to-top,
+#backToTop {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .chat-button,
+    #chatButton {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE-FIRST RESPONSIVE REFINEMENTS (TABLETS & MOBILE <= 768px)
+   ========================================================================== */
 @media (max-width: 768px) {
     .admission-official-wrapper {
-        padding: 16px 8px 60px 8px;
+        padding: 16px 12px 60px 12px;
     }
 
+    .admission-dossier-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(11, 37, 69, 0.05);
+    }
+
+    /* Compact Official Header */
     .admission-official-header {
-        padding: 24px 18px 18px 18px;
+        padding: 20px 16px 16px 16px;
+    }
+
+    .admission-crest-wrap {
+        margin-bottom: 10px;
+    }
+
+    .admission-crest-img {
+        height: 52px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
     }
 
     .admission-school-name {
-        font-size: 1.2rem;
+        font-size: 1.16rem;
+        line-height: 1.25;
+        margin: 0 0 4px 0;
+    }
+
+    .admission-school-meta {
+        font-size: 0.78rem;
+        line-height: 1.45;
+        margin: 0 0 5px 0;
+    }
+
+    .admission-school-motto {
+        font-size: 0.76rem;
+        margin: 0 0 12px 0;
+    }
+
+    .admission-doc-title-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 8px 12px;
+        margin-top: 6px;
+    }
+
+    .admission-doc-title {
+        font-size: 0.82rem;
+        line-height: 1.35;
+    }
+
+    .admission-doc-badge {
+        font-size: 0.72rem;
+        padding: 2px 8px;
     }
 
     .admission-fee-notice {
-        padding: 10px 18px;
+        padding: 10px 14px;
         font-size: 0.82rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 
+    .blank-form-quick-download {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    /* Horizontally Scrollable Stage Navigation Track */
+    .admission-stages-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        scroll-snap-type: x mandatory;
+        background: #ffffff;
+        border-bottom: 1px solid var(--inst-border);
+    }
+
+    .admission-stages-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .admission-stage-tab {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        scroll-margin: 12px;
+        min-width: auto;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+
+    .stage-num-bubble {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        border-radius: 50%;
+        background: #cbd5e1;
+        color: #334155;
+    }
+
+    .stage-tab-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #475569;
+        text-transform: none;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .admission-stage-tab.active {
+        background: var(--inst-navy);
+        border-color: var(--inst-navy);
+    }
+
+    .admission-stage-tab.active .stage-num-bubble {
+        background: #ffffff;
+        color: var(--inst-navy);
+    }
+
+    .admission-stage-tab.active .stage-tab-label {
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    .admission-stage-tab.completed {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+
+    .admission-stage-tab.completed .stage-num-bubble {
+        background: #e2e8f0;
+        color: var(--inst-navy);
+    }
+
+    .admission-stage-tab.completed .stage-tab-label {
+        color: var(--inst-navy);
+    }
+
+    /* Form Body & Spacing */
     .admission-form-body {
         padding: 20px 16px;
     }
 
+    .stage-section-header {
+        margin-bottom: 18px;
+        padding-bottom: 8px;
+    }
+
+    .stage-section-title {
+        font-size: 1.08rem;
+        margin-bottom: 3px;
+    }
+
+    .stage-section-desc {
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
+    /* Form Fields & Touch Targets (16px to prevent iOS Safari auto-zoom) */
+    .form-control,
+    .sljk-dropdown-trigger {
+        font-size: 16px !important;
+        min-height: 46px;
+        padding: 10px 14px;
+    }
+
+    .form-grid-1,
     .form-grid-2,
     .form-grid-3 {
         grid-template-columns: 1fr;
         gap: 14px;
+        margin-bottom: 14px;
     }
 
+    .form-group {
+        margin-bottom: 2px;
+    }
+
+    .form-label {
+        font-size: 0.84rem;
+        margin-bottom: 6px;
+    }
+
+    .form-subcard {
+        padding: 16px 14px;
+        margin-bottom: 16px;
+    }
+
+    /* Clean Day School / Boarder Segmented Grid */
     .radio-pill-group {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
     }
 
+    .radio-pill-label {
+        min-height: 44px;
+        padding: 10px 12px;
+        font-size: 0.86rem;
+    }
+
+    /* Rules & Regulations Box */
+    .official-text-box {
+        padding: 14px;
+        font-size: 0.85rem;
+    }
+
+    .official-text-box ol {
+        padding-left: 18px;
+        margin: 10px 0;
+    }
+
+    .official-text-box li {
+        margin-bottom: 10px;
+        line-height: 1.55;
+    }
+
+    .official-ack-checkbox {
+        padding: 12px 14px;
+    }
+
+    .official-ack-checkbox span {
+        font-size: 0.84rem;
+        line-height: 1.45;
+    }
+
+    /* Signature Canvas on Mobile */
+    .signature-canvas-wrapper {
+        height: 165px;
+    }
+
+    .signature-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .signature-toolbar > div {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* Review Stage (Stage 08) */
+    .review-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .review-val {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Action Buttons Area */
     .admission-actions-bar {
-        padding: 18px 16px 24px 16px;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    .admission-actions-bar.is-stage-1 {
+        display: flex;
+        justify-content: stretch;
+    }
+
+    .admission-actions-bar.is-stage-1 .btn-nav-next {
+        width: 100%;
+        flex: 1;
+        min-height: 48px;
+        font-size: 0.94rem;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .admission-actions-bar.is-mid-stage {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .admission-actions-bar.is-mid-stage .btn-nav-prev,
+    .admission-actions-bar.is-mid-stage .btn-nav-next {
+        width: 100%;
+        min-height: 48px;
+        padding: 11px 14px;
+        font-size: 0.88rem;
+        justify-content: center;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .admission-actions-bar.is-final-stage {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .admission-actions-bar.is-final-stage .btn-nav-prev {
+        width: 100%;
+        min-height: 46px;
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        color: #475569;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .admission-actions-bar.is-final-stage .btn-nav-submit {
+        width: 100%;
+        min-height: 52px;
+        font-size: 1rem;
+        font-weight: 700;
+        background: var(--inst-red);
+        border: 1.5px solid var(--inst-red);
+        color: #ffffff;
+        justify-content: center;
+        margin: 0;
+    }
+
+    /* Confirmation Card */
+    .admission-confirm-card {
+        padding: 32px 16px;
+    }
+
+    .confirm-ref-badge-box {
+        width: 100%;
+        padding: 12px 14px;
+        flex-direction: column;
+        gap: 8px;
+        box-sizing: border-box;
+    }
+
+    .confirm-ref-text {
+        font-size: 1.15rem;
+        word-break: break-all;
     }
 
     .confirm-dual-downloads {
         flex-direction: column;
+        gap: 10px;
     }
 
     .btn-download-primary,
     .btn-download-secondary {
         width: 100%;
+        min-height: 46px;
         justify-content: center;
+        font-size: 0.88rem;
+        padding: 12px 16px;
+        box-sizing: border-box;
+    }
+}
+
+/* ==========================================================================
+   EXTRA COMPACT SCREENS (<= 375px & 320px)
+   ========================================================================== */
+@media (max-width: 375px) {
+    .admission-official-wrapper {
+        padding: 12px 8px 50px 8px;
     }
 
-    .review-grid {
-        grid-template-columns: 1fr;
+    .admission-form-body {
+        padding: 16px 12px;
+    }
+
+    .admission-official-header {
+        padding: 16px 12px 14px 12px;
+    }
+
+    .admission-school-name {
+        font-size: 1.08rem;
+    }
+
+    .radio-pill-group {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .radio-pill-label {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        gap: 6px;
+    }
+
+    .admission-actions-bar {
+        padding: 14px 12px;
+    }
+
+    .admission-actions-bar.is-stage-1 .btn-nav-next {
+        width: 100%;
+        min-height: 46px;
+    }
+
+    .admission-actions-bar.is-mid-stage {
+        gap: 8px;
+    }
+
+    .admission-actions-bar.is-mid-stage .btn-nav-prev,
+    .admission-actions-bar.is-mid-stage .btn-nav-next {
+        min-height: 44px;
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        gap: 4px;
+    }
+
+    .admission-actions-bar.is-final-stage .btn-nav-submit {
+        min-height: 48px;
+        font-size: 0.94rem;
     }
 }

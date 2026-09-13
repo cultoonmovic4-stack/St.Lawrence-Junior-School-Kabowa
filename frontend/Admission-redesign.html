@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="../css/redesign-style.css?v=4.1">
     <!-- Admission Application Section Redesign -->
     <link rel="stylesheet" href="../css/admission-application-redesign.css?v=1.0">
-    <link rel="stylesheet" href="../css/admission-official-redesign.css?v=2.0">
+    <link rel="stylesheet" href="../css/admission-official-redesign.css?v=2.1">
 
     <!-- Unified Responsive Design (replaces 10 page-specific files) -->
     <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
@@ -263,12 +263,12 @@
                 <!-- Institutional School Header -->
                 <header class="admission-official-header">
                     <div class="admission-crest-wrap">
-                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest"
+                        <img src="../img/5.jpg" alt="St. Lawrence Junior School Kabowa Crest"
                             class="admission-crest-img">
                     </div>
                     <h2 class="admission-school-name">St. Lawrence Junior School Kabowa</h2>
                     <p class="admission-school-meta">P. O. Box 36198, Kampala &bull; Tel: 0772-420506 / 0701-420506
-                        &bull; Email: stlawrencejuniorschool@yahoo.com</p>
+                        &bull; Email: stlawrencejuniorschoolkabowa@gmail.com</p>
                     <div class="admission-school-motto">Motto: &ldquo;We Strive to Excel&rdquo;</div>
 
                     <div class="admission-doc-title-bar">
@@ -1032,14 +1032,14 @@
                     </div>
 
                     <!-- Navigation Action Buttons Bar -->
-                    <div class="admission-actions-bar">
-                        <button type="button" class="btn-nav-prev" id="btnPrevStage" style="display: none;">
+                    <div class="admission-actions-bar is-stage-1">
+                        <button type="button" class="btn-nav-prev is-hidden" id="btnPrevStage" style="display: none;">
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
                         <button type="button" class="btn-nav-next" id="btnNextStage">
                             Next Stage <i class="fas fa-arrow-right"></i>
                         </button>
-                        <button type="button" class="btn-nav-submit" id="btnSubmitForm" style="display: none;">
+                        <button type="button" class="btn-nav-submit is-hidden" id="btnSubmitForm" style="display: none;">
                             <i class="fas fa-paper-plane"></i> Submit Official Application
                         </button>
                     </div>
@@ -1205,10 +1205,7 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- Back to Top Button removed for admission form usability -->
 
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -1229,7 +1226,7 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
     <!-- Official Admission Form Controller -->
-    <script src="../js/admission-official.js?v=2.0"></script>
+    <script src="../js/admission-official.js?v=2.1"></script>
     <script>
         // Initialize AOS
         if (typeof AOS !== 'undefined') {
@@ -1239,14 +1236,18 @@
                 offset: 100
             });
         }
-        // Hero CTA Smooth Scroll
+        // Hero CTA Smooth Scroll with Sticky Header Offset
         const heroApplyCta = document.getElementById('heroApplyCta');
         if (heroApplyCta) {
             heroApplyCta.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.getElementById('admission-application-section');
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    const headerEl = document.getElementById('header') || document.querySelector('.header');
+                    const headerOffset = headerEl ? headerEl.offsetHeight : 75;
+                    const rect = target.getBoundingClientRect();
+                    const targetY = rect.top + window.pageYOffset - headerOffset - 12;
+                    window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
                 }
             });
         }

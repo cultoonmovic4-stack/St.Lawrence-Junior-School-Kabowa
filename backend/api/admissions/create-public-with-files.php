@@ -28,14 +28,14 @@ try {
     }
 
     // Helper for string cleaning
-    $getClean = function($key, $default = '') use ($data) {
-        return trim((string)($data[$key] ?? $default));
+    $getClean = function ($key, $default = '') use ($data) {
+        return trim((string) ($data[$key] ?? $default));
     };
 
     // Stage 1: Application Details
-    $academicYear  = $getClean('academic_year');
-    $term          = $getClean('term');
-    $classToJoin   = $getClean('class_to_join');
+    $academicYear = $getClean('academic_year');
+    $term = $getClean('term');
+    $classToJoin = $getClean('class_to_join');
     $admissionType = strtolower($getClean('admission_type'));
 
     if (empty($academicYear) || empty($term) || empty($classToJoin) || empty($admissionType)) {
@@ -46,15 +46,15 @@ try {
     }
 
     // Stage 2: Child Information
-    $studentSurname    = $getClean('student_surname');
-    $studentOtherNames  = $getClean('student_other_names');
-    $dateOfBirth       = $getClean('date_of_birth');
-    $gender            = strtolower($getClean('gender'));
-    $religion          = $getClean('religion');
-    $tribe             = $getClean('tribe');
-    $positionInFamily  = $getClean('position_in_family');
+    $studentSurname = $getClean('student_surname');
+    $studentOtherNames = $getClean('student_other_names');
+    $dateOfBirth = $getClean('date_of_birth');
+    $gender = strtolower($getClean('gender'));
+    $religion = $getClean('religion');
+    $tribe = $getClean('tribe');
+    $positionInFamily = $getClean('position_in_family');
     $hasAttendedSchool = (in_array(strtolower($getClean('has_attended_school')), ['yes', '1', 'true'])) ? 1 : 0;
-    
+
     if (empty($studentSurname) || empty($studentOtherNames) || empty($dateOfBirth) || empty($gender) || empty($religion) || empty($tribe) || empty($positionInFamily)) {
         throw new Exception("Please fill in all required Child Information fields.");
     }
@@ -64,10 +64,10 @@ try {
 
     // Previous School conditional validation
     $previousSchoolName = null;
-    $previousSchoolLoc  = null;
+    $previousSchoolLoc = null;
     if ($hasAttendedSchool === 1) {
         $previousSchoolName = $getClean('previous_school_name');
-        $previousSchoolLoc  = $getClean('previous_school_location');
+        $previousSchoolLoc = $getClean('previous_school_location');
         if (empty($previousSchoolName) || empty($previousSchoolLoc)) {
             throw new Exception("Please specify the Present/Previous School Name and Location.");
         }
@@ -82,11 +82,11 @@ try {
     $language2 = !empty($language2) ? $language2 : null;
 
     // Stage 3: Person Responsible for the Child
-    $responsibleName    = $getClean('responsible_person_name');
+    $responsibleName = $getClean('responsible_person_name');
     $responsibleAddress = $getClean('responsible_person_address');
-    $responsiblePhone   = $getClean('responsible_person_phone');
-    $responsibleEmail   = strtolower($getClean('responsible_person_email'));
-    $responsiblePostal  = $getClean('responsible_person_postal');
+    $responsiblePhone = $getClean('responsible_person_phone');
+    $responsibleEmail = strtolower($getClean('responsible_person_email'));
+    $responsiblePostal = $getClean('responsible_person_postal');
 
     if (empty($responsibleName) || empty($responsibleAddress) || empty($responsiblePhone)) {
         throw new Exception("Please provide the full details for the Person Responsible for the child (Name, Address Home/Work, Telephone).");
@@ -98,15 +98,15 @@ try {
 
     // Parents Information
     $parentsLiveTogether = strtolower($getClean('parents_live_together')) === 'no' ? 'no' : 'yes';
-    $fatherName          = $getClean('father_name');
-    $fatherOccupation    = $getClean('father_occupation') ?: null;
-    $fatherWorkplace     = $getClean('father_workplace') ?: null;
-    $fatherAddress       = $getClean('father_address') ?: null;
+    $fatherName = $getClean('father_name');
+    $fatherOccupation = $getClean('father_occupation') ?: null;
+    $fatherWorkplace = $getClean('father_workplace') ?: null;
+    $fatherAddress = $getClean('father_address') ?: null;
 
-    $motherName          = $getClean('mother_name');
-    $motherOccupation    = $getClean('mother_occupation') ?: null;
-    $motherWorkplace     = $getClean('mother_workplace') ?: null;
-    $motherAddress       = $getClean('mother_address') ?: null;
+    $motherName = $getClean('mother_name');
+    $motherOccupation = $getClean('mother_occupation') ?: null;
+    $motherWorkplace = $getClean('mother_workplace') ?: null;
+    $motherAddress = $getClean('mother_address') ?: null;
 
     if (empty($fatherName) || empty($motherName)) {
         throw new Exception("Both Father's Name and Mother's Name are required.");
@@ -138,7 +138,7 @@ try {
         }
     }
 
-    $doctorName     = $getClean('doctor_name') ?: null;
+    $doctorName = $getClean('doctor_name') ?: null;
     $doctorLocation = $getClean('doctor_location') ?: null;
 
     $isImmunized = strtolower($getClean('is_immunized'));
@@ -157,8 +157,8 @@ try {
 
     // Stage 7: Declaration & Signature
     $declarationAccepted = !empty($data['declaration_accepted']) ? 1 : 0;
-    $declarationName     = $getClean('declaration_name');
-    $signatureData       = $data['signature'] ?? $data['signature_data'] ?? '';
+    $declarationName = $getClean('declaration_name');
+    $signatureData = $data['signature'] ?? $data['signature_data'] ?? '';
 
     if (!$declarationAccepted || empty($declarationName)) {
         throw new Exception("Please agree to the official declaration and provide the Parent/Guardian full name.");
@@ -256,7 +256,7 @@ try {
     @chmod($sigFullPath, 0644);
 
     $relativeSigPath = 'backend/uploads/admissions/signatures/' . $sigFilename;
-    $securityToken   = bin2hex(random_bytes(32));
+    $securityToken = bin2hex(random_bytes(32));
     $declarationDate = date('Y-m-d H:i:s');
 
     // Begin database transaction

@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Contact Us - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
-    <meta name="description" content="Get in touch with St. Lawrence Junior School Kabowa - Contact information, location, and inquiry form.">
-    
+    <meta name="description"
+        content="Get in touch with St. Lawrence Junior School Kabowa - Contact information, location, and inquiry form.">
+
     <!-- Favicon -->
     <link href="../img/favicon.ico" rel="icon">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/redesign-style.css?v=3.2">
     <!-- Editorial Hero & Application Styles -->
@@ -34,22 +38,22 @@
     <!-- Edge Display Fixes for Modern Mobile Devices -->
     <!-- Mobile Animation Stability Fixes -->
     <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
-    
+
     <!-- Mobile Menu Spacing Fix -->
     <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
-    
+
     <!-- Hamburger Menu Fixes -->
     <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
-    
+
     <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
-    
+
     <!-- Footer redesign (clean) -->
     <link rel="stylesheet" href="../css/footer.css?v=1.0">
-    
+
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
-    
+
     <!-- Footer Contact Improvements & Location Section Styling -->
     <style>
         /* ===== Anti-Spam: honeypot field (must be invisible to real users) ===== */
@@ -70,14 +74,17 @@
             position: relative;
             margin-bottom: 22px;
         }
+
         .modern-contact-form .form-input.error {
             border-color: #dc3545 !important;
             background-color: #fff9f9 !important;
             box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
         }
+
         .modern-contact-form .form-input.valid {
             border-color: #198754 !important;
         }
+
         .modern-contact-form label.error {
             color: #dc3545;
             font-size: 0.83rem;
@@ -89,6 +96,7 @@
             line-height: 1.4;
             animation: fadeIn 0.2s ease-in-out;
         }
+
         .modern-contact-form label.error::before {
             content: "\f06a";
             font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
@@ -105,6 +113,7 @@
             box-shadow: 0 20px 40px rgba(11, 37, 69, 0.18) !important;
             font-family: 'Inter', sans-serif !important;
         }
+
         .swal-inst-title {
             color: #0B2545 !important;
             font-family: 'Poppins', sans-serif !important;
@@ -112,6 +121,7 @@
             font-size: 1.4rem !important;
             letter-spacing: -0.3px;
         }
+
         .swal-inst-confirm {
             background: linear-gradient(135deg, #0B2545 0%, #153e70 100%) !important;
             color: #ffffff !important;
@@ -126,18 +136,19 @@
             cursor: pointer !important;
             transition: all 0.2s ease !important;
         }
+
         .swal-inst-confirm:hover {
             transform: translateY(-1px) !important;
             box-shadow: 0 6px 18px rgba(11, 37, 69, 0.35) !important;
         }
-        
+
         .contact-info .contact-item {
             display: flex;
             align-items: flex-start;
             margin-bottom: 12px;
             line-height: 1.6;
         }
-        
+
         .contact-info .contact-icon {
             width: 20px;
             min-width: 20px;
@@ -146,55 +157,55 @@
             color: #007bff;
             font-size: 14px;
         }
-        
+
         .contact-info .contact-text {
             flex: 1;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
         }
-        
+
         .contact-info .contact-link {
             color: #ffffff;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        
+
         .contact-info .contact-link:hover {
             color: #007bff;
             text-decoration: underline;
         }
-        
+
         .contact-info .phone-separator {
             margin: 0 8px;
             color: #007bff;
             font-weight: bold;
         }
-        
+
         .contact-info .contact-text a {
             white-space: nowrap;
         }
-        
+
         /* Location Section Styling */
         .location-section {
             padding: 80px 0;
         }
-        
+
         .location-content {
             position: relative;
             z-index: 2;
         }
-        
+
         .location-side {
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .section-header-center {
             margin-bottom: 50px;
         }
-        
+
         .section-tag {
             display: inline-block;
             background: linear-gradient(135deg, #007bff, #0056b3);
@@ -207,7 +218,7 @@
             letter-spacing: 1px;
             margin-bottom: 15px;
         }
-        
+
         .section-title {
             font-size: 2.5rem;
             font-weight: 700;
@@ -215,7 +226,7 @@
             margin-bottom: 15px;
             line-height: 1.2;
         }
-        
+
         .section-description {
             font-size: 1.1rem;
             color: #6c757d;
@@ -223,7 +234,7 @@
             margin: 0 auto;
             line-height: 1.6;
         }
-        
+
         .location-details {
             background: white;
             border-radius: 20px;
@@ -233,7 +244,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .location-details::before {
             content: '';
             position: absolute;
@@ -243,7 +254,7 @@
             height: 4px;
             background: linear-gradient(90deg, #007bff, #dc3545, #007bff);
         }
-        
+
         .location-detail-item {
             display: flex;
             align-items: flex-start;
@@ -254,17 +265,17 @@
             border-left: 4px solid #007bff;
             transition: all 0.3s ease;
         }
-        
+
         .location-detail-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15);
             border-left-color: #dc3545;
         }
-        
+
         .location-detail-item:last-of-type {
             margin-bottom: 40px;
         }
-        
+
         .location-detail-item i {
             font-size: 24px;
             color: #007bff;
@@ -273,15 +284,15 @@
             min-width: 30px;
             transition: color 0.3s ease;
         }
-        
+
         .location-detail-item:hover i {
             color: #dc3545;
         }
-        
+
         .location-detail-item div {
             flex: 1;
         }
-        
+
         .location-detail-item strong {
             display: block;
             font-size: 1.2rem;
@@ -289,18 +300,18 @@
             color: #2c3e50;
             margin-bottom: 8px;
         }
-        
+
         .location-detail-item p {
             margin: 0;
             color: #6c757d;
             line-height: 1.6;
             margin-bottom: 5px;
         }
-        
+
         .location-detail-item p:last-child {
             margin-bottom: 0;
         }
-        
+
         .btn-get-directions {
             display: inline-flex;
             align-items: center;
@@ -315,7 +326,7 @@
             box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
             border: 2px solid transparent;
         }
-        
+
         .btn-get-directions:hover {
             background: linear-gradient(135deg, #dc3545, #c82333);
             transform: translateY(-2px);
@@ -323,105 +334,105 @@
             color: white;
             text-decoration: none;
         }
-        
+
         .btn-get-directions i {
             margin-right: 10px;
             font-size: 1.2rem;
         }
-        
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .contact-info .contact-text {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
             .contact-info .phone-separator {
                 display: none;
             }
-            
+
             .contact-info .contact-text a:last-child {
                 margin-top: 4px;
             }
-            
+
             .location-section {
                 padding: 60px 0;
             }
-            
+
             .section-title {
                 font-size: 2rem;
             }
-            
+
             /* Spec: minimum 20px horizontal padding + increased margin */
             .location-details {
                 padding: 30px 25px;
                 margin: 0 20px;
             }
-            
+
             .location-detail-item {
                 padding: 15px;
                 margin-bottom: 20px;
             }
-            
+
             .location-detail-item i {
                 font-size: 20px;
                 margin-right: 15px;
             }
-            
+
             .location-detail-item strong {
                 font-size: 1.1rem;
             }
-            
+
             .btn-get-directions {
                 padding: 12px 25px;
                 font-size: 1rem;
             }
         }
-        
+
         @media (max-width: 480px) {
             .location-section {
                 padding: 40px 0;
             }
-            
+
             .section-title {
                 font-size: 1.8rem;
             }
-            
+
             /* Spec: minimum 20px horizontal padding even at 480px */
             .location-details {
                 padding: 30px 20px;
                 margin: 0 15px;
             }
-            
+
             .location-detail-item {
                 flex-direction: column;
                 text-align: center;
                 padding: 20px 15px;
             }
-            
+
             .location-detail-item i {
                 margin-right: 0;
                 margin-bottom: 10px;
                 font-size: 28px;
             }
         }
-        
+
         /* Extra small devices (iPhone SE, Galaxy S8 etc.) */
         @media (max-width: 375px) {
             .location-section {
                 padding: 35px 0;
             }
-            
+
             .section-title {
                 font-size: 1.6rem;
             }
-            
+
             /* Safe area support for notched devices */
             .location-details {
                 padding: 20px max(20px, env(safe-area-inset-left, 20px));
                 margin: 0 15px;
             }
-            
+
             .location-detail-item {
                 flex-direction: column;
                 text-align: center;
@@ -448,11 +459,13 @@
                 padding-top: 48px !important;
                 padding-bottom: 12px !important;
             }
+
             .footer-target .footer-container {
                 width: 100% !important;
                 padding: 0 18px !important;
                 box-sizing: border-box !important;
             }
+
             .footer-target .footer-top-row {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
@@ -460,11 +473,13 @@
                 width: 100% !important;
                 box-sizing: border-box !important;
             }
+
             .footer-target .footer-brand-col {
                 grid-column: 1 / -1 !important;
                 width: 100% !important;
                 text-align: center !important;
             }
+
             .footer-target .footer-brand-header {
                 display: flex !important;
                 flex-direction: column !important;
@@ -473,38 +488,45 @@
                 gap: 12px !important;
                 margin-bottom: 12px !important;
             }
+
             .footer-target .footer-school-logo {
                 height: 62px !important;
                 margin: 0 auto !important;
             }
+
             .footer-target .footer-school-title {
                 font-family: 'Playfair Display', Georgia, serif !important;
                 font-size: 20px !important;
                 text-align: center !important;
                 line-height: 1.25 !important;
             }
+
             .footer-target .footer-brand-desc {
                 font-size: 13.5px !important;
                 text-align: center !important;
                 max-width: 440px !important;
                 margin: 0 auto 16px auto !important;
             }
+
             .footer-target .footer-social-links {
                 display: flex !important;
                 justify-content: center !important;
                 gap: 12px !important;
             }
+
             .footer-target .footer-social-btn {
                 width: 42px !important;
                 height: 42px !important;
                 font-size: 15px !important;
             }
+
             .footer-target .footer-tagline-col {
                 grid-column: 1 / -1 !important;
                 display: flex !important;
                 justify-content: center !important;
                 margin: 4px 0 8px 0 !important;
             }
+
             .footer-target .footer-cursive-wrap {
                 display: inline-flex !important;
                 flex-direction: row !important;
@@ -516,6 +538,7 @@
                 border-radius: 999px !important;
                 transform: none !important;
             }
+
             .footer-target .footer-cursive-text {
                 font-family: 'Caveat', cursive, sans-serif !important;
                 font-size: 26px !important;
@@ -524,34 +547,42 @@
                 margin: 0 !important;
                 white-space: nowrap !important;
             }
+
             .footer-target .footer-cursive-text br {
                 display: none !important;
             }
+
             .footer-target .footer-cursive-underline {
                 display: none !important;
             }
+
             .footer-target .footer-nav-col {
                 min-width: 0 !important;
                 width: 100% !important;
             }
+
             .footer-target .footer-col-accent {
                 width: 26px !important;
                 height: 3px !important;
                 margin-bottom: 12px !important;
             }
+
             .footer-target .footer-col-title {
                 font-size: 15px !important;
                 margin-bottom: 14px !important;
             }
+
             .footer-target .footer-nav-list li {
                 margin-bottom: 10px !important;
             }
+
             .footer-target .footer-nav-list a {
                 font-size: 13.5px !important;
                 line-height: 1.4 !important;
                 word-break: break-word !important;
                 white-space: normal !important;
             }
+
             .footer-target .footer-contact-col {
                 grid-column: 1 / -1 !important;
                 width: 100% !important;
@@ -562,6 +593,7 @@
                 margin-top: 4px !important;
                 box-sizing: border-box !important;
             }
+
             .footer-target .footer-contact-item {
                 display: grid !important;
                 grid-template-columns: 28px 1fr !important;
@@ -569,6 +601,7 @@
                 font-size: 13.5px !important;
                 margin-bottom: 14px !important;
             }
+
             .footer-target .footer-contact-icon {
                 width: 28px !important;
                 height: 28px !important;
@@ -580,6 +613,7 @@
                 justify-content: center !important;
                 font-size: 12px !important;
             }
+
             .footer-target .footer-contact-item a {
                 display: inline-block !important;
                 padding: 3px 8px !important;
@@ -589,6 +623,7 @@
                 border-radius: 6px !important;
                 color: #ffffff !important;
             }
+
             .footer-target .footer-contact-item a[href^="mailto:"] {
                 display: inline !important;
                 padding: 0 !important;
@@ -599,6 +634,7 @@
                 overflow-wrap: anywhere !important;
                 word-break: break-all !important;
             }
+
             .footer-target .footer-pillars-col {
                 grid-column: 1 / -1 !important;
                 width: 100% !important;
@@ -609,6 +645,7 @@
                 border: 1px solid rgba(211, 47, 47, 0.22) !important;
                 border-radius: 10px !important;
             }
+
             .footer-target .footer-pillars-text {
                 font-size: 11px !important;
                 letter-spacing: 1.8px !important;
@@ -616,9 +653,11 @@
                 color: #fecaca !important;
                 margin: 0 !important;
             }
+
             .footer-target .footer-pillars-text br {
                 display: none !important;
             }
+
             .footer-target .footer-bottom-strip {
                 margin-top: 32px !important;
                 padding-top: 22px !important;
@@ -632,8 +671,9 @@
         }
     </style>
 </head>
+
 <body>
-    
+
     <!-- Page Loader - Square Spin -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-logo">
@@ -643,9 +683,9 @@
         <div class="loader-subtitle">Junior School - Kabowa</div>
         <div class="loader-square"></div>
     </div>
-    
+
     <!-- Header / Navigation -->
-        <!-- Header / Navigation -->
+    <!-- Header / Navigation -->
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
@@ -659,13 +699,14 @@
                         <span class="logo-subtitle">Junior School - Kabowa</span>
                     </div>
                 </a>
-                
+
                 <!-- Navigation Menu (Desktop & Mobile) -->
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index-redesign.html" class="nav-link">Home</a></li>
                     <li><a href="About-redesign.html" class="nav-link">About Us</a></li>
                     <li class="nav-dropdown">
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" aria-expanded="false">Academics <i class="fas fa-chevron-down"></i></a>
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button"
+                            aria-expanded="false">Academics <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="Fees.html">Fees Structure</a></li>
                             <li><a href="School-Anthem.html">School Anthem</a></li>
@@ -678,7 +719,7 @@
                     <li><a href="Contact-redesign.html" class="nav-link active">Contact</a></li>
 
                 </ul>
-                
+
                 <!-- Admin Portal Button (Desktop) -->
                 <div class="nav-actions">
                     <a href="../backend/admin/login.html" class="btn-admin">
@@ -686,7 +727,7 @@
                         <span>Admin Portal</span>
                     </a>
                 </div>
-                
+
                 <!-- Mobile Hamburger Toggle -->
                 <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu">
                     <span></span>
@@ -723,7 +764,8 @@
 
                     <!-- Supporting Text -->
                     <p class="admissions-hero-description">
-                        We're here to help and answer your questions. Reach out to St. Lawrence Junior School Kabowa for admissions inquiries, campus visits, or general guidance.
+                        We're here to help and answer your questions. Reach out to St. Lawrence Junior School Kabowa for
+                        admissions inquiries, campus visits, or general guidance.
                     </p>
 
                     <!-- Primary & Secondary Actions -->
@@ -742,7 +784,9 @@
                 <!-- Right Side (approx 55%) -->
                 <div class="admissions-hero-right">
                     <div class="admissions-hero-media-wrap">
-                        <img src="../img/admissions-hero-students.png" alt="St. Lawrence Junior School Kabowa pupils smiling in uniform" class="admissions-hero-img" width="594" height="546">
+                        <img src="../img/admissions-hero-students.png"
+                            alt="St. Lawrence Junior School Kabowa pupils smiling in uniform"
+                            class="admissions-hero-img" width="594" height="546">
                     </div>
                 </div>
             </div>
@@ -754,7 +798,7 @@
         <div class="contact-intro-text" data-aos="fade-up">
             <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         </div>
-        
+
         <div class="container">
             <!-- Single Card Container with World Map Background -->
             <div class="contact-card-container" data-aos="fade-up" data-aos-delay="100">
@@ -762,7 +806,7 @@
                     <!-- Left Side - Contact Information -->
                     <div class="contact-info-side">
                         <h2 class="contact-info-title">Contact Information</h2>
-                        
+
                         <!-- Location -->
                         <div class="contact-info-item">
                             <div class="contact-info-icon">
@@ -773,7 +817,7 @@
                                 <p>P.O.BOX 36198, KAMPALA, UGANDA</p>
                             </div>
                         </div>
-                        
+
                         <!-- Phone Numbers -->
                         <div class="contact-info-item">
                             <div class="contact-info-icon">
@@ -785,7 +829,7 @@
                                 <p>+256 701 420 506</p>
                             </div>
                         </div>
-                        
+
                         <!-- Email Address -->
                         <div class="contact-info-item">
                             <div class="contact-info-icon">
@@ -796,7 +840,7 @@
                                 <p>stlawrencejuniorschoolkabowa@gmail.com</p>
                             </div>
                         </div>
-                        
+
                         <!-- Working Hours -->
                         <div class="contact-info-item">
                             <div class="contact-info-icon">
@@ -810,15 +854,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Right Side - Contact Form -->
                     <div class="contact-form-side">
                         <div class="form-logo-badge">
                             <img src="../img/5.jpg" alt="St. Lawrence Logo">
                         </div>
-                        
+
                         <h2 class="form-title">Send Us a Message</h2>
-                        
+
                         <form id="contactForm" class="modern-contact-form" novalidate>
                             <!-- Anti-spam: honeypot (hidden from humans, bots fill this) -->
                             <div class="contact-honeypot" aria-hidden="true" tabindex="-1">
@@ -829,25 +873,30 @@
                             <input type="hidden" id="form_loaded_at" name="form_loaded_at" value="">
 
                             <div class="form-group">
-                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required minlength="2" maxlength="100">
+                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name"
+                                    required minlength="2" maxlength="100">
                             </div>
-                            
+
                             <div class="form-group">
-                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required maxlength="150">
+                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email"
+                                    required maxlength="150">
                             </div>
-                            
+
                             <div class="form-group">
-                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your Phone Number" maxlength="20">
+                                <input type="tel" id="phone" name="phone" class="form-input"
+                                    placeholder="Your Phone Number" maxlength="20">
                             </div>
-                            
+
                             <div class="form-group">
-                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject" required minlength="3" maxlength="150">
+                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject"
+                                    required minlength="3" maxlength="150">
                             </div>
-                            
+
                             <div class="form-group">
-                                <textarea id="message" name="message" class="form-input" rows="5" placeholder="Your Message" required minlength="20" maxlength="2000"></textarea>
+                                <textarea id="message" name="message" class="form-input" rows="5"
+                                    placeholder="Your Message" required minlength="20" maxlength="2000"></textarea>
                             </div>
-                            
+
                             <button type="submit" id="contactSubmitBtn" class="btn-send-message">
                                 <span>Send Message</span>
                                 <i class="fas fa-paper-plane"></i>
@@ -860,13 +909,13 @@
     </section>
 
     <!-- Location Section -->
-    
-                        
-                        
-                        
+
+
+
+
 
     <!-- Footer -->
-        <!-- Final Footer (Target Editorial Option 3 Redesign) -->
+    <!-- Final Footer (Target Editorial Option 3 Redesign) -->
     <footer class="footer-target">
         <div class="footer-container">
             <!-- Top Footer Row -->
@@ -874,15 +923,22 @@
                 <!-- Column 1: Brand & Logo -->
                 <div class="footer-brand-col">
                     <div class="footer-brand-header">
-                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest" class="footer-school-logo">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest"
+                            class="footer-school-logo">
                         <h3 class="footer-school-title">St. Lawrence<br>Junior School Kabowa</h3>
                     </div>
-                    <p class="footer-brand-desc">Excellence in education since 2010.<br>Nurturing young minds for a brighter future.</p>
+                    <p class="footer-brand-desc">Excellence in education since 2010.<br>Nurturing young minds for a
+                        brighter future.</p>
                     <div class="footer-social-links">
-                        <a href="https://facebook.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://instagram.com/stla.wrencejuniorschoolkabowa" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://youtube.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="https://wa.me/256772420506" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://facebook.com" class="footer-social-btn" target="_blank"
+                            rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/stla.wrencejuniorschoolkabowa" class="footer-social-btn"
+                            target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com" class="footer-social-btn" target="_blank"
+                            rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://wa.me/256772420506" class="footer-social-btn" target="_blank"
+                            rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
 
@@ -936,7 +992,8 @@
                         </li>
                         <li class="footer-contact-item">
                             <i class="fas fa-envelope footer-contact-icon"></i>
-                            <a href="mailto:stlawrencejuniorschoolkabowa@gmail.com">stlawrencejuniorschoolkabowa@gmail.com</a>
+                            <a
+                                href="mailto:stlawrencejuniorschoolkabowa@gmail.com">stlawrencejuniorschoolkabowa@gmail.com</a>
                         </li>
                     </ul>
                 </div>
@@ -974,27 +1031,27 @@
 
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <!-- Custom JavaScript -->
     <script src="../js/redesign-script.js"></script>
-    
+
     <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
-    
+
     <!-- Hamburger Menu Functionality Fix -->
     <script src="../js/hamburger-menu-fix.js?v=3.0"></script>
 
     <!-- Unified Floating Elements Handler -->
     <script src="../js/unified-floating-elements.js?v=1.0"></script>
-    
+
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js?v=3.0"></script>
-    
+
     <!-- jQuery, jQuery Validation & SweetAlert2 -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
         // Initialize AOS
         AOS.init({
@@ -1002,18 +1059,18 @@
             once: true,
             offset: 100
         });
-        
+
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
+            question.addEventListener('click', function () {
                 const faqItem = this.parentElement;
                 const isActive = faqItem.classList.contains('active');
-                
+
                 // Close all FAQ items
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.classList.remove('active');
                 });
-                
+
                 // Open clicked item if it wasn't active
                 if (!isActive) {
                     faqItem.classList.add('active');
@@ -1022,7 +1079,7 @@
         });
 
         // Initialize form timestamp
-        (function() {
+        (function () {
             var ts = document.getElementById('form_loaded_at');
             if (ts) ts.value = Math.floor(Date.now() / 1000);
         })();
@@ -1039,7 +1096,7 @@
         }
 
         // jQuery Form Validation & Institutional Submission
-        $(document).ready(function() {
+        $(document).ready(function () {
             var $contactForm = $('#contactForm');
             if ($contactForm.length) {
                 $contactForm.validate({
@@ -1092,16 +1149,16 @@
                             minlength: "Please provide more details in your message (at least 20 characters)."
                         }
                     },
-                    highlight: function(element, errorClass, validClass) {
+                    highlight: function (element, errorClass, validClass) {
                         $(element).addClass(errorClass).removeClass(validClass);
                     },
-                    unhighlight: function(element, errorClass, validClass) {
+                    unhighlight: function (element, errorClass, validClass) {
                         $(element).removeClass(errorClass).addClass(validClass);
                     },
-                    errorPlacement: function(error, element) {
+                    errorPlacement: function (error, element) {
                         error.insertAfter(element);
                     },
-                    submitHandler: function(form, event) {
+                    submitHandler: function (form, event) {
                         event.preventDefault();
 
                         var $btn = $('#contactSubmitBtn');
@@ -1182,24 +1239,24 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(payload)
                         })
-                        .then(function(response) {
-                            return response.json().then(function(data) {
-                                return { ok: response.ok, status: response.status, data: data };
-                            });
-                        })
-                        .then(function(res) {
-                            var data = res.data;
-                            if (res.ok && data.success) {
-                                form.reset();
-                                $('#form_loaded_at').val(Math.floor(Date.now() / 1000));
-                                $contactForm.find('.valid, .error').removeClass('valid error');
+                            .then(function (response) {
+                                return response.json().then(function (data) {
+                                    return { ok: response.ok, status: response.status, data: data };
+                                });
+                            })
+                            .then(function (res) {
+                                var data = res.data;
+                                if (res.ok && data.success) {
+                                    form.reset();
+                                    $('#form_loaded_at').val(Math.floor(Date.now() / 1000));
+                                    $contactForm.find('.valid, .error').removeClass('valid error');
 
-                                // Well-designed, branded SweetAlert2 notification
-                                Swal.fire({
-                                    icon: 'success',
-                                    iconColor: '#0B2545',
-                                    title: 'Message Sent Successfully!',
-                                    html: `
+                                    // Well-designed, branded SweetAlert2 notification
+                                    Swal.fire({
+                                        icon: 'success',
+                                        iconColor: '#0B2545',
+                                        title: 'Message Sent Successfully!',
+                                        html: `
                                         <div style="text-align: center; margin-top: 8px;">
                                             <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
                                                 Thank you, <strong style="color: #0B2545;">${escapeHtml(payload.name)}</strong>! Your inquiry has been delivered to <strong>St. Lawrence Junior School Kabowa</strong>.
@@ -1213,20 +1270,36 @@
                                             </p>
                                         </div>
                                     `,
-                                    confirmButtonText: 'Done',
-                                    confirmButtonColor: '#0B2545',
-                                    customClass: {
-                                        popup: 'swal-inst-popup',
-                                        title: 'swal-inst-title',
-                                        confirmButton: 'swal-inst-confirm'
-                                    }
-                                });
-                            } else {
+                                        confirmButtonText: 'Done',
+                                        confirmButtonColor: '#0B2545',
+                                        customClass: {
+                                            popup: 'swal-inst-popup',
+                                            title: 'swal-inst-title',
+                                            confirmButton: 'swal-inst-confirm'
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        iconColor: '#C9182B',
+                                        title: 'Unable to Send Message',
+                                        text: data.message || 'An error occurred while submitting your message. Please try again or reach us directly by telephone.',
+                                        confirmButtonColor: '#0B2545',
+                                        customClass: {
+                                            popup: 'swal-inst-popup',
+                                            title: 'swal-inst-title',
+                                            confirmButton: 'swal-inst-confirm'
+                                        }
+                                    });
+                                }
+                            })
+                            .catch(function (err) {
+                                console.error('Contact submission error:', err);
                                 Swal.fire({
                                     icon: 'error',
                                     iconColor: '#C9182B',
-                                    title: 'Unable to Send Message',
-                                    text: data.message || 'An error occurred while submitting your message. Please try again or reach us directly by telephone.',
+                                    title: 'Connection Error',
+                                    text: 'Unable to communicate with the school server. Please verify your internet connection and try again.',
                                     confirmButtonColor: '#0B2545',
                                     customClass: {
                                         popup: 'swal-inst-popup',
@@ -1234,26 +1307,10 @@
                                         confirmButton: 'swal-inst-confirm'
                                     }
                                 });
-                            }
-                        })
-                        .catch(function(err) {
-                            console.error('Contact submission error:', err);
-                            Swal.fire({
-                                icon: 'error',
-                                iconColor: '#C9182B',
-                                title: 'Connection Error',
-                                text: 'Unable to communicate with the school server. Please verify your internet connection and try again.',
-                                confirmButtonColor: '#0B2545',
-                                customClass: {
-                                    popup: 'swal-inst-popup',
-                                    title: 'swal-inst-title',
-                                    confirmButton: 'swal-inst-confirm'
-                                }
+                            })
+                            .finally(function () {
+                                $btn.prop('disabled', false).html(originalBtnHtml);
                             });
-                        })
-                        .finally(function() {
-                            $btn.prop('disabled', false).html(originalBtnHtml);
-                        });
 
                         return false;
                     }
@@ -1261,7 +1318,7 @@
             }
         });
     </script>
-    
+
     <!-- Page Loader Script -->
     <script src="../js/page-loader.js"></script>
 
@@ -1270,7 +1327,7 @@
 
     <!-- Sticky Navbar & Mobile Navigation Handler -->
     <script>
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const header = document.getElementById('header');
             if (header) {
                 if (window.scrollY > 30) {
@@ -1283,4 +1340,5 @@
     </script>
 
 </body>
+
 </html>

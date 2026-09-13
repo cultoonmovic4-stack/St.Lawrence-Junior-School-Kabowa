@@ -87,7 +87,7 @@ try {
     // Access authorization check:
     // Case 1: Matching security_token provided (Public applicant post-submission)
     $isTokenValid = (!empty($token) && hash_equals($app['security_token'], $token));
-    
+
     // Case 2: Logged-in admin user with admission.view permission
     $isAdminAuthorized = (isAuthenticated() && hasPermission('admission.view'));
 

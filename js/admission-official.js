@@ -20,6 +20,7 @@
         initConditionalFields();
         initSignaturePad();
         initFormSubmission();
+        initCustomDropdowns();
     });
 
     // 1. Dynamic Academic Year Setup
@@ -45,6 +46,10 @@
             }
             yearSelect.appendChild(opt);
         });
+
+        if (window.syncCustomDropdown) {
+            window.syncCustomDropdown('academicYear');
+        }
     }
 
     // 2. Stage Navigation Setup
@@ -56,7 +61,7 @@
         if (btnPrev) {
             btnPrev.addEventListener('click', () => {
                 if (currentStage > 1) {
-                    goToStage(currentStage - 1);
+                    goToStage(currentStage - 1, true);
                 }
             });
         }
@@ -65,20 +70,47 @@
             btnNext.addEventListener('click', () => {
                 if (validateStage(currentStage)) {
                     if (currentStage < totalStages) {
-                        goToStage(currentStage + 1);
+                        goToStage(currentStage + 1, true);
                     }
                 }
             });
         }
+
+        // Allow tapping on visited stage tabs for smooth mobile navigation
+        document.querySelectorAll('.admission-stage-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetStage = parseInt(tab.getAttribute('data-stage'));
+                if (targetStage < currentStage) {
+                    goToStage(targetStage, true);
+                } else if (targetStage === currentStage + 1) {
+                    if (validateStage(currentStage)) {
+                        goToStage(targetStage, true);
+                    }
+                }
+            });
+        });
+
+        // Explicitly initialize Stage 1 state on page load without auto-scrolling
+        goToStage(1, false);
     }
 
     window.jumpToStage = function (stageNum) {
         if (stageNum >= 1 && stageNum <= totalStages) {
-            goToStage(stageNum);
+            goToStage(stageNum, true);
         }
     };
 
-    function goToStage(stageNum) {
+    function scrollToFormTop() {
+        const container = document.getElementById('admission-application-section');
+        if (!container) return;
+        const headerEl = document.getElementById('header') || document.querySelector('.header');
+        const headerOffset = headerEl ? headerEl.offsetHeight : 75;
+        const rect = container.getBoundingClientRect();
+        const targetY = rect.top + window.pageYOffset - headerOffset - 12;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+    }
+
+    function goToStage(stageNum, shouldScroll = true) {
         currentStage = stageNum;
 
         // Update stage panels
@@ -93,14 +125,39 @@
             tab.classList.toggle('completed', num < currentStage);
         });
 
-        // Update action buttons
+        // Auto-center active stage tab in horizontal navigation on mobile
+        const activeTab = document.querySelector(`.admission-stage-tab[data-stage="${stageNum}"]`);
+        if (activeTab) {
+            activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        // Update action buttons and deterministic state classes
         const btnPrev = document.getElementById('btnPrevStage');
         const btnNext = document.getElementById('btnNextStage');
         const btnSubmit = document.getElementById('btnSubmitForm');
+        const actionsBar = document.querySelector('.admission-actions-bar');
 
-        if (btnPrev) btnPrev.style.display = currentStage === 1 ? 'none' : 'inline-flex';
-        if (btnNext) btnNext.style.display = currentStage === totalStages ? 'none' : 'inline-flex';
-        if (btnSubmit) btnSubmit.style.display = currentStage === totalStages ? 'inline-flex' : 'none';
+        const isFirst = currentStage === 1;
+        const isFinal = currentStage === totalStages;
+
+        if (btnPrev) {
+            btnPrev.style.display = isFirst ? 'none' : 'inline-flex';
+            btnPrev.classList.toggle('is-hidden', isFirst);
+        }
+        if (btnNext) {
+            btnNext.style.display = isFinal ? 'none' : 'inline-flex';
+            btnNext.classList.toggle('is-hidden', isFinal);
+        }
+        if (btnSubmit) {
+            btnSubmit.style.display = isFinal ? 'inline-flex' : 'none';
+            btnSubmit.classList.toggle('is-hidden', !isFinal);
+        }
+
+        if (actionsBar) {
+            actionsBar.classList.toggle('is-stage-1', isFirst);
+            actionsBar.classList.toggle('is-mid-stage', !isFirst && !isFinal);
+            actionsBar.classList.toggle('is-final-stage', isFinal);
+        }
 
         // Stage-specific actions
         if (currentStage === 7) {
@@ -110,10 +167,9 @@
             populateReviewSummary();
         }
 
-        // Scroll to container top smoothly
-        const container = document.getElementById('admission-application-section');
-        if (container) {
-            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Scroll to container top smoothly with header offset
+        if (shouldScroll) {
+            scrollToFormTop();
         }
     }
 
@@ -127,6 +183,7 @@
                 const isBoarding = document.querySelector('input[name="admission_type"]:checked')?.value === 'boarding';
                 if (bedCard) {
                     bedCard.style.display = isBoarding ? 'block' : 'none';
+                    if (isBoarding) bedCard.classList.add('conditional-animated');
                     if (!isBoarding) {
                         document.querySelectorAll('input[name="bed_wetting"]').forEach(r => r.checked = false);
                     }
@@ -145,6 +202,7 @@
                 const attended = document.querySelector('input[name="has_attended_school"]:checked')?.value === 'yes';
                 if (prevSchoolFields) {
                     prevSchoolFields.style.display = attended ? 'grid' : 'none';
+                    if (attended) prevSchoolFields.classList.add('conditional-animated');
                     if (prevNameInput) prevNameInput.required = attended;
                     if (prevLocInput) prevLocInput.required = attended;
                     if (!attended) {
@@ -165,6 +223,7 @@
                 const hasHandicap = document.querySelector('input[name="has_health_handicap"]:checked')?.value === 'yes';
                 if (handicapGroup) {
                     handicapGroup.style.display = hasHandicap ? 'flex' : 'none';
+                    if (hasHandicap) handicapGroup.classList.add('conditional-animated');
                     if (handicapTextarea) {
                         handicapTextarea.required = hasHandicap;
                         if (!hasHandicap) handicapTextarea.value = '';
@@ -184,6 +243,20 @@
                 }
             });
         });
+
+        // Sync visual checked state on custom radio pill labels across all browsers
+        function syncRadioPillLabels() {
+            document.querySelectorAll('.radio-pill-label').forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio) {
+                    label.classList.toggle('checked', radio.checked);
+                }
+            });
+        }
+        document.querySelectorAll('.radio-pill-group input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', syncRadioPillLabels);
+        });
+        syncRadioPillLabels();
     }
 
     // 4. HTML5 Canvas Signature Pad
@@ -356,13 +429,16 @@
             }
             // Text / Select / Textarea validation
             else {
+                const wrap = input.closest('.sljk-dropdown-wrap');
                 if (!input.value.trim()) {
                     isValid = false;
                     input.classList.add('error');
                     formGroup.classList.add('has-error');
+                    if (wrap) wrap.classList.add('has-error');
                 } else {
                     input.classList.remove('error');
                     formGroup.classList.remove('has-error');
+                    if (wrap) wrap.classList.remove('has-error');
                 }
             }
         });
@@ -607,4 +683,238 @@
         });
     }
 
+    // 8. Accessible Custom Dropdown Enhancer
+    function initCustomDropdowns() {
+        const form = document.getElementById('officialAdmissionForm');
+        if (!form) return;
+
+        const selects = form.querySelectorAll('select.form-control');
+        selects.forEach(select => {
+            setupCustomDropdown(select);
+        });
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.sljk-dropdown-wrap')) {
+                closeAllDropdowns();
+            }
+        });
+
+        // Close dropdowns on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeAllDropdowns();
+            }
+        });
+    }
+
+    function closeAllDropdowns(exceptWrap = null) {
+        document.querySelectorAll('.sljk-dropdown-wrap.is-open').forEach(wrap => {
+            if (wrap !== exceptWrap) {
+                wrap.classList.remove('is-open');
+                wrap.classList.remove('opens-up');
+                const trigger = wrap.querySelector('.sljk-dropdown-trigger');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    function setupCustomDropdown(select) {
+        if (select.closest('.sljk-dropdown-wrap')) return;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'sljk-dropdown-wrap';
+
+        // Insert wrapper before select and move select inside
+        select.parentNode.insertBefore(wrap, select);
+        wrap.appendChild(select);
+
+        // Create Trigger Button
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'sljk-dropdown-trigger';
+        trigger.setAttribute('role', 'combobox');
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-controls', `sljk-menu-${select.id || Math.random().toString(36).substr(2, 9)}`);
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'sljk-dropdown-text';
+
+        const chevron = document.createElement('span');
+        chevron.className = 'sljk-dropdown-chevron';
+        chevron.innerHTML = '<i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>';
+
+        trigger.appendChild(textSpan);
+        trigger.appendChild(chevron);
+        wrap.appendChild(trigger);
+
+        // Create Dropdown Menu
+        const menu = document.createElement('div');
+        menu.className = 'sljk-dropdown-menu';
+        menu.id = trigger.getAttribute('aria-controls');
+        menu.setAttribute('role', 'listbox');
+        wrap.appendChild(menu);
+
+        function rebuildItems() {
+            menu.innerHTML = '';
+            const selectedOpt = select.options[select.selectedIndex];
+            const firstOpt = select.options[0];
+            const placeholderText = select.getAttribute('data-placeholder') || (firstOpt && !firstOpt.value ? firstOpt.textContent : 'Select option');
+
+            if (selectedOpt && selectedOpt.value) {
+                textSpan.textContent = selectedOpt.textContent;
+                textSpan.classList.remove('is-placeholder');
+            } else {
+                textSpan.textContent = placeholderText;
+                textSpan.classList.add('is-placeholder');
+            }
+
+            const children = Array.from(select.children);
+            children.forEach(child => {
+                if (child.tagName === 'OPTGROUP') {
+                    const groupLabel = document.createElement('div');
+                    groupLabel.className = 'sljk-dropdown-optgroup';
+                    groupLabel.textContent = child.label;
+                    menu.appendChild(groupLabel);
+
+                    Array.from(child.children).forEach(opt => {
+                        createOptionItem(opt);
+                    });
+                } else if (child.tagName === 'OPTION') {
+                    createOptionItem(child);
+                }
+            });
+        }
+
+        function createOptionItem(opt) {
+            const item = document.createElement('div');
+            item.className = 'sljk-dropdown-item';
+            item.setAttribute('role', 'option');
+            item.setAttribute('data-value', opt.value);
+            item.setAttribute('tabindex', '-1');
+
+            const isSelected = opt.selected && opt.value !== '';
+            if (isSelected) {
+                item.classList.add('is-selected');
+                item.setAttribute('aria-selected', 'true');
+            } else {
+                item.setAttribute('aria-selected', 'false');
+            }
+
+            const itemText = document.createElement('span');
+            itemText.textContent = opt.textContent;
+            item.appendChild(itemText);
+
+            const checkIcon = document.createElement('span');
+            checkIcon.className = 'sljk-dropdown-item-check';
+            checkIcon.innerHTML = '<i class="fas fa-check" style="font-size: 0.72rem;"></i>';
+            item.appendChild(checkIcon);
+
+            item.addEventListener('click', function (e) {
+                e.stopPropagation();
+                select.value = opt.value;
+                select.dispatchEvent(new Event('change', { bubbles: true }));
+                rebuildItems();
+                closeAllDropdowns();
+                wrap.classList.remove('has-error');
+                const group = wrap.closest('.form-group');
+                if (group) group.classList.remove('has-error');
+                trigger.focus();
+            });
+
+            menu.appendChild(item);
+        }
+
+        rebuildItems();
+
+        // Toggle on click
+        trigger.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const isOpen = wrap.classList.contains('is-open');
+            if (isOpen) {
+                wrap.classList.remove('is-open');
+                wrap.classList.remove('opens-up');
+                trigger.setAttribute('aria-expanded', 'false');
+            } else {
+                closeAllDropdowns(wrap);
+
+                // Viewport boundary check: flip upward if near bottom
+                const rect = trigger.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - rect.bottom;
+                const menuHeight = 240;
+                if (spaceBelow < menuHeight && rect.top > menuHeight) {
+                    wrap.classList.add('opens-up');
+                } else {
+                    wrap.classList.remove('opens-up');
+                }
+
+                wrap.classList.add('is-open');
+                trigger.setAttribute('aria-expanded', 'true');
+
+                const selectedItem = menu.querySelector('.sljk-dropdown-item.is-selected') || menu.querySelector('.sljk-dropdown-item');
+                if (selectedItem) {
+                    selectedItem.focus();
+                }
+            }
+        });
+
+        // Keyboard navigation on trigger
+        trigger.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (!wrap.classList.contains('is-open')) {
+                    trigger.click();
+                }
+            }
+        });
+
+        // Keyboard navigation inside menu
+        menu.addEventListener('keydown', function (e) {
+            const items = Array.from(menu.querySelectorAll('.sljk-dropdown-item'));
+            const currentIndex = items.indexOf(document.activeElement);
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const next = items[currentIndex + 1] || items[0];
+                if (next) next.focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prev = items[currentIndex - 1] || items[items.length - 1];
+                if (prev) prev.focus();
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (document.activeElement && document.activeElement.classList.contains('sljk-dropdown-item')) {
+                    document.activeElement.click();
+                }
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeAllDropdowns();
+                trigger.focus();
+            } else if (e.key === 'Tab') {
+                closeAllDropdowns();
+            }
+        });
+
+        select.addEventListener('change', function () {
+            rebuildItems();
+            if (select.value) {
+                wrap.classList.remove('has-error');
+                const group = wrap.closest('.form-group');
+                if (group) group.classList.remove('has-error');
+            }
+        });
+
+        select._sljkSync = rebuildItems;
+    }
+
+    window.syncCustomDropdown = function (selectId) {
+        const select = typeof selectId === 'string' ? document.getElementById(selectId) : selectId;
+        if (select && typeof select._sljkSync === 'function') {
+            select._sljkSync();
+        }
+    };
+
 })();
+

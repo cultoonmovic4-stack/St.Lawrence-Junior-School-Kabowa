@@ -43,7 +43,7 @@ class AdmissionPDFGenerator extends FPDF {
             $this->SetX(40);
             $this->SetFont('Helvetica', '', 8.5);
             $this->SetTextColor(80, 80, 80);
-            $this->Cell(0, 4.5, 'P. O. Box 36198, Kampala | Tel: 0772-420506 / 0701-420506 | Email: stlawrencejuniorschool@yahoo.com', 0, 1, 'L');
+            $this->Cell(0, 4.5, 'P. O. Box 36198, Kampala | Tel: 0772-420506 / 0701-420506 | Email: stlawrencejuniorschoolkabowa@gmail.com', 0, 1, 'L');
             
             $this->SetX(40);
             $this->SetFont('Helvetica', 'B', 8.5);
@@ -101,8 +101,8 @@ class AdmissionPDFGenerator extends FPDF {
         $this->Line(15, $this->GetY(), 195, $this->GetY());
         $this->Ln(1.5);
         $dateText = $this->isBlank 
-            ? 'St. Lawrence Junior School Kabowa • Official Physical Application Form'
-            : 'Submitted: ' . ($this->appData['submitted_date'] ?? date('Y-m-d H:i:s')) . ' • Verified Registry Record';
+            ? 'St. Lawrence Junior School Kabowa | Official Physical Application Form'
+            : 'Submitted: ' . ($this->appData['submitted_date'] ?? date('Y-m-d H:i:s')) . ' | Verified Registry Record';
         $this->Cell(120, 5, $dateText, 0, 0, 'L');
         $this->Cell(60, 5, 'Page ' . $this->PageNo(), 0, 0, 'R');
     }

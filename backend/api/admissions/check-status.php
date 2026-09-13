@@ -24,7 +24,8 @@ $attempts = [];
 if (file_exists($rateLimitFile)) {
     $attempts = json_decode(file_get_contents($rateLimitFile), true) ?? [];
     // Filter attempts within last 600 seconds (10 minutes)
-    $attempts = array_filter($attempts, function($t) use ($now) { return ($now - $t) < 600; });
+    $attempts = array_filter($attempts, function ($t) use ($now) {
+        return ($now - $t) < 600; });
 }
 
 if (count($attempts) >= 5) {

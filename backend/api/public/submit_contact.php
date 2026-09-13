@@ -35,18 +35,20 @@ if (!is_array($data)) {
 }
 
 // ─── Helper: sanitise a string ───────────────────────────────────────────────
-function sanitise(string $str): string {
+function sanitise(string $str): string
+{
     return htmlspecialchars(strip_tags(trim($str)), ENT_QUOTES, 'UTF-8');
 }
 
 // ─── Helper: generic spam-reject response (don't reveal exact reason) ────────
-function rejectSpam(string $reason = ''): void {
+function rejectSpam(string $reason = ''): void
+{
     // Log the real reason server-side for debugging, but don't expose it
     error_log('[Contact Spam Blocked] ' . $reason . ' | IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
     http_response_code(400);
     echo json_encode([
-        'success'  => false,
-        'message'  => 'Your message could not be sent. Please try again or contact us directly by phone.'
+        'success' => false,
+        'message' => 'Your message could not be sent. Please try again or contact us directly by phone.'
     ]);
     exit;
 }
@@ -55,7 +57,7 @@ function rejectSpam(string $reason = ''): void {
 //  LAYER 1 — Honeypot check
 //  The hidden field "_hp" must be empty. Bots auto-fill it.
 // ════════════════════════════════════════════════════════════════════════════
-$honeypot = isset($data['_hp']) ? trim((string)$data['_hp']) : '';
+$honeypot = isset($data['_hp']) ? trim((string) $data['_hp']) : '';
 if ($honeypot !== '') {
     rejectSpam("Honeypot triggered: '$honeypot'");
 }
@@ -64,8 +66,8 @@ if ($honeypot !== '') {
 //  LAYER 2 — Time-gate
 //  If submission arrives in less than 4 seconds from page load, it's a bot.
 // ════════════════════════════════════════════════════════════════════════════
-$loadedAt = isset($data['_ts']) ? (int)$data['_ts'] : 0;
-$now      = time();
+$loadedAt = isset($data['_ts']) ? (int) $data['_ts'] : 0;
+$now = time();
 if ($loadedAt > 0 && ($now - $loadedAt) < 4) {
     rejectSpam("Time-gate: submitted in " . ($now - $loadedAt) . "s");
 }
@@ -79,7 +81,7 @@ if ($loadedAt > 0 && ($loadedAt > $now + 60 || $loadedAt < $now - 7200)) {
 // ════════════════════════════════════════════════════════════════════════════
 try {
     $database = new Database();
-    $db       = $database->getConnection();
+    $db = $database->getConnection();
 
     $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
@@ -93,7 +95,7 @@ try {
     $rateStmt->execute();
     $rateRow = $rateStmt->fetch(PDO::FETCH_ASSOC);
 
-    if ((int)($rateRow['cnt'] ?? 0) >= 3) {
+    if ((int) ($rateRow['cnt'] ?? 0) >= 3) {
         http_response_code(429);
         echo json_encode([
             'success' => false,
@@ -110,9 +112,9 @@ try {
 // ════════════════════════════════════════════════════════════════════════════
 //  LAYER 4 — Required field validation & length limits
 // ════════════════════════════════════════════════════════════════════════════
-$name    = sanitise($data['name']    ?? '');
-$email   = trim($data['email']       ?? '');
-$phone   = sanitise($data['phone']   ?? '');
+$name = sanitise($data['name'] ?? '');
+$email = trim($data['email'] ?? '');
+$phone = sanitise($data['phone'] ?? '');
 $subject = sanitise($data['subject'] ?? '');
 $message = sanitise($data['message'] ?? '');
 
@@ -123,9 +125,21 @@ if (empty($name) || empty($email) || empty($subject) || empty($message)) {
 }
 
 // Enforce minimum lengths
-if (mb_strlen($name) < 2)    { http_response_code(400); echo json_encode(['success'=>false,'message'=>'Name is too short.']);    exit; }
-if (mb_strlen($subject) < 3) { http_response_code(400); echo json_encode(['success'=>false,'message'=>'Subject is too short.']); exit; }
-if (mb_strlen($message) < 20){ http_response_code(400); echo json_encode(['success'=>false,'message'=>'Please provide more detail in your message (at least 20 characters).']); exit; }
+if (mb_strlen($name) < 2) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Name is too short.']);
+    exit;
+}
+if (mb_strlen($subject) < 3) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Subject is too short.']);
+    exit;
+}
+if (mb_strlen($message) < 20) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Please provide more detail in your message (at least 20 characters).']);
+    exit;
+}
 
 // Enforce maximum lengths
 if (mb_strlen($name) > 100 || mb_strlen($email) > 150 || mb_strlen($subject) > 150 || mb_strlen($message) > 2000 || mb_strlen($phone) > 20) {
@@ -143,17 +157,45 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 //  LAYER 5 — Spam keyword filter
 // ════════════════════════════════════════════════════════════════════════════
 $SPAM_KEYWORDS = [
-    'make money fast', 'click here', 'free money', 'online casino',
-    'lottery winner', 'you have been selected', 'earn from home',
-    'work from home and earn', 'payday loan', 'cryptocurrency investment',
-    'bitcoin profit', 'buy followers', 'seo service', 'cheap viagra',
-    'adult content', 'hot singles', 'meet sexy', 'weight loss pill',
-    'diet pill', 'act now', 'limited time offer', 'congratulations you won',
-    'nigerian prince', 'wire transfer', 'money transfer urgent',
-    'investment opportunity', 'double your money', 'risk free',
-    'no credit check', 'debt relief', 'earn $', 'earn €',
-    'guaranteed profit', 'mlm', 'multi-level marketing', 'pyramid scheme',
-    'part time job offer', 'work online earn', 'passive income guaranteed',
+    'make money fast',
+    'click here',
+    'free money',
+    'online casino',
+    'lottery winner',
+    'you have been selected',
+    'earn from home',
+    'work from home and earn',
+    'payday loan',
+    'cryptocurrency investment',
+    'bitcoin profit',
+    'buy followers',
+    'seo service',
+    'cheap viagra',
+    'adult content',
+    'hot singles',
+    'meet sexy',
+    'weight loss pill',
+    'diet pill',
+    'act now',
+    'limited time offer',
+    'congratulations you won',
+    'nigerian prince',
+    'wire transfer',
+    'money transfer urgent',
+    'investment opportunity',
+    'double your money',
+    'risk free',
+    'no credit check',
+    'debt relief',
+    'earn $',
+    'earn €',
+    'guaranteed profit',
+    'mlm',
+    'multi-level marketing',
+    'pyramid scheme',
+    'part time job offer',
+    'work online earn',
+    'passive income guaranteed',
 ];
 
 $fullText = mb_strtolower($subject . ' ' . $message);
@@ -200,12 +242,12 @@ try {
             (:name, :email, :phone, :subject, :message, 'new', :ip, NOW())
     ");
 
-    $stmt->bindParam(':name',    $name);
-    $stmt->bindParam(':email',   $email);
-    $stmt->bindParam(':phone',   $phone);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':subject', $subject);
     $stmt->bindParam(':message', $message);
-    $stmt->bindParam(':ip',      $ip);
+    $stmt->bindParam(':ip', $ip);
 
     if ($stmt->execute()) {
         echo json_encode([
