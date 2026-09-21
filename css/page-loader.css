@@ -1,23 +1,37 @@
-/* Page Loader Styles */
+/* ==========================================================================
+   ST. LAWRENCE JUNIOR SCHOOL KABOWA — OPTION A LIGHT INSTITUTIONAL LOADER
+   Single, unified global loader implementation across the entire website.
+   ========================================================================== */
+
+/* Import Institutional Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Prevent page scrolling while loader is active */
+body.loader-active {
+    overflow: hidden !important;
+}
+
+/* Base Full-Screen Overlay */
 .page-loader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    height: 100dvh;
+    background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     z-index: 99999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .page-loader.hidden {
@@ -26,1300 +40,348 @@
     pointer-events: none;
 }
 
+/* Center Content Container */
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    padding: 40px 20px 20px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    margin-top: -15px; /* Subtle upper-middle alignment offset */
+}
+
+/* Official School Crest / Logo */
 .loader-logo {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    animation: pulse 2s ease-in-out infinite;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    width: 135px;
+    height: auto;
+    margin-bottom: 22px;
     flex-shrink: 0;
+    animation: loaderLogoEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .loader-logo img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
+    object-fit: contain;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-    }
-}
-
-.loader-text {
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
+/* School Name Title */
+.loader-title {
+    color: #0B2545;
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    font-size: 28px;
     font-weight: 700;
-    margin-bottom: 10px;
+    letter-spacing: 3px;
+    margin: 0 0 6px 0;
+    padding: 0;
     text-align: center;
-    animation: fadeInOut 2s ease-in-out infinite;
-    line-height: 1.2;
-    max-width: 90%;
-    word-wrap: break-word;
-    flex-shrink: 0;
+    text-transform: uppercase;
+    line-height: 1.15;
+    animation: loaderTextEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+    opacity: 0;
 }
 
+/* Subtitle */
 .loader-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    margin-bottom: 30px;
+    color: #0B2545;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 400;
+    opacity: 0.85;
+    margin: 0 0 32px 0;
+    padding: 0;
     text-align: center;
     line-height: 1.3;
-    max-width: 90%;
-    word-wrap: break-word;
-    flex-shrink: 0;
+    animation: loaderTextEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards;
+    opacity: 0;
 }
 
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-/* Loader Animation 1: Spinner (Default - Homepage) */
-.loader-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader-dots {
+/* Progress Indicator Section */
+.loader-progress-wrapper {
     display: flex;
-    gap: 8px;
-    margin-top: 20px;
-    justify-content: center;
-    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    width: 260px;
+    max-width: 82vw;
+    margin: 0 auto;
+    animation: loaderFadeIn 0.5s ease-out 0.3s forwards;
+    opacity: 0;
 }
 
-.loader-dot {
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-radius: 50%;
-    animation: bounce 1.4s ease-in-out infinite;
-    flex-shrink: 0;
-}
-
-.loader-dot:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.loader-dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.loader-dot:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-@keyframes bounce {
-    0%, 80%, 100% {
-        transform: scale(0.8);
-        opacity: 0.5;
-    }
-    40% {
-        transform: scale(1.2);
-        opacity: 1;
-    }
-}
-
-/* Loader Animation 2: Dual Ring (About Page) */
-.loader-dual-ring {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 6px solid rgba(255, 255, 255, 0.2);
-    border-top-color: white;
-    border-bottom-color: white;
-    animation: dualRing 1.2s linear infinite;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-@keyframes dualRing {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Loader Animation 3: Pulse Circles (Academics) */
-.loader-pulse-circles {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-.pulse-circle {
-    position: absolute;
+.loader-progress-track {
     width: 100%;
+    height: 4px;
+    background-color: #E5E7EB;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-progress-bar {
     height: 100%;
-    border: 3px solid white;
-    border-radius: 50%;
-    animation: pulseCircle 1.5s ease-out infinite;
+    width: 0%;
+    background-color: #C9182B;
+    border-radius: 9999px;
+    transition: width 0.1s linear;
 }
 
-.pulse-circle:nth-child(2) {
-    animation-delay: 0.5s;
+/* Small Uppercase Loading Label */
+.loader-loading-text {
+    color: #64748B;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    margin-top: 14px;
 }
 
-.pulse-circle:nth-child(3) {
-    animation-delay: 1s;
+/* Bottom Motto Area */
+.loader-footer {
+    width: 100%;
+    max-width: 500px;
+    padding: 0 24px 36px 24px;
+    box-sizing: border-box;
+    z-index: 2;
+    position: relative;
+    flex-shrink: 0;
 }
 
-@keyframes pulseCircle {
+.loader-motto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    animation: loaderFadeIn 0.6s ease-out 0.35s forwards;
+    opacity: 0;
+}
+
+.motto-line {
+    height: 1px;
+    flex: 1;
+    background-color: rgba(11, 37, 69, 0.22);
+    max-width: 90px;
+}
+
+.motto-text {
+    color: #0B2545;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Subtle Authentic Campus Watermark Background Element */
+.loader-watermark {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1100px;
+    height: 38vh;
+    max-height: 290px;
+    background-image: url('../img/admin-campus-clean.jpg');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    filter: grayscale(100%) contrast(110%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Keyframe Animations */
+@keyframes loaderLogoEntrance {
     0% {
-        transform: scale(0.5);
-        opacity: 1;
+        opacity: 0;
+        transform: translateY(14px);
     }
     100% {
-        transform: scale(1.5);
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loaderTextEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loaderFadeIn {
+    0% {
         opacity: 0;
     }
+    100% {
+        opacity: 1;
+    }
 }
 
-/* Loader Animation 4: Bars (Admission) */
-.loader-bars {
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-    height: 50px;
-    flex-shrink: 0;
-    margin: 10px 0;
-    justify-content: center;
+/* ========== RESPONSIVE STYLES ========== */
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+    .loader-logo {
+        width: 145px;
+        margin-bottom: 24px;
+    }
+    .loader-title {
+        font-size: 32px;
+        letter-spacing: 3.5px;
+    }
+    .loader-subtitle {
+        font-size: 16px;
+        margin-bottom: 36px;
+    }
+    .loader-progress-wrapper {
+        width: 280px;
+    }
 }
 
-.loader-bar {
-    width: 8px;
-    background: white;
-    border-radius: 4px;
-    animation: barBounce 1s ease-in-out infinite;
-}
-
-.loader-bar:nth-child(1) { animation-delay: 0s; }
-.loader-bar:nth-child(2) { animation-delay: 0.1s; }
-.loader-bar:nth-child(3) { animation-delay: 0.2s; }
-.loader-bar:nth-child(4) { animation-delay: 0.3s; }
-.loader-bar:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes barBounce {
-    0%, 100% { height: 15px; }
-    50% { height: 50px; }
-}
-
-/* Loader Animation 5: Square Spin (Contact) */
-.loader-square {
-    width: 50px;
-    height: 50px;
-    border: 4px solid white;
-    border-radius: 8px;
-    animation: squareSpin 2s ease-in-out infinite;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-@keyframes squareSpin {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(90deg) scale(1.2); }
-    50% { transform: rotate(180deg) scale(1); }
-    75% { transform: rotate(270deg) scale(1.2); }
-}
-
-/* Loader Animation 6: Orbit (Gallery) */
-.loader-orbit {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-.orbit-dot {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    margin: -6px 0 0 -6px;
-}
-
-.orbit-dot:nth-child(1) {
-    animation: orbit 1.5s linear infinite;
-}
-
-.orbit-dot:nth-child(2) {
-    animation: orbit 1.5s linear infinite;
-    animation-delay: 0.5s;
-}
-
-.orbit-dot:nth-child(3) {
-    animation: orbit 1.5s linear infinite;
-    animation-delay: 1s;
-}
-
-@keyframes orbit {
-    0% { transform: rotate(0deg) translateX(25px); }
-    100% { transform: rotate(360deg) translateX(25px); }
-}
-
-/* Loader Animation 7: Wave (Teachers) */
-.loader-wave {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    flex-shrink: 0;
-    margin: 10px 0;
-    justify-content: center;
-}
-
-.wave-dot {
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-radius: 50%;
-    animation: wave 1.2s ease-in-out infinite;
-}
-
-.wave-dot:nth-child(1) { animation-delay: 0s; }
-.wave-dot:nth-child(2) { animation-delay: 0.1s; }
-.wave-dot:nth-child(3) { animation-delay: 0.2s; }
-.wave-dot:nth-child(4) { animation-delay: 0.3s; }
-.wave-dot:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes wave {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-/* Loader Animation 8: Flip (Library) */
-.loader-flip {
-    width: 50px;
-    height: 50px;
-    background: white;
-    border-radius: 8px;
-    animation: flip 1.5s ease-in-out infinite;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-@keyframes flip {
-    0%, 100% { transform: perspective(400px) rotateY(0); }
-    50% { transform: perspective(400px) rotateY(180deg); }
-}
-
-/* Loader Animation 9: Hexagon (Fees) */
-.loader-hexagon {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-.hexagon-part {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 3px solid white;
-    border-radius: 50%;
-    animation: hexagonRotate 2s ease-in-out infinite;
-}
-
-.hexagon-part:nth-child(1) { animation-delay: 0s; }
-.hexagon-part:nth-child(2) { animation-delay: 0.3s; transform: rotate(60deg); }
-.hexagon-part:nth-child(3) { animation-delay: 0.6s; transform: rotate(120deg); }
-
-@keyframes hexagonRotate {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    50% { transform: scale(1.3) rotate(180deg); opacity: 0.5; }
-}
-
-/* Loader Animation 10: Gradient Ring (School Anthem) */
-.loader-gradient-ring {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: conic-gradient(
-        from 0deg,
-        white 0deg,
-        transparent 90deg,
-        transparent 180deg,
-        white 270deg,
-        white 360deg
-    );
-    animation: gradientRing 1.5s linear infinite;
-    flex-shrink: 0;
-    margin: 10px 0;
-}
-
-@keyframes gradientRing {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader-gradient-ring::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 45px;
-    height: 45px;
-    background: #0066cc;
-    border-radius: 50%;
-}
-
-/* ========== MOBILE & TABLET OPTIMIZATIONS ========== */
-
-/* Extra Small Devices (320px - 480px) */
+/* Mobile Devices (320px - 480px) */
 @media (max-width: 480px) {
-    .page-loader {
-        padding: 0;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .loader-content {
+        padding: 30px 16px 16px 16px;
+        margin-top: -10px;
     }
-    
     .loader-logo {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 20px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        flex-shrink: 0;
+        width: 105px;
+        margin-bottom: 16px;
     }
-    
-    .loader-text {
-        font-size: 18px;
-        margin-bottom: 8px;
-        line-height: 1.2;
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 90vw;
-        padding: 0 10px;
-    }
-    
-    .loader-subtitle {
-        font-size: 11px;
-        margin-bottom: 25px;
-        line-height: 1.3;
-        text-align: center;
-        max-width: 90vw;
-        word-wrap: break-word;
-        padding: 0 10px;
-    }
-    
-    .loader-spinner {
-        width: 35px;
-        height: 35px;
-        border-width: 3px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .loader-dots {
-        gap: 5px;
-        margin-top: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .loader-dot {
-        width: 8px;
-        height: 8px;
-        flex-shrink: 0;
-    }
-    
-    .loader-dual-ring {
-        width: 40px;
-        height: 40px;
-        border-width: 4px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .loader-pulse-circles {
-        width: 40px;
-        height: 40px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .pulse-circle {
-        border-width: 2px;
-    }
-    
-    .loader-bars {
-        height: 35px;
-        gap: 4px;
-        margin: 10px 0;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    
-    .loader-bar {
-        width: 5px;
-        border-radius: 3px;
-    }
-    
-    @keyframes barBounce {
-        0%, 100% { height: 10px; }
-        50% { height: 35px; }
-    }
-    
-    .loader-square {
-        width: 35px;
-        height: 35px;
-        border-width: 3px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .loader-orbit {
-        width: 40px;
-        height: 40px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .orbit-dot {
-        width: 8px;
-        height: 8px;
-        margin: -4px 0 0 -4px;
-    }
-    
-    @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(15px); }
-        100% { transform: rotate(360deg) translateX(15px); }
-    }
-    
-    .loader-wave {
-        gap: 4px;
-        margin: 10px 0;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    
-    .wave-dot {
-        width: 8px;
-        height: 8px;
-    }
-    
-    @keyframes wave {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-12px); }
-    }
-    
-    .loader-flip {
-        width: 35px;
-        height: 35px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .loader-hexagon {
-        width: 35px;
-        height: 35px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .hexagon-part {
-        border-width: 2px;
-    }
-    
-    .loader-gradient-ring {
-        width: 40px;
-        height: 40px;
-        margin: 10px 0;
-        flex-shrink: 0;
-    }
-    
-    .loader-gradient-ring::before {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-/* Small Mobile Devices (481px - 576px) */
-@media (min-width: 481px) and (max-width: 576px) {
-    .page-loader {
-        padding: 0;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
-    .loader-logo {
-        width: 90px;
-        height: 90px;
-        margin-bottom: 22px;
-    }
-    
-    .loader-text {
-        font-size: 20px;
-        line-height: 1.2;
-        max-width: 95vw;
-        padding: 0 15px;
-    }
-    
-    .loader-subtitle {
-        font-size: 12px;
-        max-width: 95vw;
-        padding: 0 15px;
-    }
-    
-    .loader-spinner {
-        width: 42px;
-        height: 42px;
-        margin: 12px 0;
-    }
-    
-    .loader-dots {
-        gap: 6px;
-        margin-top: 18px;
-    }
-    
-    .loader-dot {
-        width: 10px;
-        height: 10px;
-    }
-}
-
-/* Medium Mobile & Small Tablets (577px - 768px) */
-@media (min-width: 577px) and (max-width: 768px) {
-    .page-loader {
-        padding: 0;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
-    .loader-logo {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 25px;
-    }
-    
-    .loader-text {
+    .loader-title {
         font-size: 22px;
-        line-height: 1.2;
-        max-width: 95vw;
-        padding: 0 20px;
+        letter-spacing: 2.2px;
+        margin-bottom: 4px;
     }
-    
     .loader-subtitle {
         font-size: 13px;
-        max-width: 95vw;
-        padding: 0 20px;
+        margin-bottom: 24px;
     }
-    
-    .loader-spinner {
-        width: 48px;
-        height: 48px;
-        margin: 15px 0;
+    .loader-progress-wrapper {
+        width: 210px;
+        max-width: 85vw;
     }
-    
-    .loader-dots {
-        gap: 7px;
-        margin-top: 20px;
-    }
-    
-    .loader-dot {
-        width: 11px;
-        height: 11px;
-    }
-}
-
-/* Tablets (769px - 1024px) - Galaxy Tab, iPad */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .loader-logo {
-        width: 140px;
-        height: 140px;
-        margin-bottom: 35px;
-        border: 5px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .loader-text {
-        font-size: 28px;
-        margin-bottom: 12px;
-    }
-    
-    .loader-subtitle {
-        font-size: 16px;
-        margin-bottom: 35px;
-    }
-    
-    .loader-spinner {
-        width: 60px;
-        height: 60px;
-        border-width: 5px;
-    }
-    
-    .loader-dots {
-        gap: 10px;
-        margin-top: 25px;
-    }
-    
-    .loader-dot {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .loader-dual-ring {
-        width: 70px;
-        height: 70px;
-        border-width: 7px;
-    }
-    
-    .loader-pulse-circles {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .pulse-circle {
-        border-width: 4px;
-    }
-    
-    .loader-bars {
-        height: 60px;
-        gap: 10px;
-    }
-    
-    .loader-bar {
-        width: 10px;
-    }
-    
-    @keyframes barBounce {
-        0%, 100% { height: 20px; }
-        50% { height: 60px; }
-    }
-    
-    .loader-square {
-        width: 60px;
-        height: 60px;
-        border-width: 5px;
-    }
-    
-    .loader-orbit {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .orbit-dot {
-        width: 14px;
-        height: 14px;
-        margin: -7px 0 0 -7px;
-    }
-    
-    @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(30px); }
-        100% { transform: rotate(360deg) translateX(30px); }
-    }
-    
-    .loader-wave {
-        gap: 8px;
-    }
-    
-    .wave-dot {
-        width: 14px;
-        height: 14px;
-    }
-    
-    @keyframes wave {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-25px); }
-    }
-    
-    .loader-flip {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .loader-hexagon {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .hexagon-part {
-        border-width: 4px;
-    }
-    
-    .loader-gradient-ring {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .loader-gradient-ring::before {
-        width: 55px;
-        height: 55px;
-    }
-}
-
-/* Landscape Orientation - Compact Height */
-@media (max-width: 768px) and (orientation: landscape) {
-    .page-loader {
-        padding: 0;
-        justify-content: center;
-        gap: 8px;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
-    .loader-logo {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 10px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .loader-text {
-        font-size: 16px;
-        margin-bottom: 4px;
-        line-height: 1.1;
-        padding: 0 15px;
-    }
-    
-    .loader-subtitle {
+    .loader-loading-text {
         font-size: 10px;
-        margin-bottom: 10px;
-        line-height: 1.2;
-        padding: 0 15px;
+        letter-spacing: 3px;
+        margin-top: 12px;
     }
-    
-    .loader-spinner {
-        width: 30px;
-        height: 30px;
-        border-width: 2px;
-        margin: 5px 0;
+    .loader-footer {
+        padding: 0 16px 24px 16px;
     }
-    
-    .loader-dots {
-        margin-top: 8px;
-        gap: 4px;
+    .loader-motto {
+        gap: 10px;
     }
-    
-    .loader-dot {
-        width: 7px;
-        height: 7px;
+    .motto-line {
+        max-width: 45px;
     }
-    
-    /* Adjust all other loaders for landscape */
-    .loader-dual-ring {
-        width: 30px;
-        height: 30px;
-        border-width: 3px;
-        margin: 5px 0;
+    .motto-text {
+        font-size: 10px;
+        letter-spacing: 1.8px;
     }
-    
-    .loader-pulse-circles {
-        width: 30px;
-        height: 30px;
-        margin: 5px 0;
-    }
-    
-    .loader-bars {
-        height: 25px;
-        gap: 3px;
-        margin: 5px 0;
-    }
-    
-    .loader-bar {
-        width: 4px;
-    }
-    
-    @keyframes barBounce {
-        0%, 100% { height: 8px; }
-        50% { height: 25px; }
-    }
-    
-    .loader-square {
-        width: 30px;
-        height: 30px;
-        border-width: 2px;
-        margin: 5px 0;
-    }
-    
-    .loader-orbit {
-        width: 30px;
-        height: 30px;
-        margin: 5px 0;
-    }
-    
-    .orbit-dot {
-        width: 6px;
-        height: 6px;
-        margin: -3px 0 0 -3px;
-    }
-    
-    @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(12px); }
-        100% { transform: rotate(360deg) translateX(12px); }
-    }
-    
-    .loader-wave {
-        gap: 3px;
-        margin: 5px 0;
-    }
-    
-    .wave-dot {
-        width: 7px;
-        height: 7px;
-    }
-    
-    @keyframes wave {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-    
-    .loader-flip {
-        width: 30px;
-        height: 30px;
-        margin: 5px 0;
-    }
-    
-    .loader-hexagon {
-        width: 30px;
-        height: 30px;
-        margin: 5px 0;
-    }
-    
-    .loader-gradient-ring {
-        width: 30px;
-        height: 30px;
-        margin: 5px 0;
-    }
-    
-    .loader-gradient-ring::before {
-        width: 22px;
-        height: 22px;
+    .loader-watermark {
+        height: 30vh;
+        max-height: 200px;
+        opacity: 0.10;
     }
 }
 
-/* Very Small Screens (iPhone SE, small Android) */
+/* Extra Small Devices (320px - 360px) */
 @media (max-width: 360px) {
-    .page-loader {
-        padding: 0;
-        gap: 5px;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
     .loader-logo {
-        width: 65px;
-        height: 65px;
+        width: 95px;
         margin-bottom: 12px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
     }
-    
-    .loader-text {
-        font-size: 16px;
-        margin-bottom: 5px;
-        line-height: 1.1;
-        max-width: 85vw;
-        padding: 0 10px;
+    .loader-title {
+        font-size: 20px;
+        letter-spacing: 1.8px;
     }
-    
     .loader-subtitle {
-        font-size: 10px;
-        margin-bottom: 15px;
-        line-height: 1.2;
-        max-width: 85vw;
-        padding: 0 10px;
+        font-size: 12px;
+        margin-bottom: 20px;
     }
-    
-    .loader-spinner {
-        width: 30px;
-        height: 30px;
-        border-width: 2px;
-        margin: 8px 0;
+    .loader-progress-wrapper {
+        width: 190px;
     }
-    
-    .loader-dots {
-        gap: 4px;
-        margin-top: 10px;
+    .motto-line {
+        max-width: 30px;
     }
-    
-    .loader-dot {
-        width: 7px;
-        height: 7px;
-    }
-    
-    /* Adjust all other loaders for very small screens */
-    .loader-dual-ring {
-        width: 30px;
-        height: 30px;
-        border-width: 3px;
-        margin: 8px 0;
-    }
-    
-    .loader-pulse-circles {
-        width: 30px;
-        height: 30px;
-        margin: 8px 0;
-    }
-    
-    .pulse-circle {
-        border-width: 2px;
-    }
-    
-    .loader-bars {
-        height: 25px;
-        gap: 3px;
-        margin: 8px 0;
-    }
-    
-    .loader-bar {
-        width: 4px;
-    }
-    
-    @keyframes barBounce {
-        0%, 100% { height: 8px; }
-        50% { height: 25px; }
-    }
-    
-    .loader-square {
-        width: 30px;
-        height: 30px;
-        border-width: 2px;
-        margin: 8px 0;
-    }
-    
-    .loader-orbit {
-        width: 30px;
-        height: 30px;
-        margin: 8px 0;
-    }
-    
-    .orbit-dot {
-        width: 6px;
-        height: 6px;
-        margin: -3px 0 0 -3px;
-    }
-    
-    @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(12px); }
-        100% { transform: rotate(360deg) translateX(12px); }
-    }
-    
-    .loader-wave {
-        gap: 3px;
-        margin: 8px 0;
-    }
-    
-    .wave-dot {
-        width: 6px;
-        height: 6px;
-    }
-    
-    @keyframes wave {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-    
-    .loader-flip {
-        width: 30px;
-        height: 30px;
-        margin: 8px 0;
-    }
-    
-    .loader-hexagon {
-        width: 30px;
-        height: 30px;
-        margin: 8px 0;
-    }
-    
-    .hexagon-part {
-        border-width: 2px;
-    }
-    
-    .loader-gradient-ring {
-        width: 30px;
-        height: 30px;
-        margin: 8px 0;
-    }
-    
-    .loader-gradient-ring::before {
-        width: 22px;
-        height: 22px;
+    .motto-text {
+        font-size: 9.5px;
+        letter-spacing: 1.4px;
     }
 }
 
-/* Ultra Small Screens (Galaxy Fold, etc.) */
-@media (max-width: 320px) {
-    .page-loader {
-        padding: 0;
-        gap: 3px;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
+/* Landscape Mobile (Short Height) */
+@media (max-height: 520px) and (orientation: landscape) {
+    .loader-content {
+        padding: 15px 10px 5px 10px;
+        margin-top: 0;
     }
-    
     .loader-logo {
-        width: 55px;
-        height: 55px;
-        margin-bottom: 10px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        width: 75px;
+        margin-bottom: 8px;
     }
-    
-    .loader-text {
-        font-size: 14px;
-        margin-bottom: 4px;
-        line-height: 1.1;
-        max-width: 80vw;
-        padding: 0 10px;
+    .loader-title {
+        font-size: 18px;
+        letter-spacing: 2px;
     }
-    
     .loader-subtitle {
+        font-size: 12px;
+        margin-bottom: 14px;
+    }
+    .loader-progress-wrapper {
+        width: 180px;
+    }
+    .loader-loading-text {
         font-size: 9px;
-        margin-bottom: 12px;
-        line-height: 1.2;
-        max-width: 80vw;
-        padding: 0 10px;
-    }
-    
-    .loader-spinner {
-        width: 25px;
-        height: 25px;
-        border-width: 2px;
-        margin: 6px 0;
-    }
-    
-    .loader-dots {
-        gap: 3px;
         margin-top: 8px;
     }
-    
-    .loader-dot {
-        width: 6px;
-        height: 6px;
+    .loader-footer {
+        padding-bottom: 12px;
+    }
+    .loader-watermark {
+        display: none;
     }
 }
 
-/* High DPI / Retina Displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .loader-logo img {
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
-    }
-}
-
-/* Perfect Centering for All Browsers */
-.page-loader {
-    /* Flexbox centering */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    
-    /* Fallback centering for older browsers */
-    text-align: center;
-}
-
-/* iOS Safari specific fixes */
-@supports (-webkit-touch-callout: none) {
-    .page-loader {
-        height: 100vh;
-        height: -webkit-fill-available;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-}
-
-/* Android Chrome specific fixes */
-@media screen and (max-width: 768px) {
-    .page-loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-    }
-}
-
-/* Reduced Motion Preference */
+/* ACCESSIBILITY: PREFERS-REDUCED-MOTION */
 @media (prefers-reduced-motion: reduce) {
-    .page-loader * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    .loader-logo,
+    .loader-title,
+    .loader-subtitle,
+    .loader-progress-wrapper,
+    .loader-motto {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
     
-    .loader-logo {
-        animation: none;
-    }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
     .page-loader {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        transition: opacity 0.2s ease !important;
     }
-}
 
-/* =========================================
-   RESPONSIVE LOADER REBUILD (2026)
-   Use dynamic viewport units + clamp sizing.
-   This block is intentionally last to win
-   over earlier per-device overrides.
-   ========================================= */
-
-:root {
-    --loader-safe-top: env(safe-area-inset-top, 0px);
-    --loader-safe-right: env(safe-area-inset-right, 0px);
-    --loader-safe-bottom: env(safe-area-inset-bottom, 0px);
-    --loader-safe-left: env(safe-area-inset-left, 0px);
-
-    --loader-logo-size: clamp(64px, 18vw, 120px);
-    --loader-text-size: clamp(16px, 5vw, 24px);
-    --loader-subtitle-size: clamp(10px, 3.2vw, 14px);
-
-    --loader-ring-size: clamp(34px, 10vw, 60px);
-    --loader-border: clamp(2px, 0.6vw, 6px);
-    --loader-dot: clamp(6px, 2.5vw, 12px);
-}
-
-.page-loader {
-    /* Dynamic viewport height fixes (mobile address bar) */
-    height: 100vh;
-    min-height: 100vh;
-    height: 100svh;     /* stable viewport height */
-    min-height: 100svh;
-    height: 100dvh;     /* dynamic viewport height */
-    min-height: 100dvh;
-
-    width: 100vw;
-    inset: 0;
-    padding: max(12px, var(--loader-safe-top)) max(12px, var(--loader-safe-right))
-             max(12px, var(--loader-safe-bottom)) max(12px, var(--loader-safe-left));
-    gap: clamp(8px, 2.5vh, 18px);
-}
-
-.loader-logo {
-    width: var(--loader-logo-size);
-    height: var(--loader-logo-size);
-    margin-bottom: 0;
-    border-width: var(--loader-border);
-}
-
-.loader-text {
-    font-size: var(--loader-text-size);
-    margin-bottom: 0;
-    max-width: min(92vw, 520px);
-    padding: 0;
-    white-space: normal; /* allow wrap on small screens */
-    overflow: visible;
-    text-overflow: clip;
-}
-
-.loader-subtitle {
-    font-size: var(--loader-subtitle-size);
-    margin-bottom: 0;
-    max-width: min(92vw, 520px);
-    padding: 0;
-}
-
-/* Normalize animation element sizing across variants */
-.loader-spinner,
-.loader-square,
-.loader-flip,
-.loader-hexagon {
-    width: var(--loader-ring-size);
-    height: var(--loader-ring-size);
-    margin: 0;
-}
-
-.loader-spinner {
-    border-width: var(--loader-border);
-    border-top-width: var(--loader-border);
-}
-
-.loader-square {
-    border-width: var(--loader-border);
-}
-
-.loader-dual-ring,
-.loader-pulse-circles,
-.loader-orbit,
-.loader-gradient-ring {
-    width: var(--loader-ring-size);
-    height: var(--loader-ring-size);
-    margin: 0;
-}
-
-.loader-dual-ring {
-    border-width: var(--loader-border);
-}
-
-.pulse-circle {
-    border-width: max(2px, calc(var(--loader-border) - 1px));
-}
-
-.loader-gradient-ring::before {
-    width: calc(var(--loader-ring-size) * 0.72);
-    height: calc(var(--loader-ring-size) * 0.72);
-}
-
-.loader-dots,
-.loader-wave,
-.loader-bars {
-    margin: 0;
-}
-
-.loader-dots {
-    gap: clamp(4px, 1.8vw, 10px);
-}
-
-.loader-dot,
-.wave-dot,
-.orbit-dot {
-    width: var(--loader-dot);
-    height: var(--loader-dot);
-}
-
-/* Orbit transform needs to scale with size */
-@keyframes orbit {
-    0% { transform: rotate(0deg) translateX(calc(var(--loader-ring-size) * 0.42)); }
-    100% { transform: rotate(360deg) translateX(calc(var(--loader-ring-size) * 0.42)); }
-}
-
-/* Keep content centered even in very short landscape viewports */
-@media (max-height: 420px) and (orientation: landscape) {
-    .page-loader {
-        gap: 8px;
+    .loader-progress-bar {
+        transition: width 0.1s linear !important;
     }
 }

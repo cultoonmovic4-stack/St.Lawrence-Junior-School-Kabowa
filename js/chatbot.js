@@ -39,6 +39,13 @@ class StLawrenceChatbot {
     }
     
     init() {
+        // Chatbot ONLY appears on the Home page (index-redesign.html or root index.html)
+        const path = window.location.pathname.toLowerCase();
+        const isHomePage = path.endsWith('/index-redesign.html') || path.endsWith('/index.html') || path.endsWith('/') || path === '' || !path.includes('.html');
+        if (!isHomePage) {
+            return;
+        }
+
         this.createChatWidget();
         this.attachEventListeners();
         this.initializeVoices();

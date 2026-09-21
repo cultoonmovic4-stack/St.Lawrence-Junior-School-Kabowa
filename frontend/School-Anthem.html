@@ -7,8 +7,11 @@
     <meta name="description" content="St. Lawrence Junior School Kabowa - Our School Anthem, lyrics, and history.">
     <meta name="keywords" content="St. Lawrence Junior School, School Anthem, Kabowa, Uganda">
     
-    <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
+    <!-- Favicon — Official St. Lawrence Junior School Kabowa Crest -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/5-transparent.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/5-transparent.png">
+    <link rel="shortcut icon" href="../img/5-transparent.png">
+    <link rel="apple-touch-icon" href="../img/5-transparent.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,19 +130,32 @@
     <link rel="stylesheet" href="../css/navbar-hero-target.css?v=2.0">
     <!-- Target Final Footer Redesign Styles -->
     <link rel="stylesheet" href="../css/footer-target.css?v=3.0">
-    <!-- Chatbot CSS -->
-    <link rel="stylesheet" href="../css/chatbot.css?v=21.0">
 </head>
 <body>
     
-    <!-- Page Loader - Gradient Ring -->
-    <div class="page-loader" id="pageLoader">
-        <div class="loader-logo">
-            <img src="../img/5.jpg" alt="St. Lawrence Logo">
+    <!-- Page Loader — Option A Light Institutional -->
+    <div class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading St. Lawrence Junior School Kabowa">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest">
+            </div>
+            <h1 class="loader-title">ST. LAWRENCE</h1>
+            <p class="loader-subtitle">Junior School - Kabowa</p>
+            <div class="loader-progress-wrapper">
+                <div class="loader-progress-track">
+                    <div class="loader-progress-bar" id="loaderProgressBar"></div>
+                </div>
+                <span class="loader-loading-text">LOADING...</span>
+            </div>
         </div>
-        <div class="loader-text">ST. LAWRENCE</div>
-        <div class="loader-subtitle">Junior School - Kabowa</div>
-        <div class="loader-gradient-ring"></div>
+        <div class="loader-footer">
+            <div class="loader-motto">
+                <span class="motto-line"></span>
+                <span class="motto-text">WE STRIVE TO EXCEL</span>
+                <span class="motto-line"></span>
+            </div>
+        </div>
+        <div class="loader-watermark" aria-hidden="true"></div>
     </div>
     
     <!-- Header / Navigation -->
@@ -498,8 +514,6 @@
     <!-- Page Loader Script -->
     <script src="../js/page-loader.js"></script>
 
-    <!-- Chatbot JavaScript -->
-    <script src="../js/chatbot.js?v=8.0"></script>
 
     <!-- Sticky Navbar & Mobile Navigation Handler -->
     <script>
@@ -519,44 +533,23 @@
     <!-- Audio-Ready Synchronized Anthem Player Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // True Audio-Ready Lyrics Data with explicit start and end timestamps (seconds)
+            // Official St. Lawrence Junior School Kabowa Anthem Lyrics
             const lyricsData = [
-                // Verse 1
-                { start: 0.00, end: 5.50, section: "VERSE 1", badgeClass: "badge-verse", text: "St. Lawrence Junior School, our pride and joy," },
-                { start: 5.50, end: 11.00, section: "VERSE 1", badgeClass: "badge-verse", text: "Where knowledge blooms in every girl and boy," },
-                { start: 11.00, end: 16.50, section: "VERSE 1", badgeClass: "badge-verse", text: "With hearts united, we stand tall and strong," },
-                { start: 16.50, end: 23.00, section: "VERSE 1", badgeClass: "badge-verse", text: "In excellence and virtue, we belong." },
+                // Stanza 1
+                { start: 0.00, end: 12.00, section: "STANZA 1", badgeClass: "badge-verse", text: "St. Lawrence Junior School," },
+                { start: 12.00, end: 24.00, section: "STANZA 1", badgeClass: "badge-verse", text: "Our ray of hope for a brighter future" },
+                { start: 24.00, end: 36.00, section: "STANZA 1", badgeClass: "badge-verse", text: "Brightly she shines like a star in the dark" },
+                { start: 36.00, end: 48.00, section: "STANZA 1", badgeClass: "badge-verse", text: "In the mighty land of the king," },
+                { start: 48.00, end: 60.00, section: "STANZA 1", badgeClass: "badge-verse", text: "From the shores of Lake Victoria," },
+                { start: 60.00, end: 72.00, section: "STANZA 1", badgeClass: "badge-verse", text: "We shall rise and shine and shine again" },
 
-                // Chorus
-                { start: 23.00, end: 28.50, section: "CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
-                { start: 28.50, end: 34.50, section: "CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
-                { start: 34.50, end: 40.50, section: "CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
-                { start: 40.50, end: 47.00, section: "CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
-
-                // Verse 2
-                { start: 47.00, end: 53.00, section: "VERSE 2", badgeClass: "badge-verse", text: "From Kabowa hills, our voices rise," },
-                { start: 53.00, end: 58.50, section: "VERSE 2", badgeClass: "badge-verse", text: "Reaching for the stars, touching the skies," },
-                { start: 58.50, end: 64.50, section: "VERSE 2", badgeClass: "badge-verse", text: "With discipline and honor, we pave the way," },
-                { start: 64.50, end: 71.00, section: "VERSE 2", badgeClass: "badge-verse", text: "For a brighter, better tomorrow’s day." },
-
-                // Chorus
-                { start: 71.00, end: 76.50, section: "CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
-                { start: 76.50, end: 82.50, section: "CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
-                { start: 82.50, end: 88.50, section: "CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
-                { start: 88.50, end: 95.00, section: "CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
-
-                // Verse 3
-                { start: 95.00, end: 101.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Teachers guide us with wisdom and care," },
-                { start: 101.00, end: 107.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Building our future, showing they're there," },
-                { start: 107.00, end: 113.00, section: "VERSE 3", badgeClass: "badge-verse", text: "Together we learn, together we grow," },
-                { start: 113.00, end: 120.00, section: "VERSE 3", badgeClass: "badge-verse", text: "St. Lawrence spirit, forever we'll show!" },
-
-                // Final Chorus
-                { start: 120.00, end: 126.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "We strive to excel in all we do," },
-                { start: 126.00, end: 132.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "With faith and courage, we’ll see it through," },
-                { start: 132.00, end: 138.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "St. Lawrence, St. Lawrence, our guiding light," },
-                { start: 138.00, end: 144.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "Leading us forward, shining bright!" },
-                { start: 144.00, end: 150.00, section: "FINAL CHORUS", badgeClass: "badge-chorus", text: "Forever St. Lawrence, forever bright!" }
+                // Stanza 2
+                { start: 72.00, end: 84.00, section: "STANZA 2", badgeClass: "badge-verse", text: "St. Lawrence Junior School," },
+                { start: 84.00, end: 96.00, section: "STANZA 2", badgeClass: "badge-verse", text: "Our parents say we are so caring," },
+                { start: 96.00, end: 108.00, section: "STANZA 2", badgeClass: "badge-verse", text: "Wonderful we sound as we are on the lead" },
+                { start: 108.00, end: 120.00, section: "STANZA 2", badgeClass: "badge-verse", text: "With the best environment and the staff" },
+                { start: 120.00, end: 132.00, section: "STANZA 2", badgeClass: "badge-verse", text: "As our motto says we strive to excel" },
+                { start: 132.00, end: 149.00, section: "STANZA 2", badgeClass: "badge-verse", text: "For united we stand to achieve our goals" }
             ];
 
             const lyricsContainer = document.getElementById('lyricsContainer');

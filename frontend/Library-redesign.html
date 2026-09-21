@@ -6,8 +6,11 @@
     <title>Digital Library - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
     <meta name="description" content="Access learning materials, textbooks, and school resources provided by St. Lawrence Junior School Kabowa.">
     
-    <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
+    <!-- Favicon — Official St. Lawrence Junior School Kabowa Crest -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/5-transparent.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/5-transparent.png">
+    <link rel="shortcut icon" href="../img/5-transparent.png">
+    <link rel="apple-touch-icon" href="../img/5-transparent.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,21 +40,34 @@
     <link rel="stylesheet" href="../css/navbar-hero-target.css?v=2.0">
     <!-- Target Final Footer Redesign Styles -->
     <link rel="stylesheet" href="../css/footer-target.css?v=3.0">
-    <!-- Chatbot CSS -->
-    <link rel="stylesheet" href="../css/chatbot.css?v=21.0">
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
 </head>
 <body>
     
-    <!-- Page Loader - Flip -->
-    <div class="page-loader" id="pageLoader">
-        <div class="loader-logo">
-            <img src="../img/5.jpg" alt="St. Lawrence Logo">
+    <!-- Page Loader — Option A Light Institutional -->
+    <div class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading St. Lawrence Junior School Kabowa">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest">
+            </div>
+            <h1 class="loader-title">ST. LAWRENCE</h1>
+            <p class="loader-subtitle">Junior School - Kabowa</p>
+            <div class="loader-progress-wrapper">
+                <div class="loader-progress-track">
+                    <div class="loader-progress-bar" id="loaderProgressBar"></div>
+                </div>
+                <span class="loader-loading-text">LOADING...</span>
+            </div>
         </div>
-        <div class="loader-text">ST. LAWRENCE</div>
-        <div class="loader-subtitle">Junior School - Kabowa</div>
-        <div class="loader-flip"></div>
+        <div class="loader-footer">
+            <div class="loader-motto">
+                <span class="motto-line"></span>
+                <span class="motto-text">WE STRIVE TO EXCEL</span>
+                <span class="motto-line"></span>
+            </div>
+        </div>
+        <div class="loader-watermark" aria-hidden="true"></div>
     </div>
     
     <!-- Header / Navigation -->
@@ -317,7 +333,6 @@
     <script src="../js/unified-floating-elements.js?v=1.0"></script>
     <script src="../js/dropdown-fix.js?v=3.0"></script>
     <script src="../js/page-loader.js"></script>
-    <script src="../js/chatbot.js?v=8.0"></script>
 
     <!-- Dynamic Digital Library Engine -->
     <script>
