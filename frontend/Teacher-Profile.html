@@ -3,9 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Teacher Profile - ST. LAWRENCE JUNIOR SCHOOL - KABOWA</title>
-    <meta name="description" content="View educator profile, qualifications, and department responsibilities at St. Lawrence Junior School Kabowa.">
-    
+        <title>Teacher Profile – St. Lawrence Junior School Kabowa</title>
+    <meta name="description" content="View educator qualifications, departmental responsibilities, and office consultation hours at St. Lawrence Junior School Kabowa in Kampala, Uganda.">
+    <link rel="canonical" href="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teacher-Profile.html">
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Teacher Profile – St. Lawrence Junior School Kabowa">
+    <meta property="og:description" content="View educator qualifications, departmental responsibilities, and office consultation hours at St. Lawrence Junior School Kabowa in Kampala, Uganda.">
+    <meta property="og:url" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teacher-Profile.html">
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="St. Lawrence Junior School">
+    <meta property="og:image" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/img/hero-students-target.jpg">
+    <meta property="og:image:alt" content="Faculty Profile at St. Lawrence Junior School Kabowa">
+    <meta property="og:image:width" content="1376">
+    <meta property="og:image:height" content="768">
+
+    <!-- Twitter / X Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Teacher Profile – St. Lawrence Junior School Kabowa">
+    <meta name="twitter:description" content="View educator qualifications, departmental responsibilities, and office consultation hours at St. Lawrence Junior School Kabowa in Kampala, Uganda.">
+    <meta name="twitter:image" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/img/hero-students-target.jpg">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "ProfilePage",
+            "@id": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teacher-Profile.html#webpage",
+            "url": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teacher-Profile.html",
+            "name": "Teacher Profile – St. Lawrence Junior School Kabowa",
+            "description": "View educator qualifications, departmental responsibilities, and office consultation hours at St. Lawrence Junior School Kabowa in Kampala, Uganda.",
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "St. Lawrence Junior School Kabowa",
+                "url": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/index-redesign.html"
+            }
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/index-redesign.html"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Teachers",
+                    "item": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teachers-redesign.html"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Teacher Profile",
+                    "item": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Teacher-Profile.html"
+                }
+            ]
+        }
+    ]
+}
+    </script>
+
     <!-- Favicon — Official St. Lawrence Junior School Kabowa Crest -->
     <link rel="icon" type="image/png" sizes="32x32" href="../img/5-transparent.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/5-transparent.png">
@@ -46,9 +108,9 @@
     <div class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading St. Lawrence Junior School Kabowa">
         <div class="loader-content">
             <div class="loader-logo">
-                <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest">
+                <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest" width="80" height="80">
             </div>
-            <h1 class="loader-title">ST. LAWRENCE</h1>
+            <div class="loader-title">ST. LAWRENCE</div>
             <p class="loader-subtitle">Junior School - Kabowa</p>
             <div class="loader-progress-wrapper">
                 <div class="loader-progress-track">
@@ -74,7 +136,7 @@
                 <!-- Logo Section -->
                 <a href="index-redesign.html" class="logo">
                     <div class="logo-badge">
-                        <img src="../img/5.jpg" alt="St. Lawrence Logo" class="logo-img">
+                        <img src="../img/5.jpg" alt="St. Lawrence Logo" class="logo-img" width="44" height="44">
                     </div>
                     <div class="logo-text-container">
                         <span class="logo-text">ST. LAWRENCE</span>
@@ -101,15 +163,7 @@
 
                 </ul>
                 
-                <!-- Admin Portal Button (Desktop) -->
-                <div class="nav-actions">
-                    <a href="../backend/admin/login.html" class="btn-admin">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Admin Portal</span>
-                    </a>
-                </div>
-                
-                <!-- Mobile Hamburger Toggle -->
+<!-- Mobile Hamburger Toggle -->
                 <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu">
                     <span></span>
                     <span></span>
@@ -132,6 +186,7 @@
             <div id="profileContentArea">
                 <!-- Loading Skeleton -->
                 <div class="teachers-loading-state" style="padding: 90px 20px;">
+                    <h1 class="teacher-profile-fallback-title" style="font-size: 1.5rem; color: #1e3a8a; margin-bottom: 8px;">Faculty Profile - St. Lawrence Junior School</h1>
                     <i class="fas fa-spinner fa-spin"></i>
                     <p style="margin-top: 12px; font-size: 1.05rem; color: #475569;">Loading teacher profile...</p>
                 </div>
@@ -147,7 +202,7 @@
                 <!-- Column 1: Brand & Logo -->
                 <div class="footer-brand-col">
                     <div class="footer-brand-header">
-                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest" class="footer-school-logo">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest" class="footer-school-logo" width="70" height="70" loading="lazy" decoding="async">
                         <h3 class="footer-school-title">St. Lawrence<br>Junior School Kabowa</h3>
                     </div>
                     <p class="footer-brand-desc">Excellence in education since 2010.<br>Nurturing young minds for a brighter future.</p>
@@ -234,7 +289,7 @@
                     <span class="footer-legal-separator">|</span>
                     <a href="Contact-redesign.html">Terms of Use</a>
                     <span class="footer-legal-separator">|</span>
-                    <a href="Contact-redesign.html">Sitemap</a>
+                    <a href="../sitemap.xml">Sitemap</a>
                 </div>
             </div>
         </div>
@@ -483,6 +538,9 @@
                             <img class="profile-avatar-img" 
                                  src="${photoUrl}" 
                                  alt="${name}" 
+                                 width="160" 
+                                 height="160" 
+                                 decoding="async" 
                                  onerror="this.onerror=null;this.src='../img/user.jpg';">
                         </div>
                         <div class="profile-header-meta">

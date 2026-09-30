@@ -1,19 +1,18 @@
 /**
  * St. Lawrence Junior School Kabowa — Page Loader Script
- * Option A Light Institutional Loader Implementation
- * Configured with a 3.5 second polished, institutional loading sequence.
+ * Optimized Institutional Loader Implementation
+ * Eliminates artificial delay: dismisses smoothly upon document/window load.
  */
 
 (function () {
     'use strict';
 
-    const LOADER_DURATION_MS = 3500; // 3.5 Seconds duration as requested by user
-
     let loader = document.getElementById('pageLoader');
     let progressBar = document.getElementById('loaderProgressBar');
     let isHidden = false;
     let animFrameId = null;
-    let startTime = null;
+    let progress = 0;
+    let isPageLoaded = (document.readyState === 'complete');
 
     if (!loader) return;
 
@@ -29,7 +28,7 @@
         }
     }
 
-    // Dismiss loader smoothly after full 3.5s sequence
+    // Dismiss loader smoothly
     function hideLoader() {
         if (isHidden) return;
         isHidden = true;
@@ -45,31 +44,53 @@
             // Dispatch custom event for secondary scripts (counters, controls, etc.)
             setTimeout(function () {
                 window.dispatchEvent(new Event('loaderHidden'));
-            }, 300);
-        }, 300);
+            }, 200);
+        }, 200);
     }
 
-    // Smoothly animate progress over 3.5 seconds using requestAnimationFrame
-    function animateProgress(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const elapsed = timestamp - startTime;
-        const progress = (elapsed / LOADER_DURATION_MS) * 100;
-
-        if (progress < 100) {
-            setProgress(progress);
-            animFrameId = requestAnimationFrame(animateProgress);
-        } else {
+    // Quick progressive animation while page resources are being fetched
+    function tickProgress() {
+        if (isHidden) return;
+        if (isPageLoaded) {
             setProgress(100);
             hideLoader();
+            return;
+        }
+
+        // Incrementally advance to ~85% while waiting for window load event
+        if (progress < 85) {
+            progress += 5;
+            setProgress(progress);
+            setTimeout(function() {
+                animFrameId = requestAnimationFrame(tickProgress);
+            }, 25);
         }
     }
 
-    // Start 3.5-second smooth progress animation
-    animFrameId = requestAnimationFrame(animateProgress);
+    // Dismiss when window load event fires
+    function onWindowLoaded() {
+        isPageLoaded = true;
+        setProgress(100);
+        setTimeout(hideLoader, 100);
+    }
 
-    // Global error safety fallback: if JS breaks on page, still release eventually
+    if (document.readyState === 'complete') {
+        onWindowLoaded();
+    } else {
+        animFrameId = requestAnimationFrame(tickProgress);
+        window.addEventListener('load', onWindowLoaded, { once: true });
+    }
+
+    // Fallback safety timeout (maximum 1.5s in case external assets hang)
+    setTimeout(function () {
+        if (!isHidden) {
+            onWindowLoaded();
+        }
+    }, 1500);
+
+    // Global error safety fallback
     window.addEventListener('error', function () {
-        setTimeout(function () { hideLoader(); }, LOADER_DURATION_MS);
+        setTimeout(function () { hideLoader(); }, 500);
     });
 
 })();

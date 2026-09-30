@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /frontend/
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Disallow: /backend/
+Disallow: /scratch/
+Disallow: /tools/
+Disallow: /work/
+
+Sitemap: https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/sitemap.xml
