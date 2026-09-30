@@ -110,9 +110,6 @@
     <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
-    <!-- Footer redesign (clean) -->
-    <link rel="stylesheet" href="../css/footer.css?v=1.0">
-
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
 
@@ -790,10 +787,10 @@
     </button>
 
     <!-- AOS Animation -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 
     <!-- Custom JavaScript -->
-    <script src="../js/redesign-script.js"></script>
+    <script src="../js/redesign-script.js" defer></script>
 
     <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
@@ -808,16 +805,19 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
     <!-- API Integration -->
-    <script src="../js/api-config.js"></script>
-    <script src="../js/custom-alerts.js"></script>
-    <script src="../js/api-contact.js"></script>
+    <script src="../js/api-config.js" defer></script>
+    <script src="../js/custom-alerts.js" defer></script>
+    <script src="../js/api-contact.js" defer></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
         });
     </script>
 

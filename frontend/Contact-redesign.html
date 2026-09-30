@@ -126,9 +126,6 @@
     <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
-    <!-- Footer redesign (clean) -->
-    <link rel="stylesheet" href="../css/footer.css?v=1.0">
-
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
 
@@ -1112,10 +1109,10 @@
     </button>
 
     <!-- AOS Animation -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 
     <!-- Custom JavaScript -->
-    <script src="../js/redesign-script.js"></script>
+    <script src="../js/redesign-script.js" defer></script>
 
     <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
@@ -1130,16 +1127,20 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
     <!-- jQuery, jQuery Validation & SweetAlert2 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
     <script>
         // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
         });
 
         // FAQ Accordion

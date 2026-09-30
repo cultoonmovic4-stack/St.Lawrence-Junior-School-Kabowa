@@ -1096,10 +1096,10 @@
     </button>
 
     <!-- AOS Animation -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
     <!-- Custom JavaScript -->
-    <script src="../js/redesign-script.js"></script>
+    <script src="../js/redesign-script.js" defer></script>
     
     <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
@@ -1114,19 +1114,22 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
     
     <!-- Virtual Tour Modern JavaScript -->
-    <script src="../js/virtual-tour-modern.js"></script>
+    <script src="../js/virtual-tour-modern.js" defer></script>
     
     <!-- API Integration -->
-    <script src="../js/api-config.js?v=2.0"></script>
-    <script src="../js/custom-alerts.js?v=2.0"></script>
-    <script src="../js/api-contact.js?v=2.0"></script>
+    <script src="../js/api-config.js?v=2.0" defer></script>
+    <script src="../js/custom-alerts.js?v=2.0" defer></script>
+    <script src="../js/api-contact.js?v=2.0" defer></script>
     
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
         });
     </script>
     

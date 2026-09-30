@@ -109,9 +109,6 @@
     <!-- Desktop Navigation Fixes -->
     <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
 
-    <!-- Footer redesign (clean) -->
-    <link rel="stylesheet" href="../css/footer.css?v=1.0">
-
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
 
@@ -1265,10 +1262,10 @@
     <!-- Back to Top Button removed for admission form usability -->
 
     <!-- AOS Animation -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 
     <!-- Custom JavaScript -->
-    <script src="../js/redesign-script.js"></script>
+    <script src="../js/redesign-script.js" defer></script>
 
     <!-- Mobile Edge Display Fixes -->
     <script src="../js/mobile-edge-fixes.js"></script>
@@ -1283,16 +1280,18 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
     <!-- Official Admission Form Controller -->
-    <script src="../js/admission-official.js?v=2.1"></script>
+    <script src="../js/admission-official.js?v=2.1" defer></script>
     <script>
         // Initialize AOS
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 1000,
-                once: true,
-                offset: 100
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
         // Hero CTA Smooth Scroll with Sticky Header Offset
         const heroApplyCta = document.getElementById('heroApplyCta');
         if (heroApplyCta) {
