@@ -195,9 +195,11 @@
     /* Ensure header container matches other sections */
     .header .container {
         /* Use the same container settings as other sections */
-        max-width: 1200px !important;
+        max-width: 1240px !important;
         margin: 0 auto !important;
-        padding: 0 20px !important;
+        padding: 0 24px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
     
     /* Force hide hamburger on all non-mobile devices */
