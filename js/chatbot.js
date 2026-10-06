@@ -533,7 +533,7 @@ class StLawrenceChatbot {
                 // Update transcript box with bot reply
                 if (transcriptLead) {
                     const plainSnippet = this.cleanTextForSpeech(data.response);
-                    transcriptLead.innerHTML = `<strong>You:</strong> "${this.escapeHtml(transcript)}"<br><br><strong>Assistant:</strong> ${this.escapeHtml(plainSnippet.substring(0, 140))}${plainSnippet.length > 140 ? '...' : ''}`;
+                    transcriptLead.innerHTML = `<strong>You:</strong> "${this.escapeHtml(transcript)}"<br><br><strong>Assistant:</strong> ${this.escapeHtml(plainSnippet)}`;
                 }
 
                 // Speak the response aloud

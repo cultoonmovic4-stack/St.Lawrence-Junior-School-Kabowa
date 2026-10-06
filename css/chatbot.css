@@ -834,7 +834,7 @@
 .voice-transcript-box {
     width: 100%;
     min-height: 56px;
-    max-height: 100px;
+    max-height: 180px;
     background: var(--sl-bg-page);
     border: 1px solid var(--sl-border);
     border-radius: 8px;
