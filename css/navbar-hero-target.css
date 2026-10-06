@@ -334,21 +334,14 @@
     overflow: hidden;
 }
 
-/* Subtle Directional Overlay: guarantees left text contrast without darkening students */
+/* Overlay: removed on desktop - images fully visible */
 .hero-target .hero-target-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        rgba(8, 20, 42, 0.95) 0%,
-        rgba(8, 20, 42, 0.88) 32%,
-        rgba(8, 20, 42, 0.58) 55%,
-        rgba(8, 20, 42, 0.18) 78%,
-        rgba(8, 20, 42, 0.02) 100%
-    );
+    background: none;
     z-index: 1;
     pointer-events: none;
 }
@@ -380,6 +373,7 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-bottom: 14px;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
 }
 
 .hero-target-title {
@@ -390,15 +384,17 @@
     line-height: 1.15;
     margin: 0 0 18px 0;
     letter-spacing: -0.5px;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85), 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .hero-target-desc {
     font-family: var(--sls-font-body);
     font-size: 15.5px;
     line-height: 1.65;
-    color: rgba(255, 255, 255, 0.86);
+    color: rgba(255, 255, 255, 0.95);
     margin: 0 0 32px 0;
     max-width: 470px;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
 
 /* Action Buttons */
