@@ -366,7 +366,7 @@
 
 .hero-target-eyebrow {
     display: inline-block;
-    color: var(--sls-red-light);
+    color: rgba(255, 255, 255, 0.92);
     font-family: var(--sls-font-heading);
     font-size: 13px;
     font-weight: 700;
