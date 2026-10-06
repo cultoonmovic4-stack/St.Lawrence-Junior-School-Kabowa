@@ -504,12 +504,20 @@
 .hero-slider-dot {
     width: 8px;
     height: 8px;
+    min-width: 8px;
+    min-height: 8px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.45);
     border: none;
     padding: 0;
+    margin: 0;
     cursor: pointer;
     transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    display: block;
+    box-sizing: content-box;
 }
 
 .hero-slider-dot.active {
