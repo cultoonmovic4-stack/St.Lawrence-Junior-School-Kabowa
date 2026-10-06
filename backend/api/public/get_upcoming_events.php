@@ -55,8 +55,8 @@ try {
     $stmt->execute();
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fallback: If no future events exist, fetch the most recent entries
-    if (empty($events)) {
+    // Fallback: If no events exist and calendar scope is requested, fetch recent entries
+    if (empty($events) && $fetchAll) {
         $stmtFallback = $db->prepare("
             SELECT 
                 event_title,

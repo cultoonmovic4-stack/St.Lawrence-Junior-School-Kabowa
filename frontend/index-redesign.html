@@ -550,8 +550,8 @@
                 </div>
             </div>
 
-            <!-- Dynamic Upcoming Important Date Card -->
-            <div class="hero-upcoming-card" id="heroUpcomingCard" data-aos="fade-up" data-aos-delay="150">
+            <!-- Dynamic Upcoming Important Date Card (Only displayed when event date >= today) -->
+            <div class="hero-upcoming-card" id="heroUpcomingCard" data-aos="fade-up" data-aos-delay="150" style="display: none;">
                 <div class="hero-upcoming-badge">
                     <i class="far fa-calendar-alt"></i>
                     <span>UPCOMING</span>
@@ -1387,58 +1387,139 @@
         // API Base URL
         const API_URL = '../backend/api/public/';
 
-        // Load Dynamic Upcoming Event for Hero Card
+        // Check and Load Dynamic Upcoming Event for Hero Card
         async function loadHeroUpcomingEvent() {
+            const cardEl = document.getElementById('heroUpcomingCard');
             const titleEl = document.getElementById('upcomingEventTitle');
             const dateEl = document.getElementById('upcomingEventDateText');
-            if (!titleEl || !dateEl) return;
+            if (!cardEl) return;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Step 1: Check initial fallback date in DOM - if already passed, hide immediately
+            if (dateEl) {
+                const initialText = dateEl.textContent.trim();
+                const initialParsed = new Date(initialText);
+                if (!isNaN(initialParsed.getTime()) && initialParsed < today) {
+                    cardEl.style.display = 'none';
+                }
+            }
 
             try {
                 const response = await fetch(API_URL + 'get_upcoming_events.php');
                 const data = await response.json();
                 
-                if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-                    const nextEvent = data.data[0];
-                    if (nextEvent.event_title) {
-                        titleEl.textContent = nextEvent.event_title;
-                    }
-                    if (nextEvent.event_date) {
-                        const parsedDate = new Date(nextEvent.event_date + 'T00:00:00');
-                        if (!isNaN(parsedDate.getTime())) {
+                if (data.success && Array.isArray(data.data)) {
+                    // Filter events: event must be on or after today
+                    const validEvents = data.data.filter(ev => {
+                        if (!ev.event_date) return false;
+                        const evDate = new Date(ev.event_date + 'T00:00:00');
+                        return !isNaN(evDate.getTime()) && evDate >= today;
+                    });
+
+                    if (validEvents.length > 0) {
+                        const nextEvent = validEvents[0];
+                        if (titleEl && nextEvent.event_title) {
+                            titleEl.textContent = nextEvent.event_title;
+                        }
+                        if (dateEl && nextEvent.event_date) {
+                            const parsedDate = new Date(nextEvent.event_date + 'T00:00:00');
                             const options = { day: 'numeric', month: 'long', year: 'numeric' };
                             dateEl.textContent = parsedDate.toLocaleDateString('en-GB', options);
                         }
+                        cardEl.style.display = '';
+                        return;
+                    } else {
+                        // All events have closed/ended - card disappears
+                        cardEl.style.display = 'none';
+                        return;
                     }
+                } else {
+                    cardEl.style.display = 'none';
+                    return;
                 }
             } catch (err) {
-                console.warn('Unable to load hero upcoming event:', err);
+                // If API fails and fallback date passed, keep hidden
+                if (dateEl) {
+                    const parsed = new Date(dateEl.textContent.trim());
+                    if (!isNaN(parsed.getTime()) && parsed < today) {
+                        cardEl.style.display = 'none';
+                    }
+                }
             }
         }
 
-        // Hero Slider Controls (Minimal, Smooth & Accessible)
+        // Hero Slider Controls (Rotates Vibrant Authentic Photos, Touch Swipe & Accessible)
         function initHeroSlider() {
-            let currentSlide = 0;
-            const totalSlides = 4;
+            const heroEl = document.querySelector('.hero-target');
             const dots = document.querySelectorAll('.hero-slider-dot');
             const prevBtn = document.getElementById('heroPrevBtn');
             const nextBtn = document.getElementById('heroNextBtn');
+            if (!heroEl) return;
+
+            const slides = [
+                '../img/hero-students-target.webp',
+                '../img/admissions-hero-students.webp',
+                '../img/program-boarding.webp',
+                '../img/why-student-writing.webp'
+            ];
+            let currentSlide = 0;
+            let slideInterval;
 
             function showSlide(index) {
-                currentSlide = (index + totalSlides) % totalSlides;
+                currentSlide = (index + slides.length) % slides.length;
+                heroEl.style.backgroundImage = `url('${slides[currentSlide]}')`;
+                heroEl.style.backgroundPosition = 'center 25%';
+                heroEl.style.backgroundSize = 'cover';
                 dots.forEach((dot, idx) => {
                     dot.classList.toggle('active', idx === currentSlide);
                 });
             }
 
+            function startTimer() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5500);
+            }
+
             if (prevBtn) {
-                prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+                prevBtn.addEventListener('click', () => {
+                    showSlide(currentSlide - 1);
+                    startTimer();
+                });
             }
             if (nextBtn) {
-                nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+                nextBtn.addEventListener('click', () => {
+                    showSlide(currentSlide + 1);
+                    startTimer();
+                });
             }
             dots.forEach((dot, idx) => {
-                dot.addEventListener('click', () => showSlide(idx));
+                dot.addEventListener('click', () => {
+                    showSlide(idx);
+                    startTimer();
+                });
             });
+
+            // Mobile Touch Swipe support
+            let touchStartX = 0;
+            heroEl.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            heroEl.addEventListener('touchend', (e) => {
+                const diff = e.changedTouches[0].screenX - touchStartX;
+                if (diff > 40) {
+                    showSlide(currentSlide - 1);
+                    startTimer();
+                } else if (diff < -40) {
+                    showSlide(currentSlide + 1);
+                    startTimer();
+                }
+            }, { passive: true });
+
+            startTimer();
         }
 
         // Smooth Scroll to Academic Calendar
