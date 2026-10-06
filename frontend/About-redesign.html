@@ -276,35 +276,69 @@
         </div>
     </header>
 
-    <!-- About Page Hero (Target Editorial Redesign) -->
+    <!-- About Page Hero (Editorial Two-Column Redesign — matching Admissions) -->
     <section class="about-hero-editorial" id="aboutHero">
-        <!-- Background School Photography (Authentic St. Lawrence Junior School) -->
-        <div class="about-hero-bg">
-            <picture>
-                <source srcset="../img/new-2.webp" type="image/webp">
-                <img src="../img/new 2.JPG" alt="St. Lawrence Junior School Classroom" width="1200" height="800" decoding="async">
-            </picture>
-        </div>
-        <!-- Subtle Restrained Dark Navy Overlay -->
-        <div class="about-hero-overlay" aria-hidden="true"></div>
+        <div class="about-hero-container">
+            <div class="about-hero-grid">
 
-        <div class="container about-hero-container">
-            <div class="about-hero-content">
-                <!-- Understated Minimal Breadcrumb -->
-                <nav class="about-hero-breadcrumb" aria-label="Breadcrumb" data-aos="fade-down" data-aos-duration="600">
-                    <a href="index-redesign.html" class="breadcrumb-link">Home</a>
-                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
-                    <span class="breadcrumb-current" aria-current="page">About Us</span>
-                </nav>
+                <!-- Left: Text Column -->
+                <div class="about-hero-left">
+                    <!-- Breadcrumb -->
+                    <nav class="about-hero-breadcrumb" aria-label="Breadcrumb">
+                        <a href="index-redesign.html">Home</a>
+                        <span class="about-bc-sep">/</span>
+                        <span class="about-bc-current">About Us</span>
+                    </nav>
 
-                <!-- Refined Editorial Heading -->
-                <h1 class="about-hero-title" data-aos="fade-up" data-aos-duration="700">About St. Lawrence Junior School</h1>
+                    <!-- Eyebrow Label -->
+                    <div class="about-hero-eyebrow-wrap">
+                        <span class="about-hero-eyebrow-bar" aria-hidden="true"></span>
+                        <span class="about-hero-eyebrow-text">OUR SCHOOL</span>
+                    </div>
 
-                <!-- Subtle Institutional Red Accent Rule (Matching Home Page) -->
-                <div class="about-hero-red-line" aria-hidden="true" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700"></div>
+                    <!-- Headline -->
+                    <h1 class="about-hero-title">
+                        Shaping <span class="about-text-red">Young</span><br>Minds Since 2010
+                    </h1>
 
-                <!-- Academic Supporting Subtitle -->
-                <p class="about-hero-subtitle" data-aos="fade-up" data-aos-delay="150" data-aos-duration="700">Excellence in Education Since 2010</p>
+                    <!-- Subtitle -->
+                    <p class="about-hero-description">
+                        St. Lawrence Junior School Kabowa is committed to nurturing every child through excellence in academics, character, and holistic development.
+                    </p>
+
+                    <!-- CTA -->
+                    <div class="about-hero-actions">
+                        <a href="Admission-redesign.html" class="about-hero-cta">
+                            <span>Apply for Admission</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="#ourStory" class="about-hero-cta-secondary">
+                            <span>Our Story</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Photo Column with institutional badge -->
+                <div class="about-hero-right">
+                    <div class="about-hero-media-wrap">
+                        <picture>
+                            <source srcset="../img/hero-students-target.webp" type="image/webp">
+                            <img src="../img/hero-students-target.jpg"
+                                 alt="Pupils of St. Lawrence Junior School Kabowa"
+                                 class="about-hero-img"
+                                 width="620" height="460"
+                                 fetchpriority="high">
+                        </picture>
+                        <div class="about-hero-floating-badge" aria-label="15 plus years of excellence">
+                            <div class="badge-icon"><i class="fas fa-award"></i></div>
+                            <div class="badge-content">
+                                <span class="badge-num">15+ Years</span>
+                                <span class="badge-txt">Excellence in Education</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
