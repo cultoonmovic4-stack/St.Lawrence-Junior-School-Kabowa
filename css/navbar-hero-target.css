@@ -366,10 +366,10 @@
 
 .hero-target-eyebrow {
     display: inline-block;
-    color: rgba(255, 255, 255, 0.92);
+    color: #4da6ff;
     font-family: var(--sls-font-heading);
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-bottom: 14px;
