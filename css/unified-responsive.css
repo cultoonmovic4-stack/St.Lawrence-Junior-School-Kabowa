@@ -196,7 +196,7 @@ body {
         left: 0 !important;
         width: 100% !important;
         height: auto !important;
-        max-height: calc(100vh - 70px) !important;
+        max-height: 52vh !important;
         background: rgba(15, 15, 15, 0.98) !important;
         backdrop-filter: blur(10px) !important;
         flex-direction: column !important;

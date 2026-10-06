@@ -654,7 +654,7 @@
         left: 0 !important;
         width: 100% !important;
         height: auto !important;
-        max-height: calc(100vh - 85px) !important;
+        max-height: 52vh !important;
         background: rgba(7, 18, 40, 0.85) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
@@ -787,9 +787,9 @@
     .hero-target .hero-target-overlay {
         background: linear-gradient(
             180deg,
-            rgba(8, 20, 42, 0.62) 0%,
-            rgba(8, 20, 42, 0.38) 42%,
-            rgba(8, 20, 42, 0.68) 100%
+            rgba(8, 20, 42, 0.25) 0%,
+            rgba(8, 20, 42, 0.10) 42%,
+            rgba(8, 20, 42, 0.35) 100%
         ) !important;
     }
 
