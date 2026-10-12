@@ -81,7 +81,7 @@
     </script>
 
         <!-- LCP Image Preload -->
-    <link rel="preload" as="image" href="../img/hero-students-target.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="../img/new images/1.JPG" fetchpriority="high">
     <!-- Favicon — Official St. Lawrence Junior School Kabowa Crest -->
     <link rel="icon" type="image/png" sizes="32x32" href="../img/5-transparent.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/5-transparent.png">
@@ -1457,22 +1457,43 @@
             if (!heroEl) return;
 
             const slides = [
-                '../img/hero-students-target.webp',
-                '../img/admissions-hero-students.webp',
-                '../img/program-boarding.webp',
-                '../img/why-student-writing.webp'
+                '../img/new images/1.JPG',
+                '../img/new images/2.JPG',
+                '../img/new images/31.JPG',
+                '../img/new images/4.JPG'
             ];
             let currentSlide = 0;
             let slideInterval;
 
+            // Preload all slide images into browser cache immediately
+            slides.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+
             function showSlide(index) {
-                currentSlide = (index + slides.length) % slides.length;
-                heroEl.style.backgroundImage = `url('${slides[currentSlide]}')`;
-                heroEl.style.backgroundPosition = 'center 25%';
-                heroEl.style.backgroundSize = 'cover';
-                dots.forEach((dot, idx) => {
-                    dot.classList.toggle('active', idx === currentSlide);
-                });
+                const nextIndex = (index + slides.length) % slides.length;
+                const src = slides[nextIndex];
+
+                // Only swap once the image is in cache / loaded
+                const img = new Image();
+                img.onload = function () {
+                    currentSlide = nextIndex;
+                    heroEl.style.backgroundImage = `url('${src}')`;
+                    heroEl.style.backgroundPosition = 'center 25%';
+                    heroEl.style.backgroundSize = 'cover';
+                    dots.forEach((dot, idx) => {
+                        dot.classList.toggle('active', idx === currentSlide);
+                    });
+                };
+                // If image fails, still advance (avoids getting stuck)
+                img.onerror = function () {
+                    currentSlide = nextIndex;
+                    dots.forEach((dot, idx) => {
+                        dot.classList.toggle('active', idx === currentSlide);
+                    });
+                };
+                img.src = src;
             }
 
             function startTimer() {
