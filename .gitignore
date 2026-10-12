@@ -56,3 +56,9 @@ backend/vendor/phpmailer/phpmailer/.git/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+
+
+# Large video files - keep them outside Git
+*.MOV
+*.mov

@@ -842,12 +842,15 @@
 
                 // Viewport boundary check: flip upward if near bottom
                 const rect = trigger.getBoundingClientRect();
-                const spaceBelow = window.innerHeight - rect.bottom;
-                const menuHeight = 240;
-                if (spaceBelow < menuHeight && rect.top > menuHeight) {
+                const spaceBelow = window.innerHeight - rect.bottom - 12;
+                const spaceAbove = rect.top - 12;
+                const menuHeight = 300;
+                if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
                     wrap.classList.add('opens-up');
+                    menu.style.maxHeight = Math.min(spaceAbove, 360) + 'px';
                 } else {
                     wrap.classList.remove('opens-up');
+                    menu.style.maxHeight = Math.max(spaceBelow, 200) + 'px';
                 }
 
                 wrap.classList.add('is-open');

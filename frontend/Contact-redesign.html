@@ -743,6 +743,94 @@
             }
         }
     </style>
+
+    <style>
+        /* ============================================================
+           Contact Hero — Soft white gradient fade (left + bottom)
+           Uses a ::after pseudo-element overlay, NOT mask-image,
+           so it works reliably across all browsers and layouts.
+        ============================================================ */
+
+        /* Remove any mask from the wrap itself */
+        .contact-hero-media-wrap {
+            position: relative;
+            overflow: hidden;
+            -webkit-mask-image: none !important;
+            mask-image: none !important;
+        }
+
+        /* Image fills the wrap fully */
+        .contact-hero-media-wrap .admissions-hero-img {
+            border-radius: 0;
+            object-fit: cover;
+            object-position: center center;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Gradient overlay: white fades in from left and from bottom */
+        .contact-hero-media-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;                   /* covers the full wrap */
+            pointer-events: none;       /* never blocks clicks */
+            z-index: 2;
+            background:
+                /* Left fade: transparent image → solid white */
+                linear-gradient(
+                    to right,
+                    #ffffff 0%,
+                    rgba(255,255,255,0.85) 12%,
+                    rgba(255,255,255,0.45) 28%,
+                    rgba(255,255,255,0.10) 45%,
+                    transparent 60%
+                ),
+                /* Bottom fade: transparent image → solid white */
+                linear-gradient(
+                    to top,
+                    #ffffff 0%,
+                    rgba(255,255,255,0.80) 10%,
+                    rgba(255,255,255,0.30) 25%,
+                    transparent 45%
+                );
+        }
+
+        /* ── Tablet (≤ 768 px) ── */
+        @media (max-width: 768px) {
+            .contact-hero-media-wrap::after {
+                background:
+                    /* Lighter left fade on tablet */
+                    linear-gradient(
+                        to right,
+                        #ffffff 0%,
+                        rgba(255,255,255,0.5) 15%,
+                        transparent 40%
+                    ),
+                    /* Stronger bottom fade so subject stays visible */
+                    linear-gradient(
+                        to top,
+                        #ffffff 0%,
+                        rgba(255,255,255,0.6) 12%,
+                        transparent 35%
+                    );
+            }
+        }
+
+        /* ── Mobile (≤ 480 px) ── */
+        @media (max-width: 480px) {
+            .contact-hero-media-wrap::after {
+                /* On mobile image stacks below text — only bottom fade needed */
+                background:
+                    linear-gradient(
+                        to top,
+                        #ffffff 0%,
+                        rgba(255,255,255,0.55) 14%,
+                        transparent 32%
+                    );
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -870,8 +958,8 @@
 
                 <!-- Right Side (approx 55%) -->
                 <div class="admissions-hero-right">
-                    <div class="admissions-hero-media-wrap">
-                        <img src="../img/admissions-hero-students.png"
+                    <div class="admissions-hero-media-wrap contact-hero-media-wrap">
+                        <img src="../img/new images/4.JPG"
                             alt="St. Lawrence Junior School Kabowa pupils smiling in uniform"
                             class="admissions-hero-img" width="594" height="546">
                     </div>
