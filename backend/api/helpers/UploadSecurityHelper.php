@@ -21,7 +21,7 @@ class UploadSecurityHelper {
     const CATEGORY_LIBRARY = 'library';
 
     // Maximum file sizes in bytes
-    const MAX_SIZE_IMAGE = 5242880; // 5 MB
+    const MAX_SIZE_IMAGE = 15728640; // 15 MB
     const MAX_SIZE_ADMISSION_DOCUMENT = 10485760; // 10 MB
     const MAX_SIZE_LIBRARY = 26214400; // 25 MB
 

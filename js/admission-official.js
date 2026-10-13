@@ -782,7 +782,9 @@
                         createOptionItem(opt);
                     });
                 } else if (child.tagName === 'OPTION') {
-                    createOptionItem(child);
+                    if (child.value !== '') {
+                        createOptionItem(child);
+                    }
                 }
             });
         }
@@ -840,25 +842,28 @@
             } else {
                 closeAllDropdowns(wrap);
 
-                // Viewport boundary check: flip upward if near bottom
+                // Viewport boundary check: flip upward if near bottom with ample space
                 const rect = trigger.getBoundingClientRect();
-                const spaceBelow = window.innerHeight - rect.bottom - 12;
-                const spaceAbove = rect.top - 12;
-                const menuHeight = 300;
-                if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
+                const spaceBelow = window.innerHeight - rect.bottom - 16;
+                const spaceAbove = rect.top - 16;
+                const fullMenuHeight = 480;
+
+                if (spaceBelow < 300 && spaceAbove > spaceBelow) {
                     wrap.classList.add('opens-up');
-                    menu.style.maxHeight = Math.min(spaceAbove, 360) + 'px';
+                    menu.style.maxHeight = Math.min(spaceAbove, fullMenuHeight) + 'px';
                 } else {
                     wrap.classList.remove('opens-up');
-                    menu.style.maxHeight = Math.max(spaceBelow, 200) + 'px';
+                    menu.style.maxHeight = Math.min(Math.max(spaceBelow, 360), fullMenuHeight) + 'px';
                 }
 
                 wrap.classList.add('is-open');
                 trigger.setAttribute('aria-expanded', 'true');
 
-                const selectedItem = menu.querySelector('.sljk-dropdown-item.is-selected') || menu.querySelector('.sljk-dropdown-item');
+                const selectedItem = menu.querySelector('.sljk-dropdown-item.is-selected');
                 if (selectedItem) {
-                    selectedItem.focus();
+                    selectedItem.focus({ preventScroll: true });
+                } else {
+                    menu.scrollTop = 0;
                 }
             }
         });

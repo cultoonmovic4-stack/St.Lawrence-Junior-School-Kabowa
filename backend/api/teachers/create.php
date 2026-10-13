@@ -33,7 +33,7 @@ try {
     }
     
     // Validate department
-    $validDepartments = ['administration', 'english', 'mathematics', 'science', 'social'];
+    $validDepartments = ['administration', 'english', 'mathematics', 'science', 'social', 'security', 'kitchen', 'catering'];
     if (!in_array($department, $validDepartments)) {
         throw new Exception('Invalid department');
     }

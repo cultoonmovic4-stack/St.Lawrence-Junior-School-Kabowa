@@ -329,7 +329,17 @@
 
         function formatDepartment(dept) {
             if (!dept) return '';
-            return dept.charAt(0).toUpperCase() + dept.slice(1).toLowerCase();
+            const names = {
+                'administration': 'Administration',
+                'english': 'English',
+                'mathematics': 'Mathematics',
+                'science': 'Science',
+                'social': 'Social Studies',
+                'security': 'Security',
+                'kitchen': 'Kitchen & Catering',
+                'catering': 'Kitchen & Catering'
+            };
+            return names[dept.toLowerCase()] || (dept.charAt(0).toUpperCase() + dept.slice(1).toLowerCase());
         }
 
         async function loadTeacherProfile() {

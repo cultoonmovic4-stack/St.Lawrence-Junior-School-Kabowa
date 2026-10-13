@@ -11833,6 +11833,17 @@ img {
     color: white;
 }
 
+.teacher-badge.security {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+}
+
+.teacher-badge.kitchen,
+.teacher-badge.catering {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    color: white;
+}
+
 
 /* Update teacher qualification to show as phone number */
 .teacher-qualification {
