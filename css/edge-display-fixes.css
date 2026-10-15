@@ -439,6 +439,35 @@ body {
         box-sizing: border-box !important;
     }
 
+    #uniforms .uniforms-container {
+        padding-left: max(12px, var(--safe-area-left)) !important;
+        padding-right: max(12px, var(--safe-area-right)) !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #uniforms .uniforms-lower-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    #uniforms .uniforms-table-card {
+        min-width: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    #uniforms .uniforms-table-responsive {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
     #uniforms .uniform-category-card {
         min-width: 0 !important;
         max-width: 100% !important;

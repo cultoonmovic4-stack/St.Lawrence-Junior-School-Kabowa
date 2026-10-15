@@ -239,12 +239,18 @@
     padding-top: 110px;
     padding-bottom: 60px;
     min-height: 80vh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    box-sizing: border-box;
 }
 
 .uniforms-container {
     max-width: 1240px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 24px;
+    box-sizing: border-box;
 }
 
 /* Hero Section Split */
@@ -751,9 +757,11 @@
 /* Lower Section: Individual Pieces & P.E. Tables */
 .uniforms-lower-grid {
     display: grid;
-    grid-template-columns: 1.35fr 1fr;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: 22px;
     margin-bottom: 30px;
+    width: 100%;
+    min-width: 0;
 }
 
 .uniforms-table-card {
@@ -762,13 +770,23 @@
     border-radius: 12px;
     padding: 24px 26px;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .uniforms-table-responsive {
     overflow-x: auto;
     margin-top: 12px;
+    margin-bottom: 8px;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
 }
 
 .uniforms-clean-table {
@@ -833,12 +851,15 @@
     align-items: center;
     justify-content: space-between;
     gap: 14px;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .uniforms-pe-callout-left {
     display: flex;
     align-items: flex-start;
     gap: 10px;
+    min-width: 0;
 }
 
 .uniforms-pe-callout-icon {
@@ -853,6 +874,7 @@
     line-height: 1.5;
     color: #475569;
     margin: 0;
+    min-width: 0;
 }
 
 .uniforms-pe-callout-shirt {
@@ -969,21 +991,26 @@
 /* Responsive */
 @media (max-width: 1024px) {
     .uniforms-hero-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 28px;
     }
     .uniforms-top-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) !important;
     }
     .uniforms-pricing-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .uniforms-lower-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 24px;
+        width: 100%;
     }
 }
 
 @media (max-width: 768px) {
+    .uniforms-container {
+        padding: 0 16px;
+    }
     .uniforms-hero-title {
         font-size: 28px;
     }
@@ -991,20 +1018,99 @@
         height: 220px;
     }
     .uniforms-nav-tabs {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 10px;
     }
     .uniforms-pricing-cards-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .uniforms-panel-card,
+    .uniforms-notes-panel {
+        padding: 20px 16px;
+        border-radius: 10px;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .uniforms-lower-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 20px;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+    .uniforms-table-card {
+        padding: 20px 14px;
+        border-radius: 10px;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .uniforms-section-heading {
+        font-size: 18px;
+    }
+    .uniforms-section-subtext {
+        font-size: 12.5px;
+        margin-bottom: 14px;
+    }
+    .uniforms-table-responsive {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .uniforms-clean-table {
+        font-size: 11.5px;
+        width: 100%;
+        min-width: 100%;
+    }
+    .uniforms-clean-table th {
+        padding: 9px 6px;
+        font-size: 10px;
+        letter-spacing: 0.2px;
+    }
+    .uniforms-clean-table th:first-child,
+    .uniforms-clean-table td.td-item-name {
+        padding-left: 8px;
+    }
+    .uniforms-clean-table td {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+    .uniforms-clean-table td.td-price {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+    .uniforms-pe-callout {
+        margin-top: 14px;
+        padding: 12px 12px;
+        gap: 10px;
+    }
+    .uniforms-pe-callout-text {
+        font-size: 11.5px;
+    }
+    .uniforms-pe-callout-shirt {
+        font-size: 20px;
     }
     .uniforms-action-strip {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 18px;
+        padding: 20px 16px;
     }
     .uniforms-brand-divider {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
+    }
+
+    /* Floating Back-to-Top safe size on mobile screens */
+    .back-to-top,
+    #backToTop {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 15px !important;
+        bottom: max(16px, calc(12px + env(safe-area-inset-bottom, 0px))) !important;
+        right: max(14px, calc(12px + env(safe-area-inset-right, 0px))) !important;
     }
 }
 
@@ -1289,5 +1395,156 @@
     
     .uniform-card-footer {
         padding: 20px;
+    }
+
+    /* Uniforms Section Small Phone Optimization (320px - 480px) */
+    .uniforms-page-wrapper {
+        padding-top: 92px;
+        padding-bottom: 75px; /* Safe space at bottom so floating button never covers end content */
+    }
+    .uniforms-container {
+        padding: 0 10px !important;
+    }
+    .uniforms-hero-title {
+        font-size: 24px;
+        line-height: 1.22;
+    }
+    .uniforms-hero-description {
+        font-size: 13px;
+    }
+    .uniforms-hero-frame img {
+        height: 190px;
+    }
+    .uniforms-hero-badge {
+        top: 10px;
+        left: 10px;
+        padding: 6px 10px;
+    }
+    .uniforms-hero-badge-title {
+        font-size: 9px;
+    }
+    .uniforms-hero-badge-motto {
+        font-size: 8px;
+    }
+    .uniforms-nav-tabs-wrapper {
+        margin: 18px 0 22px 0;
+    }
+    .uniforms-tab-btn {
+        padding: 12px 14px;
+        gap: 12px;
+    }
+    .uniforms-tab-icon-box {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+    .uniforms-tab-title {
+        font-size: 13px;
+    }
+    .uniforms-tab-subtitle {
+        font-size: 11px;
+    }
+    .uniforms-panel-card,
+    .uniforms-notes-panel {
+        padding: 16px 12px;
+        border-radius: 10px;
+    }
+    .uniforms-section-heading {
+        font-size: 17px;
+    }
+    .uniforms-section-subtext {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    .uniforms-selectors-bar {
+        gap: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 14px;
+    }
+    .uniforms-pill-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+    .uniforms-table-card {
+        padding: 16px 8px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+    }
+    .uniforms-table-responsive {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+    }
+    /* Compact, responsive table cells so Nursery - P1, P2 - P5, P6 - P7 fit without overlap or cutoff */
+    .uniforms-clean-table {
+        font-size: 10.5px;
+        width: 100%;
+        table-layout: auto;
+    }
+    .uniforms-clean-table th {
+        padding: 8px 3px;
+        font-size: 9px;
+        line-height: 1.25;
+        letter-spacing: 0;
+        text-align: right;
+    }
+    .uniforms-clean-table th:first-child {
+        padding-left: 6px;
+        text-align: left;
+    }
+    .uniforms-clean-table td {
+        padding: 7px 3px;
+        font-size: 10px;
+    }
+    .uniforms-clean-table td.td-item-name {
+        padding-left: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+    .uniforms-clean-table td.td-price {
+        font-size: 9.5px;
+        padding: 7px 2px;
+        white-space: nowrap;
+        font-weight: 600;
+        letter-spacing: -0.2px;
+        text-align: right;
+    }
+    .uniforms-dash {
+        font-size: 10px;
+    }
+    /* P.E. essentials callout on small phones */
+    .uniforms-pe-callout {
+        padding: 10px 10px;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    .uniforms-pe-callout-text {
+        font-size: 11px;
+        line-height: 1.45;
+    }
+    .uniforms-pe-callout-shirt {
+        display: none; /* Hide decorative icon to free up full width */
+    }
+    .uniforms-action-strip {
+        padding: 16px 12px;
+        gap: 14px;
+    }
+    .uniforms-action-col {
+        gap: 10px;
+    }
+    .uniforms-action-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+    }
+    .uniforms-action-content h4 {
+        font-size: 13px;
+    }
+    .uniforms-action-content p {
+        font-size: 11.5px;
+    }
+    .uniforms-action-link {
+        font-size: 12px;
     }
 }
