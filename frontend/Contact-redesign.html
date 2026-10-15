@@ -147,40 +147,148 @@
             overflow: hidden;
         }
 
-        /* ===== jQuery Validation Styling ===== */
+        /* ===== Institutional Contact Form Validation & Security Styling ===== */
         .modern-contact-form .form-group {
             position: relative;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
-        .modern-contact-form .form-input.error {
-            border-color: #dc3545 !important;
-            background-color: #fff9f9 !important;
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+        .modern-contact-form .form-input {
+            width: 100%;
+            padding: 13px 16px;
+            font-size: 14.5px;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
 
-        .modern-contact-form .form-input.valid {
-            border-color: #198754 !important;
+        .modern-contact-form .form-input:focus {
+            outline: none;
+            border-color: #0B2545;
+            box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.12);
         }
 
-        .modern-contact-form label.error {
-            color: #dc3545;
-            font-size: 0.83rem;
+        .modern-contact-form .form-input.is-invalid {
+            border-color: #DC2626 !important;
+            background-color: #FEF2F2 !important;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+        }
+
+        .modern-contact-form .form-input.is-valid {
+            border-color: #10B981 !important;
+            background-color: #F0FDF4 !important;
+        }
+
+        .field-error-msg {
+            display: none;
+            color: #DC2626;
+            font-size: 0.82rem;
             font-weight: 600;
-            margin-top: 6px;
-            display: flex;
+            margin-top: 5px;
             align-items: center;
-            gap: 6px;
-            line-height: 1.4;
+            gap: 5px;
+            line-height: 1.35;
             animation: fadeIn 0.2s ease-in-out;
         }
 
-        .modern-contact-form label.error::before {
+        .field-error-msg.visible {
+            display: flex;
+        }
+
+        .field-error-msg::before {
             content: "\f06a";
             font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
             font-weight: 900;
-            font-size: 0.82rem;
-            color: #dc3545;
+            font-size: 0.8rem;
+            color: #DC2626;
+        }
+
+        /* ===== Security Anti-Spam Math Challenge Card ===== */
+        .security-math-card {
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border: 1.5px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 6px rgba(11, 37, 69, 0.04);
+            transition: all 0.2s ease;
+        }
+
+        .security-math-card:hover {
+            border-color: #CBD5E1;
+        }
+
+        .security-math-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .security-math-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #E0F2FE;
+            color: #0369A1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .security-refresh-btn {
+            background: none;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            color: #64748B;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 4px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .security-refresh-btn:hover {
+            color: #0B2545;
+            border-color: #0B2545;
+            background: #FFFFFF;
+        }
+
+        .security-math-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .security-math-question {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #0B2545;
+            letter-spacing: 1.5px;
+            background: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1.5px dashed #94A3B8;
+            user-select: none;
+        }
+
+        .security-math-input {
+            width: 130px !important;
+            margin-bottom: 0 !important;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
         }
 
         /* ===== Branded SweetAlert2 Institutional Styling ===== */
@@ -1075,38 +1183,63 @@
 
                         <h2 class="form-title">Send Us a Message</h2>
 
-                        <form id="contactForm" class="modern-contact-form" novalidate>
-                            <!-- Anti-spam: honeypot (hidden from humans, bots fill this) -->
+                        <form id="contactForm" class="modern-contact-form" novalidate onsubmit="return false;">
+                            <!-- Anti-spam: Dual honeypot trap fields (hidden from humans, bots fill this) -->
                             <div class="contact-honeypot" aria-hidden="true" tabindex="-1">
                                 <label for="website_url">Leave this field empty</label>
                                 <input type="text" id="website_url" name="website_url" autocomplete="off" tabindex="-1">
+                                <label for="contact_fax">Leave this empty</label>
+                                <input type="text" id="contact_fax" name="contact_fax" autocomplete="off" tabindex="-1">
                             </div>
                             <!-- Hidden form-load timestamp for time-based spam check -->
                             <input type="hidden" id="form_loaded_at" name="form_loaded_at" value="">
 
                             <div class="form-group">
-                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name"
-                                    required minlength="2" maxlength="100">
+                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Full Name *"
+                                    required minlength="2" maxlength="100" autocomplete="name">
+                                <span class="field-error-msg" id="nameError"></span>
                             </div>
 
                             <div class="form-group">
-                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email"
-                                    required maxlength="150">
+                                <input type="email" id="email" name="email" class="form-input" placeholder="Your Email Address *"
+                                    required maxlength="150" autocomplete="email">
+                                <span class="field-error-msg" id="emailError"></span>
                             </div>
 
                             <div class="form-group">
                                 <input type="tel" id="phone" name="phone" class="form-input"
-                                    placeholder="Your Phone Number" maxlength="20">
+                                    placeholder="Phone Number (e.g., +256 701 420 506)" maxlength="25" autocomplete="tel">
+                                <span class="field-error-msg" id="phoneError"></span>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject"
+                                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject (at least 2 words) *"
                                     required minlength="3" maxlength="150">
+                                <span class="field-error-msg" id="subjectError"></span>
                             </div>
 
                             <div class="form-group">
                                 <textarea id="message" name="message" class="form-input" rows="5"
-                                    placeholder="Your Message" required minlength="20" maxlength="2000"></textarea>
+                                    placeholder="Your Detailed Message (at least 20 characters) *" required minlength="20" maxlength="2000"></textarea>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                                    <span class="field-error-msg" id="messageError"></span>
+                                    <span id="charCount" style="font-size: 11.5px; color: #94A3B8; margin-left: auto;">0 / 2000</span>
+                                </div>
+                            </div>
+
+                            <!-- Security Anti-Spam Math Challenge -->
+                            <div class="security-math-card">
+                                <div class="security-math-header">
+                                    <span class="security-math-badge"><i class="fas fa-shield-alt"></i> Security Check</span>
+                                    <button type="button" class="security-refresh-btn" id="refreshMathBtn" title="Get another calculation">
+                                        <i class="fas fa-sync-alt"></i> New Question
+                                    </button>
+                                </div>
+                                <div class="security-math-row">
+                                    <div class="security-math-question" id="mathQuestionText">Loading...</div>
+                                    <input type="number" id="security_answer" name="security_answer" class="form-input security-math-input" placeholder="Answer" required autocomplete="off">
+                                </div>
+                                <span class="field-error-msg" id="securityError"></span>
                             </div>
 
                             <button type="submit" id="contactSubmitBtn" class="btn-send-message">
@@ -1258,10 +1391,8 @@
     <!-- Dropdown Navigation Fix -->
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
-    <!-- jQuery, jQuery Validation & SweetAlert2 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <!-- SweetAlert2 (Institutional Branded Alerts) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         // Initialize AOS
@@ -1293,12 +1424,6 @@
             });
         });
 
-        // Initialize form timestamp
-        (function () {
-            var ts = document.getElementById('form_loaded_at');
-            if (ts) ts.value = Math.floor(Date.now() / 1000);
-        })();
-
         // HTML escaping helper
         function escapeHtml(str) {
             if (!str) return '';
@@ -1310,211 +1435,359 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // jQuery Form Validation & Institutional Submission
-        $(document).ready(function () {
-            var $contactForm = $('#contactForm');
-            if ($contactForm.length) {
-                $contactForm.validate({
-                    errorElement: 'label',
-                    errorClass: 'error',
-                    validClass: 'valid',
-                    rules: {
-                        name: {
-                            required: true,
-                            minlength: 2,
-                            maxlength: 100
-                        },
-                        email: {
-                            required: true,
-                            email: true,
-                            maxlength: 150
-                        },
-                        phone: {
-                            maxlength: 20
-                        },
-                        subject: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 150
-                        },
-                        message: {
-                            required: true,
-                            minlength: 20,
-                            maxlength: 2000
-                        }
-                    },
-                    messages: {
-                        name: {
-                            required: "Please enter your full name.",
-                            minlength: "Name must be at least 2 characters."
-                        },
-                        email: {
-                            required: "Please enter your email address.",
-                            email: "Please enter a valid email address (e.g., parent@gmail.com)."
-                        },
-                        phone: {
-                            maxlength: "Phone number is too long."
-                        },
-                        subject: {
-                            required: "Please enter the subject of your message.",
-                            minlength: "Subject must be at least 3 characters."
-                        },
-                        message: {
-                            required: "Please enter your message.",
-                            minlength: "Please provide more details in your message (at least 20 characters)."
-                        }
-                    },
-                    highlight: function (element, errorClass, validClass) {
-                        $(element).addClass(errorClass).removeClass(validClass);
-                    },
-                    unhighlight: function (element, errorClass, validClass) {
-                        $(element).removeClass(errorClass).addClass(validClass);
-                    },
-                    errorPlacement: function (error, element) {
-                        error.insertAfter(element);
-                    },
-                    submitHandler: function (form, event) {
-                        event.preventDefault();
+        // =========================================================================
+        // Institutional Contact Form Validation & Anti-Spam Security Controller
+        // Pure Vanilla JavaScript (No jQuery dependency race conditions)
+        // =========================================================================
+        (function () {
+            // Disposable/burner email domains list (instant client-side rejection)
+            const DISPOSABLE_DOMAINS = [
+                'mailinator.com', 'guerrillamail.com', 'tempmail.com', '10minutemail.com',
+                'yopmail.com', 'trashmail.com', 'sharklasers.com', 'dispostable.com',
+                'getairmail.com', 'throwawaymail.com', 'maildrop.cc', 'inboxkitten.com',
+                'temp-mail.org', 'fakeinbox.com', 'mytemp.email', 'emailondeck.com',
+                'burnermail.io', 'generator.email', 'mytempemail.com', 'trashmail.net'
+            ];
 
-                        var $btn = $('#contactSubmitBtn');
-                        var originalBtnHtml = $btn.html();
+            let mathA = 0;
+            let mathB = 0;
 
-                        // 1. Honeypot check (hidden field bots fill)
-                        var honeypot = $('#website_url').val();
-                        if (honeypot && honeypot.trim() !== '') {
-                            Swal.fire({
-                                icon: 'success',
-                                iconColor: '#0B2545',
-                                title: 'Message Sent Successfully!',
-                                text: 'Thank you! Your message has been received.',
-                                confirmButtonText: 'Done',
-                                confirmButtonColor: '#0B2545',
-                                customClass: {
-                                    popup: 'swal-inst-popup',
-                                    title: 'swal-inst-title',
-                                    confirmButton: 'swal-inst-confirm'
-                                }
-                            });
-                            form.reset();
-                            return false;
-                        }
+            function initContactForm() {
+                const form = document.getElementById('contactForm');
+                if (!form) return;
 
-                        // 2. Time-gate verification (prevent sub-second bot automated spam)
-                        var loadedAt = parseInt($('#form_loaded_at').val() || '0', 10);
-                        var now = Math.floor(Date.now() / 1000);
-                        if (loadedAt > 0 && (now - loadedAt) < 4) {
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const phoneInput = document.getElementById('phone');
+                const subjectInput = document.getElementById('subject');
+                const messageInput = document.getElementById('message');
+                const securityInput = document.getElementById('security_answer');
+                const loadedAtInput = document.getElementById('form_loaded_at');
+                const refreshBtn = document.getElementById('refreshMathBtn');
+                const submitBtn = document.getElementById('contactSubmitBtn');
+                const charCountEl = document.getElementById('charCount');
+
+                // Error message elements
+                const nameErr = document.getElementById('nameError');
+                const emailErr = document.getElementById('emailError');
+                const phoneErr = document.getElementById('phoneError');
+                const subjectErr = document.getElementById('subjectError');
+                const messageErr = document.getElementById('messageError');
+                const securityErr = document.getElementById('securityError');
+
+                // 1. Initialize timestamp
+                if (loadedAtInput) {
+                    loadedAtInput.value = Math.floor(Date.now() / 1000);
+                }
+
+                // 2. Security Math Challenge Generator
+                function generateMathChallenge() {
+                    mathA = Math.floor(Math.random() * 8) + 2; // 2 to 9
+                    mathB = Math.floor(Math.random() * 8) + 1; // 1 to 9
+                    const qEl = document.getElementById('mathQuestionText');
+                    if (qEl) {
+                        qEl.innerHTML = `<i class="fas fa-calculator" style="margin-right: 6px; color: #D32F2F;"></i> ${mathA} + ${mathB} = ?`;
+                    }
+                    if (securityInput) {
+                        securityInput.value = '';
+                        securityInput.classList.remove('is-valid', 'is-invalid');
+                    }
+                    if (securityErr) securityErr.textContent = '';
+                }
+
+                generateMathChallenge();
+
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        generateMathChallenge();
+                        if (securityInput) securityInput.focus();
+                    });
+                }
+
+                // 3. UI Helper functions
+                function setValid(input, errorEl) {
+                    if (!input) return;
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    if (errorEl) errorEl.textContent = '';
+                }
+
+                function setInvalid(input, errorEl, msg) {
+                    if (!input) return;
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                    if (errorEl) errorEl.textContent = msg;
+                }
+
+                function clearStatus(input, errorEl) {
+                    if (!input) return;
+                    input.classList.remove('is-valid', 'is-invalid');
+                    if (errorEl) errorEl.textContent = '';
+                }
+
+                // 4. Individual Field Validators
+                function validateName() {
+                    const val = nameInput.value.trim();
+                    if (!val) {
+                        setInvalid(nameInput, nameErr, 'Please enter your full name.');
+                        return false;
+                    }
+                    if (val.length < 2) {
+                        setInvalid(nameInput, nameErr, 'Name must be at least 2 characters.');
+                        return false;
+                    }
+                    if (val.length > 100) {
+                        setInvalid(nameInput, nameErr, 'Name cannot exceed 100 characters.');
+                        return false;
+                    }
+                    if (/(https?:\/\/|www\.|\.com|\.net|\.org|<|>)/i.test(val)) {
+                        setInvalid(nameInput, nameErr, 'Name cannot contain web links or HTML characters.');
+                        return false;
+                    }
+                    setValid(nameInput, nameErr);
+                    return true;
+                }
+
+                function validateEmail() {
+                    const val = emailInput.value.trim();
+                    if (!val) {
+                        setInvalid(emailInput, emailErr, 'Please enter your email address.');
+                        return false;
+                    }
+                    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+                    if (!emailRegex.test(val)) {
+                        setInvalid(emailInput, emailErr, 'Please enter a valid email address (e.g., parent@gmail.com).');
+                        return false;
+                    }
+                    const domain = val.split('@')[1]?.toLowerCase().trim();
+                    if (domain && DISPOSABLE_DOMAINS.includes(domain)) {
+                        setInvalid(emailInput, emailErr, 'Disposable or temporary email addresses are not accepted. Please use a genuine email.');
+                        return false;
+                    }
+                    setValid(emailInput, emailErr);
+                    return true;
+                }
+
+                function validatePhone() {
+                    const val = phoneInput.value.trim();
+                    if (!val) {
+                        clearStatus(phoneInput, phoneErr);
+                        return true; // Phone is optional
+                    }
+                    const phoneRegex = /^[0-9+\-\s()]{7,25}$/;
+                    if (!phoneRegex.test(val)) {
+                        setInvalid(phoneInput, phoneErr, 'Please enter a valid phone number (e.g., +256 701 420 506).');
+                        return false;
+                    }
+                    setValid(phoneInput, phoneErr);
+                    return true;
+                }
+
+                function validateSubject() {
+                    const val = subjectInput.value.trim();
+                    if (!val) {
+                        setInvalid(subjectInput, subjectErr, 'Please enter the subject of your message.');
+                        return false;
+                    }
+                    if (val.length < 3) {
+                        setInvalid(subjectInput, subjectErr, 'Subject must be at least 3 characters.');
+                        return false;
+                    }
+                    const words = val.split(/\s+/).filter(Boolean);
+                    if (words.length < 2) {
+                        setInvalid(subjectInput, subjectErr, 'Please provide a more descriptive subject (at least 2 words).');
+                        return false;
+                    }
+                    setValid(subjectInput, subjectErr);
+                    return true;
+                }
+
+                function validateMessage() {
+                    const val = messageInput.value.trim();
+                    const len = val.length;
+                    if (charCountEl) {
+                        charCountEl.textContent = `${len} / 2000`;
+                        charCountEl.style.color = len >= 20 ? '#10B981' : '#94A3B8';
+                    }
+                    if (!val) {
+                        setInvalid(messageInput, messageErr, 'Please enter your message.');
+                        return false;
+                    }
+                    if (len < 20) {
+                        setInvalid(messageInput, messageErr, `Please provide more details (${20 - len} more characters needed).`);
+                        return false;
+                    }
+                    if (len > 2000) {
+                        setInvalid(messageInput, messageErr, 'Message is too long (maximum 2000 characters).');
+                        return false;
+                    }
+                    const linkMatches = val.match(/https?:\/\//gi) || [];
+                    if (linkMatches.length > 2) {
+                        setInvalid(messageInput, messageErr, 'For security, messages with excessive web links are not accepted.');
+                        return false;
+                    }
+                    setValid(messageInput, messageErr);
+                    return true;
+                }
+
+                function validateSecurity() {
+                    const val = securityInput.value.trim();
+                    if (!val) {
+                        setInvalid(securityInput, securityErr, 'Please solve the calculation to verify you are human.');
+                        return false;
+                    }
+                    const ans = parseInt(val, 10);
+                    if (isNaN(ans) || ans !== (mathA + mathB)) {
+                        setInvalid(securityInput, securityErr, 'Calculation answer is incorrect. Please check your math.');
+                        return false;
+                    }
+                    setValid(securityInput, securityErr);
+                    return true;
+                }
+
+                // 5. Wire Real-Time Validation on Input & Blur
+                nameInput.addEventListener('input', validateName);
+                nameInput.addEventListener('blur', validateName);
+
+                emailInput.addEventListener('input', validateEmail);
+                emailInput.addEventListener('blur', validateEmail);
+
+                phoneInput.addEventListener('input', validatePhone);
+                phoneInput.addEventListener('blur', validatePhone);
+
+                subjectInput.addEventListener('input', validateSubject);
+                subjectInput.addEventListener('blur', validateSubject);
+
+                messageInput.addEventListener('input', validateMessage);
+                messageInput.addEventListener('blur', validateMessage);
+
+                securityInput.addEventListener('input', validateSecurity);
+                securityInput.addEventListener('blur', validateSecurity);
+
+                // 6. Form Submission Handler
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Run all validators
+                    const isNameValid = validateName();
+                    const isEmailValid = validateEmail();
+                    const isPhoneValid = validatePhone();
+                    const isSubjectValid = validateSubject();
+                    const isMessageValid = validateMessage();
+                    const isSecurityValid = validateSecurity();
+
+                    // If any validator failed, focus the first invalid field
+                    if (!isNameValid) { nameInput.focus(); return false; }
+                    if (!isEmailValid) { emailInput.focus(); return false; }
+                    if (!isPhoneValid) { phoneInput.focus(); return false; }
+                    if (!isSubjectValid) { subjectInput.focus(); return false; }
+                    if (!isMessageValid) { messageInput.focus(); return false; }
+                    if (!isSecurityValid) { securityInput.focus(); return false; }
+
+                    // 7. Anti-Spam Check: Dual Honeypots (must remain empty)
+                    const hp1 = (document.getElementById('website_url')?.value || '').trim();
+                    const hp2 = (document.getElementById('contact_fax')?.value || '').trim();
+                    if (hp1 !== '' || hp2 !== '') {
+                        // Silent rejection: pretends to succeed so automated bots are satisfied
+                        showSuccessModal({
+                            name: nameInput.value.trim(),
+                            email: emailInput.value.trim(),
+                            subject: subjectInput.value.trim()
+                        });
+                        form.reset();
+                        generateMathChallenge();
+                        return false;
+                    }
+
+                    // 8. Anti-Spam Check: Time-Gate (prevent automated sub-second submissions)
+                    const loadedAt = parseInt(loadedAtInput?.value || '0', 10);
+                    const now = Math.floor(Date.now() / 1000);
+                    if (loadedAt > 0 && (now - loadedAt) < 3) {
+                        if (typeof Swal !== 'undefined') {
                             Swal.fire({
                                 icon: 'info',
                                 iconColor: '#0B2545',
                                 title: 'Submission Notice',
-                                text: 'Please take a moment to review your message details before sending.',
-                                confirmButtonColor: '#0B2545',
-                                customClass: {
-                                    popup: 'swal-inst-popup',
-                                    title: 'swal-inst-title',
-                                    confirmButton: 'swal-inst-confirm'
-                                }
+                                text: 'Please take a moment to review your message details before submitting.',
+                                confirmButtonColor: '#0B2545'
                             });
-                            return false;
+                        } else {
+                            alert('Please take a moment to review your message details before submitting.');
                         }
+                        return false;
+                    }
 
-                        // 3. Meaningful subject check (at least 2 words)
-                        var subjectText = $('#subject').val().trim();
-                        if (subjectText.split(/\s+/).length < 2) {
-                            Swal.fire({
-                                icon: 'warning',
-                                iconColor: '#C9182B',
-                                title: 'Descriptive Subject Required',
-                                text: 'Please enter a more descriptive subject (at least 2 words) so we can direct your inquiry appropriately.',
-                                confirmButtonColor: '#0B2545',
-                                customClass: {
-                                    popup: 'swal-inst-popup',
-                                    title: 'swal-inst-title',
-                                    confirmButton: 'swal-inst-confirm'
-                                }
-                            });
-                            return false;
-                        }
+                    // 9. Prepare Payload
+                    const payload = {
+                        name: nameInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        phone: phoneInput.value.trim(),
+                        subject: subjectInput.value.trim(),
+                        message: messageInput.value.trim(),
+                        security_a: mathA,
+                        security_b: mathB,
+                        security_answer: parseInt(securityInput.value.trim(), 10),
+                        _hp: '',
+                        _ts: loadedAt
+                    };
 
-                        var payload = {
-                            name: $('#name').val().trim(),
-                            email: $('#email').val().trim(),
-                            phone: $('#phone').val().trim(),
-                            subject: subjectText,
-                            message: $('#message').val().trim(),
-                            _hp: honeypot || '',
-                            _ts: loadedAt
-                        };
+                    // 10. Disable submit button & show loading state
+                    const originalBtnHtml = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying & Sending...';
 
-                        // Button loading state
-                        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Sending Message...');
+                    // API target resolution (works with api-config.js on local XAMPP and Railway)
+                    const apiUrl = (window.API_BASE_URL || '../backend/api') + '/public/submit_contact.php';
 
-                        fetch('../backend/api/public/submit_contact.php', {
+                    try {
+                        const response = await fetch(apiUrl, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
                             body: JSON.stringify(payload)
-                        })
-                            .then(function (response) {
-                                return response.json().then(function (data) {
-                                    return { ok: response.ok, status: response.status, data: data };
-                                });
-                            })
-                            .then(function (res) {
-                                var data = res.data;
-                                if (res.ok && data.success) {
-                                    form.reset();
-                                    $('#form_loaded_at').val(Math.floor(Date.now() / 1000));
-                                    $contactForm.find('.valid, .error').removeClass('valid error');
+                        });
 
-                                    // Well-designed, branded SweetAlert2 notification
-                                    Swal.fire({
-                                        icon: 'success',
-                                        iconColor: '#0B2545',
-                                        title: 'Message Sent Successfully!',
-                                        html: `
-                                        <div style="text-align: center; margin-top: 8px;">
-                                            <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
-                                                Thank you, <strong style="color: #0B2545;">${escapeHtml(payload.name)}</strong>! Your inquiry has been delivered to <strong>St. Lawrence Junior School Kabowa</strong>.
-                                            </p>
-                                            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
-                                                <div style="font-size: 11px; font-weight: 700; color: #0B2545; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Subject</div>
-                                                <div style="font-size: 13px; font-weight: 600; color: #1E293B;">${escapeHtml(payload.subject)}</div>
-                                            </div>
-                                            <p style="font-size: 13px; color: #64748B; line-height: 1.5; margin: 0;">
-                                                Our administrative office has received your message and will send an official response directly to <strong style="color: #0B2545;">${escapeHtml(payload.email)}</strong>.
-                                            </p>
-                                        </div>
-                                    `,
-                                        confirmButtonText: 'Done',
-                                        confirmButtonColor: '#0B2545',
-                                        customClass: {
-                                            popup: 'swal-inst-popup',
-                                            title: 'swal-inst-title',
-                                            confirmButton: 'swal-inst-confirm'
-                                        }
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        iconColor: '#C9182B',
-                                        title: 'Unable to Send Message',
-                                        text: data.message || 'An error occurred while submitting your message. Please try again or reach us directly by telephone.',
-                                        confirmButtonColor: '#0B2545',
-                                        customClass: {
-                                            popup: 'swal-inst-popup',
-                                            title: 'swal-inst-title',
-                                            confirmButton: 'swal-inst-confirm'
-                                        }
-                                    });
-                                }
-                            })
-                            .catch(function (err) {
-                                console.error('Contact submission error:', err);
+                        const data = await response.json().catch(() => ({}));
+
+                        if (response.ok && data.success) {
+                            form.reset();
+                            if (loadedAtInput) loadedAtInput.value = Math.floor(Date.now() / 1000);
+                            if (charCountEl) charCountEl.textContent = '0 / 2000';
+
+                            // Clear validation classes
+                            [nameInput, emailInput, phoneInput, subjectInput, messageInput, securityInput].forEach(el => {
+                                el?.classList.remove('is-valid', 'is-invalid');
+                            });
+
+                            // Generate new math challenge
+                            generateMathChallenge();
+
+                            // Show Branded Institutional Success Alert
+                            showSuccessModal(payload);
+                        } else {
+                            // Specific server error (e.g., domain doesn't exist, spam detected)
+                            const errMsg = data.message || 'Unable to submit your message. Please check your information and try again.';
+
+                            if (data.message && data.message.toLowerCase().includes('email')) {
+                                setInvalid(emailInput, emailErr, data.message);
+                                emailInput.focus();
+                            } else if (data.message && data.message.toLowerCase().includes('security')) {
+                                setInvalid(securityInput, securityErr, data.message);
+                                generateMathChallenge();
+                                securityInput.focus();
+                            }
+
+                            if (typeof Swal !== 'undefined') {
                                 Swal.fire({
-                                    icon: 'error',
+                                    icon: 'warning',
                                     iconColor: '#C9182B',
-                                    title: 'Connection Error',
-                                    text: 'Unable to communicate with the school server. Please verify your internet connection and try again.',
+                                    title: 'Verification Notice',
+                                    text: errMsg,
+                                    confirmButtonText: 'Review Details',
                                     confirmButtonColor: '#0B2545',
                                     customClass: {
                                         popup: 'swal-inst-popup',
@@ -1522,16 +1795,77 @@
                                         confirmButton: 'swal-inst-confirm'
                                     }
                                 });
-                            })
-                            .finally(function () {
-                                $btn.prop('disabled', false).html(originalBtnHtml);
+                            } else {
+                                alert(errMsg);
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Contact submission network error:', err);
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'error',
+                                iconColor: '#C9182B',
+                                title: 'Connection Error',
+                                text: 'Unable to reach the school server. Please verify your internet connection and try again, or contact the school office directly.',
+                                confirmButtonColor: '#0B2545',
+                                customClass: {
+                                    popup: 'swal-inst-popup',
+                                    title: 'swal-inst-title',
+                                    confirmButton: 'swal-inst-confirm'
+                                }
                             });
-
-                        return false;
+                        } else {
+                            alert('Connection Error: Unable to communicate with the server. Please try again.');
+                        }
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnHtml;
                     }
+
+                    return false;
                 });
+
+                function showSuccessModal(data) {
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: '#0B2545',
+                            title: 'Message Sent Successfully!',
+                            html: `
+                                <div style="text-align: center; margin-top: 8px;">
+                                    <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
+                                        Thank you, <strong style="color: #0B2545;">${escapeHtml(data.name)}</strong>! Your inquiry has been securely delivered to <strong>St. Lawrence Junior School Kabowa</strong>.
+                                    </p>
+                                    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
+                                        <div style="font-size: 11px; font-weight: 700; color: #0B2545; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Subject</div>
+                                        <div style="font-size: 13px; font-weight: 600; color: #1E293B;">${escapeHtml(data.subject)}</div>
+                                    </div>
+                                    <p style="font-size: 13px; color: #64748B; line-height: 1.5; margin: 0;">
+                                        Our administrative office has received your message and will send an official response directly to <strong style="color: #0B2545;">${escapeHtml(data.email)}</strong>.
+                                    </p>
+                                </div>
+                            `,
+                            confirmButtonText: 'Done',
+                            confirmButtonColor: '#0B2545',
+                            customClass: {
+                                popup: 'swal-inst-popup',
+                                title: 'swal-inst-title',
+                                confirmButton: 'swal-inst-confirm'
+                            }
+                        });
+                    } else {
+                        alert(`Thank you, ${data.name}! Your message has been sent successfully.`);
+                    }
+                }
             }
-        });
+
+            // Run initialization when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initContactForm);
+            } else {
+                initContactForm();
+            }
+        })();
     </script>
 
     <!-- Page Loader Script -->

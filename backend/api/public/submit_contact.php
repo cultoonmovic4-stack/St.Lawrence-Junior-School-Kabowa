@@ -146,10 +146,66 @@ if (mb_strlen($name) > 100 || mb_strlen($email) > 150 || mb_strlen($subject) > 1
     rejectSpam("Field too long");
 }
 
-// ─── Email format ────────────────────────────────────────────────────────────
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Please enter a valid email address.']);
+    echo json_encode(['success' => false, 'message' => 'Please enter a valid email address (e.g., yourname@gmail.com).']);
+    exit;
+}
+
+// ─── Layer 4B: Disposable & Burner Email Domain Filter ─────────────────────────
+$disposableDomains = [
+    'mailinator.com', 'guerrillamail.com', 'tempmail.com', '10minutemail.com',
+    'yopmail.com', 'trashmail.com', 'sharklasers.com', 'dispostable.com',
+    'getairmail.com', 'throwawaymail.com', 'maildrop.cc', 'inboxkitten.com',
+    'temp-mail.org', 'fakeinbox.com', 'mytemp.email', 'emailondeck.com',
+    'burnermail.io', 'generator.email', 'mytempemail.com', 'trashmail.net'
+];
+
+$emailParts = explode('@', $email);
+$emailDomain = strtolower(trim(end($emailParts)));
+
+if (in_array($emailDomain, $disposableDomains, true)) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Temporary or disposable email addresses are not accepted. Please use your genuine email address.'
+    ]);
+    exit;
+}
+
+// ─── Layer 4C: Live DNS MX Record Verification (ensure email domain exists) ───
+if (function_exists('checkdnsrr')) {
+    $hasMx = checkdnsrr($emailDomain, 'MX');
+    $hasA = checkdnsrr($emailDomain, 'A');
+    if (!$hasMx && !$hasA) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => "The email domain '@{$emailDomain}' does not appear to exist or cannot receive messages. Please enter a valid email address."
+        ]);
+        exit;
+    }
+}
+
+// ─── Layer 4D: Mathematical Security Check (Anti-Bot Challenge) ───────────────
+if (!isset($data['security_a']) || !isset($data['security_b']) || !isset($data['security_answer'])) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Please solve the anti-spam security question before sending your message.'
+    ]);
+    exit;
+}
+
+$secA = (int)$data['security_a'];
+$secB = (int)$data['security_b'];
+$secAns = (int)$data['security_answer'];
+if ($secA <= 0 || $secB <= 0 || ($secA + $secB) !== $secAns) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => 'The security calculation answer was incorrect. Please solve the calculation to submit.'
+    ]);
     exit;
 }
 
