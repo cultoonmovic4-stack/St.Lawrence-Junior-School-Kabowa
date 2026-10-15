@@ -61,7 +61,7 @@
 })();
 
 // Legacy API Helper Functions (backward compatibility for existing code)
-const API = {
+var API = window.API || {
     async get(endpoint) {
         try {
             const url = `${window.API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
@@ -90,6 +90,7 @@ const API = {
         }
     }
 };
+window.API = API;
 
 function showLoading(elementId) {
     const el = document.getElementById(elementId);
