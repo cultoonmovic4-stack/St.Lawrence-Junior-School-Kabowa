@@ -210,12 +210,29 @@
     cursor: pointer;
     z-index: 4;
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    animation: tourPlayPulse 2.6s ease-in-out infinite;
 }
 
 .tour-play-btn:hover {
     transform: translate(-50%, -50%) scale(1.08);
     box-shadow: 0 14px 38px rgba(0, 0, 0, 0.38);
     background-color: #ffffff;
+}
+
+.tour-play-btn:active {
+    transform: translate(-50%, -50%) scale(0.94);
+}
+
+@keyframes tourPlayPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+    70% {
+        box-shadow: 0 0 0 16px rgba(220, 38, 38, 0), 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0), 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
 }
 
 .tour-play-icon {
@@ -428,7 +445,7 @@
 /* --- Responsive Styles --- */
 @media (max-width: 991px) {
     .virtual-tour-modern {
-        padding: 76px 0 68px 0;
+        padding: 72px 0 64px 0;
     }
 
     .tour-watermark-text,
@@ -437,12 +454,23 @@
     }
 
     .tour-watermark-crest {
-        width: 160px;
-        opacity: 0.06;
+        width: 140px;
+        opacity: 0.05;
+        right: 24px;
+        top: 20px;
     }
 
     .tour-media-frame {
-        max-height: 440px;
+        max-height: 460px;
+    }
+
+    .tour-play-btn {
+        width: 68px;
+        height: 68px;
+    }
+
+    .tour-play-icon i {
+        font-size: 22px;
     }
 
     .tour-highlights-grid {
@@ -466,50 +494,290 @@
 
 @media (max-width: 768px) {
     .virtual-tour-modern {
-        padding: 56px 0 50px 0;
+        padding: 50px 0 42px 0;
+    }
+
+    .tour-container {
+        padding: 0 20px;
+    }
+
+    /* Completely hide watermark crest on mobile to prevent clashing with header */
+    .tour-watermark-crest {
+        display: none;
+    }
+
+    .tour-header {
+        margin-bottom: 24px;
+    }
+
+    .tour-eyebrow {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .tour-eyebrow-line {
+        width: 24px;
+        height: 2px;
+    }
+
+    .tour-eyebrow-text {
+        font-size: 12px;
+        letter-spacing: 2px;
     }
 
     .tour-heading {
-        font-size: clamp(1.9rem, 6.5vw, 2.5rem);
+        font-size: clamp(1.75rem, 6.2vw, 2.3rem);
+        line-height: 1.2;
+        margin: 0 0 10px 0;
+        letter-spacing: -0.4px;
     }
 
     .tour-subtitle {
         font-size: 14.5px;
+        line-height: 1.55;
+        max-width: 520px;
+        padding: 0 8px;
     }
 
     .tour-subtitle br {
         display: none;
     }
 
+    .tour-media-wrapper {
+        margin: 0 auto 0;
+    }
+
     .tour-media-frame {
         border-radius: 14px;
         aspect-ratio: 16 / 10;
+        max-height: none;
+        min-height: 220px;
+        box-shadow: 0 12px 32px rgba(11, 26, 56, 0.12);
+    }
+
+    .tour-thumbnail-img {
+        object-position: center 30%;
     }
 
     .tour-play-btn {
-        width: 62px;
-        height: 62px;
+        width: 60px;
+        height: 60px;
     }
 
     .tour-play-icon i {
-        font-size: 20px;
-        margin-left: 4px;
+        font-size: 19px;
+        margin-left: 3px;
     }
 
+    .tour-close-btn {
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+}
+
+/* Separation of Badges on Screens <= 640px to completely prevent collisions */
+@media (max-width: 640px) {
+    /* Relocate Duration Badge to Top-Right */
+    .tour-duration-badge {
+        top: 12px;
+        right: 12px;
+        bottom: auto;
+        padding: 5px 12px;
+        font-size: 11.5px;
+        border-radius: 20px;
+        background-color: rgba(11, 26, 56, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+    }
+
+    /* Bottom Caption Badge expands gracefully without colliding */
     .tour-caption-badge {
         bottom: 12px;
         left: 12px;
+        right: auto;
+        max-width: calc(100% - 24px);
         padding: 6px 12px;
+        gap: 8px;
+        border-radius: 7px;
+        background-color: rgba(11, 26, 56, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+        box-sizing: border-box;
+    }
+
+    .tour-caption-bar {
+        width: 3px;
+        height: 14px;
     }
 
     .tour-caption-text {
         font-size: 11.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .virtual-tour-modern {
+        padding: 38px 0 32px 0;
+    }
+
+    .tour-container {
+        padding: 0 16px;
+    }
+
+    .tour-header {
+        margin-bottom: 18px;
+    }
+
+    .tour-eyebrow {
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .tour-eyebrow-line {
+        width: 20px;
+        height: 2px;
+    }
+
+    .tour-eyebrow-text {
+        font-size: 11px;
+        letter-spacing: 1.8px;
+    }
+
+    .tour-heading {
+        font-size: clamp(1.55rem, 6.8vw, 1.95rem);
+        margin: 0 0 8px 0;
+        letter-spacing: -0.3px;
+    }
+
+    .tour-subtitle {
+        font-size: 13.5px;
+        line-height: 1.5;
+        padding: 0 4px;
+    }
+
+    .tour-media-frame {
+        border-radius: 12px;
+        aspect-ratio: 16 / 10;
+        min-height: 200px;
+    }
+
+    .tour-thumbnail-img {
+        object-position: center 25%;
+    }
+
+    .tour-play-btn {
+        width: 52px;
+        height: 52px;
+    }
+
+    .tour-play-icon i {
+        font-size: 16px;
+        margin-left: 3px;
     }
 
     .tour-duration-badge {
-        bottom: 12px;
-        right: 12px;
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        font-size: 11px;
+        gap: 6px;
+    }
+
+    .tour-duration-badge i {
+        font-size: 11px;
+    }
+
+    .tour-caption-badge {
+        bottom: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
         padding: 5px 10px;
-        font-size: 11.5px;
+        gap: 7px;
+        border-radius: 6px;
+    }
+
+    .tour-caption-bar {
+        width: 2.5px;
+        height: 13px;
+    }
+
+    .tour-caption-text {
+        font-size: 11px;
+    }
+
+    .tour-close-btn {
+        top: 8px;
+        right: 8px;
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .virtual-tour-modern {
+        padding: 32px 0 28px 0;
+    }
+
+    .tour-container {
+        padding: 0 12px;
+    }
+
+    .tour-header {
+        margin-bottom: 15px;
+    }
+
+    .tour-heading {
+        font-size: 1.45rem;
+    }
+
+    .tour-subtitle {
+        font-size: 12.5px;
+        line-height: 1.45;
+    }
+
+    .tour-media-frame {
+        min-height: 185px;
+        border-radius: 10px;
+    }
+
+    .tour-play-btn {
+        width: 46px;
+        height: 46px;
+    }
+
+    .tour-play-icon i {
+        font-size: 14px;
+        margin-left: 2px;
+    }
+
+    .tour-duration-badge {
+        top: 8px;
+        right: 8px;
+        padding: 3px 8px;
+        font-size: 10px;
+    }
+
+    .tour-caption-badge {
+        bottom: 8px;
+        left: 8px;
+        max-width: calc(100% - 16px);
+        padding: 4px 8px;
+        gap: 6px;
+    }
+
+    .tour-caption-text {
+        font-size: 10px;
     }
 }
