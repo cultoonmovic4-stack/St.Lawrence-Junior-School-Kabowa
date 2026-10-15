@@ -9,7 +9,7 @@
                      window.location.hostname === '127.0.0.1' || 
                      window.location.hostname.endsWith('.local');
 
-    const REMOTE_BACKEND = 'https://stlawrence-junior-school-kabowa-production.up.railway.app/backend';
+    const REMOTE_BACKEND = 'https://api.stlawrencejuniorschoolkabowa.com/backend';
 
     window.API_BASE_URL = IS_LOCAL
         ? (window.location.pathname.includes('/frontend/') ? '../backend/api' : './backend/api')
