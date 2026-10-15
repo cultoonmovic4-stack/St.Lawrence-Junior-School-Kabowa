@@ -12,6 +12,7 @@ require_once __DIR__ . '/env.php';
 class Database {
     // Database credentials from environment variables
     private $host;
+    private $port;
     private $db_name;
     private $username;
     private $password;
@@ -21,10 +22,11 @@ class Database {
     public $conn;
     
     public function __construct() {
-        $this->host = env('DB_HOST', 'localhost');
-        $this->db_name = env('DB_NAME', 'st_lawrence_school');
-        $this->username = env('DB_USER', 'root');
-        $this->password = env('DB_PASS', '');
+        $this->host = env('DB_HOST', env('MYSQLHOST', 'localhost'));
+        $this->port = env('DB_PORT', env('MYSQLPORT', '3306'));
+        $this->db_name = env('DB_NAME', env('MYSQLDATABASE', 'st_lawrence_school'));
+        $this->username = env('DB_USER', env('MYSQLUSER', 'root'));
+        $this->password = env('DB_PASS', env('MYSQLPASSWORD', ''));
     }
     
     /**
@@ -36,7 +38,7 @@ class Database {
         
         try {
             // Create DSN (Data Source Name)
-            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=" . $this->charset;
+            $dsn = "mysql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name . ";charset=" . $this->charset;
             
             // PDO options for better security and error handling
             $options = [

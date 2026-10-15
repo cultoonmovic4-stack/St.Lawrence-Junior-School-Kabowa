@@ -6,7 +6,8 @@
 
 function loadEnv($path = __DIR__ . '/../../../.env') {
     if (!file_exists($path)) {
-        throw new Exception('.env file not found. Please copy .env.example to .env and configure it.');
+        // In cloud environments like Railway, environment variables are injected directly into the environment
+        return;
     }
     
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
