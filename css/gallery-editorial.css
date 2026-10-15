@@ -119,13 +119,11 @@
     align-items: center;
 }
 
-.gallery-hero-banner-img,
-picture.gallery-hero-banner-img,
-picture.gallery-hero-banner-img img {
+.gallery-hero-banner-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center 55%;
     display: block;
 }
 
