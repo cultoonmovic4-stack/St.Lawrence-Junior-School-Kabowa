@@ -62,7 +62,14 @@ try {
     $db = $database->getConnection();
     
     $currentUser = getCurrentUser();
-    $userId = $currentUser['user_id'];
+    $userId = (!empty($currentUser['user_id']) && is_numeric($currentUser['user_id'])) ? (int)$currentUser['user_id'] : null;
+    if ($userId !== null) {
+        $checkUser = $db->prepare("SELECT id FROM users WHERE id = :id LIMIT 1");
+        $checkUser->execute([':id' => $userId]);
+        if (!$checkUser->fetch()) {
+            $userId = null;
+        }
+    }
     
     $stmt = $db->prepare("
         INSERT INTO gallery_images 
@@ -78,7 +85,7 @@ try {
     $stmt->bindParam(':image_url', $imageUrl);
     $stmt->bindParam(':category', $category);
     $stmt->bindParam(':upload_date', $upload_date);
-    $stmt->bindParam(':uploaded_by', $userId);
+    $stmt->bindValue(':uploaded_by', $userId, $userId !== null ? PDO::PARAM_INT : PDO::PARAM_NULL);
     
     if ($stmt->execute()) {
         echo json_encode([
@@ -93,10 +100,10 @@ try {
         throw new Exception('Failed to save to database');
     }
     
-} catch (Exception $e) {
+} catch (Throwable $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Error: ' . $e->getMessage()
+        'message' => $e->getMessage()
     ]);
 }

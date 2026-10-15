@@ -40,14 +40,32 @@ try {
         }
     }
     
-    // Handle file upload securely
-    if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-        throw new Exception('File upload failed or no file provided');
+    // Handle file upload securely with clear diagnostics
+    if (!isset($_FILES['file'])) {
+        throw new Exception('No file received by server. File may exceed maximum POST size.');
+    }
+    
+    if ($_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+        switch ($_FILES['file']['error']) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new Exception('File is too large for server limits (upload_max_filesize).');
+            case UPLOAD_ERR_PARTIAL:
+                throw new Exception('Upload was interrupted. Please try again.');
+            case UPLOAD_ERR_NO_FILE:
+                throw new Exception('No file was selected for upload.');
+            case UPLOAD_ERR_NO_TMP_DIR:
+                throw new Exception('Server temporary upload folder is missing.');
+            case UPLOAD_ERR_CANT_WRITE:
+                throw new Exception('Server failed to write file to disk.');
+            default:
+                throw new Exception('Upload failed with PHP system code: ' . $_FILES['file']['error']);
+        }
     }
     
     $uploadDir = __DIR__ . '/../../uploads/library/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        @mkdir($uploadDir, 0755, true);
     }
     
     $uploadResult = UploadSecurityHelper::validateAndSave(
@@ -68,7 +86,14 @@ try {
     $db = $database->getConnection();
     
     $currentUser = getCurrentUser();
-    $userId = $currentUser['user_id'];
+    $userId = (!empty($currentUser['user_id']) && is_numeric($currentUser['user_id'])) ? (int)$currentUser['user_id'] : null;
+    if ($userId !== null) {
+        $checkUser = $db->prepare("SELECT id FROM users WHERE id = :id LIMIT 1");
+        $checkUser->execute([':id' => $userId]);
+        if (!$checkUser->fetch()) {
+            $userId = null;
+        }
+    }
     
     $fileUrl = 'uploads/library/' . $uploadResult['filename'];
     $fileType = $uploadResult['extension'];
@@ -89,7 +114,7 @@ try {
     $stmt->bindParam(':file_url', $fileUrl);
     $stmt->bindParam(':file_type', $fileType);
     $stmt->bindParam(':file_size', $fileSize);
-    $stmt->bindParam(':uploaded_by', $userId);
+    $stmt->bindValue(':uploaded_by', $userId, $userId !== null ? PDO::PARAM_INT : PDO::PARAM_NULL);
     $stmt->bindParam(':upload_date', $upload_date);
     
     if ($stmt->execute()) {
@@ -106,10 +131,10 @@ try {
         throw new Exception('Failed to save to database');
     }
     
-} catch (Exception $e) {
+} catch (Throwable $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Error: ' . $e->getMessage()
+        'message' => $e->getMessage()
     ]);
 }

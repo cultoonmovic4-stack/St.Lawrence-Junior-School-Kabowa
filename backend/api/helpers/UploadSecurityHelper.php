@@ -21,9 +21,9 @@ class UploadSecurityHelper {
     const CATEGORY_LIBRARY = 'library';
 
     // Maximum file sizes in bytes
-    const MAX_SIZE_IMAGE = 15728640; // 15 MB
-    const MAX_SIZE_ADMISSION_DOCUMENT = 10485760; // 10 MB
-    const MAX_SIZE_LIBRARY = 26214400; // 25 MB
+    const MAX_SIZE_IMAGE = 31457280; // 30 MB
+    const MAX_SIZE_ADMISSION_DOCUMENT = 20971520; // 20 MB
+    const MAX_SIZE_LIBRARY = 104857600; // 100 MB
 
     // Dangerous extensions that must never be accepted under any circumstance
     private static $dangerousExtensions = [
@@ -37,16 +37,20 @@ class UploadSecurityHelper {
     // Allowed MIME types mapped to canonical extension per category
     private static $allowedMimeMap = [
         self::CATEGORY_IMAGE => [
-            'image/jpeg' => 'jpg',
-            'image/png'  => 'png',
-            'image/webp' => 'webp',
-            'image/gif'  => 'gif'
+            'image/jpeg'  => 'jpg',
+            'image/pjpeg' => 'jpg',
+            'image/png'   => 'png',
+            'image/x-png' => 'png',
+            'image/webp'  => 'webp',
+            'image/gif'   => 'gif'
         ],
         self::CATEGORY_ADMISSION_DOCUMENT => [
-            'application/pdf' => 'pdf',
-            'image/jpeg'      => 'jpg',
-            'image/png'       => 'png',
-            'image/webp'      => 'webp'
+            'application/pdf'   => 'pdf',
+            'image/jpeg'        => 'jpg',
+            'image/pjpeg'       => 'jpg',
+            'image/png'         => 'png',
+            'image/x-png'       => 'png',
+            'image/webp'        => 'webp'
         ],
         self::CATEGORY_LIBRARY => [
             'application/pdf' => 'pdf',
@@ -56,9 +60,23 @@ class UploadSecurityHelper {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
             'application/vnd.ms-powerpoint' => 'ppt',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-            'image/jpeg' => 'jpg',
-            'image/png'  => 'png',
-            'video/mp4'  => 'mp4'
+            'application/vnd.oasis.opendocument.text' => 'odt',
+            'application/vnd.oasis.opendocument.spreadsheet' => 'ods',
+            'application/vnd.oasis.opendocument.presentation' => 'odp',
+            'application/zip' => 'zip',
+            'application/x-zip-compressed' => 'zip',
+            'text/plain' => 'txt',
+            'text/csv'   => 'csv',
+            'image/jpeg'  => 'jpg',
+            'image/pjpeg' => 'jpg',
+            'image/png'   => 'png',
+            'image/x-png' => 'png',
+            'image/webp'  => 'webp',
+            'image/gif'   => 'gif',
+            'video/mp4'   => 'mp4',
+            'video/webm'  => 'webm',
+            'video/quicktime' => 'mov',
+            'video/x-msvideo' => 'avi'
         ]
     ];
 
@@ -132,16 +150,29 @@ class UploadSecurityHelper {
         $detectedMime = finfo_file($finfo, $file['tmp_name']);
         finfo_close($finfo);
 
+        $originalExt = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        // OpenXML documents (docx, xlsx, pptx) and zip archives are often detected by libmagic as application/zip or application/octet-stream
+        if (in_array($detectedMime, ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'])) {
+            $officeInfo = self::inspectZipOrOfficeDocument($file['tmp_name'], $originalExt);
+            if ($officeInfo !== false) {
+                $detectedMime = $officeInfo['mime'];
+                $canonicalExtension = $officeInfo['extension'];
+            }
+        }
+
         $allowedCategoryMimes = self::$allowedMimeMap[$category];
         if (!array_key_exists($detectedMime, $allowedCategoryMimes)) {
-            throw new Exception('Invalid or unsupported file type.');
+            throw new Exception("Invalid or unsupported file type ({$detectedMime}).");
         }
 
         // 8. Deep Content Inspection
         self::inspectFileContent($file['tmp_name'], $detectedMime);
 
         // 9. Derive Safe Canonical Extension Strictly From Validated MIME Type
-        $canonicalExtension = $allowedCategoryMimes[$detectedMime];
+        if (empty($canonicalExtension)) {
+            $canonicalExtension = $allowedCategoryMimes[$detectedMime];
+        }
 
         // 10. Generate Cryptographically Secure Random Filename
         $randomToken = bin2hex(random_bytes(12));
@@ -247,7 +278,7 @@ class UploadSecurityHelper {
             }
         }
 
-        // Polyglot check: Ensure no embedded PHP execution tags exist inside images or documents
+        // Script injection check: Ensure no embedded PHP execution tags exist inside images or documents
         $sampleHandle = @fopen($tmpPath, 'rb');
         if ($sampleHandle) {
             // Read first 8KB and last 8KB of file to check for embedded script tags
@@ -262,11 +293,72 @@ class UploadSecurityHelper {
 
             $combined = strtolower($headContent . $tailContent);
             if (strpos($combined, '<?php') !== false || 
-                strpos($combined, '<?=') !== false || 
-                strpos($combined, '<script') !== false) {
-                throw new Exception('Security violation: malicious script signature detected in file content.');
+                strpos($combined, '<?=\'') !== false || 
+                strpos($combined, '<?="') !== false || 
+                strpos($combined, '<?= ') !== false || 
+                preg_match('/<script\s+language\s*=\s*["\']?php/i', $combined)) {
+                throw new Exception('Security violation: malicious PHP script signature detected in file content.');
             }
         }
+    }
+
+    /**
+     * Inspects a ZIP archive to safely identify Microsoft Office OpenXML documents (docx, xlsx, pptx)
+     * and ensures no dangerous executable scripts are hidden inside.
+     */
+    private static function inspectZipOrOfficeDocument(string $tmpPath, string $originalExt) {
+        if (!class_exists('ZipArchive')) {
+            if (in_array($originalExt, ['docx', 'xlsx', 'pptx', 'zip'])) {
+                return ['mime' => 'application/zip', 'extension' => $originalExt];
+            }
+            return false;
+        }
+
+        $zip = new ZipArchive();
+        if ($zip->open($tmpPath) !== true) {
+            return false;
+        }
+
+        $hasWord = false;
+        $hasExcel = false;
+        $hasPpt = false;
+        $hasContentTypes = false;
+
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $stat = $zip->statIndex($i);
+            $entryName = strtolower($stat['name']);
+
+            // Security check: reject if archive contains dangerous executable files
+            $entryExt = strtolower(pathinfo($entryName, PATHINFO_EXTENSION));
+            if (in_array($entryExt, self::$dangerousExtensions, true)) {
+                $zip->close();
+                throw new Exception("Security violation: archive contains prohibited script or executable file.");
+            }
+
+            if (strpos($entryName, 'word/') === 0 || $entryName === 'word/document.xml') $hasWord = true;
+            if (strpos($entryName, 'xl/') === 0 || $entryName === 'xl/workbook.xml') $hasExcel = true;
+            if (strpos($entryName, 'ppt/') === 0 || $entryName === 'ppt/presentation.xml') $hasPpt = true;
+            if ($entryName === '[content_types].xml') $hasContentTypes = true;
+        }
+        $zip->close();
+
+        if ($hasContentTypes) {
+            if ($hasWord) {
+                return ['mime' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'extension' => 'docx'];
+            }
+            if ($hasExcel) {
+                return ['mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'extension' => 'xlsx'];
+            }
+            if ($hasPpt) {
+                return ['mime' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'extension' => 'pptx'];
+            }
+        }
+
+        if (in_array($originalExt, ['docx', 'xlsx', 'pptx', 'zip'])) {
+            return ['mime' => 'application/zip', 'extension' => $originalExt];
+        }
+
+        return false;
     }
 
     /**
