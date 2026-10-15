@@ -616,6 +616,10 @@
 
         function openUploadModal() {
             document.getElementById('uploadForm').reset();
+            const dateInput = document.getElementById('uploadDateInput');
+            if (dateInput) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
             document.getElementById('filePreviewArea').style.display = 'none';
             document.getElementById('uploadModal').classList.add('active');
         }
@@ -684,7 +688,8 @@
                 formData.append('category', category);
                 formData.append('class_level', classLevel);
                 formData.append('subject', subject);
-                formData.append('upload_date', uploadDate);
+                const finalDate = uploadDate || new Date().toISOString().split('T')[0];
+                formData.append('upload_date', finalDate);
 
                 try {
                     const response = await fetch('../api/library/create.php', {

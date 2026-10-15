@@ -21,8 +21,12 @@ try {
     $description = $_POST['description'] ?? '';
     $category = $_POST['category'] ?? 'reading';
     $class_level = $_POST['class_level'] ?? 'all';
-    $subject = $_POST['subject'] ?? '';
-    $upload_date = $_POST['upload_date'] ?? date('Y-m-d');
+    $rawDate = trim($_POST['upload_date'] ?? '');
+    if (!empty($rawDate) && strtotime($rawDate) !== false) {
+        $upload_date = date('Y-m-d', strtotime($rawDate));
+    } else {
+        $upload_date = date('Y-m-d');
+    }
     
     // Validate category if provided
     if (!empty($category)) {
