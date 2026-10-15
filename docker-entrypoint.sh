@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Disable conflicting MPM modules that platforms like Railway may activate
-a2dismod -f mpm_event mpm_worker 2>/dev/null || true
+# Strictly remove any conflicting MPM modules and enforce mpm_prefork
+rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf 2>/dev/null || true
 a2enmod mpm_prefork 2>/dev/null || true
 
 # Railway provides PORT dynamically; default to 80 if not set
