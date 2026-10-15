@@ -250,42 +250,14 @@
                 );
         }
 
-        /* ── Tablet (≤ 768 px) ── */
+        /* ── Mobile & Tablet Portrait (≤ 768 px) ──
+           Hide hero media on mobile devices so the hero is clean,
+           punchy, perfectly visible below the navbar, and free of empty white boxes.
+        */
         @media (max-width: 768px) {
+            .admissions-hero-right,
             .admissions-hero-media-wrap {
-                min-height: 280px;
-                max-height: 350px;
-                border-radius: 14px;
-                box-shadow: 0 8px 24px -4px rgba(11, 37, 69, 0.10);
-                border: 1px solid rgba(226, 232, 240, 0.8);
-            }
-            .admissions-hero-media-wrap .admissions-hero-img {
-                object-position: 55% center;
-            }
-            .admissions-hero-media-wrap::after {
-                background:
-                    linear-gradient(
-                        to bottom,
-                        rgba(255, 255, 255, 0.5) 0%,
-                        transparent 16%
-                    ),
-                    linear-gradient(
-                        to top,
-                        rgba(255, 255, 255, 0.6) 0%,
-                        transparent 18%
-                    );
-            }
-        }
-
-        /* ── Mobile (≤ 480 px) ── */
-        @media (max-width: 480px) {
-            .admissions-hero-media-wrap {
-                min-height: 220px;
-                max-height: 270px;
-                border-radius: 12px;
-            }
-            .admissions-hero-media-wrap .admissions-hero-img {
-                object-position: 55% center;
+                display: none !important;
             }
         }
 

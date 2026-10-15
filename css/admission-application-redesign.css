@@ -9,7 +9,7 @@
    ========================================================================== */
 .admissions-hero-editorial {
     background-color: #ffffff;
-    padding: 50px 0 0 0;
+    padding: 100px 0 0 0;
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid #f1f5f9;
@@ -279,7 +279,7 @@
 
 @media (max-width: 1024px) {
     .admissions-hero-editorial {
-        padding: 40px 0 0 0;
+        padding: 95px 0 0 0;
     }
 
     .admissions-hero-grid {
@@ -294,7 +294,7 @@
 
 @media (max-width: 768px) {
     .admissions-hero-editorial {
-        padding: 28px 0 32px 0;
+        padding: 92px 0 32px 0;
         border-bottom: 1px solid #e2e8f0;
     }
 
@@ -303,10 +303,12 @@
     }
 
     .admissions-hero-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+        display: block;
         min-height: auto;
+    }
+
+    .admissions-hero-right {
+        display: none !important;
     }
 
     .admissions-hero-left {
@@ -417,7 +419,7 @@
 
 @media (max-width: 480px) {
     .admissions-hero-editorial {
-        padding: 22px 0 28px 0;
+        padding: 86px 0 28px 0;
     }
 
     .admissions-hero-container {
@@ -425,7 +427,12 @@
     }
 
     .admissions-hero-grid {
-        gap: 20px;
+        display: block;
+        gap: 0;
+    }
+
+    .admissions-hero-right {
+        display: none !important;
     }
 
     .admissions-hero-breadcrumb {
@@ -488,7 +495,7 @@
 
 @media (max-width: 360px) {
     .admissions-hero-editorial {
-        padding: 18px 0 24px 0;
+        padding: 82px 0 24px 0;
     }
 
     .admissions-hero-container {
