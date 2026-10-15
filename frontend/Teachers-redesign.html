@@ -103,6 +103,9 @@
 
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
+
+    <!-- Universal API Configuration -->
+    <script src="../js/api-config.js"></script>
     
     <!-- Teachers Editorial CSS -->
     <link rel="stylesheet" href="../css/teachers-editorial.css?v=2.0">
@@ -527,7 +530,7 @@
                 if (t.photo_url && t.photo_url.trim() !== '' && t.photo_url !== 'null') {
                     photoUrl = t.photo_url.startsWith('http') || t.photo_url.startsWith('../') 
                         ? t.photo_url 
-                        : `../backend/${t.photo_url}`;
+                        : `${window.BACKEND_BASE_URL || '../backend'}/${t.photo_url}`;
                 }
 
                 return `

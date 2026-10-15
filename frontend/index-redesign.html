@@ -126,6 +126,9 @@
     
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
+
+    <!-- Universal API Configuration -->
+    <script src="../js/api-config.js"></script>
     
     <!-- Footer Contact Improvements -->
     <style>
@@ -1383,7 +1386,7 @@
     <!-- Database Connection Script -->
     <script>
         // API Base URL
-        const API_URL = '../backend/api/public/';
+        const API_URL = `${window.API_BASE_URL || '../backend/api'}/public/`;
 
         // Check and Load Dynamic Upcoming Event for Hero Card
         async function loadHeroUpcomingEvent() {

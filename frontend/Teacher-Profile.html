@@ -101,6 +101,9 @@
     <link rel="stylesheet" href="../css/footer-target.css?v=3.0">
     <!-- Page Loader CSS -->
     <link rel="stylesheet" href="../css/page-loader.css">
+
+    <!-- Universal API Configuration -->
+    <script src="../js/api-config.js"></script>
 </head>
 <body>
     
@@ -410,7 +413,7 @@
             if (teacher.photo_url && teacher.photo_url.trim() !== '' && teacher.photo_url !== 'null') {
                 photoUrl = teacher.photo_url.startsWith('http') || teacher.photo_url.startsWith('../')
                     ? teacher.photo_url
-                    : `../backend/${teacher.photo_url}`;
+                    : `${window.BACKEND_BASE_URL || '../backend'}/${teacher.photo_url}`;
             }
 
             // About text: use DB bio if provided, else professional authentic institutional summary

@@ -1,32 +1,89 @@
-// API Configuration
-const API_BASE_URL = '../backend/api';
+/**
+ * St. Lawrence Junior School - Universal API Router & Config
+ * Connects frontend seamlessly to local XAMPP in development and Railway in production.
+ */
+(function() {
+    'use strict';
 
-// API Helper Functions
+    const IS_LOCAL = window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1' || 
+                     window.location.hostname.endsWith('.local');
+
+    const REMOTE_BACKEND = 'https://stlawrence-junior-school-kabowa-production.up.railway.app/backend';
+
+    window.API_BASE_URL = IS_LOCAL
+        ? (window.location.pathname.includes('/frontend/') ? '../backend/api' : './backend/api')
+        : `${REMOTE_BACKEND}/api`;
+
+    window.BACKEND_BASE_URL = IS_LOCAL
+        ? (window.location.pathname.includes('/frontend/') ? '../backend' : './backend')
+        : REMOTE_BACKEND;
+
+    // Automatically rewrite relative backend requests to Railway in production
+    if (!IS_LOCAL) {
+        const originalFetch = window.fetch;
+        window.fetch = function(resource, init) {
+            if (typeof resource === 'string') {
+                if (resource.startsWith('../backend')) {
+                    resource = resource.replace('../backend', REMOTE_BACKEND);
+                } else if (resource.startsWith('./backend')) {
+                    resource = resource.replace('./backend', REMOTE_BACKEND);
+                } else if (resource.startsWith('/backend')) {
+                    resource = resource.replace('/backend', REMOTE_BACKEND);
+                }
+            } else if (resource instanceof Request) {
+                const url = resource.url;
+                if (url.includes('/backend/')) {
+                    const newUrl = url.replace(/https?:\/\/[^\/]+\/backend\//, `${REMOTE_BACKEND}/`);
+                    return originalFetch(new Request(newUrl, resource), init);
+                }
+            }
+            return originalFetch(resource, init);
+        };
+
+        // Automatically rewrite static <a> and <img> elements pointing to backend
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href*="/backend/"], img[src*="/backend/"]').forEach(el => {
+                if (el.tagName === 'A') {
+                    const href = el.getAttribute('href');
+                    if (href && (href.startsWith('../backend') || href.startsWith('./backend') || href.startsWith('/backend'))) {
+                        el.href = href.replace(/^(\.\.\/|\.\/|\/)backend/, REMOTE_BACKEND);
+                    }
+                } else if (el.tagName === 'IMG') {
+                    const src = el.getAttribute('src');
+                    if (src && (src.startsWith('../backend') || src.startsWith('./backend') || src.startsWith('/backend'))) {
+                        el.src = src.replace(/^(\.\.\/|\.\/|\/)backend/, REMOTE_BACKEND);
+                    }
+                }
+            });
+        });
+    }
+})();
+
+// Legacy API Helper Functions (backward compatibility for existing code)
 const API = {
-    // GET request
     async get(endpoint) {
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`);
-            const data = await response.json();
-            return data;
+            const url = `${window.API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+            const response = await fetch(url);
+            return await response.json();
         } catch (error) {
             console.error('API GET Error:', error);
             return { success: false, message: 'Connection error' };
         }
     },
 
-    // POST request
     async post(endpoint, body) {
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            const url = `${window.API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
             });
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error('API POST Error:', error);
             return { success: false, message: 'Connection error' };
@@ -34,42 +91,23 @@ const API = {
     }
 };
 
-// Show loading state
 function showLoading(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.innerHTML = `
-            <div class="loading-container">
-                <div class="spinner"></div>
-                <p>Loading...</p>
-            </div>
-        `;
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.innerHTML = '<div class="loading-container"><div class="spinner"></div><p>Loading...</p></div>';
     }
 }
 
-// Show error message
 function showError(elementId, message) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.innerHTML = `
-            <div class="error-container">
-                <i class="fas fa-exclamation-circle"></i>
-                <p>${message}</p>
-                <button onclick="location.reload()" class="retry-btn">Retry</button>
-            </div>
-        `;
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.innerHTML = `<div class="error-container"><i class="fas fa-exclamation-circle"></i><p>${message}</p><button onclick="location.reload()" class="retry-btn">Retry</button></div>`;
     }
 }
 
-// Show no data message
 function showNoData(elementId, message) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.innerHTML = `
-            <div class="no-data-container">
-                <i class="fas fa-inbox"></i>
-                <p>${message}</p>
-            </div>
-        `;
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.innerHTML = `<div class="no-data-container"><i class="fas fa-inbox"></i><p>${message}</p></div>`;
     }
 }
