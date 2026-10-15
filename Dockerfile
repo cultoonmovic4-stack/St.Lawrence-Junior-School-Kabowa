@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure large upload limits in php.ini
-RUN echo "upload_max_filesize = 50M" > /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/uploads.ini \
+RUN echo "upload_max_filesize = 100M" > /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "post_max_size = 200M" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "max_file_uploads = 250" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini
@@ -38,4 +38,4 @@ RUN mkdir -p /app/backend/uploads/admissions \
 EXPOSE 80
 
 # Run lightweight, lightning-fast PHP server with dynamic PORT binding and upload limits
-CMD ["sh", "-c", "php -d upload_max_filesize=50M -d post_max_size=100M -d memory_limit=512M -d max_file_uploads=250 -d max_execution_time=300 -S 0.0.0.0:${PORT:-80}"]
+CMD ["sh", "-c", "php -d upload_max_filesize=100M -d post_max_size=200M -d memory_limit=512M -d max_file_uploads=250 -d max_execution_time=300 -S 0.0.0.0:${PORT:-80}"]
