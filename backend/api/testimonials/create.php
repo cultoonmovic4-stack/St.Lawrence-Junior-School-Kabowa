@@ -6,6 +6,7 @@ header('Access-Control-Allow-Methods: POST');
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
 require_once '../helpers/UploadSecurityHelper.php';
+require_once '../helpers/TestimonialPhotoStore.php';
 
 // Check authentication
 if (!isAuthenticated()) {
@@ -43,32 +44,24 @@ try {
         exit;
     }
     
-    // Handle file upload securely
-    $photo_url = null;
+    // Photo is stored in the database so it survives container redeploys
+    $photoBin = null;
+    $photoMime = null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = __DIR__ . '/../../../img/testimonials/';
-        if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-        }
-        
-        $uploadResult = UploadSecurityHelper::validateAndSave(
-            $_FILES['photo'],
-            UploadSecurityHelper::CATEGORY_IMAGE,
-            $upload_dir,
-            'testimonial'
-        );
-        $photo_url = 'img/testimonials/' . $uploadResult['filename'];
+        [$photoBin, $photoMime] = TestimonialPhotoStore::prepare($_FILES['photo']);
     }
+    $photo_url = null;
     
     $database = new Database();
     $db = $database->getConnection();
+    TestimonialPhotoStore::ensureSchema($db);
     
     // Insert testimonial
     $stmt = $db->prepare("
         INSERT INTO testimonials 
-        (parent_name, parent_role, testimonial_text, rating, photo_url, status, created_at) 
+        (parent_name, parent_role, testimonial_text, rating, photo_url, photo_data, photo_mime, status, created_at) 
         VALUES 
-        (:parent_name, :parent_role, :testimonial_text, :rating, :photo_url, 'approved', NOW())
+        (:parent_name, :parent_role, :testimonial_text, :rating, :photo_url, :photo_data, :photo_mime, 'approved', NOW())
     ");
     
     $stmt->bindParam(':parent_name', $parent_name);
@@ -76,10 +69,17 @@ try {
     $stmt->bindParam(':testimonial_text', $testimonial_text);
     $stmt->bindParam(':rating', $rating);
     $stmt->bindParam(':photo_url', $photo_url);
+    $stmt->bindParam(':photo_data', $photoBin, PDO::PARAM_LOB);
+    $stmt->bindParam(':photo_mime', $photoMime);
     
     if ($stmt->execute()) {
         $testimonial_id = $db->lastInsertId();
         
+        if ($photoBin !== null) {
+            $photo_url = TestimonialPhotoStore::photoUrlFor((int) $testimonial_id);
+            $upd = $db->prepare("UPDATE testimonials SET photo_url = :u WHERE id = :id");
+            $upd->execute([':u' => $photo_url, ':id' => $testimonial_id]);
+        }
         echo json_encode([
             'success' => true,
             'message' => 'Testimonial added successfully',

@@ -15,6 +15,18 @@
         'student': 'Student'
     };
 
+    function buildInitialsAvatar(name) {
+        const parts = String(name || 'SL').trim().split(/\s+/).filter(Boolean);
+        const initials = ((parts[0] || 'S')[0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+        const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">' +
+            '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+            '<stop offset="0" stop-color="#0b1a38"/><stop offset="1" stop-color="#084298"/></linearGradient></defs>' +
+            '<rect width="400" height="400" fill="url(#g)"/>' +
+            '<text x="200" y="240" font-family="Arial, Helvetica, sans-serif" font-size="150" font-weight="700" ' +
+            'fill="#ffffff" text-anchor="middle">' + initials + '</text></svg>';
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
     async function fetchTestimonials() {
         const container = document.getElementById('testCardContainer');
         const dotsWrap = document.getElementById('testDotsWrap');
@@ -81,6 +93,10 @@
                 const roleEl = document.getElementById('testAuthorRole');
 
                 if (photoEl) {
+                    photoEl.onerror = function () {
+                        photoEl.onerror = null;
+                        photoEl.src = buildInitialsAvatar(currentItem.name);
+                    };
                     photoEl.src = currentItem.photo;
                     photoEl.alt = currentItem.name;
                 }

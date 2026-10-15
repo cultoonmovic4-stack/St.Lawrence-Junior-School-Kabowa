@@ -6,6 +6,7 @@ header('Access-Control-Allow-Methods: POST');
 require_once '../config/Database.php';
 require_once '../middleware/auth_middleware.php';
 require_once '../helpers/UploadSecurityHelper.php';
+require_once '../helpers/TestimonialPhotoStore.php';
 
 if (!isAuthenticated()) {
     http_response_code(401);
@@ -30,20 +31,15 @@ try {
     $database = new Database();
     $db = $database->getConnection();
 
-    // Check if new photo was uploaded
+    TestimonialPhotoStore::ensureSchema($db);
+
+    // Check if new photo was uploaded (stored in the database, not on disk)
     $photo_url = null;
+    $photoBin = null;
+    $photoMime = null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = __DIR__ . '/../../../img/testimonials/';
-        if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-        }
-        $uploadResult = UploadSecurityHelper::validateAndSave(
-            $_FILES['photo'],
-            UploadSecurityHelper::CATEGORY_IMAGE,
-            $upload_dir,
-            'testimonial'
-        );
-        $photo_url = 'img/testimonials/' . $uploadResult['filename'];
+        [$photoBin, $photoMime] = TestimonialPhotoStore::prepare($_FILES['photo']);
+        $photo_url = TestimonialPhotoStore::photoUrlFor((int) $id);
     }
 
     if ($photo_url) {
@@ -54,10 +50,14 @@ try {
                 testimonial_text = :text,
                 rating = :rating,
                 status = :status,
-                photo_url = :photo
+                photo_url = :photo,
+                photo_data = :pdata,
+                photo_mime = :pmime
             WHERE id = :id
         ");
         $stmt->bindParam(':photo', $photo_url);
+        $stmt->bindParam(':pdata', $photoBin, PDO::PARAM_LOB);
+        $stmt->bindParam(':pmime', $photoMime);
     } else {
         $stmt = $db->prepare("
             UPDATE testimonials 
