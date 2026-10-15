@@ -1,6 +1,6 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Install dependencies and required PHP extensions
+# Install required system packages and PHP extensions
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -10,35 +10,25 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli zip opcache \
-    && rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
-    && a2enmod mpm_prefork rewrite headers \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Allow .htaccess overrides in /var/www/html
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+WORKDIR /app
 
-WORKDIR /var/www/html
+# Copy application code
+COPY . /app
 
-# Copy application files
-COPY . /var/www/html/
-
-# Create required upload directories if not exist and set permissions
-RUN mkdir -p /var/www/html/backend/uploads/admissions \
-    /var/www/html/backend/uploads/gallery \
-    /var/www/html/backend/uploads/library \
-    /var/www/html/backend/uploads/profiles \
-    /var/www/html/backend/uploads/teachers \
-    /var/www/html/backend/uploads/videos \
-    /var/www/html/backend/cache \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html \
-    && chmod -R 775 /var/www/html/backend/uploads /var/www/html/backend/cache \
-    && chmod +x /var/www/html/docker-entrypoint.sh
-
-# Fix CRLF to LF in entrypoint script for Linux containers
-RUN sed -i 's/\r$//' /var/www/html/docker-entrypoint.sh
+# Ensure upload and cache directories exist with full write access
+RUN mkdir -p /app/backend/uploads/admissions \
+    /app/backend/uploads/gallery \
+    /app/backend/uploads/library \
+    /app/backend/uploads/profiles \
+    /app/backend/uploads/teachers \
+    /app/backend/uploads/videos \
+    /app/backend/cache \
+    && chmod -R 777 /app/backend/uploads /app/backend/cache
 
 EXPOSE 80
 
-ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
+# Run lightweight, lightning-fast PHP server with dynamic PORT binding
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-80}"]
