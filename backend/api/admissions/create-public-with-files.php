@@ -32,6 +32,51 @@ try {
         return trim((string) ($data[$key] ?? $default));
     };
 
+    // ─── Layer 0: Anti-Bot Honeypot ──────────────────────────────────────────
+    $honeypot = $getClean('admission_website_hp');
+    if (!empty($honeypot)) {
+        http_response_code(200);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Spam detected. Application could not be submitted.'
+        ]);
+        exit;
+    }
+
+    // ─── Layer 0B: Time-gate Check (prevent instant automated scripts) ───────
+    $loadTime = (int) $getClean('admission_load_time', 0);
+    if ($loadTime > 0) {
+        $elapsed = time() - $loadTime;
+        if ($elapsed < 5) {
+            throw new Exception("Application submitted too quickly ($elapsed seconds). Please take a moment to carefully review your form.");
+        }
+    }
+
+    // ─── Layer 0C: Mathematical Security Challenge Check ────────────────────
+    $secA = (int) $getClean('admission_security_a', 0);
+    $secB = (int) $getClean('admission_security_b', 0);
+    $secAns = (int) $getClean('admission_security_answer', 0);
+    if ($secA > 0 && $secB > 0) {
+        if (($secA + $secB) !== $secAns) {
+            throw new Exception("The security math verification answer was incorrect. Please solve the calculation to submit.");
+        }
+    }
+
+    // ─── Helper: Validate Authentic Personal Name ────────────────────────────
+    $validateName = function ($val, $fieldLabel) {
+        if (mb_strlen($val) < 2) {
+            throw new Exception("{$fieldLabel} must be at least 2 characters long.");
+        }
+        if (!preg_match('/[a-zA-Z]/', $val)) {
+            throw new Exception("{$fieldLabel} must contain valid letters.");
+        }
+        $lower = strtolower($val);
+        $dummyNames = ['test', 'asdf', 'qwer', 'xyz', 'none', 'n/a', 'na', 'unknown', 'fake', 'abc', 'random', 'testing', 'sample', 'demo', 'null'];
+        if (in_array($lower, $dummyNames, true)) {
+            throw new Exception("Please provide a genuine {$fieldLabel}, not a placeholder.");
+        }
+    };
+
     // Stage 1: Application Details
     $academicYear = $getClean('academic_year');
     $term = $getClean('term');
@@ -58,6 +103,22 @@ try {
     if (empty($studentSurname) || empty($studentOtherNames) || empty($dateOfBirth) || empty($gender) || empty($religion) || empty($tribe) || empty($positionInFamily)) {
         throw new Exception("Please fill in all required Child Information fields.");
     }
+
+    $validateName($studentSurname, "Child's Surname");
+    $validateName($studentOtherNames, "Child's Other Names");
+    $validateName($religion, "Religion");
+    $validateName($tribe, "Tribe");
+
+    // Realistic Date of Birth verification
+    $dobTime = strtotime($dateOfBirth);
+    if (!$dobTime || $dobTime > time()) {
+        throw new Exception("Child's Date of Birth cannot be in the future.");
+    }
+    $ageYears = (time() - $dobTime) / (365.25 * 86400);
+    if ($ageYears < 1.5 || $ageYears > 18) {
+        throw new Exception("Please check the Child's Date of Birth. Age must be between 2 and 18 years for nursery/primary admission.");
+    }
+
     if (!in_array($gender, ['male', 'female'])) {
         throw new Exception('Please select a valid sex (Male or Female).');
     }
@@ -91,9 +152,69 @@ try {
     if (empty($responsibleName) || empty($responsibleAddress) || empty($responsiblePhone)) {
         throw new Exception("Please provide the full details for the Person Responsible for the child (Name, Address Home/Work, Telephone).");
     }
-    if (empty($responsibleEmail) || !filter_var($responsibleEmail, FILTER_VALIDATE_EMAIL)) {
-        throw new Exception("Please provide a valid Email Address for official admission communication.");
+
+    $validateName($responsibleName, "Responsible Person's Name");
+
+    // Strict Telephone Validation (Ugandan & international)
+    $cleanPhone = preg_replace('/[\s\-\(\)\.]/', '', $responsiblePhone);
+    if (!preg_match('/^(\+?[0-9]{9,15})$/', $cleanPhone)) {
+        throw new Exception("Please provide a valid active Telephone Number (e.g. 0772420506 or +256772420506).");
     }
+    $digitsOnly = preg_replace('/^\+?[0-9]{1,3}/', '', $cleanPhone);
+    if (preg_match('/^(\d)\1{5,}$/', $digitsOnly) || in_array($cleanPhone, ['123456789', '1234567890', '0123456789', '0987654321', '0700000000', '0770000000'])) {
+        throw new Exception("Please provide an active, genuine telephone number for official communication.");
+    }
+
+    // Strict Email Validation & Anti-Fake Domain Screening
+    if (empty($responsibleEmail) || !filter_var($responsibleEmail, FILTER_VALIDATE_EMAIL)) {
+        throw new Exception("Please provide a valid, active Email Address for official admission communication.");
+    }
+
+    $emailParts = explode('@', $responsibleEmail);
+    $emailUser = strtolower(trim($emailParts[0] ?? ''));
+    $emailDomain = strtolower(trim(end($emailParts)));
+
+    // 1. Reject dummy usernames
+    $dummyUsers = ['test', 'fake', 'asdf', 'admin', 'none', 'noemail', 'na', 'n/a', 'abc', 'xyz', '123', 'qwerty', 'temp', 'null', 'user', 'email'];
+    if (in_array($emailUser, $dummyUsers, true) || strlen($emailUser) < 2) {
+        throw new Exception("Please provide a genuine parent/guardian email address, not a placeholder account.");
+    }
+
+    // 2. Reject fake / placeholder domains
+    $dummyDomains = [
+        'example.com', 'example.org', 'example.net', 'test.com', 'test.org', 'fake.com',
+        'none.com', 'noemail.com', 'sample.com', 'domain.com', 'invalid.com', 'email.com',
+        'asdf.com', 'demo.com', 'testing.com', 'localhost', 'mysite.com', 'placeholder.com'
+    ];
+    if (in_array($emailDomain, $dummyDomains, true)) {
+        throw new Exception("The email domain '@{$emailDomain}' is not a valid provider. Please provide a genuine email address.");
+    }
+
+    // 3. Reject disposable, temporary, and burner domains
+    $disposableDomains = [
+        'mailinator.com', 'guerrillamail.com', 'tempmail.com', '10minutemail.com',
+        'yopmail.com', 'trashmail.com', 'sharklasers.com', 'dispostable.com',
+        'getairmail.com', 'throwawaymail.com', 'maildrop.cc', 'inboxkitten.com',
+        'temp-mail.org', 'fakeinbox.com', 'mytemp.email', 'emailondeck.com',
+        'burnermail.io', 'generator.email', 'mytempemail.com', 'trashmail.net',
+        'tempmailo.com', 'mohmal.com', 'crazymailing.com', 'fake-box.com',
+        'guerrillamailblock.com', 'dropmail.me', '10mail.org', 'trash-mail.com',
+        'guerrillamail.info', 'guerrillamail.biz', 'guerrillamail.net', 'guerrillamail.org',
+        'fakemailgenerator.com', 'tempinbox.com', 'zillamail.com'
+    ];
+    if (in_array($emailDomain, $disposableDomains, true)) {
+        throw new Exception("Temporary or disposable email addresses are not accepted for official admissions. Please provide your permanent email address.");
+    }
+
+    // 4. Live DNS MX / A record verification (ensure domain actually exists and accepts mail)
+    if (function_exists('checkdnsrr')) {
+        $hasMx = checkdnsrr($emailDomain, 'MX');
+        $hasA = checkdnsrr($emailDomain, 'A');
+        if (!$hasMx && !$hasA) {
+            throw new Exception("The email domain '@{$emailDomain}' does not exist or has no active mail server. Please provide a valid email address.");
+        }
+    }
+
     $responsiblePostal = !empty($responsiblePostal) ? $responsiblePostal : null;
 
     // Parents Information
@@ -111,12 +232,15 @@ try {
     if (empty($fatherName) || empty($motherName)) {
         throw new Exception("Both Father's Name and Mother's Name are required.");
     }
+    $validateName($fatherName, "Father's Name");
+    $validateName($motherName, "Mother's Name");
 
     // Stage 4: Emergency & Health Information
     $emergencyNextOfKin = $getClean('emergency_next_of_kin');
     if (empty($emergencyNextOfKin)) {
         throw new Exception("Please provide Next of Kin in Case of Emergency.");
     }
+    $validateName($emergencyNextOfKin, "Next of Kin Name");
 
     // Boarder bed-wetting rule
     $bedWetting = null;
@@ -163,6 +287,7 @@ try {
     if (!$declarationAccepted || empty($declarationName)) {
         throw new Exception("Please agree to the official declaration and provide the Parent/Guardian full name.");
     }
+    $validateName($declarationName, "Declaration Signer's Name");
     if (empty($signatureData)) {
         throw new Exception("Please provide a valid parent/guardian digital signature.");
     }

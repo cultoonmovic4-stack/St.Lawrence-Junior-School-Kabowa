@@ -14,13 +14,91 @@
     let strokes = [];
     let currentStroke = [];
 
+    // Disposable & fake email domain blacklist
+    const DISPOSABLE_DOMAINS = [
+        'mailinator.com', 'guerrillamail.com', 'tempmail.com', '10minutemail.com',
+        'yopmail.com', 'trashmail.com', 'sharklasers.com', 'dispostable.com',
+        'getairmail.com', 'throwawaymail.com', 'maildrop.cc', 'inboxkitten.com',
+        'temp-mail.org', 'fakeinbox.com', 'mytemp.email', 'emailondeck.com',
+        'burnermail.io', 'generator.email', 'mytempemail.com', 'trashmail.net',
+        'tempmailo.com', 'mohmal.com', 'crazymailing.com', 'fake-box.com',
+        'guerrillamailblock.com', 'dropmail.me', '10mail.org', 'trash-mail.com',
+        'fakemailgenerator.com', 'tempinbox.com', 'zillamail.com'
+    ];
+
+    const DUMMY_DOMAINS = [
+        'example.com', 'example.org', 'example.net', 'test.com', 'test.org', 'fake.com',
+        'none.com', 'noemail.com', 'sample.com', 'domain.com', 'invalid.com', 'email.com',
+        'asdf.com', 'demo.com', 'testing.com', 'localhost', 'mysite.com', 'placeholder.com'
+    ];
+
+    const DUMMY_USERS = ['test', 'fake', 'asdf', 'admin', 'none', 'noemail', 'na', 'n/a', 'abc', 'xyz', '123', 'qwerty', 'temp', 'null', 'user', 'email'];
+
+    function validateEmailAddress(emailStr) {
+        if (!emailStr || !emailStr.trim()) return { valid: false, message: 'Please enter a valid email address.' };
+        const clean = emailStr.trim().toLowerCase();
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(clean)) {
+            return { valid: false, message: 'Please enter a complete, valid email format (e.g. parent@gmail.com).' };
+        }
+        const parts = clean.split('@');
+        const user = parts[0];
+        const domain = parts[1];
+        if (DUMMY_USERS.includes(user) || user.length < 2) {
+            return { valid: false, message: 'Please enter a genuine parent/guardian email address, not a placeholder.' };
+        }
+        if (DUMMY_DOMAINS.includes(domain)) {
+            return { valid: false, message: `The domain '@${domain}' is not a valid email provider.` };
+        }
+        if (DISPOSABLE_DOMAINS.includes(domain)) {
+            return { valid: false, message: 'Temporary or disposable email addresses are not accepted for admissions.' };
+        }
+        return { valid: true, message: '' };
+    }
+
+    function validatePhoneNumber(phoneStr) {
+        if (!phoneStr || !phoneStr.trim()) return { valid: false, message: 'Please enter telephone number.' };
+        const clean = phoneStr.replace(/[\s\-\(\)\.]/g, '');
+        if (!/^(\+?[0-9]{9,15})$/.test(clean)) {
+            return { valid: false, message: 'Please enter a valid telephone number (at least 9-10 digits, e.g. 0772420506).' };
+        }
+        const digitsOnly = clean.replace(/^\+?[0-9]{1,3}/, '');
+        if (/^(\d)\1{5,}$/.test(digitsOnly) || ['123456789', '1234567890', '0123456789', '0987654321', '0700000000', '0770000000'].includes(clean)) {
+            return { valid: false, message: 'Please provide an active, genuine phone number for contact.' };
+        }
+        return { valid: true, message: '' };
+    }
+
+    function validateNameText(nameStr, label) {
+        if (!nameStr || nameStr.trim().length < 2) {
+            return { valid: false, message: `${label} must be at least 2 characters.` };
+        }
+        if (!/[a-zA-Z]/.test(nameStr)) {
+            return { valid: false, message: `${label} must contain letters.` };
+        }
+        const lower = nameStr.trim().toLowerCase();
+        const dummyNames = ['test', 'asdf', 'qwer', 'xyz', 'none', 'n/a', 'na', 'unknown', 'fake', 'abc', 'random', 'testing', 'sample', 'demo'];
+        if (dummyNames.includes(lower)) {
+            return { valid: false, message: `Please enter a real ${label.toLowerCase()}, not a placeholder.` };
+        }
+        return { valid: true, message: '' };
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
+        // Record load time for time-gate bot detection
+        const loadTimeInput = document.getElementById('admissionLoadTime');
+        if (loadTimeInput) {
+            loadTimeInput.value = Math.floor(Date.now() / 1000);
+        }
+
         initDynamicYears();
         initStageNavigation();
         initConditionalFields();
         initSignaturePad();
         initFormSubmission();
         initCustomDropdowns();
+        initSecurityChallenge();
+        initLiveFieldValidation();
     });
 
     // 1. Dynamic Academic Year Setup
@@ -165,6 +243,7 @@
         }
         if (currentStage === 8) {
             populateReviewSummary();
+            generateAdmissionMathChallenge();
         }
 
         // Scroll to container top smoothly with header offset
@@ -443,26 +522,144 @@
             }
         });
 
-        // Stage 3: Email format validation check
-        if (stageNum === 3) {
-            const emailInput = document.getElementById('responsibleEmail');
-            if (emailInput) {
-                const emailVal = emailInput.value.trim();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                const formGroup = emailInput.closest('.form-group') || emailInput.parentElement;
-                if (!emailVal || !emailRegex.test(emailVal)) {
+        // Stage 2: Child Name & Realistic Date of Birth validation
+        if (stageNum === 2) {
+            const surnameInput = document.getElementById('studentSurname');
+            if (surnameInput) {
+                const res = validateNameText(surnameInput.value, "Child's surname");
+                const fg = surnameInput.closest('.form-group') || surnameInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
                     isValid = false;
-                    emailInput.classList.add('error');
-                    if (formGroup) formGroup.classList.add('has-error');
-                } else {
-                    emailInput.classList.remove('error');
-                    if (formGroup) formGroup.classList.remove('has-error');
+                    surnameInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
+            const otherNamesInput = document.getElementById('studentOtherNames');
+            if (otherNamesInput) {
+                const res = validateNameText(otherNamesInput.value, "Child's other names");
+                const fg = otherNamesInput.closest('.form-group') || otherNamesInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    otherNamesInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
+            const dobInput = document.getElementById('dateOfBirth');
+            if (dobInput && dobInput.value) {
+                const dobDate = new Date(dobInput.value);
+                const today = new Date();
+                const ageYears = (today - dobDate) / (365.25 * 86400 * 1000);
+                const fg = dobInput.closest('.form-group') || dobInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (isNaN(dobDate.getTime()) || dobDate > today || ageYears < 1.5 || ageYears > 18) {
+                    isValid = false;
+                    dobInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) {
+                        err.textContent = 'Please enter a realistic date of birth (child must be 2 to 18 years old).';
+                        err.style.display = 'block';
+                    }
                 }
             }
         }
 
-        // Stage 4: Boarding Bed-Wetting conditional check
+        // Stage 3: Responsible Guardian & Parent validation (Anti-Fake details)
+        if (stageNum === 3) {
+            const respNameInput = document.getElementById('responsibleName');
+            if (respNameInput) {
+                const res = validateNameText(respNameInput.value, "Responsible person's name");
+                const fg = respNameInput.closest('.form-group') || respNameInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    respNameInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
+            const phoneInput = document.getElementById('responsiblePhone');
+            if (phoneInput) {
+                const phoneRes = validatePhoneNumber(phoneInput.value);
+                const fg = phoneInput.closest('.form-group') || phoneInput.parentElement;
+                const err = document.getElementById('responsiblePhoneError');
+                if (!phoneRes.valid) {
+                    isValid = false;
+                    phoneInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = phoneRes.message; err.style.display = 'block'; }
+                } else {
+                    phoneInput.classList.remove('error');
+                    if (fg) fg.classList.remove('has-error');
+                    if (err) err.style.display = 'none';
+                }
+            }
+
+            const emailInput = document.getElementById('responsibleEmail');
+            if (emailInput) {
+                const emailRes = validateEmailAddress(emailInput.value);
+                const fg = emailInput.closest('.form-group') || emailInput.parentElement;
+                const err = document.getElementById('responsibleEmailError');
+                if (!emailRes.valid) {
+                    isValid = false;
+                    emailInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = emailRes.message; err.style.display = 'block'; }
+                } else {
+                    emailInput.classList.remove('error');
+                    if (fg) fg.classList.remove('has-error');
+                    if (err) err.style.display = 'none';
+                }
+            }
+
+            const fatherInput = document.getElementById('fatherName');
+            if (fatherInput && fatherInput.value.trim()) {
+                const res = validateNameText(fatherInput.value, "Father's name");
+                const fg = fatherInput.closest('.form-group') || fatherInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    fatherInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
+            const motherInput = document.getElementById('motherName');
+            if (motherInput && motherInput.value.trim()) {
+                const res = validateNameText(motherInput.value, "Mother's name");
+                const fg = motherInput.closest('.form-group') || motherInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    motherInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+        }
+
+        // Stage 4: Next of kin & Boarding Bed-Wetting conditional check
         if (stageNum === 4) {
+            const kinInput = document.getElementById('emergencyNextOfKin');
+            if (kinInput && kinInput.value.trim()) {
+                const res = validateNameText(kinInput.value, "Emergency next of kin");
+                const fg = kinInput.closest('.form-group') || kinInput.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    kinInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
             const isBoarding = document.querySelector('input[name="admission_type"]:checked')?.value === 'boarding';
             if (isBoarding) {
                 const bedWet = document.querySelector('input[name="bed_wetting"]:checked');
@@ -476,8 +673,21 @@
             }
         }
 
-        // Stage 7: Signature validation check
+        // Stage 7: Declaration name & Signature check
         if (stageNum === 7) {
+            const declName = document.getElementById('declarationName');
+            if (declName) {
+                const res = validateNameText(declName.value, "Signer's name");
+                const fg = declName.closest('.form-group') || declName.parentElement;
+                const err = fg ? fg.querySelector('.field-error-text') : null;
+                if (!res.valid) {
+                    isValid = false;
+                    declName.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (err) { err.textContent = res.message; err.style.display = 'block'; }
+                }
+            }
+
             const sigData = document.getElementById('signatureData')?.value;
             const sigError = document.getElementById('signatureError');
             if (!sigData || strokes.length === 0) {
@@ -485,6 +695,30 @@
                 if (sigError) sigError.style.display = 'block';
             } else {
                 if (sigError) sigError.style.display = 'none';
+            }
+        }
+
+        // Stage 8: Human Security Verification Check
+        if (stageNum === 8) {
+            const ansInput = document.getElementById('admissionSecurityAnswer');
+            const numA = parseInt(document.getElementById('admissionSecurityA')?.value || '0', 10);
+            const numB = parseInt(document.getElementById('admissionSecurityB')?.value || '0', 10);
+            const userAns = parseInt(ansInput?.value || '', 10);
+            const errSpan = document.getElementById('admissionSecurityError');
+            const fg = ansInput?.closest('.form-group');
+
+            if (!ansInput || isNaN(userAns) || userAns !== (numA + numB)) {
+                isValid = false;
+                if (ansInput) ansInput.classList.add('error');
+                if (fg) fg.classList.add('has-error');
+                if (errSpan) {
+                    errSpan.textContent = isNaN(userAns) ? 'Please solve the security verification question.' : 'Incorrect answer. Please solve the calculation again.';
+                    errSpan.style.display = 'block';
+                }
+            } else {
+                if (ansInput) ansInput.classList.remove('error');
+                if (fg) fg.classList.remove('has-error');
+                if (errSpan) errSpan.style.display = 'none';
             }
         }
 
@@ -577,15 +811,26 @@
         btnSubmit.addEventListener('click', async function (e) {
             e.preventDefault();
 
-            // Validate all stages prior to submit
-            for (let s = 1; s <= 7; s++) {
+            // Validate all stages prior to submit (Stages 1 through 8)
+            for (let s = 1; s <= 8; s++) {
                 if (!validateStage(s)) {
                     goToStage(s);
-                    if (typeof Swal !== 'undefined') {
+                    if (s === 8) {
+                        const ansInput = document.getElementById('admissionSecurityAnswer');
+                        if (ansInput) ansInput.focus();
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Human Verification Required',
+                                text: 'Please solve the quick math calculation in the review stage before submitting.',
+                                confirmButtonColor: '#0b2545'
+                            });
+                        }
+                    } else if (typeof Swal !== 'undefined') {
                         Swal.fire({
                             icon: 'warning',
                             title: 'Incomplete Stage ' + s,
-                            text: 'Please review and fill in all required fields in this stage.',
+                            text: 'Please review and fill in all required fields accurately in this stage.',
                             confirmButtonColor: '#0b2545'
                         });
                     }
@@ -915,6 +1160,149 @@
         });
 
         select._sljkSync = rebuildItems;
+    }
+
+    // 9. Interactive Anti-Spam Security Challenge
+    function generateAdmissionMathChallenge() {
+        const num1 = Math.floor(Math.random() * 8) + 2; // 2 to 9
+        const num2 = Math.floor(Math.random() * 7) + 1; // 1 to 7
+
+        const problemEl = document.getElementById('admissionMathProblem');
+        const hiddenA = document.getElementById('admissionSecurityA');
+        const hiddenB = document.getElementById('admissionSecurityB');
+        const ansInput = document.getElementById('admissionSecurityAnswer');
+        const errEl = document.getElementById('admissionSecurityError');
+
+        if (problemEl) problemEl.textContent = `${num1} + ${num2} = ?`;
+        if (hiddenA) hiddenA.value = num1;
+        if (hiddenB) hiddenB.value = num2;
+        if (ansInput) {
+            ansInput.value = '';
+            ansInput.classList.remove('error');
+            const fg = ansInput.closest('.form-group');
+            if (fg) fg.classList.remove('has-error');
+        }
+        if (errEl) errEl.style.display = 'none';
+    }
+
+    function initSecurityChallenge() {
+        const refreshBtn = document.getElementById('btnRefreshAdmissionMath');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                generateAdmissionMathChallenge();
+            });
+        }
+        generateAdmissionMathChallenge();
+    }
+
+    // 10. Real-time Field Validation (Instant Anti-Fake Feedback)
+    function initLiveFieldValidation() {
+        // Email live validation on blur & input
+        const emailInput = document.getElementById('responsibleEmail');
+        const emailErr = document.getElementById('responsibleEmailError');
+        if (emailInput) {
+            emailInput.addEventListener('blur', function () {
+                if (!emailInput.value.trim()) return;
+                const res = validateEmailAddress(emailInput.value);
+                const fg = emailInput.closest('.form-group') || emailInput.parentElement;
+                if (!res.valid) {
+                    emailInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (emailErr) {
+                        emailErr.textContent = res.message;
+                        emailErr.style.display = 'block';
+                    }
+                } else {
+                    emailInput.classList.remove('error');
+                    if (fg) fg.classList.remove('has-error');
+                    if (emailErr) emailErr.style.display = 'none';
+                }
+            });
+            emailInput.addEventListener('input', function () {
+                if (emailErr && emailErr.style.display === 'block') {
+                    const res = validateEmailAddress(emailInput.value);
+                    if (res.valid) {
+                        emailInput.classList.remove('error');
+                        const fg = emailInput.closest('.form-group') || emailInput.parentElement;
+                        if (fg) fg.classList.remove('has-error');
+                        emailErr.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Phone live validation on blur & input
+        const phoneInput = document.getElementById('responsiblePhone');
+        const phoneErr = document.getElementById('responsiblePhoneError');
+        if (phoneInput) {
+            phoneInput.addEventListener('blur', function () {
+                if (!phoneInput.value.trim()) return;
+                const res = validatePhoneNumber(phoneInput.value);
+                const fg = phoneInput.closest('.form-group') || phoneInput.parentElement;
+                if (!res.valid) {
+                    phoneInput.classList.add('error');
+                    if (fg) fg.classList.add('has-error');
+                    if (phoneErr) {
+                        phoneErr.textContent = res.message;
+                        phoneErr.style.display = 'block';
+                    }
+                } else {
+                    phoneInput.classList.remove('error');
+                    if (fg) fg.classList.remove('has-error');
+                    if (phoneErr) phoneErr.style.display = 'none';
+                }
+            });
+            phoneInput.addEventListener('input', function () {
+                if (phoneErr && phoneErr.style.display === 'block') {
+                    const res = validatePhoneNumber(phoneInput.value);
+                    if (res.valid) {
+                        phoneInput.classList.remove('error');
+                        const fg = phoneInput.closest('.form-group') || phoneInput.parentElement;
+                        if (fg) fg.classList.remove('has-error');
+                        phoneErr.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Live clean names validation
+        ['studentSurname', 'studentOtherNames', 'responsibleName', 'fatherName', 'motherName', 'emergencyNextOfKin', 'declarationName'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('blur', function () {
+                    if (!el.value.trim()) return;
+                    const label = el.getAttribute('placeholder') || 'Name';
+                    const res = validateNameText(el.value, label);
+                    const fg = el.closest('.form-group') || el.parentElement;
+                    const err = fg ? fg.querySelector('.field-error-text') : null;
+                    if (!res.valid) {
+                        el.classList.add('error');
+                        if (fg) fg.classList.add('has-error');
+                        if (err) {
+                            err.textContent = res.message;
+                            err.style.display = 'block';
+                        }
+                    } else {
+                        el.classList.remove('error');
+                        if (fg) fg.classList.remove('has-error');
+                        if (err) err.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Security answer input clear error
+        const secInput = document.getElementById('admissionSecurityAnswer');
+        if (secInput) {
+            secInput.addEventListener('input', function () {
+                secInput.classList.remove('error');
+                const fg = secInput.closest('.form-group');
+                if (fg) fg.classList.remove('has-error');
+                const err = document.getElementById('admissionSecurityError');
+                if (err) err.style.display = 'none';
+            });
+        }
     }
 
     window.syncCustomDropdown = function (selectId) {

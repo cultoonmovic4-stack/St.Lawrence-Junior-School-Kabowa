@@ -548,6 +548,10 @@
                 <!-- Main Form Body -->
                 <form id="officialAdmissionForm" class="admission-form-body" novalidate>
 
+                    <!-- Anti-bot honeypot and time-gate -->
+                    <input type="text" name="admission_website_hp" id="admissionWebsiteHp" style="display:none!important; visibility:hidden; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <input type="hidden" name="admission_load_time" id="admissionLoadTime" value="">
+
                     <!-- STAGE 01: Application Details -->
                     <div class="admission-stage-panel active" data-stage="1">
                         <div class="stage-section-header">
@@ -760,8 +764,8 @@
                                     <label class="form-label" for="responsiblePhone">Telephone Number <span
                                             class="req">*</span></label>
                                     <input type="tel" id="responsiblePhone" name="responsible_person_phone"
-                                        class="form-control" placeholder="e.g. 0772420506" required>
-                                    <span class="field-error-text">Please enter telephone number</span>
+                                        class="form-control" placeholder="e.g. 0772420506 or +256772420506" required autocomplete="tel">
+                                    <span class="field-error-text" id="responsiblePhoneError">Please enter a valid active telephone number</span>
                                 </div>
                             </div>
                             <div class="form-grid-2">
@@ -769,8 +773,11 @@
                                     <label class="form-label" for="responsibleEmail">Email Address <span
                                             class="req">*</span></label>
                                     <input type="email" id="responsibleEmail" name="responsible_person_email"
-                                        class="form-control" placeholder="e.g. parent@example.com" required>
-                                    <span class="field-error-text">Please enter a valid email address for admission updates</span>
+                                        class="form-control" placeholder="e.g. parent@gmail.com" required autocomplete="email">
+                                    <span class="field-error-text" id="responsibleEmailError">Please enter a valid, active email address</span>
+                                    <small class="field-hint" style="display:block; font-size:11.5px; color:#64748b; margin-top:4px;">
+                                        <i class="fas fa-shield-alt" style="color:#0066cc;"></i> Official admission updates &amp; signed PDF copy will be sent to this verified address.
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="responsiblePostal">Postal Address (Optional)</label>
@@ -1248,6 +1255,28 @@
                                         <div id="rSigPreview" style="margin-top: 4px;"></div>
                                     </div>
                                 </div>
+                            <!-- Security Verification Card -->
+                            <div class="review-section-card" id="admissionSecurityChallengeCard" style="border: 2px solid #0066cc; background: #f8fbff; margin-top: 18px;">
+                                <div class="review-section-header" style="border-bottom: 1px solid #dbeafe; padding-bottom: 10px;">
+                                    <h4 class="review-section-title" style="color: #0b3366;"><i class="fas fa-shield-alt" style="color: #0066cc;"></i> Human Verification &amp; Security Check</h4>
+                                </div>
+                                <div style="padding: 16px 20px;">
+                                    <p style="font-size: 13px; color: #475569; margin: 0 0 12px 0;">
+                                        To protect against automated spam and ensure every applicant is authentic, please solve this quick security question before submitting:
+                                    </p>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label" for="admissionSecurityAnswer" style="font-weight: 700; color: #0b3366; display: flex; align-items: center; gap: 8px;">
+                                            Security Question: <span id="admissionMathProblem" style="font-size: 16px; color: #dc3545; font-weight: 800; background: #fee2e2; padding: 2px 10px; border-radius: 4px;">--</span>
+                                        </label>
+                                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 6px;">
+                                            <input type="number" id="admissionSecurityAnswer" name="admission_security_answer" class="form-control" placeholder="Enter answer here" required style="max-width: 180px;" autocomplete="off">
+                                            <button type="button" id="btnRefreshAdmissionMath" class="review-edit-btn" style="padding: 8px 12px;" title="Get a different question"><i class="fas fa-sync-alt"></i></button>
+                                        </div>
+                                        <input type="hidden" id="admissionSecurityA" name="admission_security_a">
+                                        <input type="hidden" id="admissionSecurityB" name="admission_security_b">
+                                        <span class="field-error-text" id="admissionSecurityError">Please solve the calculation to submit</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1446,7 +1475,7 @@
     <script src="../js/dropdown-fix.js?v=3.0"></script>
 
     <!-- Official Admission Form Controller -->
-    <script src="../js/admission-official.js?v=2.2" defer></script>
+    <script src="../js/admission-official.js?v=20261015v3" defer></script>
     <script>
         // Initialize AOS
         document.addEventListener('DOMContentLoaded', function () {
