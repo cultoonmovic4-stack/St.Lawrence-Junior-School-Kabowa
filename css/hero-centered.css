@@ -1,0 +1,183 @@
+/* ==============================================================================
+   HOME HERO - CENTERED EDITORIAL LAYOUT (loaded after navbar-hero-target.css)
+   Message sits centred in the middle of every slide, the upcoming-event card is
+   anchored bottom-right on desktop and bottom-centre on tablet/mobile.
+   ============================================================================== */
+.hero-target {
+    align-items: center;
+    justify-content: center;
+    background-position: center center;
+}
+
+.hero-target .hero-target-overlay {
+    background:
+        radial-gradient(ellipse at center, rgba(8, 20, 42, 0.55) 0%, rgba(8, 20, 42, 0.30) 60%, rgba(8, 20, 42, 0.18) 100%),
+        linear-gradient(180deg, rgba(8, 20, 42, 0.40) 0%, rgba(8, 20, 42, 0.08) 32%, rgba(8, 20, 42, 0.50) 100%);
+}
+
+.hero-target .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    height: 100%;
+}
+
+.hero-target-content {
+    position: relative;
+    z-index: 2;
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    transition: opacity 0.45s ease;
+}
+
+.hero-target-content.is-changing {
+    opacity: 0;
+}
+
+.hero-target-content::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--sls-red);
+    margin: 0 auto 20px;
+}
+
+.hero-target-title {
+    font-size: clamp(2.1rem, 4.6vw, 3.7rem);
+    line-height: 1.14;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+}
+
+.hero-target-desc {
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.6;
+    max-width: 660px;
+    margin: 0 auto;
+}
+
+/* Calls-to-action removed from the carousel */
+.hero-target-buttons {
+    display: none !important;
+}
+
+/* Upcoming card: bottom-right of the content area on desktop */
+.hero-upcoming-card {
+    position: absolute;
+    top: auto;
+    right: 24px;
+    bottom: 36px;
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .hero-target {
+        padding-bottom: 0;
+        min-height: 560px;
+    }
+}
+
+/* Tablet & mobile */
+@media (max-width: 991px) {
+    .hero-target {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 560px !important;
+        height: auto !important;
+        max-height: none !important;
+        padding: 96px 0 104px 0 !important;
+        background-position: center center !important;
+    }
+
+    .hero-target .hero-target-overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(8, 20, 42, 0.55) 0%,
+            rgba(8, 20, 42, 0.42) 50%,
+            rgba(8, 20, 42, 0.60) 100%
+        ) !important;
+    }
+
+    .hero-target .container {
+        position: static !important;
+        flex: 0 0 auto !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: auto !important;
+        padding: 0 22px !important;
+        text-align: center !important;
+    }
+
+    .hero-target-content {
+        max-width: 640px !important;
+        text-align: center !important;
+    }
+
+    .hero-target-content::before {
+        width: 44px;
+        height: 3px;
+        margin-bottom: 16px;
+    }
+
+    .hero-target-title {
+        font-size: clamp(1.75rem, 6.6vw, 2.5rem) !important;
+        line-height: 1.18 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .hero-target-desc {
+        font-size: 14.5px !important;
+        line-height: 1.55 !important;
+        max-width: 520px !important;
+        margin: 0 auto !important;
+    }
+
+    .hero-upcoming-card {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 46px !important;
+        margin: 0 auto !important;
+        width: calc(100% - 32px) !important;
+        max-width: 460px !important;
+    }
+
+    .hero-upcoming-card:hover {
+        transform: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-target {
+        min-height: 540px !important;
+        height: auto !important;
+        max-height: none !important;
+        padding: 88px 0 100px 0 !important;
+    }
+
+    .hero-target .container {
+        padding: 0 18px !important;
+    }
+
+    .hero-target-title {
+        font-size: clamp(1.6rem, 7.4vw, 2rem) !important;
+    }
+
+    .hero-target-desc {
+        font-size: 13.5px !important;
+    }
+
+    .hero-upcoming-card {
+        bottom: 42px !important;
+    }
+}

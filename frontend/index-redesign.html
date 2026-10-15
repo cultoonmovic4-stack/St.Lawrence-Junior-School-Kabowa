@@ -195,6 +195,7 @@
     <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
     <!-- Target Institutional Navbar + Hero Redesign Styles -->
     <link rel="stylesheet" href="../css/navbar-hero-target.css?v=2.0">
+    <link rel="stylesheet" href="../css/hero-centered.css?v=1.0">
     <!-- Target Institutional About Section Redesign Styles -->
     <link rel="stylesheet" href="../css/about-target.css?v=1.0">
     <!-- Target Institutional Programs Section Redesign Styles -->
@@ -536,24 +537,13 @@
 
         <div class="container">
             <!-- Left Hero Content -->
-            <div class="hero-target-content" data-aos="fade-right">
-                <h1 class="hero-target-title">Nurturing Minds.<br>Building Futures.</h1>
-                <p class="hero-target-desc">Quality education in a safe and nurturing environment where every child is encouraged to learn, grow and thrive.</p>
-                
-                <div class="hero-target-buttons">
-                    <a href="Admission-redesign.html" class="hero-btn-primary" data-action="apply-admission">
-                        <i class="fas fa-user-check"></i>
-                        <span>Apply for Admission</span>
-                    </a>
-                    <a href="About-redesign.html" class="hero-btn-secondary" data-action="explore-school">
-                        <i class="fas fa-arrow-right"></i>
-                        <span>Explore Our School</span>
-                    </a>
-                </div>
+            <div class="hero-target-content" id="heroContent">
+                <h1 class="hero-target-title" id="heroTitle">Nurturing Minds, Building Futures</h1>
+                <p class="hero-target-desc" id="heroDesc">Quality education in a safe and nurturing environment where every child is encouraged to learn, grow and thrive.</p>
             </div>
 
             <!-- Dynamic Upcoming Important Date Card (Only displayed when event date >= today) -->
-            <div class="hero-upcoming-card" id="heroUpcomingCard" data-aos="fade-up" data-aos-delay="150" style="display: none;">
+            <div class="hero-upcoming-card" id="heroUpcomingCard" style="display: none;">
                 <div class="hero-upcoming-badge">
                     <i class="far fa-calendar-alt"></i>
                     <span>UPCOMING</span>
@@ -1457,42 +1447,71 @@
             const dots = document.querySelectorAll('.hero-slider-dot');
             const prevBtn = document.getElementById('heroPrevBtn');
             const nextBtn = document.getElementById('heroNextBtn');
+            const titleEl = document.getElementById('heroTitle');
+            const descEl = document.getElementById('heroDesc');
+            const contentEl = document.getElementById('heroContent');
             if (!heroEl) return;
 
             const slides = [
-                '../img/new images/1.JPG',
-                '../img/new images/2.JPG',
-                '../img/new images/31.JPG',
-                '../img/new images/4.JPG'
+                {
+                    src: '../img/new images/1.JPG',
+                    title: 'Nurturing Minds, Building Futures',
+                    desc: 'Quality education in a safe and nurturing environment where every child is encouraged to learn, grow and thrive.'
+                },
+                {
+                    src: '../img/new images/2.JPG',
+                    title: 'Learning That Inspires Curiosity',
+                    desc: 'Dedicated teachers and engaging classrooms that help every pupil discover and achieve their full potential.'
+                },
+                {
+                    src: '../img/new images/31.JPG',
+                    title: 'A Family Where Every Child Belongs',
+                    desc: 'Building character, friendship and confidence in a caring, disciplined and happy school community.'
+                },
+                {
+                    src: '../img/new images/4.JPG',
+                    title: 'Excellence in Academics, Sports and Character',
+                    desc: 'Preparing confident, responsible young leaders for success at school and in life.'
+                }
             ];
             let currentSlide = 0;
             let slideInterval;
 
             // Preload all slide images into browser cache immediately
-            slides.forEach(src => {
+            slides.forEach(slide => {
                 const img = new Image();
-                img.src = src;
+                img.src = slide.src;
             });
+
+            function applySlide(nextIndex) {
+                const slide = slides[nextIndex];
+                currentSlide = nextIndex;
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentSlide);
+                });
+                if (contentEl && titleEl && descEl) {
+                    contentEl.classList.add('is-changing');
+                    setTimeout(() => {
+                        titleEl.textContent = slide.title;
+                        descEl.textContent = slide.desc;
+                        contentEl.classList.remove('is-changing');
+                    }, 350);
+                }
+            }
 
             function showSlide(index) {
                 const nextIndex = (index + slides.length) % slides.length;
-                const src = slides[nextIndex];
+                const src = slides[nextIndex].src;
 
                 // Only swap once the image is in cache / loaded
                 const img = new Image();
                 img.onload = function () {
-                    currentSlide = nextIndex;
                     heroEl.style.backgroundImage = `url('${src}')`;
-                    dots.forEach((dot, idx) => {
-                        dot.classList.toggle('active', idx === currentSlide);
-                    });
+                    applySlide(nextIndex);
                 };
                 // If image fails, still advance (avoids getting stuck)
                 img.onerror = function () {
-                    currentSlide = nextIndex;
-                    dots.forEach((dot, idx) => {
-                        dot.classList.toggle('active', idx === currentSlide);
-                    });
+                    applySlide(nextIndex);
                 };
                 img.src = src;
             }
