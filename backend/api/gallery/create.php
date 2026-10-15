@@ -16,9 +16,23 @@ if (!isAuthenticated()) {
 }
 
 try {
-    // Handle file upload securely
-    if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-        throw new Exception('Image upload failed or no image provided');
+    // Handle file upload securely with clear error reporting
+    if (!isset($_FILES['image'])) {
+        throw new Exception('No image received by server. File may exceed maximum POST size.');
+    }
+    
+    if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        switch ($_FILES['image']['error']) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new Exception('File is too large for server limits.');
+            case UPLOAD_ERR_PARTIAL:
+                throw new Exception('Upload was interrupted.');
+            case UPLOAD_ERR_NO_FILE:
+                throw new Exception('No file was selected.');
+            default:
+                throw new Exception('Upload failed with system code: ' . $_FILES['image']['error']);
+        }
     }
     
     // Create upload directory if it doesn't exist
