@@ -268,25 +268,26 @@
         /* ── Tablet (≤ 768 px) ── */
         @media (max-width: 768px) {
             .admissions-hero-media-wrap {
-                min-height: 380px;
-                max-height: 420px;
+                min-height: 280px;
+                max-height: 350px;
+                border-radius: 14px;
+                box-shadow: 0 8px 24px -4px rgba(11, 37, 69, 0.10);
+                border: 1px solid rgba(226, 232, 240, 0.8);
             }
             .admissions-hero-media-wrap .admissions-hero-img {
-                object-position: center center;
+                object-position: center 30%;
             }
             .admissions-hero-media-wrap::after {
                 background:
                     linear-gradient(
-                        to right,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.8) 8%,
-                        transparent 20%
+                        to bottom,
+                        rgba(255, 255, 255, 0.5) 0%,
+                        transparent 16%
                     ),
                     linear-gradient(
                         to top,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.8) 8%,
-                        transparent 22%
+                        rgba(255, 255, 255, 0.6) 0%,
+                        transparent 18%
                     );
             }
         }
@@ -294,20 +295,12 @@
         /* ── Mobile (≤ 480 px) ── */
         @media (max-width: 480px) {
             .admissions-hero-media-wrap {
-                min-height: 280px;
-                max-height: 320px;
+                min-height: 220px;
+                max-height: 270px;
+                border-radius: 12px;
             }
             .admissions-hero-media-wrap .admissions-hero-img {
-                object-position: center center;
-            }
-            .admissions-hero-media-wrap::after {
-                background:
-                    linear-gradient(
-                        to top,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.7) 10%,
-                        transparent 25%
-                    );
+                object-position: center 25%;
             }
         }
     </style>
@@ -440,6 +433,22 @@
                             <span>Our Story</span>
                             <i class="fas fa-arrow-down" aria-hidden="true"></i>
                         </a>
+                    </div>
+
+                    <!-- Micro Trust Highlights (Mobile & Desktop Balance) -->
+                    <div class="hero-trust-highlights">
+                        <div class="hero-trust-item">
+                            <i class="fas fa-award"></i>
+                            <span>15+ Years Excellence</span>
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Nursery &amp; Primary</span>
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Day &amp; Boarding</span>
+                        </div>
                     </div>
                 </div>
 

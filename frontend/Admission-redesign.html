@@ -253,8 +253,11 @@
         /* ── Tablet (≤ 768 px) ── */
         @media (max-width: 768px) {
             .admissions-hero-media-wrap {
-                min-height: 380px;
-                max-height: 420px;
+                min-height: 280px;
+                max-height: 350px;
+                border-radius: 14px;
+                box-shadow: 0 8px 24px -4px rgba(11, 37, 69, 0.10);
+                border: 1px solid rgba(226, 232, 240, 0.8);
             }
             .admissions-hero-media-wrap .admissions-hero-img {
                 object-position: 55% center;
@@ -262,16 +265,14 @@
             .admissions-hero-media-wrap::after {
                 background:
                     linear-gradient(
-                        to right,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.8) 8%,
-                        transparent 20%
+                        to bottom,
+                        rgba(255, 255, 255, 0.5) 0%,
+                        transparent 16%
                     ),
                     linear-gradient(
                         to top,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.8) 8%,
-                        transparent 22%
+                        rgba(255, 255, 255, 0.6) 0%,
+                        transparent 18%
                     );
             }
         }
@@ -279,20 +280,12 @@
         /* ── Mobile (≤ 480 px) ── */
         @media (max-width: 480px) {
             .admissions-hero-media-wrap {
-                min-height: 280px;
-                max-height: 320px;
+                min-height: 220px;
+                max-height: 270px;
+                border-radius: 12px;
             }
             .admissions-hero-media-wrap .admissions-hero-img {
                 object-position: 55% center;
-            }
-            .admissions-hero-media-wrap::after {
-                background:
-                    linear-gradient(
-                        to top,
-                        #ffffff 0%,
-                        rgba(255, 255, 255, 0.7) 10%,
-                        transparent 25%
-                    );
             }
         }
 
@@ -456,12 +449,32 @@
                         Begin your child’s journey to excellence at St. Lawrence Junior School Kabowa.
                     </p>
 
-                    <!-- Primary CTA -->
+                    <!-- Primary & Secondary Actions -->
                     <div class="admissions-hero-actions">
                         <a href="#admission-application-section" class="admissions-hero-cta" id="heroApplyCta">
                             <span>Apply for Admission</span>
-                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
                         </a>
+                        <a href="../backend/api/admissions/download-blank-pdf.php" target="_blank" download="SLJK_Blank_Admission_Application_Form.pdf" class="admissions-hero-cta-secondary" title="Download Printable Blank Form">
+                            <i class="fas fa-file-download" aria-hidden="true"></i>
+                            <span>Printable Form</span>
+                        </a>
+                    </div>
+
+                    <!-- Micro Trust Highlights (Mobile & Desktop Balance) -->
+                    <div class="hero-trust-highlights">
+                        <div class="hero-trust-item">
+                            <i class="fas fa-award"></i>
+                            <span>15+ Years Excellence</span>
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Nursery &amp; Primary</span>
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Day &amp; Boarding</span>
+                        </div>
                     </div>
                 </div>
 
