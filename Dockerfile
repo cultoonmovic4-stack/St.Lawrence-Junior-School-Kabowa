@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli zip opcache \
     && a2enmod rewrite headers \
+    && a2dismod -f mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork || true \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Allow .htaccess overrides in /var/www/html
