@@ -466,29 +466,31 @@ body {
     /* Ensure floating elements don't interfere with content and align vertically */
     .back-to-top,
     #backToTop {
-        width: 42px !important;
-        height: 42px !important;
-        min-width: 42px !important;
-        min-height: 42px !important;
-        right: max(18px, calc(14px + env(safe-area-inset-right, 0px))) !important;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        right: max(20px, calc(16px + env(safe-area-inset-right, 0px))) !important;
+        bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px))) !important;
         left: auto !important;
         margin: 0 !important;
         z-index: var(--z-back-to-top, 10001) !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 15px !important;
+        font-size: 13px !important;
         border-radius: 50% !important;
         box-sizing: border-box !important;
     }
     
     .chat-button,
     #chatButton {
-        width: 42px !important;
-        height: 42px !important;
-        min-width: 42px !important;
-        min-height: 42px !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
         right: max(18px, calc(14px + env(safe-area-inset-right, 0px))) !important;
+        bottom: max(60px, calc(56px + env(safe-area-inset-bottom, 0px))) !important;
         left: auto !important;
         margin: 0 !important;
         z-index: var(--z-chatbot, 9999) !important;

@@ -32,10 +32,10 @@
    ========================================================================== */
 .chat-button {
     position: fixed;
-    bottom: 78px;
+    bottom: 68px;
     right: 24px;
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
     border: 2px solid #ffffff;
     border-radius: 50%;
@@ -57,8 +57,8 @@
 }
 
 .chat-button img {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     object-fit: contain;
     display: block;
@@ -71,8 +71,8 @@
     position: absolute;
     top: 1px;
     right: 1px;
-    width: 8px;
-    height: 8px;
+    width: 7.5px;
+    height: 7.5px;
     background: var(--sl-red, #dc3545);
     border: 1.5px solid #ffffff;
     border-radius: 50%;
@@ -951,16 +951,16 @@
    ========================================================================== */
 @media (max-width: 640px) {
     .chat-button {
-        bottom: 68px;
+        bottom: 60px;
         right: 18px;
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
         margin: 0;
     }
 
     .chat-button img {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
     }
 
     .chat-tooltip {

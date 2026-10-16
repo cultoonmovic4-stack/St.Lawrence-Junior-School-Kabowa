@@ -16,19 +16,21 @@
     --z-dropdown: 1000;          /* Navigation dropdowns */
 }
 
-/* ========== BACK-TO-TOP BUTTON ========== */
+/* ========== BACK-TO-TOP BUTTON (REDUCED & COMPACT) ========== */
 .back-to-top,
 #backToTop {
     position: fixed;
     bottom: 24px;
-    right: 24px;
-    width: 46px;
-    height: 46px;
+    right: 27px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
     background: #dc3545;
     color: #ffffff;
     border: none;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -38,7 +40,7 @@
     visibility: hidden;
     transform: translateY(20px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+    box-shadow: 0 3px 10px rgba(220, 53, 69, 0.35);
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -55,17 +57,19 @@
 #backToTop:hover {
     background: #c82333;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.45);
+    box-shadow: 0 5px 14px rgba(220, 53, 69, 0.45);
 }
 
 /* ========== CHATBOT BUTTON (COMPACT & SLEEK) ========== */
 .chat-button,
 #chatButton {
     position: fixed;
-    bottom: 78px;
+    bottom: 68px;
     right: 24px;
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
     border-radius: 50%;
     box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
@@ -91,8 +95,8 @@
 
 .chat-button img,
 #chatButton img {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     object-fit: contain;
     display: block;
@@ -106,8 +110,8 @@
     position: absolute;
     top: 1px;
     right: 1px;
-    width: 8px;
-    height: 8px;
+    width: 7.5px;
+    height: 7.5px;
     background: #dc3545;
     border: 1.5px solid #ffffff;
     border-radius: 50%;
@@ -127,14 +131,11 @@
 
 /* ========== MOBILE RESPONSIVE (PERFECT VERTICAL ALIGNMENT) ========== */
 @media (max-width: 768px) {
-    /* Chatbot & Back-to-Top: Exact same width, height, and right position */
+    /* Reset margins & left position */
     .chat-button,
     #chatButton,
     .back-to-top,
     #backToTop {
-        width: 42px;
-        height: 42px;
-        right: 18px;
         left: auto;
         margin: 0;
         margin-right: 0;
@@ -142,23 +143,33 @@
         box-sizing: border-box;
     }
 
-    /* Back-to-top: bottom-right */
+    /* Back-to-top: reduced to 34px, center-aligned below chatbot */
     .back-to-top,
     #backToTop {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        min-height: 34px;
         bottom: 18px;
-        font-size: 15px;
+        right: 20px;
+        font-size: 13px;
     }
 
-    /* Chatbot: directly above back-to-top with 8px vertical gap */
+    /* Chatbot: 38px, directly above back-to-top with 8px vertical gap */
     .chat-button,
     #chatButton {
-        bottom: 68px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        min-height: 38px;
+        bottom: 60px;
+        right: 18px;
     }
 
     .chat-button img,
     #chatButton img {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
     }
 }
 
@@ -167,36 +178,32 @@
     .back-to-top,
     #backToTop {
         bottom: max(24px, calc(18px + env(safe-area-inset-bottom, 0px)));
-        right: max(24px, calc(18px + env(safe-area-inset-right, 0px)));
+        right: max(27px, calc(21px + env(safe-area-inset-right, 0px)));
     }
     
     .chat-button,
     #chatButton {
-        bottom: max(78px, calc(72px + env(safe-area-inset-bottom, 0px)));
+        bottom: max(68px, calc(62px + env(safe-area-inset-bottom, 0px)));
         right: max(24px, calc(18px + env(safe-area-inset-right, 0px)));
     }
     
     @media (max-width: 768px) {
-        /* Both elements share exact same right inset on mobile */
-        .chat-button,
-        #chatButton,
+        /* Back-to-top center-aligned with chatbot */
         .back-to-top,
         #backToTop {
-            right: max(18px, calc(14px + env(safe-area-inset-right, 0px)));
+            right: max(20px, calc(16px + env(safe-area-inset-right, 0px)));
+            bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px)));
             left: auto;
             margin: 0;
-        }
-
-        /* Back-to-top at bottom */
-        .back-to-top,
-        #backToTop {
-            bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px)));
         }
 
         /* Chatbot stacked directly above */
         .chat-button,
         #chatButton {
-            bottom: max(68px, calc(64px + env(safe-area-inset-bottom, 0px)));
+            right: max(18px, calc(14px + env(safe-area-inset-right, 0px)));
+            bottom: max(60px, calc(56px + env(safe-area-inset-bottom, 0px)));
+            left: auto;
+            margin: 0;
         }
     }
 }
