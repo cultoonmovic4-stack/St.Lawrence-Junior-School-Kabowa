@@ -5,6 +5,7 @@
  * Include this file at the top of any protected API endpoint
  */
 
+require_once __DIR__ . '/../config/cors.php';
 require_once __DIR__ . '/../helpers/SessionHelper.php';
 
 // Initialize hardened session

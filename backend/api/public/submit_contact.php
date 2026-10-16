@@ -10,14 +10,10 @@
  *  6. URL density check (too many links = spam)
  */
 
+require_once __DIR__ . '/../config/cors.php';
 header('Content-Type: application/json');
-// Tighten CORS — only allow your own site domain when deployed
-// Change '*' below to your real domain e.g. 'https://www.stlawrencekabowa.ug'
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
 
-require_once '../config/Database.php';
+require_once __DIR__ . '/../config/Database.php';
 
 // ─── Only accept POST ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
