@@ -1106,11 +1106,12 @@
     /* Floating Back-to-Top safe size on mobile screens */
     .back-to-top,
     #backToTop {
-        width: 38px !important;
-        height: 38px !important;
+        width: 42px !important;
+        height: 42px !important;
         font-size: 15px !important;
-        bottom: max(16px, calc(12px + env(safe-area-inset-bottom, 0px))) !important;
-        right: max(14px, calc(12px + env(safe-area-inset-right, 0px))) !important;
+        bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px))) !important;
+        right: max(18px, calc(14px + env(safe-area-inset-right, 0px))) !important;
+        margin: 0 !important;
     }
 }
 

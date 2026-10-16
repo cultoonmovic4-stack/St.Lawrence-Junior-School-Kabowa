@@ -32,48 +32,49 @@
    ========================================================================== */
 .chat-button {
     position: fixed;
-    bottom: 90px;
-    right: 28px;
-    width: 60px;
-    height: 60px;
-    background: var(--sl-white);
-    border: 2.5px solid var(--sl-blue);
+    bottom: 78px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    border: 2px solid #ffffff;
     border-radius: 50%;
-    box-shadow: 0 4px 16px rgba(0, 51, 102, 0.18);
+    box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9998;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 .chat-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.25);
-    border-color: var(--sl-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 102, 204, 0.45);
 }
 
 .chat-button img {
-    width: 44px;
-    height: 44px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: contain;
     display: block;
     pointer-events: none;
+    margin: 0 auto;
 }
 
 /* Red notification dot */
 .chat-unread-dot {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 12px;
-    height: 12px;
-    background: var(--sl-red);
-    border: 2px solid var(--sl-white);
+    top: 1px;
+    right: 1px;
+    width: 8px;
+    height: 8px;
+    background: var(--sl-red, #dc3545);
+    border: 1.5px solid #ffffff;
     border-radius: 50%;
     pointer-events: none;
 }
@@ -950,15 +951,16 @@
    ========================================================================== */
 @media (max-width: 640px) {
     .chat-button {
-        bottom: 20px;
-        right: 16px;
-        width: 52px;
-        height: 52px;
+        bottom: 68px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+        margin: 0;
     }
 
     .chat-button img {
-        width: 38px;
-        height: 38px;
+        width: 28px;
+        height: 28px;
     }
 
     .chat-tooltip {

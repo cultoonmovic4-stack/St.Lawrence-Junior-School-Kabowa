@@ -208,26 +208,26 @@ body {
 
 /* ========== TOUCH TARGET IMPROVEMENTS ========== */
 @media (max-width: 768px) {
-    /* Ensure all interactive elements are at least 44px */
+    /* Ensure interactive elements meet touch target guidelines */
     .btn,
     .hamburger,
-    .chat-button,
-    .back-to-top,
     .nav-link,
     .logo {
         min-height: 44px;
         min-width: 44px;
     }
+
+    .chat-button,
+    .back-to-top {
+        min-height: 42px;
+        min-width: 42px;
+        margin: 0 !important;
+    }
     
-    /* Add more spacing around touch targets near edges */
+    /* Add spacing around touch targets near edges */
     .hamburger {
         margin-right: 8px;
         margin-top: 8px;
-    }
-    
-    .chat-button {
-        margin-right: 8px;
-        margin-bottom: 8px;
     }
 }
 
@@ -627,21 +627,64 @@ body {
 }
 
 /* ========== CHAT WIDGET + FAB — FINAL MOBILE OVERRIDES ==========
-   FAB/closing control must survive cascade from unified-floating-elements + mobile-animation. */
+   Align chatbot button and back-to-top button on exact same vertical line */
 @media (max-width: 768px) {
+    /* Identical horizontal position, size, and reset margins */
     #chatButton.chat-button,
-    .chat-button#chatButton {
-        right: max(20px, calc(16px + env(safe-area-inset-right, 0px))) !important;
-        bottom: max(85px, calc(70px + env(safe-area-inset-bottom, 0px))) !important;
-        left: auto !important;
-    }
-
-    /* Back-to-top stays right side, below chatbot */
+    .chat-button#chatButton,
     .back-to-top,
     #backToTop {
-        right: max(24px, calc(16px + env(safe-area-inset-right, 0px))) !important;
+        right: max(18px, calc(14px + env(safe-area-inset-right, 0px))) !important;
         left: auto !important;
-        bottom: max(25px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
+        margin: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        border-radius: 50% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Back-to-top stays at the bottom */
+    .back-to-top,
+    #backToTop {
+        bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px))) !important;
+        font-size: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Chatbot stays neatly stacked directly above back-to-top with 8px gap */
+    #chatButton.chat-button,
+    .chat-button#chatButton {
+        bottom: max(68px, calc(64px + env(safe-area-inset-bottom, 0px))) !important;
+        border: 2px solid #ffffff !important;
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.35) !important;
+        padding: 0 !important;
+    }
+
+    /* Small compact chatbot crest icon */
+    #chatButton.chat-button img,
+    .chat-button#chatButton img {
+        width: 28px !important;
+        height: 28px !important;
+        object-fit: contain !important;
+        display: block !important;
+        border-radius: 50% !important;
+        margin: 0 auto !important;
+    }
+
+    /* Scaled notification unread dot */
+    #chatButton.chat-button .chat-unread-dot,
+    .chat-button#chatButton .chat-unread-dot {
+        width: 8px !important;
+        height: 8px !important;
+        top: 1px !important;
+        right: 1px !important;
+        border: 1.5px solid #ffffff !important;
     }
 
     .chat-widget .chat-header {

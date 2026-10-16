@@ -3,7 +3,7 @@
    St. Lawrence Junior School - Kabowa
    
    Clean, conflict-free floating elements
-   with proper z-index hierarchy
+   with proper z-index hierarchy & perfect vertical alignment
    ======================================== */
 
 /* ========== Z-INDEX HIERARCHY ========== */
@@ -20,15 +20,15 @@
 .back-to-top,
 #backToTop {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
+    bottom: 24px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
     background: #dc3545;
     color: #ffffff;
     border: none;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -37,8 +37,11 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .back-to-top.show,
@@ -52,35 +55,63 @@
 #backToTop:hover {
     background: #c82333;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.45);
 }
 
-/* ========== CHATBOT BUTTON ========== */
+/* ========== CHATBOT BUTTON (COMPACT & SLEEK) ========== */
 .chat-button,
 #chatButton {
     position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 65px;
-    height: 65px;
+    bottom: 78px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
     border-radius: 50%;
-    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: var(--z-chatbot);
-    transition: all 0.3s ease;
-    border: 3px solid #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid #ffffff;
     opacity: 1;
     visibility: visible;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .chat-button:hover,
 #chatButton:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 35px rgba(0, 102, 204, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 102, 204, 0.45);
+}
+
+.chat-button img,
+#chatButton img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    margin: 0 auto;
+}
+
+/* Red notification dot */
+.chat-button .chat-unread-dot,
+#chatButton .chat-unread-dot {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 8px;
+    height: 8px;
+    background: #dc3545;
+    border: 1.5px solid #ffffff;
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 /* ========== HAMBURGER MENU ========== */
@@ -94,27 +125,40 @@
     z-index: calc(var(--z-hamburger) - 1) !important;
 }
 
-/* ========== MOBILE RESPONSIVE ========== */
+/* ========== MOBILE RESPONSIVE (PERFECT VERTICAL ALIGNMENT) ========== */
 @media (max-width: 768px) {
-    /* Chatbot: bottom-right, higher up */
+    /* Chatbot & Back-to-Top: Exact same width, height, and right position */
     .chat-button,
-    #chatButton {
-        width: 52px;
-        height: 52px;
-        bottom: 85px;
-        right: 20px;
-        left: auto;
-    }
-
-    /* Back-to-top: bottom-right, below chatbot */
+    #chatButton,
     .back-to-top,
     #backToTop {
-        width: 44px;
-        height: 44px;
-        bottom: 25px;
-        right: 24px;
+        width: 42px;
+        height: 42px;
+        right: 18px;
         left: auto;
-        font-size: 18px;
+        margin: 0;
+        margin-right: 0;
+        margin-left: 0;
+        box-sizing: border-box;
+    }
+
+    /* Back-to-top: bottom-right */
+    .back-to-top,
+    #backToTop {
+        bottom: 18px;
+        font-size: 15px;
+    }
+
+    /* Chatbot: directly above back-to-top with 8px vertical gap */
+    .chat-button,
+    #chatButton {
+        bottom: 68px;
+    }
+
+    .chat-button img,
+    #chatButton img {
+        width: 28px;
+        height: 28px;
     }
 }
 
@@ -122,31 +166,37 @@
 @supports (bottom: env(safe-area-inset-bottom)) {
     .back-to-top,
     #backToTop {
-        bottom: max(30px, calc(24px + env(safe-area-inset-bottom, 0px)));
-        right: max(30px, calc(24px + env(safe-area-inset-right, 0px)));
+        bottom: max(24px, calc(18px + env(safe-area-inset-bottom, 0px)));
+        right: max(24px, calc(18px + env(safe-area-inset-right, 0px)));
     }
     
     .chat-button,
     #chatButton {
-        bottom: max(100px, calc(80px + env(safe-area-inset-bottom, 0px)));
-        right: max(30px, calc(24px + env(safe-area-inset-right, 0px)));
+        bottom: max(78px, calc(72px + env(safe-area-inset-bottom, 0px)));
+        right: max(24px, calc(18px + env(safe-area-inset-right, 0px)));
     }
     
     @media (max-width: 768px) {
-        /* Chatbot: right side, higher */
+        /* Both elements share exact same right inset on mobile */
         .chat-button,
-        #chatButton {
-            bottom: max(85px, calc(70px + env(safe-area-inset-bottom, 0px)));
-            right: max(20px, calc(16px + env(safe-area-inset-right, 0px)));
-            left: auto;
-        }
-
-        /* Back-to-top: right side, below chatbot */
+        #chatButton,
         .back-to-top,
         #backToTop {
-            bottom: max(25px, calc(16px + env(safe-area-inset-bottom, 0px)));
-            right: max(24px, calc(16px + env(safe-area-inset-right, 0px)));
+            right: max(18px, calc(14px + env(safe-area-inset-right, 0px)));
             left: auto;
+            margin: 0;
+        }
+
+        /* Back-to-top at bottom */
+        .back-to-top,
+        #backToTop {
+            bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px)));
+        }
+
+        /* Chatbot stacked directly above */
+        .chat-button,
+        #chatButton {
+            bottom: max(68px, calc(64px + env(safe-area-inset-bottom, 0px)));
         }
     }
 }
