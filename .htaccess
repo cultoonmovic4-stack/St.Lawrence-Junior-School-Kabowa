@@ -33,20 +33,23 @@ DirectoryIndex index.html index.php
     RewriteCond %{REQUEST_URI} !^/\.well-known/
     RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
 
-    # Clean Root: serve frontend/index-redesign.html at / without exposing internal path
-    RewriteRule ^$ frontend/index-redesign.html [L]
-    RewriteRule ^index(\.html)?$ frontend/index-redesign.html [L]
+    # Clean Root
+    RewriteRule ^$ index.html [L]
+    RewriteRule ^index(\.html)?$ index.html [L]
 
     # Clean Subpage URLs
-    RewriteRule ^about/?$ frontend/About-redesign.html [L]
-    RewriteRule ^admissions?/?$ frontend/Admission-redesign.html [L]
-    RewriteRule ^fees/?$ frontend/Fees.html [L]
-    RewriteRule ^gallery/?$ frontend/Gallery-redesign.html [L]
-    RewriteRule ^contact/?$ frontend/Contact-redesign.html [L]
-    RewriteRule ^teachers/?$ frontend/Teachers-redesign.html [L]
-    RewriteRule ^teacher-profile/?$ frontend/Teacher-Profile.html [L]
-    RewriteRule ^library/?$ frontend/Library-redesign.html [L]
-    RewriteRule ^anthem/?$ frontend/School-Anthem.html [L]
+    RewriteRule ^about/?$ about.html [L]
+    RewriteRule ^admissions?/?$ admissions.html [L]
+    RewriteRule ^admission/?$ admissions.html [L]
+    RewriteRule ^fees/?$ fees.html [L]
+    RewriteRule ^gallery/?$ gallery.html [L]
+    RewriteRule ^contact/?$ contact.html [L]
+    RewriteRule ^teachers/?$ teachers.html [L]
+    RewriteRule ^teacher-profile/?$ teacher-profile.html [L]
+    RewriteRule ^library/?$ library.html [L]
+    RewriteRule ^anthem/?$ anthem.html [L]
+    RewriteRule ^school-anthem/?$ anthem.html [L]
+
 </IfModule>
 
 # 4. Deny Access to Sensitive File Formats

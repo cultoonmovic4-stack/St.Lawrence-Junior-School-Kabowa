@@ -1,7 +1,7 @@
 /**
- * Migration script: Converts all -redesign page names to standard normal names
- * (e.g. About.html, Admission.html, Contact.html, Teachers.html, Gallery.html, Library.html).
- * Updates internal href links across all pages and deploys to root and frontend/.
+ * Migration script: Converts all page links to clean URLs without .html
+ * (e.g. /about, /fees, /admissions, /contact, /teachers, /gallery, /library, /anthem, /)
+ * and deploys to root and frontend/ with alias files for both case variations.
  */
 const fs = require('fs');
 const path = require('path');
@@ -12,71 +12,71 @@ const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend');
 // Canonical page definitions
 const PAGES = [
     {
-        oldSrc: 'index-redesign.html',
-        cleanName: 'index.html',
+        srcFile: 'index.html',
+        cleanPath: '/',
         rootAliases: ['index.html', 'index-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/'
     },
     {
-        oldSrc: 'About-redesign.html',
-        cleanName: 'About.html',
+        srcFile: 'About.html',
+        cleanPath: '/about',
         rootAliases: ['About.html', 'about.html', 'About-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/About.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/about'
     },
     {
-        oldSrc: 'Admission-redesign.html',
-        cleanName: 'Admission.html',
+        srcFile: 'Admission.html',
+        cleanPath: '/admissions',
         rootAliases: ['Admission.html', 'admission.html', 'admissions.html', 'Admission-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Admission.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/admissions'
     },
     {
-        oldSrc: 'Fees.html',
-        cleanName: 'Fees.html',
+        srcFile: 'Fees.html',
+        cleanPath: '/fees',
         rootAliases: ['Fees.html', 'fees.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Fees.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/fees'
     },
     {
-        oldSrc: 'Contact-redesign.html',
-        cleanName: 'Contact.html',
+        srcFile: 'Contact.html',
+        cleanPath: '/contact',
         rootAliases: ['Contact.html', 'contact.html', 'Contact-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Contact.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/contact'
     },
     {
-        oldSrc: 'Teachers-redesign.html',
-        cleanName: 'Teachers.html',
+        srcFile: 'Teachers.html',
+        cleanPath: '/teachers',
         rootAliases: ['Teachers.html', 'teachers.html', 'Teachers-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Teachers.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/teachers'
     },
     {
-        oldSrc: 'Gallery-redesign.html',
-        cleanName: 'Gallery.html',
+        srcFile: 'Gallery.html',
+        cleanPath: '/gallery',
         rootAliases: ['Gallery.html', 'gallery.html', 'Gallery-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Gallery.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/gallery'
     },
     {
-        oldSrc: 'Library-redesign.html',
-        cleanName: 'Library.html',
+        srcFile: 'Library.html',
+        cleanPath: '/library',
         rootAliases: ['Library.html', 'library.html', 'Library-redesign.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Library.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/library'
     },
     {
-        oldSrc: 'School-Anthem.html',
-        cleanName: 'School-Anthem.html',
+        srcFile: 'School-Anthem.html',
+        cleanPath: '/anthem',
         rootAliases: ['School-Anthem.html', 'Anthem.html', 'anthem.html', 'school-anthem.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/School-Anthem.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/anthem'
     },
     {
-        oldSrc: 'Teacher-Profile.html',
-        cleanName: 'Teacher-Profile.html',
+        srcFile: 'Teacher-Profile.html',
+        cleanPath: '/teacher-profile',
         rootAliases: ['Teacher-Profile.html', 'teacher-profile.html'],
-        canonical: 'https://stlawrencejuniorschoolkabowa.com/Teacher-Profile.html'
+        canonical: 'https://stlawrencejuniorschoolkabowa.com/teacher-profile'
     }
 ];
 
-function replaceAllRedesignLinks(content) {
+function replaceAllWithCleanUrls(content) {
     let result = content;
 
-    // Replace -redesign links with clean names
+    // 1. Replace all legacy redesign links first
     result = result.replace(/About-redesign\.html/gi, 'About.html');
     result = result.replace(/Admission-redesign\.html/gi, 'Admission.html');
     result = result.replace(/Contact-redesign\.html/gi, 'Contact.html');
@@ -85,11 +85,24 @@ function replaceAllRedesignLinks(content) {
     result = result.replace(/Teachers-redesign\.html/gi, 'Teachers.html');
     result = result.replace(/index-redesign\.html/gi, 'index.html');
 
+    // 2. Replace hrefs with clean paths (no .html)
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?About\.html(["'#])/gi, 'href="/about$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Fees\.html(["'#])/gi, 'href="/fees$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Admission\.html(["'#])/gi, 'href="/admissions$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Contact\.html(["'#])/gi, 'href="/contact$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Teachers\.html(["'#])/gi, 'href="/teachers$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Gallery\.html(["'#])/gi, 'href="/gallery$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Library\.html(["'#])/gi, 'href="/library$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?School-Anthem\.html(["'#])/gi, 'href="/anthem$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Anthem\.html(["'#])/gi, 'href="/anthem$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?Teacher-Profile\.html(["'#])/gi, 'href="/teacher-profile$1');
+    result = result.replace(/href=["'](?:\.\.\/|\.\/|\/)?index\.html(["'#])/gi, 'href="/$1');
+
     return result;
 }
 
 function transformForRoot(content, page) {
-    let result = replaceAllRedesignLinks(content);
+    let result = replaceAllWithCleanUrls(content);
 
     // Strip any PRODUCTION_CLEAN_URL_REDIRECT block from root files
     const markerStart = '<!-- PRODUCTION_CLEAN_URL_REDIRECT_START -->';
@@ -106,10 +119,6 @@ function transformForRoot(content, page) {
     result = result.replace(/(\.\.\/)+audio\//g, 'audio/');
     result = result.replace(/(\.\.\/)+backend\//g, 'backend/');
     result = result.replace(/(\.\.\/)+sitemap\.xml/g, 'sitemap.xml');
-
-    // Normalize home link
-    result = result.replace(/href=["'](\.\.\/)*index\.html["']/g, 'href="/"');
-    result = result.replace(/href=["']index\.html["']/g, 'href="/"');
 
     // Update canonical
     if (page.canonical) {
@@ -144,72 +153,42 @@ function createRedirectHTML(targetUrl) {
 `;
 }
 
-console.log('--- Starting Migration to Normal Page Names ---');
+console.log('--- Applying Clean URLs Across All Pages ---');
 
-// 1. Process each page
 PAGES.forEach(page => {
-    // Determine source: cleanName or oldSrc
-    let srcPath = path.join(FRONTEND_DIR, page.cleanName);
+    let srcPath = path.join(FRONTEND_DIR, page.srcFile);
     if (!fs.existsSync(srcPath)) {
-        srcPath = path.join(FRONTEND_DIR, page.oldSrc);
+        srcPath = path.join(ROOT_DIR, page.srcFile);
     }
 
     if (!fs.existsSync(srcPath)) {
-        console.error(`Cannot find source for ${page.cleanName}`);
+        console.error(`Source not found: ${page.srcFile}`);
         return;
     }
 
     let raw = fs.readFileSync(srcPath, 'utf8');
 
-    // Update internal links in frontend content
-    let frontendContent = replaceAllRedesignLinks(raw);
+    // 1. Update frontend/ version
+    let frontendClean = replaceAllWithCleanUrls(raw);
+    const frontendDst = path.join(FRONTEND_DIR, page.srcFile);
+    fs.writeFileSync(frontendDst, frontendClean, 'utf8');
+    console.log(`[Frontend] Updated clean links in frontend/${page.srcFile}`);
 
-    // Save in frontend/ with clean name
-    const frontendCleanPath = path.join(FRONTEND_DIR, page.cleanName);
-    fs.writeFileSync(frontendCleanPath, frontendContent, 'utf8');
-    console.log(`[Frontend] Saved clean page: frontend/${page.cleanName}`);
+    // 2. Generate root page content
+    const rootClean = transformForRoot(frontendClean, page);
 
-    // If cleanName != oldSrc, also create forwarder in frontend/oldSrc
-    if (page.cleanName !== page.oldSrc) {
-        const oldFrontendPath = path.join(FRONTEND_DIR, page.oldSrc);
-        const forwardTarget = page.cleanName === 'index.html' ? '/' : `/${page.cleanName}`;
-        fs.writeFileSync(oldFrontendPath, createRedirectHTML(forwardTarget), 'utf8');
-        console.log(`[Frontend] Created legacy redirect: frontend/${page.oldSrc} -> ${forwardTarget}`);
-    }
-
-    // 2. Generate root pages
-    const rootContent = transformForRoot(frontendContent, page);
-
+    // Save to all root aliases
     page.rootAliases.forEach(alias => {
         const rootPath = path.join(ROOT_DIR, alias);
-        // If alias is the old redesign name, write a redirect to clean name instead of duplicating
+        // If it's a legacy redesign alias, make it a redirect
         if (alias.toLowerCase().includes('-redesign')) {
-            const cleanTarget = page.cleanName === 'index.html' ? '/' : `/${page.cleanName}`;
-            fs.writeFileSync(rootPath, createRedirectHTML(cleanTarget), 'utf8');
-            console.log(`[Root] Created legacy redirect: ${alias} -> ${cleanTarget}`);
+            fs.writeFileSync(rootPath, createRedirectHTML(page.cleanPath), 'utf8');
+            console.log(`[Root] Created legacy redirect: ${alias} -> ${page.cleanPath}`);
         } else {
-            fs.writeFileSync(rootPath, rootContent, 'utf8');
+            fs.writeFileSync(rootPath, rootClean, 'utf8');
             console.log(`[Root] Generated page: ${alias}`);
         }
     });
 });
 
-// Update backend/admin/login.html if needed
-const loginHtmlPath = path.join(ROOT_DIR, 'backend', 'admin', 'login.html');
-if (fs.existsSync(loginHtmlPath)) {
-    let loginContent = fs.readFileSync(loginHtmlPath, 'utf8');
-    loginContent = loginContent.replace(/index-redesign\.html/g, 'index.html');
-    fs.writeFileSync(loginHtmlPath, loginContent, 'utf8');
-    console.log('[Backend] Updated backend/admin/login.html link to index.html');
-}
-
-// Update backend/api/helpers/AdmissionEmailService.php if needed
-const emailServicePath = path.join(ROOT_DIR, 'backend', 'api', 'helpers', 'AdmissionEmailService.php');
-if (fs.existsSync(emailServicePath)) {
-    let emailContent = fs.readFileSync(emailServicePath, 'utf8');
-    emailContent = emailContent.replace(/Admission-redesign\.html/g, 'Admission.html');
-    fs.writeFileSync(emailServicePath, emailContent, 'utf8');
-    console.log('[Backend] Updated AdmissionEmailService.php link to Admission.html');
-}
-
-console.log('--- Migration Completed Successfully ---');
+console.log('--- Finished Applying Clean URLs ---');

@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=/Library.html">
+    <meta http-equiv="refresh" content="0; url=/library">
     <title>Redirecting...</title>
     <script>
         (function() {
             var host = window.location.hostname;
             var isLocal = host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local');
             if (!isLocal) {
-                window.location.replace('/Library.html' + window.location.search + window.location.hash);
+                window.location.replace('/library' + window.location.search + window.location.hash);
             }
         })();
     </script>
 </head>
 <body>
-    <p>Redirecting to <a href="/Library.html">/Library.html</a>...</p>
+    <p>Redirecting to <a href="/library">/library</a>...</p>
 </body>
 </html>

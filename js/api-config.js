@@ -19,8 +19,35 @@
         ? (window.location.pathname.includes('/frontend/') ? '../backend' : './backend')
         : REMOTE_BACKEND;
 
+    // Automatic .html Extension Stripper for Production Clean URLs
+    if (!IS_LOCAL && window.location.pathname.endsWith('.html')) {
+        var clean = window.location.pathname.replace(/\.html$/i, '').toLowerCase();
+        if (clean === '/index' || clean.endsWith('/index')) clean = '/';
+        if (clean === '/admission') clean = '/admissions';
+        if (clean === '/school-anthem') clean = '/anthem';
+        window.location.replace(clean + window.location.search + window.location.hash);
+    }
+
+    // Local XAMPP subfolder prefixing for root clean URLs
+    if (IS_LOCAL) {
+        document.addEventListener('DOMContentLoaded', function() {
+            var m = window.location.pathname.match(/^(\/[^\/]+\/[^\/]+)/);
+            if (m && m[1] && !m[1].includes('.')) {
+                var localPrefix = m[1];
+                document.querySelectorAll('a[href^="/"]:not([href^="//"])').forEach(function(a) {
+                    var href = a.getAttribute('href');
+                    if (href === '/') {
+                        a.setAttribute('href', localPrefix + '/');
+                    } else if (!href.startsWith(localPrefix)) {
+                        a.setAttribute('href', localPrefix + href);
+                    }
+                });
+            }
+        });
+    }
 
     // Automatically rewrite relative backend requests to Railway in production
+
     if (!IS_LOCAL) {
         const originalFetch = window.fetch;
         window.fetch = function(resource, init) {
