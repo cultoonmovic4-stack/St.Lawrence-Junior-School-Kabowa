@@ -19,21 +19,6 @@
         ? (window.location.pathname.includes('/frontend/') ? '../backend' : './backend')
         : REMOTE_BACKEND;
 
-    // Clean URL Sanitizer for Production
-    // Prevents internal directory paths like '/frontend/' from being exposed in browser address bar
-    if (!IS_LOCAL && window.history && window.history.replaceState) {
-        var currentPath = window.location.pathname;
-        if (currentPath.includes('/frontend/index-redesign') || currentPath.endsWith('/index.html')) {
-            window.history.replaceState(null, '', '/' + window.location.search + window.location.hash);
-        } else if (currentPath.includes('/frontend/')) {
-            var cleanPath = currentPath
-                .replace('/frontend/', '/')
-                .replace(/-redesign\.html/i, '')
-                .replace(/\.html/i, '')
-                .toLowerCase();
-            window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
-        }
-    }
 
     // Automatically rewrite relative backend requests to Railway in production
     if (!IS_LOCAL) {

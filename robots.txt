@@ -9,4 +9,4 @@ Disallow: /scratch/
 Disallow: /tools/
 Disallow: /work/
 
-Sitemap: https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/sitemap.xml
+Sitemap: https://stlawrencejuniorschoolkabowa.com/sitemap.xml
