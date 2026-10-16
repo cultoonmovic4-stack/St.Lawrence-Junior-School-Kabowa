@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- PRODUCTION_CLEAN_URL_REDIRECT_START -->
+    <script>
+        (function() {
+            var host = window.location.hostname;
+            var isLocal = host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local');
+            if (!isLocal) {
+                window.location.replace('/Library.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
+    <noscript><meta http-equiv="refresh" content="0; url=/Library.html"></noscript>
+    <!-- PRODUCTION_CLEAN_URL_REDIRECT_END -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <title>School Library – St. Lawrence Junior School Kabowa</title>
+    <meta name="description" content="Explore the digital library and textbook learning resources provided for primary pupils at St. Lawrence Junior School Kabowa in Kampala.">
+    <link rel="canonical" href="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Library.html">
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="School Library – St. Lawrence Junior School Kabowa">
+    <meta property="og:description" content="Explore the digital library and textbook learning resources provided for primary pupils at St. Lawrence Junior School Kabowa in Kampala.">
+    <meta property="og:url" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Library.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="St. Lawrence Junior School">
+    <meta property="og:image" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/img/hero-students-target.jpg">
+    <meta property="og:image:alt" content="St. Lawrence Junior School digital library and learning materials">
+    <meta property="og:image:width" content="1376">
+    <meta property="og:image:height" content="768">
+
+    <!-- Twitter / X Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="School Library – St. Lawrence Junior School Kabowa">
+    <meta name="twitter:description" content="Explore the digital library and textbook learning resources provided for primary pupils at St. Lawrence Junior School Kabowa in Kampala.">
+    <meta name="twitter:image" content="https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/img/hero-students-target.jpg">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Library.html#webpage",
+            "url": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Library.html",
+            "name": "School Library – St. Lawrence Junior School Kabowa",
+            "description": "Explore the digital library and textbook learning resources provided for primary pupils at St. Lawrence Junior School Kabowa in Kampala.",
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "St. Lawrence Junior School Kabowa",
+                "url": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/index.html"
+            }
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/index.html"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Library",
+                    "item": "https://cultoonmovic4-stack.github.io/St.Lawrence-Junior-School-Kabowa/frontend/Library.html"
+                }
+            ]
+        }
+    ]
+}
+    </script>
+
+    <!-- Favicon — Official St. Lawrence Junior School Kabowa Crest -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/5-transparent.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/5-transparent.png">
+    <link rel="shortcut icon" href="../img/5-transparent.png">
+    <link rel="apple-touch-icon" href="../img/5-transparent.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom & Common CSS -->
+    <link rel="stylesheet" href="../css/redesign-style.css?v=3.6">
+    <link rel="stylesheet" href="../css/unified-responsive.css?v=1.3">
+    <link rel="stylesheet" href="../css/unified-floating-elements.css?v=1.0">
+    <link rel="stylesheet" href="../css/mobile-animation-fixes.css?v=1.0">
+    <link rel="stylesheet" href="../css/mobile-menu-spacing-fix.css?v=1.1">
+    <link rel="stylesheet" href="../css/hamburger-fixes.css?v=2.0">
+    <link rel="stylesheet" href="../css/desktop-navigation-fixes.css?v=1.0">
+    <link rel="stylesheet" href="../css/edge-display-fixes.css?v=1.7">
+
+    <!-- Library Editorial CSS -->
+    <link rel="stylesheet" href="../css/library-editorial.css?v=2.1">
+
+    <!-- Target Institutional Navbar Styles -->
+    <link rel="stylesheet" href="../css/navbar-hero-target.css?v=2.0">
+    <!-- Target Final Footer Redesign Styles -->
+    <link rel="stylesheet" href="../css/footer-target.css?v=3.0">
+    <!-- Page Loader CSS -->
+    <link rel="stylesheet" href="../css/page-loader.css">
+
+    <!-- Universal API Configuration -->
+    <script src="../js/api-config.js"></script>
+</head>
+<body>
+    
+    <!-- Page Loader — Option A Light Institutional -->
+    <div class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading St. Lawrence Junior School Kabowa">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Crest" width="80" height="80">
+            </div>
+            <div class="loader-title">ST. LAWRENCE</div>
+            <p class="loader-subtitle">Junior School - Kabowa</p>
+            <div class="loader-progress-wrapper">
+                <div class="loader-progress-track">
+                    <div class="loader-progress-bar" id="loaderProgressBar"></div>
+                </div>
+                <span class="loader-loading-text">LOADING...</span>
+            </div>
+        </div>
+        <div class="loader-footer">
+            <div class="loader-motto">
+                <span class="motto-line"></span>
+                <span class="motto-text">WE STRIVE TO EXCEL</span>
+                <span class="motto-line"></span>
+            </div>
+        </div>
+        <div class="loader-watermark" aria-hidden="true"></div>
+    </div>
+    
+    <!-- Header / Navigation -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="navbar">
+                <!-- Logo Section -->
+                <a href="index.html" class="logo">
+                    <div class="logo-badge">
+                        <img src="../img/5.jpg" alt="St. Lawrence Logo" class="logo-img" width="44" height="44">
+                    </div>
+                    <div class="logo-text-container">
+                        <span class="logo-text">ST. LAWRENCE</span>
+                        <span class="logo-subtitle">Junior School - Kabowa</span>
+                    </div>
+                </a>
+                
+                <!-- Navigation Menu (Desktop & Mobile) -->
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="About.html" class="nav-link">About Us</a></li>
+                    <li class="nav-dropdown">
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" aria-expanded="false">Academics <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="Fees.html">Fees Structure</a></li>
+                            <li><a href="School-Anthem.html">School Anthem</a></li>
+                            <li><a href="Admission.html">Admission</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Teachers.html" class="nav-link">Teachers</a></li>
+                    <li><a href="Gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="Library.html" class="nav-link active">Library</a></li>
+                    <li><a href="Contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <!-- Admin Portal Button (Desktop) -->
+                <div class="nav-actions">
+                    <a href="../backend/admin/login.html" class="btn-admin" rel="nofollow">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Admin Portal</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Hamburger Toggle -->
+                <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 1. LIGHT EDITORIAL HERO SECTION -->
+    <section class="library-hero-editorial">
+        <div class="library-hero-container">
+            <div class="library-breadcrumb" data-aos="fade-down">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Library</span>
+            </div>
+            
+            <div class="library-hero-grid">
+                <div class="library-hero-left" data-aos="fade-right">
+                    <div class="library-eyebrow-wrap">
+                        <span class="library-eyebrow-bar"></span>
+                        <span class="library-eyebrow-text">LEARN &bull; GROW &bull; EXCEL</span>
+                    </div>
+                    <h1 class="library-hero-title">Digital <span class="text-red">Library</span></h1>
+                    <h2 class="library-hero-subtitle">Resources for Learning</h2>
+                    <p class="library-hero-description">Access learning materials, textbooks and school resources provided by St. Lawrence Junior School Kabowa.</p>
+                </div>
+                
+                <div class="library-hero-right" data-aos="fade-left">
+                    <div class="library-hero-quote-card">
+                        <p class="library-quote-text">
+                            &ldquo;Knowledge today, a brighter tomorrow.&rdquo;
+                        </p>
+                        <div class="library-quote-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. RESOURCE TOOLBAR & GRID SECTION -->
+    <section class="library-main-section">
+        <div class="library-main-container">
+            <!-- Search & Filters Toolbar -->
+            <div class="library-toolbar-card" data-aos="fade-up">
+                <div class="library-search-wrap">
+                    <i class="fas fa-search library-search-icon"></i>
+                    <input type="text" id="librarySearch" class="library-search-input" placeholder="Search resources..." autocomplete="off">
+                </div>
+                
+                <div class="library-filters-group">
+                    <select id="categoryFilter" class="library-filter-select" aria-label="Filter by Category" style="display: none;">
+                        <option value="all">All Categories</option>
+                    </select>
+                    
+                    <select id="fileTypeFilter" class="library-filter-select" aria-label="Filter by File Type">
+                        <option value="all">All File Types</option>
+                        <option value="pdf">PDF Documents</option>
+                    </select>
+                    
+                    <div class="library-count-badge" id="libraryToolbarCount">Loading resources...</div>
+                </div>
+            </div>
+
+            <!-- Dynamic Resource Cards Grid -->
+            <div class="library-resource-grid" id="libraryContainer" data-aos="fade-up" data-aos-delay="100">
+                <div class="library-loading-card">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p style="margin-top: 10px; font-size: 1.05rem; color: #64748b;">Loading learning resources...</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Pagination & Summary Row -->
+            <div class="library-pagination-wrapper" id="paginationWrapper" style="display: none;">
+                <div class="library-pagination-btns" id="paginationBtns">
+                    <!-- Page buttons generated via JavaScript -->
+                </div>
+                
+                <div class="library-pagination-summary" id="paginationSummary">
+                    <!-- Summary e.g. Showing 1-12 of 18 resources -->
+                </div>
+            </div>
+
+            <!-- Bottom Assistance Card -->
+            <div class="library-cta-banner" data-aos="fade-up">
+                <div class="library-cta-left">
+                    <div class="library-cta-icon-circle">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="library-cta-text">
+                        <h3>Can't find what you're looking for?</h3>
+                        <p>More resources are added regularly. Check back for new materials.</p>
+                    </div>
+                </div>
+                
+                <a href="Contact.html" class="library-notify-btn">
+                    <i class="far fa-bell"></i>
+                    <span>Get Notified</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Footer (Target Editorial Option 3 Redesign) -->
+    <footer class="footer-target">
+        <div class="footer-container">
+            <!-- Top Footer Row -->
+            <div class="footer-top-row">
+                <!-- Column 1: Brand & Logo -->
+                <div class="footer-brand-col">
+                    <div class="footer-brand-header">
+                        <img src="../img/5-transparent.png" alt="St. Lawrence Junior School Kabowa Official Crest" class="footer-school-logo" width="70" height="70" loading="lazy" decoding="async">
+                        <h3 class="footer-school-title">St. Lawrence<br>Junior School Kabowa</h3>
+                    </div>
+                    <p class="footer-brand-desc">Excellence in education since 2010.<br>Nurturing young minds for a brighter future.</p>
+                    <div class="footer-social-links">
+                        <a href="https://facebook.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/stla.wrencejuniorschoolkabowa" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://wa.me/256772420506" class="footer-social-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Cursive Tagline -->
+                <div class="footer-tagline-col">
+                    <div class="footer-cursive-wrap">
+                        <p class="footer-cursive-text">We<br>Strive<br>to Excel</p>
+                        <div class="footer-cursive-underline"></div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Quick Links -->
+                <div class="footer-nav-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Quick Links</h4>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="About.html">About Us</a></li>
+                        <li><a href="Teachers.html">Teachers</a></li>
+                        <li><a href="Gallery.html">Gallery</a></li>
+                        <li><a href="Admission.html">Admissions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Our Programs -->
+                <div class="footer-nav-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Our Programs</h4>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html#programs">Nursery School</a></li>
+                        <li><a href="index.html#programs">Primary School</a></li>
+                        <li><a href="index.html#programs">Day & Boarding</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 5: Contact Us -->
+                <div class="footer-contact-col">
+                    <div class="footer-col-accent"></div>
+                    <h4 class="footer-col-title">Contact Us</h4>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                            <span>P.O.BOX 36198, Kampala, Uganda</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fas fa-phone-alt footer-contact-icon"></i>
+                            <span>
+                                <a href="tel:+256701420506">+256 701 420 506</a><br>
+                                <a href="tel:+256772420506">+256 772 420 506</a>
+                            </span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fas fa-envelope footer-contact-icon"></i>
+                            <a href="mailto:stlawrencejuniorschoolkabowa@gmail.com">stlawrencejuniorschoolkabowa@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 6: Pillars -->
+                <div class="footer-pillars-col">
+                    <p class="footer-pillars-text">
+                        DISCIPLINE.<br>
+                        CHARACTER.<br>
+                        OPPORTUNITY.<br>
+                        A BRIGHTER<br>
+                        TOMORROW.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright & Legal Strip -->
+            <div class="footer-bottom-strip">
+                <p class="footer-copyright-text">&copy; 2026 St. Lawrence Junior School Kabowa. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="Contact.html">Privacy Policy</a>
+                    <span class="footer-legal-separator">|</span>
+                    <a href="Contact.html">Terms of Use</a>
+                    <span class="footer-legal-separator">|</span>
+                    <a href="../sitemap.xml">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    
+    <!-- Scripts -->
+    <script src="../js/redesign-script.js" defer></script>
+    <script src="../js/mobile-edge-fixes.js"></script>
+    <script src="../js/hamburger-menu-fix.js?v=3.0"></script>
+    <script src="../js/unified-floating-elements.js?v=1.0"></script>
+    <script src="../js/dropdown-fix.js?v=3.0"></script>
+    <script src="../js/page-loader.js"></script>
+
+    <!-- Dynamic Digital Library Engine -->
+    <script>
+        // State
+        let allResources = [];
+        let filteredResources = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 12;
+
+        // Helpers
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatCategory(cat) {
+            if (!cat) return '';
+            return cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function formatFileSize(bytes) {
+            const num = Number(bytes);
+            if (!num || isNaN(num) || num <= 0) return '';
+            if (num >= 1024 * 1024) {
+                return (num / (1024 * 1024)).toFixed(1) + ' MB';
+            }
+            return (num / 1024).toFixed(1) + ' KB';
+        }
+
+        function formatResourceDate(item) {
+            let dateStr = item.upload_date;
+            if (!dateStr || dateStr === '0000-00-00' || dateStr.startsWith('0000')) {
+                dateStr = item.created_at;
+            }
+            if (!dateStr || dateStr.startsWith('0000')) return '';
+            
+            try {
+                const parts = dateStr.split(' ')[0].split('-');
+                if (parts.length === 3) {
+                    const year = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10) - 1;
+                    const day = parseInt(parts[2], 10);
+                    if (year > 1970) {
+                        const d = new Date(year, month, day);
+                        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                }
+            } catch (e) {}
+
+            return '';
+        }
+
+        // Fetch dynamic resources from database API
+        async function fetchLibraryResources() {
+            const container = document.getElementById('libraryContainer');
+            const countBadge = document.getElementById('libraryToolbarCount');
+
+            try {
+                // Fetch from public get_library endpoint
+                const response = await fetch('../backend/api/public/get_library.php', {
+                    headers: { 'Accept': 'application/json' },
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.data)) {
+                    processLibraryData(result.data);
+                } else {
+                    renderEmptyState('No resources available yet.');
+                    if (countBadge) countBadge.textContent = 'Showing 0 resources';
+                }
+            } catch (err) {
+                console.error('Error fetching library resources:', err);
+                // Fallback attempt to alternate list endpoint
+                try {
+                    const altResp = await fetch('../backend/api/library/list.php', {
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-store'
+                    });
+                    const altResult = await altResp.json();
+                    if (altResult.success && Array.isArray(altResult.data)) {
+                        processLibraryData(altResult.data);
+                        return;
+                    }
+                } catch (fallbackErr) {
+                    console.error('Fallback endpoint failed:', fallbackErr);
+                }
+
+                if (container) {
+                    container.innerHTML = `
+                        <div class="library-empty-card">
+                            <i class="fas fa-exclamation-circle" style="color: #dc3545;"></i>
+                            <h3 class="library-empty-title">Unable to Load Resources</h3>
+                            <p class="library-empty-desc">We could not retrieve the digital library collection at this moment.</p>
+                            <button type="button" class="library-clear-btn" onclick="fetchLibraryResources()">
+                                <i class="fas fa-redo"></i> Retry
+                            </button>
+                        </div>
+                    `;
+                }
+                if (countBadge) countBadge.textContent = '0 resources';
+            }
+        }
+
+        function processLibraryData(items) {
+            allResources = items.map(r => ({
+                id: r.id || r.book_id,
+                title: r.title || r.book_title || 'Learning Resource',
+                description: r.description || '',
+                category: (r.category || '').trim(),
+                class_level: (r.class_level || '').trim(),
+                subject: (r.subject || '').trim(),
+                file_url: r.file_url || r.pdf_path || '',
+                file_type: (r.file_type || 'pdf').toLowerCase().trim(),
+                file_size: r.file_size || 0,
+                upload_date: r.upload_date || '',
+                created_at: r.created_at || ''
+            }));
+
+            setupCategoryFilter(allResources);
+            applyFilterAndSearch();
+        }
+
+        function setupCategoryFilter(resources) {
+            const select = document.getElementById('categoryFilter');
+            if (!select) return;
+
+            const categories = new Set();
+            resources.forEach(r => {
+                if (r.category && r.category !== '') {
+                    categories.add(r.category);
+                }
+            });
+
+            if (categories.size > 0) {
+                select.style.display = 'inline-block';
+                select.innerHTML = '<option value="all">All Categories</option>';
+                Array.from(categories).sort().forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = formatCategory(cat);
+                    select.appendChild(opt);
+                });
+            } else {
+                select.style.display = 'none';
+            }
+        }
+
+        function applyFilterAndSearch() {
+            const searchInput = document.getElementById('librarySearch');
+            const categorySelect = document.getElementById('categoryFilter');
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            const selectedCat = categorySelect ? categorySelect.value.toLowerCase() : 'all';
+            const selectedType = fileTypeSelect ? fileTypeSelect.value.toLowerCase() : 'all';
+
+            filteredResources = allResources.filter(item => {
+                const matchesCat = (selectedCat === 'all') || (item.category.toLowerCase() === selectedCat);
+                const matchesType = (selectedType === 'all') || (item.file_type === selectedType);
+                const matchesQuery = !query ||
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query) ||
+                    item.subject.toLowerCase().includes(query) ||
+                    item.class_level.toLowerCase().includes(query);
+
+                return matchesCat && matchesType && matchesQuery;
+            });
+
+            currentPage = 1;
+            renderCurrentPage();
+        }
+
+        function renderCurrentPage() {
+            const container = document.getElementById('libraryContainer');
+            const toolbarCount = document.getElementById('libraryToolbarCount');
+            const paginationWrapper = document.getElementById('paginationWrapper');
+            const paginationBtns = document.getElementById('paginationBtns');
+            const paginationSummary = document.getElementById('paginationSummary');
+            if (!container) return;
+
+            const total = filteredResources.length;
+
+            if (toolbarCount) {
+                toolbarCount.textContent = total === 1 ? 'Showing 1 resource' : `Showing ${total} resources`;
+            }
+
+            if (total === 0) {
+                renderEmptyState('No resources found matching your search or filter.');
+                if (paginationWrapper) paginationWrapper.style.display = 'none';
+                return;
+            }
+
+            const totalPages = Math.ceil(total / PAGE_SIZE);
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const endIndex = Math.min(startIndex + PAGE_SIZE, total);
+            const pageItems = filteredResources.slice(startIndex, endIndex);
+
+            // Render Cards
+            container.innerHTML = pageItems.map(item => {
+                const sizeText = formatFileSize(item.file_size);
+                const dateText = formatResourceDate(item);
+                const hasCategory = item.category && item.category !== '';
+                const categoryPill = hasCategory 
+                    ? `<span class="resource-cat-pill">${escapeHtml(formatCategory(item.category))}</span>`
+                    : '';
+
+                let metaItemsHtml = '';
+                if (sizeText) {
+                    metaItemsHtml += `
+                        <span class="resource-meta-item">
+                            <i class="far fa-file-alt"></i> ${sizeText}
+                        </span>
+                    `;
+                }
+                if (dateText) {
+                    metaItemsHtml += `
+                        <span class="resource-meta-item">
+                            <i class="far fa-calendar-alt"></i> ${dateText}
+                        </span>
+                    `;
+                }
+
+                return `
+                    <div class="resource-card" data-id="${item.id}">
+                        <div class="resource-card-top">
+                            <div class="resource-pdf-badge" aria-hidden="true">
+                                <span class="pdf-label">PDF</span>
+                            </div>
+                            
+                            <div class="resource-card-info">
+                                <h3 class="resource-card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h3>
+                                ${categoryPill}
+                                <div class="resource-meta-row">
+                                    ${metaItemsHtml}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" 
+                                class="resource-download-btn" 
+                                onclick="downloadResource(${item.id}, this)" 
+                                aria-label="Download ${escapeHtml(item.title)}">
+                            <i class="fas fa-download"></i>
+                            <span>Download PDF</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Pagination
+            if (totalPages > 1) {
+                if (paginationWrapper) paginationWrapper.style.display = 'flex';
+                if (paginationSummary) {
+                    paginationSummary.textContent = `Showing ${startIndex + 1}-${endIndex} of ${total} resources`;
+                }
+
+                if (paginationBtns) {
+                    let buttonsHtml = '';
+
+                    // Previous Arrow
+                    if (currentPage > 1) {
+                        buttonsHtml += `
+                            <button type="button" class="page-nav-btn" onclick="goToPage(${currentPage - 1})" aria-label="Previous Page">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                        `;
+                    }
+
+                    // Numbered Pages
+                    for (let i = 1; i <= totalPages; i++) {
+                        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                            buttonsHtml += `
+                                <button type="button" class="page-nav-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                                    ${i}
+                                </button>
+                            `;
+                        } else if (i === currentPage - 2 || i === currentPage + 2) {
+                            buttonsHtml += `<span style="padding: 0 4px; color: #94a3b8;">&hellip;</span>`;
+                        }
+                    }
+
+                    // Next Arrow
+                    if (currentPage < totalPages) {
+                        buttonsHtml += `
+                            <button type="button" class="page-nav-btn" onclick="goToPage(${currentPage + 1})" aria-label="Next Page">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        `;
+                    }
+
+                    paginationBtns.innerHTML = buttonsHtml;
+                }
+            } else {
+                if (paginationWrapper) paginationWrapper.style.display = 'none';
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderCurrentPage();
+            const grid = document.getElementById('libraryContainer');
+            if (grid) {
+                grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function renderEmptyState(message) {
+            const container = document.getElementById('libraryContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="library-empty-card">
+                    <i class="fas fa-book"></i>
+                    <h3 class="library-empty-title">No Resources Found</h3>
+                    <p class="library-empty-desc">${escapeHtml(message)}</p>
+                    <button type="button" class="library-clear-btn" onclick="resetLibraryFilters()">
+                        <i class="fas fa-undo"></i> Clear Filters
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetLibraryFilters() {
+            const searchInput = document.getElementById('librarySearch');
+            const categorySelect = document.getElementById('categoryFilter');
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+            if (searchInput) searchInput.value = '';
+            if (categorySelect) categorySelect.value = 'all';
+            if (fileTypeSelect) fileTypeSelect.value = 'all';
+            applyFilterAndSearch();
+        }
+
+        // Hardened Download Implementation
+        async function downloadResource(id, btn) {
+            if (!id || !btn || btn.disabled) return;
+
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Preparing...</span>';
+
+            const downloadUrl = `${window.API_BASE_URL || '../backend/api'}/library/download.php?id=${encodeURIComponent(id)}`;
+
+            try {
+                // Verify server endpoint accessibility
+                const response = await fetch(downloadUrl, { method: 'HEAD' });
+                if (!response.ok) {
+                    throw new Error('Download verification failed');
+                }
+
+                // Trigger genuine download
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                btn.innerHTML = '<i class="fas fa-check"></i> <span>Downloaded</span>';
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                }, 2000);
+            } catch (err) {
+                console.error('Resource download error:', err);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <span>Retry</span>';
+                alert('Unable to download this resource. Please try again.');
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                }, 2500);
+            }
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchLibraryResources();
+
+            // Search input listener (debounced)
+            let searchTimeout;
+            const searchInput = document.getElementById('librarySearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(applyFilterAndSearch, 200);
+                });
+            }
+
+            // Category filter listener
+            const categorySelect = document.getElementById('categoryFilter');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', applyFilterAndSearch);
+            }
+
+            // File type listener
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+            if (fileTypeSelect) {
+                fileTypeSelect.addEventListener('change', applyFilterAndSearch);
+            }
+
+            // Initialize AOS
+            if (typeof AOS !== 'undefined') {
+                AOS.init({ duration: 800, once: true, offset: 60 });
+            }
+        });
+
+        // Sticky Navbar Handler
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (header) {
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>

@@ -471,6 +471,6 @@ class AdmissionEmailService {
     private static function getStatusCheckUrl() {
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-        return "{$scheme}://{$host}/AdvancedPHP/st%20lawrence%20school/frontend/Admission-redesign.html#admission-application-section";
+        return "{$scheme}://{$host}/AdvancedPHP/st%20lawrence%20school/frontend/Admission.html#admission-application-section";
     }
 }
