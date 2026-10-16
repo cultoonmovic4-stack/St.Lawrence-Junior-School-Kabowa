@@ -7,14 +7,90 @@
 
 require_once __DIR__ . '/../config/cors.php';
 header('Content-Type: application/json');
+require_once __DIR__ . '/../config/Database.php';
+
+// Diagnostic & self-healing trigger
+if (isset($_GET['diag_schema'])) {
+    try {
+        $db = (new Database())->getConnection();
+        $cols = $db->query("SHOW COLUMNS FROM admission_applications")->fetchAll(PDO::FETCH_COLUMN);
+
+        $neededCols = [
+            'application_reference' => "VARCHAR(50) DEFAULT NULL",
+            'academic_year' => "VARCHAR(20) DEFAULT '2026'",
+            'term' => "VARCHAR(30) DEFAULT 'Term 1'",
+            'student_surname' => "VARCHAR(100) DEFAULT ''",
+            'student_other_names' => "VARCHAR(150) DEFAULT ''",
+            'tribe' => "VARCHAR(100) DEFAULT NULL",
+            'position_in_family' => "VARCHAR(100) DEFAULT NULL",
+            'has_attended_school' => "TINYINT(1) DEFAULT 0",
+            'previous_school_name' => "VARCHAR(200) DEFAULT NULL",
+            'previous_school_location' => "VARCHAR(200) DEFAULT NULL",
+            'language_1' => "VARCHAR(100) DEFAULT 'English'",
+            'language_2' => "VARCHAR(100) DEFAULT NULL",
+            'responsible_person_name' => "VARCHAR(200) DEFAULT NULL",
+            'responsible_person_address' => "TEXT DEFAULT NULL",
+            'responsible_person_phone' => "VARCHAR(30) DEFAULT NULL",
+            'responsible_person_email' => "VARCHAR(255) DEFAULT NULL",
+            'responsible_person_postal' => "VARCHAR(100) DEFAULT NULL",
+            'parents_live_together' => "VARCHAR(10) DEFAULT 'yes'",
+            'father_name' => "VARCHAR(200) DEFAULT NULL",
+            'father_occupation' => "VARCHAR(150) DEFAULT NULL",
+            'father_workplace' => "VARCHAR(200) DEFAULT NULL",
+            'father_address' => "TEXT DEFAULT NULL",
+            'mother_name' => "VARCHAR(200) DEFAULT NULL",
+            'mother_occupation' => "VARCHAR(150) DEFAULT NULL",
+            'mother_workplace' => "VARCHAR(200) DEFAULT NULL",
+            'mother_address' => "TEXT DEFAULT NULL",
+            'emergency_next_of_kin' => "VARCHAR(200) DEFAULT NULL",
+            'bed_wetting' => "VARCHAR(10) DEFAULT NULL",
+            'has_health_handicap' => "VARCHAR(10) DEFAULT 'no'",
+            'health_handicap_details' => "TEXT DEFAULT NULL",
+            'doctor_name' => "VARCHAR(150) DEFAULT NULL",
+            'doctor_location' => "VARCHAR(200) DEFAULT NULL",
+            'is_immunized' => "VARCHAR(10) DEFAULT 'yes'",
+            'other_information' => "TEXT DEFAULT NULL",
+            'rules_acknowledged' => "TINYINT(1) DEFAULT 0",
+            'declaration_accepted' => "TINYINT(1) DEFAULT 0",
+            'declaration_accepted_at' => "DATETIME DEFAULT NULL",
+            'declaration_name' => "VARCHAR(200) DEFAULT NULL",
+            'declaration_version' => "VARCHAR(20) DEFAULT 'v1.0'",
+            'signature_path' => "VARCHAR(255) DEFAULT NULL",
+            'security_token' => "VARCHAR(64) DEFAULT NULL",
+            'form_fee_status' => "VARCHAR(50) DEFAULT 'unpaid'",
+            'submitted_date' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+        ];
+        $migResults = [];
+        foreach ($neededCols as $c => $def) {
+            if (!in_array($c, $cols)) {
+                try {
+                    $db->exec("ALTER TABLE admission_applications ADD COLUMN `{$c}` {$def}");
+                    $migResults[$c] = 'ADDED';
+                } catch (\Throwable $ex) {
+                    $migResults[$c] = 'ERROR: ' . $ex->getMessage();
+                }
+            } else {
+                $migResults[$c] = 'EXISTS';
+            }
+        }
+        $afterCols = $db->query("SHOW COLUMNS FROM admission_applications")->fetchAll(PDO::FETCH_COLUMN);
+        echo json_encode([
+            'commit' => 'adaptive_v3',
+            'initial_cols' => $cols,
+            'migration' => $migResults,
+            'after_cols' => $afterCols
+        ]);
+    } catch (\Throwable $e) {
+        echo json_encode(['commit' => 'adaptive_v3', 'error' => $e->getMessage()]);
+    }
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed. Use POST.']);
     exit;
 }
-
-require_once __DIR__ . '/../config/Database.php';
 
 try {
     // Read input (support JSON payload or POST)
