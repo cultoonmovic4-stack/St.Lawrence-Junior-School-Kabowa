@@ -19,42 +19,6 @@
 /Index / 301
 /Home / 301
 
-# Canonical Static File Rewrites (Guarantee HTTP 200 on all environments)
-/about /about.html 200
-/fees /fees.html 200
-/admissions /admissions.html 200
-/teachers /teachers.html 200
-/gallery /gallery.html 200
-/library /library.html 200
-/contact /contact.html 200
-/anthem /anthem.html 200
-/teacher-profile /teacher-profile.html 200
-
-# Direct .html Extension Removal (Never show .html in browser)
-/about.html /about 301
-/About.html /about 301
-/fees.html /fees 301
-/Fees.html /fees 301
-/admissions.html /admissions 301
-/admission.html /admissions 301
-/Admission.html /admissions 301
-/teachers.html /teachers 301
-/Teachers.html /teachers 301
-/gallery.html /gallery 301
-/Gallery.html /gallery 301
-/library.html /library 301
-/Library.html /library 301
-/contact.html /contact 301
-/Contact.html /contact 301
-/anthem.html /anthem 301
-/Anthem.html /anthem 301
-/school-anthem.html /anthem 301
-/School-Anthem.html /anthem 301
-/teacher-profile.html /teacher-profile 301
-/Teacher-Profile.html /teacher-profile 301
-/index.html / 301
-/index / 301
-
 # Frontend Subfolder Migration -> Canonical Clean URLs
 /frontend/About.html /about 301
 /frontend/about.html /about 301
