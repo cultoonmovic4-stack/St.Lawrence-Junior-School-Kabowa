@@ -1,0 +1,12 @@
+.git
+.gitignore
+.gitattributes
+.vscode
+.gemini
+scratch/
+scratch_test_uploads/
+tools/dev_diagnostics/
+*.sql
+*.log
+*.tar.gz
+*.zip
