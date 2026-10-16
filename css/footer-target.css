@@ -29,39 +29,43 @@
 /* --------------------------------------------------------------------------
    TOP FOOTER ROW — EXPANDED SPACING
    -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   TOP FOOTER ROW — OPTIMIZED DESKTOP ORGANISATION
+   -------------------------------------------------------------------------- */
 .footer-target .footer-top-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 36px;
+    gap: clamp(16px, 2.2vw, 36px);
     box-sizing: border-box;
 }
 
-/* Column 1: Brand */
+/* Column 1: Brand & Logo */
 .footer-target .footer-brand-col {
-    flex: 0 1 320px;
-    min-width: 270px;
+    flex: 1 1 280px;
+    max-width: 310px;
+    min-width: 240px;
     box-sizing: border-box;
 }
 
 .footer-target .footer-brand-header {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     margin-bottom: 14px;
 }
 
 .footer-target .footer-school-logo {
-    height: 70px;
+    height: 66px;
     width: auto;
     display: block;
     object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
 }
 
 .footer-target .footer-school-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 700;
     color: #ffffff;
     line-height: 1.25;
@@ -72,8 +76,8 @@
 .footer-target .footer-brand-desc {
     font-size: 13.5px;
     color: #94a3b8;
-    line-height: 1.55;
-    margin: 0 0 20px 0;
+    line-height: 1.6;
+    margin: 0 0 18px 0;
 }
 
 .footer-target .footer-social-links {
@@ -105,10 +109,11 @@
     box-shadow: 0 4px 12px rgba(0, 51, 153, 0.35);
 }
 
-/* Column 2: Cursive Tagline */
+/* Column 2: Cursive Tagline ("We Strive to Excel") */
 .footer-target .footer-tagline-col {
-    flex: 0 0 150px;
-    padding-top: 8px;
+    flex: 0 0 auto;
+    min-width: 120px;
+    padding-top: 6px;
     text-align: center;
     box-sizing: border-box;
 }
@@ -120,33 +125,34 @@
 
 .footer-target .footer-cursive-text {
     font-family: 'Caveat', cursive, sans-serif;
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.1;
+    line-height: 1.12;
     margin: 0;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
     white-space: nowrap;
 }
 
 .footer-target .footer-cursive-underline {
-    width: 86px;
+    width: 82px;
     height: 2.5px;
     background-color: #d32f2f;
     border-radius: 2px;
-    margin-top: 6px;
+    margin: 6px auto 0 auto;
     transform: rotate(2deg);
 }
 
-/* Navigation Columns */
+/* Column 3 & 4: Navigation Columns (Quick Links, Our Programs) */
 .footer-target .footer-nav-col {
-    flex: 0 1 160px;
+    flex: 0 1 145px;
+    min-width: 125px;
     box-sizing: border-box;
 }
 
 .footer-target .footer-col-accent {
-    width: 22px;
-    height: 2.5px;
+    width: 24px;
+    height: 3px;
     background-color: #d32f2f;
     margin-bottom: 12px;
     border-radius: 2px;
@@ -173,7 +179,7 @@
 
 .footer-target .footer-nav-list a {
     color: #cbd5e1;
-    font-size: 14px;
+    font-size: 13.5px;
     text-decoration: none;
     transition: all 0.2s ease;
     display: inline-block;
@@ -182,13 +188,14 @@
 
 .footer-target .footer-nav-list a:hover {
     color: #ffffff;
-    padding-left: 3px;
+    transform: translateX(3px);
 }
 
-/* Contact Column */
+/* Column 5: Contact Column — Dedicated Space So Email Never Wraps */
 .footer-target .footer-contact-col {
-    flex: 0 1 290px;
-    min-width: 250px;
+    flex: 1 0 335px;
+    min-width: 325px;
+    max-width: 390px;
     box-sizing: border-box;
 }
 
@@ -206,41 +213,65 @@
     font-size: 13.5px;
     color: #cbd5e1;
     line-height: 1.5;
+    min-width: 0;
 }
 
 .footer-target .footer-contact-icon {
     font-size: 14px;
-    color: #94a3b8;
+    color: #ef4444;
     margin-top: 3px;
     flex-shrink: 0;
+    width: 16px;
+    text-align: center;
 }
 
 .footer-target .footer-contact-item a {
     color: #cbd5e1;
     text-decoration: none;
     transition: color 0.2s ease;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    display: inline-block;
 }
 
 .footer-target .footer-contact-item a:hover {
     color: #ffffff;
 }
 
-/* Far Right Pillars */
+/* Strictly prevent email address from breaking across lines */
+.footer-target .footer-contact-item a[href^="mailto:"] {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    font-size: 13.5px !important;
+    letter-spacing: -0.15px;
+    color: #cbd5e1;
+}
+
+.footer-target .footer-contact-item a[href^="mailto:"]:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+}
+
+.footer-target .footer-contact-item a[href^="tel:"] {
+    white-space: nowrap;
+}
+
+/* Column 6: Far Right Institutional Pillars */
 .footer-target .footer-pillars-col {
-    flex: 0 0 160px;
+    flex: 0 0 auto;
+    min-width: 140px;
     text-align: right;
-    padding-top: 10px;
+    padding-top: 6px;
     box-sizing: border-box;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    padding-left: 20px;
 }
 
 .footer-target .footer-pillars-text {
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
     color: #94a3b8;
     letter-spacing: 2px;
-    line-height: 1.9;
+    line-height: 2.05;
     margin: 0;
     text-transform: uppercase;
 }
@@ -287,12 +318,33 @@
 /* --------------------------------------------------------------------------
    RESPONSIVE DESIGN — CLEAN, APPEALED INSTITUTIONAL MOBILE LAYOUT
    -------------------------------------------------------------------------- */
-@media (max-width: 1200px) {
+@media (max-width: 1366px) {
     .footer-target .footer-top-row {
-        gap: 28px;
+        gap: clamp(14px, 1.8vw, 24px);
+    }
+    .footer-target .footer-brand-col {
+        flex: 1 1 250px;
+        min-width: 230px;
+    }
+    .footer-target .footer-school-title {
+        font-size: 19px;
+    }
+    .footer-target .footer-tagline-col {
+        min-width: 110px;
     }
     .footer-target .footer-cursive-text {
         font-size: 28px;
+    }
+    .footer-target .footer-contact-col {
+        flex: 1 0 315px;
+        min-width: 310px;
+    }
+    .footer-target .footer-contact-item a[href^="mailto:"] {
+        font-size: 12.8px !important;
+    }
+    .footer-target .footer-pillars-col {
+        padding-left: 14px;
+        min-width: 130px;
     }
 }
 
