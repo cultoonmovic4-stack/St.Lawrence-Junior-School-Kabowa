@@ -75,13 +75,13 @@ if (isset($_GET['diag_schema'])) {
         }
         $afterCols = $db->query("SHOW COLUMNS FROM admission_applications")->fetchAll(PDO::FETCH_COLUMN);
         echo json_encode([
-            'commit' => 'adaptive_v3',
+            'commit' => 'pos_params_v5',
             'initial_cols' => $cols,
             'migration' => $migResults,
             'after_cols' => $afterCols
         ]);
     } catch (\Throwable $e) {
-        echo json_encode(['commit' => 'adaptive_v3', 'error' => $e->getMessage()]);
+        echo json_encode(['commit' => 'pos_params_v5', 'error' => $e->getMessage()]);
     }
     exit;
 }
@@ -635,9 +635,8 @@ try {
     foreach ($rowValues as $col => $val) {
         if (isset($existingCols[$col])) {
             $colsToInsert[] = "`{$col}`";
-            $paramName = ":p_{$col}";
-            $placeholders[] = $paramName;
-            $execParams[$paramName] = $val;
+            $placeholders[] = '?';
+            $execParams[] = $val;
         }
     }
 
