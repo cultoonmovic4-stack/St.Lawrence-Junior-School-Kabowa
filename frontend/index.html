@@ -222,7 +222,7 @@
     <!-- Target Academic Calendar Redesign Styles -->
     <link rel="stylesheet" href="../css/calendar-target.css?v=1.0">
     <!-- Target Final Footer Redesign Styles -->
-    <link rel="stylesheet" href="../css/footer-target.css?v=3.2">
+    <link rel="stylesheet" href="../css/footer-target.css?v=3.3">
 
 
     <!-- Last in head: ensures fixed-header + chat close win over any cached CSS order -->
@@ -258,195 +258,7 @@
             pointer-events: auto !important;
         }
 
-        /* Mobile Footer Ultra-Resilient Layout */
-        @media (max-width: 768px) {
-            .footer-target {
-                padding-top: 48px !important;
-                padding-bottom: 12px !important;
-            }
-            .footer-target .footer-container {
-                width: 100% !important;
-                padding: 0 18px !important;
-                box-sizing: border-box !important;
-            }
-            .footer-target .footer-top-row {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 24px 18px !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-            }
-            .footer-target .footer-brand-col {
-                grid-column: 1 / -1 !important;
-                width: 100% !important;
-                text-align: center !important;
-            }
-            .footer-target .footer-brand-header {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                text-align: center !important;
-                gap: 12px !important;
-                margin-bottom: 12px !important;
-            }
-            .footer-target .footer-school-logo {
-                height: 62px !important;
-                margin: 0 auto !important;
-            }
-            .footer-target .footer-school-title {
-                font-family: 'Playfair Display', Georgia, serif !important;
-                font-size: 20px !important;
-                text-align: center !important;
-                line-height: 1.25 !important;
-            }
-            .footer-target .footer-brand-desc {
-                font-size: 13.5px !important;
-                text-align: center !important;
-                max-width: 440px !important;
-                margin: 0 auto 16px auto !important;
-            }
-            .footer-target .footer-social-links {
-                display: flex !important;
-                justify-content: center !important;
-                gap: 12px !important;
-            }
-            .footer-target .footer-social-btn {
-                width: 42px !important;
-                height: 42px !important;
-                font-size: 15px !important;
-            }
-            .footer-target .footer-tagline-col {
-                grid-column: 1 / -1 !important;
-                display: flex !important;
-                justify-content: center !important;
-                margin: 4px 0 8px 0 !important;
-            }
-            .footer-target .footer-cursive-wrap {
-                display: inline-flex !important;
-                flex-direction: row !important;
-                align-items: center !important;
-                justify-content: center !important;
-                padding: 10px 24px !important;
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)) !important;
-                border: 1px solid rgba(255, 255, 255, 0.1) !important;
-                border-radius: 999px !important;
-                transform: none !important;
-            }
-            .footer-target .footer-cursive-text {
-                font-family: 'Caveat', cursive, sans-serif !important;
-                font-size: 26px !important;
-                font-weight: 700 !important;
-                color: #ffffff !important;
-                margin: 0 !important;
-                white-space: nowrap !important;
-            }
-            .footer-target .footer-cursive-text br {
-                display: none !important;
-            }
-            .footer-target .footer-cursive-underline {
-                display: none !important;
-            }
-            .footer-target .footer-nav-col {
-                min-width: 0 !important;
-                width: 100% !important;
-            }
-            .footer-target .footer-col-accent {
-                width: 26px !important;
-                height: 3px !important;
-                margin-bottom: 12px !important;
-            }
-            .footer-target .footer-col-title {
-                font-size: 15px !important;
-                margin-bottom: 14px !important;
-            }
-            .footer-target .footer-nav-list li {
-                margin-bottom: 10px !important;
-            }
-            .footer-target .footer-nav-list a {
-                font-size: 13.5px !important;
-                line-height: 1.4 !important;
-                word-break: break-word !important;
-                white-space: normal !important;
-            }
-            .footer-target .footer-contact-col {
-                grid-column: 1 / -1 !important;
-                width: 100% !important;
-                background: rgba(255, 255, 255, 0.035) !important;
-                border: 1px solid rgba(255, 255, 255, 0.08) !important;
-                border-radius: 14px !important;
-                padding: 22px 18px !important;
-                margin-top: 4px !important;
-                box-sizing: border-box !important;
-            }
-            .footer-target .footer-contact-item {
-                display: grid !important;
-                grid-template-columns: 28px 1fr !important;
-                gap: 12px !important;
-                font-size: 13.5px !important;
-                margin-bottom: 14px !important;
-            }
-            .footer-target .footer-contact-icon {
-                width: 28px !important;
-                height: 28px !important;
-                border-radius: 50% !important;
-                background: rgba(211, 47, 47, 0.16) !important;
-                color: #ef4444 !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                font-size: 12px !important;
-            }
-            .footer-target .footer-contact-item a {
-                display: inline-block !important;
-                padding: 3px 8px !important;
-                margin: 2px 4px 2px 0 !important;
-                background: rgba(255, 255, 255, 0.06) !important;
-                border: 1px solid rgba(255, 255, 255, 0.1) !important;
-                border-radius: 6px !important;
-                color: #ffffff !important;
-            }
-            .footer-target .footer-contact-item a[href^="mailto:"] {
-                display: inline !important;
-                padding: 0 !important;
-                background: none !important;
-                border: none !important;
-                color: #93c5fd !important;
-                text-decoration: underline !important;
-                overflow-wrap: anywhere !important;
-                word-break: break-all !important;
-            }
-            .footer-target .footer-pillars-col {
-                grid-column: 1 / -1 !important;
-                width: 100% !important;
-                text-align: center !important;
-                margin-top: 4px !important;
-                padding: 14px 16px !important;
-                background: rgba(211, 47, 47, 0.08) !important;
-                border: 1px solid rgba(211, 47, 47, 0.22) !important;
-                border-radius: 10px !important;
-            }
-            .footer-target .footer-pillars-text {
-                font-size: 11px !important;
-                letter-spacing: 1.8px !important;
-                line-height: 1.8 !important;
-                color: #fecaca !important;
-                margin: 0 !important;
-            }
-            .footer-target .footer-pillars-text br {
-                display: none !important;
-            }
-            .footer-target .footer-bottom-strip {
-                margin-top: 32px !important;
-                padding-top: 22px !important;
-                padding-bottom: 28px !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                text-align: center !important;
-                gap: 12px !important;
-            }
-        }
-    </style>
+        </style>
 </head>
 <body>
     
@@ -1284,7 +1096,7 @@
                 <!-- Column 2: Cursive Tagline -->
                 <div class="footer-tagline-col">
                     <div class="footer-cursive-wrap">
-                        <p class="footer-cursive-text">We<br>Strive<br>to Excel</p>
+                        <p class="footer-cursive-text">We <br>Strive <br>to Excel</p>
                         <div class="footer-cursive-underline"></div>
                     </div>
                 </div>
