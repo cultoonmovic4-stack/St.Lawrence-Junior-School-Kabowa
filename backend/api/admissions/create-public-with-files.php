@@ -562,254 +562,95 @@ try {
     // Begin database transaction
     $db->beginTransaction();
 
-    // Dynamically build the insert query based on confirmed existing table columns
-    $insertMap = [];
-
-    // Reference column: support application_reference, application_id, or both
-    if (isset($existingCols['application_reference'])) {
-        $insertMap['application_reference'] = ':application_reference';
-    }
-    if (isset($existingCols['application_id'])) {
-        $insertMap['application_id'] = ':application_id';
-    }
-
-    $candidateColumns = [
-        'academic_year' => ':academic_year',
-        'term' => ':term',
-        'class_to_join' => ':class_to_join',
-        'admission_type' => ':admission_type',
-        'student_surname' => ':student_surname',
-        'student_other_names' => ':student_other_names',
-        'date_of_birth' => ':date_of_birth',
-        'gender' => ':gender',
-        'religion' => ':religion',
-        'tribe' => ':tribe',
-        'position_in_family' => ':position_in_family',
-        'has_attended_school' => ':has_attended_school',
-        'previous_school_name' => ':previous_school_name',
-        'previous_school_location' => ':previous_school_location',
-        'language_1' => ':language_1',
-        'language_2' => ':language_2',
-        'responsible_person_name' => ':responsible_person_name',
-        'responsible_person_address' => ':responsible_person_address',
-        'responsible_person_phone' => ':responsible_person_phone',
-        'responsible_person_email' => ':responsible_person_email',
-        'responsible_person_postal' => ':responsible_person_postal',
-        'parents_live_together' => ':parents_live_together',
-        'father_name' => ':father_name',
-        'father_occupation' => ':father_occupation',
-        'father_workplace' => ':father_workplace',
-        'father_address' => ':father_address',
-        'mother_name' => ':mother_name',
-        'mother_occupation' => ':mother_occupation',
-        'mother_workplace' => ':mother_workplace',
-        'mother_address' => ':mother_address',
-        'emergency_next_of_kin' => ':emergency_next_of_kin',
-        'bed_wetting' => ':bed_wetting',
-        'has_health_handicap' => ':has_health_handicap',
-        'health_handicap_details' => ':health_handicap_details',
-        'doctor_name' => ':doctor_name',
-        'doctor_location' => ':doctor_location',
-        'is_immunized' => ':is_immunized',
-        'other_information' => ':other_information',
-        'rules_acknowledged' => ':rules_acknowledged',
-        'declaration_accepted' => ':declaration_accepted',
-        'declaration_accepted_at' => ':declaration_accepted_at',
-        'declaration_name' => ':declaration_name',
-        'signature_path' => ':signature_path',
-        'security_token' => ':security_token',
-        'form_fee_status' => ':form_fee_status'
+    // Build robust 1-to-1 column and placeholder map (prevents SQLSTATE[HY093] duplicate or missing parameter errors)
+    $rowValues = [
+        'application_reference' => $appRef,
+        'application_id' => $appRef,
+        'academic_year' => $academicYear,
+        'term' => $term,
+        'class_to_join' => $classToJoin,
+        'admission_type' => $admissionType,
+        'student_surname' => $studentSurname,
+        'student_other_names' => $studentOtherNames,
+        'student_first_name' => $studentOtherNames,
+        'student_last_name' => $studentSurname,
+        'date_of_birth' => $dateOfBirth,
+        'gender' => $gender,
+        'nationality' => 'Ugandan',
+        'religion' => $religion,
+        'tribe' => $tribe,
+        'position_in_family' => $positionInFamily,
+        'has_attended_school' => $hasAttendedSchool,
+        'previous_school_name' => $previousSchoolName,
+        'previous_school_location' => $previousSchoolLoc,
+        'language_1' => $language1,
+        'language_2' => $language2,
+        'responsible_person_name' => $responsibleName,
+        'responsible_person_address' => $responsibleAddress,
+        'responsible_person_phone' => $responsiblePhone,
+        'responsible_person_email' => $responsibleEmail,
+        'responsible_person_postal' => $responsiblePostal,
+        'parent_first_name' => $responsibleName,
+        'parent_last_name' => $fatherName ?: $responsibleName,
+        'parent_phone' => $responsiblePhone,
+        'parent_email' => $responsibleEmail,
+        'parent_address' => $responsibleAddress,
+        'parent_occupation' => $fatherOccupation ?: $motherOccupation,
+        'parent_relationship' => 'Parent/Guardian',
+        'parents_live_together' => $parentsLiveTogether,
+        'father_name' => $fatherName ?: $responsibleName,
+        'father_occupation' => $fatherOccupation,
+        'father_workplace' => $fatherWorkplace,
+        'father_address' => $fatherAddress,
+        'mother_name' => $motherName,
+        'mother_occupation' => $motherOccupation,
+        'mother_workplace' => $motherWorkplace,
+        'mother_address' => $motherAddress,
+        'emergency_next_of_kin' => $emergencyNextOfKin,
+        'emergency_contact_name' => $emergencyNextOfKin,
+        'emergency_contact_phone' => $responsiblePhone,
+        'emergency_contact_relationship' => 'Next of Kin',
+        'bed_wetting' => $bedWetting,
+        'has_health_handicap' => $hasHealthHandicap,
+        'health_handicap_details' => $healthHandicapDetails,
+        'doctor_name' => $doctorName,
+        'doctor_location' => $doctorLocation,
+        'is_immunized' => $isImmunized,
+        'other_information' => $otherInformation,
+        'rules_acknowledged' => $rulesAcknowledged,
+        'declaration_accepted' => $declarationAccepted,
+        'declaration_accepted_at' => $declarationDate,
+        'declaration_name' => $declarationName,
+        'declaration_version' => 'v1.0',
+        'signature_path' => $relativeSigPath,
+        'security_token' => $securityToken,
+        'status' => 'pending',
+        'form_fee_status' => 'unpaid'
     ];
 
-    foreach ($candidateColumns as $col => $param) {
+    $colsToInsert = [];
+    $placeholders = [];
+    $execParams = [];
+
+    foreach ($rowValues as $col => $val) {
         if (isset($existingCols[$col])) {
-            $insertMap[$col] = $param;
+            $colsToInsert[] = "`{$col}`";
+            $paramName = ":p_{$col}";
+            $placeholders[] = $paramName;
+            $execParams[$paramName] = $val;
         }
     }
 
-    // Map legacy columns if table still has them
-    if (isset($existingCols['student_first_name'])) {
-        $insertMap['student_first_name'] = ':student_other_names';
-    }
-    if (isset($existingCols['student_last_name'])) {
-        $insertMap['student_last_name'] = ':student_surname';
-    }
-    if (isset($existingCols['parent_first_name'])) {
-        $insertMap['parent_first_name'] = ':responsible_person_name';
-    }
-    if (isset($existingCols['parent_last_name'])) {
-        $insertMap['parent_last_name'] = ':father_name';
-    }
-    if (isset($existingCols['parent_phone'])) {
-        $insertMap['parent_phone'] = ':responsible_person_phone';
-    }
-    if (isset($existingCols['parent_email'])) {
-        $insertMap['parent_email'] = ':responsible_person_email';
-    }
-    if (isset($existingCols['parent_address'])) {
-        $insertMap['parent_address'] = ':responsible_person_address';
-    }
-    if (isset($existingCols['nationality'])) {
-        $insertMap['nationality'] = "'Ugandan'";
-    }
-    if (isset($existingCols['status'])) {
-        $insertMap['status'] = "'pending'";
-    }
-    if (isset($existingCols['declaration_version'])) {
-        $insertMap['declaration_version'] = "'v1.0'";
-    }
     if (isset($existingCols['submitted_date'])) {
-        $insertMap['submitted_date'] = 'NOW()';
+        $colsToInsert[] = "`submitted_date`";
+        $placeholders[] = "NOW()";
     }
 
-    $colSql = implode(', ', array_keys($insertMap));
-    $valSql = implode(', ', array_values($insertMap));
+    $colSql = implode(', ', $colsToInsert);
+    $valSql = implode(', ', $placeholders);
 
     $stmt = $db->prepare("INSERT INTO admission_applications ({$colSql}) VALUES ({$valSql})");
-
-    if (isset($existingCols['application_reference'])) {
-        $stmt->bindValue(':application_reference', $appRef);
-    }
-    if (isset($existingCols['application_id'])) {
-        $stmt->bindValue(':application_id', $appRef);
-    }
-    if (isset($existingCols['academic_year'])) {
-        $stmt->bindValue(':academic_year', $academicYear);
-    }
-    if (isset($existingCols['term'])) {
-        $stmt->bindValue(':term', $term);
-    }
-    if (isset($existingCols['class_to_join'])) {
-        $stmt->bindValue(':class_to_join', $classToJoin);
-    }
-    if (isset($existingCols['admission_type'])) {
-        $stmt->bindValue(':admission_type', $admissionType);
-    }
-    if (isset($existingCols['student_surname']) || isset($existingCols['student_last_name'])) {
-        $stmt->bindValue(':student_surname', $studentSurname);
-    }
-    if (isset($existingCols['student_other_names']) || isset($existingCols['student_first_name'])) {
-        $stmt->bindValue(':student_other_names', $studentOtherNames);
-    }
-    if (isset($existingCols['date_of_birth'])) {
-        $stmt->bindValue(':date_of_birth', $dateOfBirth);
-    }
-    if (isset($existingCols['gender'])) {
-        $stmt->bindValue(':gender', $gender);
-    }
-    if (isset($existingCols['religion'])) {
-        $stmt->bindValue(':religion', $religion);
-    }
-    if (isset($existingCols['tribe'])) {
-        $stmt->bindValue(':tribe', $tribe);
-    }
-    if (isset($existingCols['position_in_family'])) {
-        $stmt->bindValue(':position_in_family', $positionInFamily);
-    }
-    if (isset($existingCols['has_attended_school'])) {
-        $stmt->bindValue(':has_attended_school', $hasAttendedSchool, PDO::PARAM_INT);
-    }
-    if (isset($existingCols['previous_school_name'])) {
-        $stmt->bindValue(':previous_school_name', $previousSchoolName);
-    }
-    if (isset($existingCols['previous_school_location'])) {
-        $stmt->bindValue(':previous_school_location', $previousSchoolLoc);
-    }
-    if (isset($existingCols['language_1'])) {
-        $stmt->bindValue(':language_1', $language1);
-    }
-    if (isset($existingCols['language_2'])) {
-        $stmt->bindValue(':language_2', $language2);
-    }
-    if (isset($existingCols['responsible_person_name']) || isset($existingCols['parent_first_name'])) {
-        $stmt->bindValue(':responsible_person_name', $responsibleName);
-    }
-    if (isset($existingCols['responsible_person_address']) || isset($existingCols['parent_address'])) {
-        $stmt->bindValue(':responsible_person_address', $responsibleAddress);
-    }
-    if (isset($existingCols['responsible_person_phone']) || isset($existingCols['parent_phone'])) {
-        $stmt->bindValue(':responsible_person_phone', $responsiblePhone);
-    }
-    if (isset($existingCols['responsible_person_email']) || isset($existingCols['parent_email'])) {
-        $stmt->bindValue(':responsible_person_email', $responsibleEmail);
-    }
-    if (isset($existingCols['responsible_person_postal'])) {
-        $stmt->bindValue(':responsible_person_postal', $responsiblePostal);
-    }
-    if (isset($existingCols['parents_live_together'])) {
-        $stmt->bindValue(':parents_live_together', $parentsLiveTogether);
-    }
-    if (isset($existingCols['father_name']) || isset($existingCols['parent_last_name'])) {
-        $stmt->bindValue(':father_name', $fatherName ?: $responsibleName);
-    }
-    if (isset($existingCols['father_occupation'])) {
-        $stmt->bindValue(':father_occupation', $fatherOccupation);
-    }
-    if (isset($existingCols['father_workplace'])) {
-        $stmt->bindValue(':father_workplace', $fatherWorkplace);
-    }
-    if (isset($existingCols['father_address'])) {
-        $stmt->bindValue(':father_address', $fatherAddress);
-    }
-    if (isset($existingCols['mother_name'])) {
-        $stmt->bindValue(':mother_name', $motherName);
-    }
-    if (isset($existingCols['mother_occupation'])) {
-        $stmt->bindValue(':mother_occupation', $motherOccupation);
-    }
-    if (isset($existingCols['mother_workplace'])) {
-        $stmt->bindValue(':mother_workplace', $motherWorkplace);
-    }
-    if (isset($existingCols['mother_address'])) {
-        $stmt->bindValue(':mother_address', $motherAddress);
-    }
-    if (isset($existingCols['emergency_next_of_kin'])) {
-        $stmt->bindValue(':emergency_next_of_kin', $emergencyNextOfKin);
-    }
-    if (isset($existingCols['bed_wetting'])) {
-        $stmt->bindValue(':bed_wetting', $bedWetting);
-    }
-    if (isset($existingCols['has_health_handicap'])) {
-        $stmt->bindValue(':has_health_handicap', $hasHealthHandicap);
-    }
-    if (isset($existingCols['health_handicap_details'])) {
-        $stmt->bindValue(':health_handicap_details', $healthHandicapDetails);
-    }
-    if (isset($existingCols['doctor_name'])) {
-        $stmt->bindValue(':doctor_name', $doctorName);
-    }
-    if (isset($existingCols['doctor_location'])) {
-        $stmt->bindValue(':doctor_location', $doctorLocation);
-    }
-    if (isset($existingCols['is_immunized'])) {
-        $stmt->bindValue(':is_immunized', $isImmunized);
-    }
-    if (isset($existingCols['other_information'])) {
-        $stmt->bindValue(':other_information', $otherInformation);
-    }
-    if (isset($existingCols['rules_acknowledged'])) {
-        $stmt->bindValue(':rules_acknowledged', $rulesAcknowledged, PDO::PARAM_INT);
-    }
-    if (isset($existingCols['declaration_accepted'])) {
-        $stmt->bindValue(':declaration_accepted', $declarationAccepted, PDO::PARAM_INT);
-    }
-    if (isset($existingCols['declaration_accepted_at'])) {
-        $stmt->bindValue(':declaration_accepted_at', $declarationDate);
-    }
-    if (isset($existingCols['declaration_name'])) {
-        $stmt->bindValue(':declaration_name', $declarationName);
-    }
-    if (isset($existingCols['signature_path'])) {
-        $stmt->bindValue(':signature_path', $relativeSigPath);
-    }
-    if (isset($existingCols['security_token'])) {
-        $stmt->bindValue(':security_token', $securityToken);
-    }
-    if (isset($existingCols['form_fee_status'])) {
-        $stmt->bindValue(':form_fee_status', 'unpaid');
-    }
-
-    $stmt->execute();
+    $stmt->execute($execParams);
     $db->commit();
 
     echo json_encode([
