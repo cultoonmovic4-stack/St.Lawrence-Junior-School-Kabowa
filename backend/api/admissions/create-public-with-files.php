@@ -382,6 +382,69 @@ try {
     $securityToken = bin2hex(random_bytes(32));
     $declarationDate = date('Y-m-d H:i:s');
 
+    // Auto-migrate schema: ensure all required columns exist in admission_applications
+    try {
+        $existingCols = [];
+        $colStmt = $db->query("SHOW COLUMNS FROM admission_applications");
+        while ($r = $colStmt->fetch(PDO::FETCH_ASSOC)) {
+            $existingCols[$r['Field']] = true;
+        }
+
+        $neededCols = [
+            'application_reference' => "VARCHAR(50) UNIQUE AFTER id",
+            'academic_year' => "VARCHAR(20) DEFAULT '2026' AFTER application_reference",
+            'term' => "VARCHAR(30) DEFAULT 'Term 1' AFTER academic_year",
+            'student_surname' => "VARCHAR(100) DEFAULT '' AFTER admission_type",
+            'student_other_names' => "VARCHAR(150) DEFAULT '' AFTER student_surname",
+            'tribe' => "VARCHAR(100) DEFAULT NULL AFTER religion",
+            'position_in_family' => "VARCHAR(100) DEFAULT NULL AFTER tribe",
+            'has_attended_school' => "TINYINT(1) DEFAULT 0 AFTER position_in_family",
+            'previous_school_name' => "VARCHAR(200) DEFAULT NULL AFTER has_attended_school",
+            'previous_school_location' => "VARCHAR(200) DEFAULT NULL AFTER previous_school_name",
+            'language_1' => "VARCHAR(100) DEFAULT 'English' AFTER previous_school_location",
+            'language_2' => "VARCHAR(100) DEFAULT NULL AFTER language_1",
+            'responsible_person_name' => "VARCHAR(200) DEFAULT NULL AFTER language_2",
+            'responsible_person_address' => "TEXT DEFAULT NULL AFTER responsible_person_name",
+            'responsible_person_phone' => "VARCHAR(30) DEFAULT NULL AFTER responsible_person_address",
+            'responsible_person_email' => "VARCHAR(255) DEFAULT NULL AFTER responsible_person_phone",
+            'responsible_person_postal' => "VARCHAR(100) DEFAULT NULL AFTER responsible_person_email",
+            'parents_live_together' => "ENUM('yes', 'no') DEFAULT 'yes' AFTER responsible_person_postal",
+            'father_name' => "VARCHAR(200) DEFAULT NULL AFTER parents_live_together",
+            'father_occupation' => "VARCHAR(150) DEFAULT NULL AFTER father_name",
+            'father_workplace' => "VARCHAR(200) DEFAULT NULL AFTER father_occupation",
+            'father_address' => "TEXT DEFAULT NULL AFTER father_workplace",
+            'mother_name' => "VARCHAR(200) DEFAULT NULL AFTER father_address",
+            'mother_occupation' => "VARCHAR(150) DEFAULT NULL AFTER mother_name",
+            'mother_workplace' => "VARCHAR(200) DEFAULT NULL AFTER mother_occupation",
+            'mother_address' => "TEXT DEFAULT NULL AFTER mother_workplace",
+            'emergency_next_of_kin' => "VARCHAR(200) DEFAULT NULL AFTER mother_address",
+            'bed_wetting' => "ENUM('yes', 'no') DEFAULT NULL AFTER emergency_next_of_kin",
+            'has_health_handicap' => "ENUM('yes', 'no') DEFAULT 'no' AFTER bed_wetting",
+            'health_handicap_details' => "TEXT DEFAULT NULL AFTER has_health_handicap",
+            'doctor_name' => "VARCHAR(150) DEFAULT NULL AFTER health_handicap_details",
+            'doctor_location' => "VARCHAR(200) DEFAULT NULL AFTER doctor_name",
+            'is_immunized' => "ENUM('yes', 'no') DEFAULT 'yes' AFTER doctor_location",
+            'other_information' => "TEXT DEFAULT NULL AFTER is_immunized",
+            'rules_acknowledged' => "TINYINT(1) DEFAULT 0 AFTER other_information",
+            'declaration_accepted' => "TINYINT(1) DEFAULT 0 AFTER rules_acknowledged",
+            'declaration_accepted_at' => "DATETIME DEFAULT NULL AFTER declaration_accepted",
+            'declaration_name' => "VARCHAR(200) DEFAULT NULL AFTER declaration_accepted_at",
+            'declaration_version' => "VARCHAR(20) DEFAULT 'v1.0' AFTER declaration_name",
+            'signature_path' => "VARCHAR(255) DEFAULT NULL AFTER declaration_version",
+            'security_token' => "VARCHAR(64) DEFAULT NULL AFTER signature_path",
+            'form_fee_status' => "VARCHAR(50) DEFAULT 'unpaid' AFTER status",
+            'submitted_date' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER form_fee_status"
+        ];
+
+        foreach ($neededCols as $colName => $colDef) {
+            if (!isset($existingCols[$colName])) {
+                @$db->exec("ALTER TABLE admission_applications ADD COLUMN {$colName} {$colDef}");
+            }
+        }
+    } catch (\Throwable $migEx) {
+        error_log('[Admission Schema Check Error] ' . $migEx->getMessage());
+    }
+
     // Begin database transaction
     $db->beginTransaction();
 

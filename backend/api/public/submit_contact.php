@@ -285,32 +285,67 @@ try {
 
     $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
-    // NOTE: if your contact_submissions table doesn't have ip_address column yet,
-    // run: ALTER TABLE contact_submissions ADD COLUMN ip_address VARCHAR(45) DEFAULT NULL;
-    $stmt = $db->prepare("
-        INSERT INTO contact_submissions
-            (name, email, phone, subject, message, status, ip_address, submitted_date)
-        VALUES
-            (:name, :email, :phone, :subject, :message, 'new', :ip, NOW())
-    ");
+    // Inspect existing columns in contact_submissions to guarantee query compatibility
+    $hasIpColumn = false;
+    try {
+        $cols = $db->query("SHOW COLUMNS FROM contact_submissions LIKE 'ip_address'")->fetchAll();
+        $hasIpColumn = !empty($cols);
+        if (!$hasIpColumn) {
+            // Attempt to add column for future rate limiting
+            @$db->exec("ALTER TABLE contact_submissions ADD COLUMN ip_address VARCHAR(45) DEFAULT NULL AFTER status");
+            $hasIpColumn = true;
+        }
+    } catch (\Throwable $schemaEx) {
+        $hasIpColumn = false;
+    }
 
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':phone', $phone);
-    $stmt->bindParam(':subject', $subject);
-    $stmt->bindParam(':message', $message);
-    $stmt->bindParam(':ip', $ip);
+    $success = false;
 
-    if ($stmt->execute()) {
+    if ($hasIpColumn) {
+        try {
+            $stmt = $db->prepare("
+                INSERT INTO contact_submissions
+                    (name, email, phone, subject, message, status, ip_address, submitted_date)
+                VALUES
+                    (:name, :email, :phone, :subject, :message, 'new', :ip, NOW())
+            ");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':phone', $phone);
+            $stmt->bindParam(':subject', $subject);
+            $stmt->bindParam(':message', $message);
+            $stmt->bindParam(':ip', $ip);
+            $success = $stmt->execute();
+        } catch (\Throwable $colEx) {
+            $hasIpColumn = false; // fall back to standard columns below
+        }
+    }
+
+    if (!$success) {
+        $stmt = $db->prepare("
+            INSERT INTO contact_submissions
+                (name, email, phone, subject, message, status, submitted_date)
+            VALUES
+                (:name, :email, :phone, :subject, :message, 'new', NOW())
+        ");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':subject', $subject);
+        $stmt->bindParam(':message', $message);
+        $success = $stmt->execute();
+    }
+
+    if ($success) {
         echo json_encode([
             'success' => true,
             'message' => 'Thank you for contacting us! We will get back to you soon.'
         ]);
     } else {
-        throw new Exception('Failed to save message');
+        throw new Exception('Failed to save message to database');
     }
 
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
