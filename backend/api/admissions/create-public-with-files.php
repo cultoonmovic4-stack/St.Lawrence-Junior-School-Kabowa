@@ -316,40 +316,130 @@ try {
     $database = new Database();
     $db = $database->getConnection();
 
-    // Duplicate submission protection (within 15 minutes)
-    $dupCheck = $db->prepare("
-        SELECT application_reference, security_token 
-        FROM admission_applications 
-        WHERE student_surname = :s_sur 
-          AND student_other_names = :s_oth 
-          AND date_of_birth = :dob 
-          AND academic_year = :yr 
-          AND term = :trm 
-          AND responsible_person_phone = :r_phone
-          AND submitted_date >= (NOW() - INTERVAL 15 MINUTE)
-        LIMIT 1
-    ");
-    $dupCheck->execute([
-        ':s_sur' => $studentSurname,
-        ':s_oth' => $studentOtherNames,
-        ':dob' => $dateOfBirth,
-        ':yr' => $academicYear,
-        ':trm' => $term,
-        ':r_phone' => $responsiblePhone
-    ]);
-    $existingApp = $dupCheck->fetch(PDO::FETCH_ASSOC);
-    if ($existingApp) {
-        echo json_encode([
-            'success' => true,
-            'message' => 'Your application has already been submitted successfully.',
-            'application_reference' => $existingApp['application_reference'],
-            'student_name' => $studentSurname . ' ' . $studentOtherNames,
-            'class' => $classToJoin,
-            'security_token' => $existingApp['security_token'],
-            'download_url' => "../backend/api/admissions/download-pdf.php?ref=" . urlencode($existingApp['application_reference']) . "&token=" . urlencode($existingApp['security_token']),
-            'blank_form_url' => "../backend/api/admissions/download-blank-pdf.php"
-        ]);
-        exit;
+    // Auto-migrate schema: ensure all required columns exist in admission_applications BEFORE any queries
+    $existingCols = [];
+    try {
+        $colStmt = $db->query("SHOW COLUMNS FROM admission_applications");
+        while ($r = $colStmt->fetch(PDO::FETCH_ASSOC)) {
+            $existingCols[$r['Field']] = true;
+        }
+
+        // 1. Relax legacy columns that were NOT NULL in earlier schema dumps so they don't block inserts
+        $oldColsToRelax = [
+            'application_id', 'student_first_name', 'student_last_name',
+            'parent_first_name', 'parent_last_name', 'parent_relationship',
+            'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship',
+            'nationality'
+        ];
+        foreach ($oldColsToRelax as $oldCol) {
+            if (isset($existingCols[$oldCol])) {
+                try {
+                    $db->exec("ALTER TABLE admission_applications MODIFY COLUMN `{$oldCol}` VARCHAR(255) NULL DEFAULT NULL");
+                } catch (\Throwable $e) {}
+            }
+        }
+
+        // 2. Add missing columns using robust standard SQL (no syntax errors, no index conflicts)
+        $neededCols = [
+            'application_reference' => "VARCHAR(50) DEFAULT NULL",
+            'academic_year' => "VARCHAR(20) DEFAULT '2026'",
+            'term' => "VARCHAR(30) DEFAULT 'Term 1'",
+            'student_surname' => "VARCHAR(100) DEFAULT ''",
+            'student_other_names' => "VARCHAR(150) DEFAULT ''",
+            'tribe' => "VARCHAR(100) DEFAULT NULL",
+            'position_in_family' => "VARCHAR(100) DEFAULT NULL",
+            'has_attended_school' => "TINYINT(1) DEFAULT 0",
+            'previous_school_name' => "VARCHAR(200) DEFAULT NULL",
+            'previous_school_location' => "VARCHAR(200) DEFAULT NULL",
+            'language_1' => "VARCHAR(100) DEFAULT 'English'",
+            'language_2' => "VARCHAR(100) DEFAULT NULL",
+            'responsible_person_name' => "VARCHAR(200) DEFAULT NULL",
+            'responsible_person_address' => "TEXT DEFAULT NULL",
+            'responsible_person_phone' => "VARCHAR(30) DEFAULT NULL",
+            'responsible_person_email' => "VARCHAR(255) DEFAULT NULL",
+            'responsible_person_postal' => "VARCHAR(100) DEFAULT NULL",
+            'parents_live_together' => "VARCHAR(10) DEFAULT 'yes'",
+            'father_name' => "VARCHAR(200) DEFAULT NULL",
+            'father_occupation' => "VARCHAR(150) DEFAULT NULL",
+            'father_workplace' => "VARCHAR(200) DEFAULT NULL",
+            'father_address' => "TEXT DEFAULT NULL",
+            'mother_name' => "VARCHAR(200) DEFAULT NULL",
+            'mother_occupation' => "VARCHAR(150) DEFAULT NULL",
+            'mother_workplace' => "VARCHAR(200) DEFAULT NULL",
+            'mother_address' => "TEXT DEFAULT NULL",
+            'emergency_next_of_kin' => "VARCHAR(200) DEFAULT NULL",
+            'bed_wetting' => "VARCHAR(10) DEFAULT NULL",
+            'has_health_handicap' => "VARCHAR(10) DEFAULT 'no'",
+            'health_handicap_details' => "TEXT DEFAULT NULL",
+            'doctor_name' => "VARCHAR(150) DEFAULT NULL",
+            'doctor_location' => "VARCHAR(200) DEFAULT NULL",
+            'is_immunized' => "VARCHAR(10) DEFAULT 'yes'",
+            'other_information' => "TEXT DEFAULT NULL",
+            'rules_acknowledged' => "TINYINT(1) DEFAULT 0",
+            'declaration_accepted' => "TINYINT(1) DEFAULT 0",
+            'declaration_accepted_at' => "DATETIME DEFAULT NULL",
+            'declaration_name' => "VARCHAR(200) DEFAULT NULL",
+            'declaration_version' => "VARCHAR(20) DEFAULT 'v1.0'",
+            'signature_path' => "VARCHAR(255) DEFAULT NULL",
+            'security_token' => "VARCHAR(64) DEFAULT NULL",
+            'form_fee_status' => "VARCHAR(50) DEFAULT 'unpaid'",
+            'submitted_date' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+        ];
+
+        foreach ($neededCols as $colName => $colDef) {
+            if (!isset($existingCols[$colName])) {
+                try {
+                    $db->exec("ALTER TABLE admission_applications ADD COLUMN `{$colName}` {$colDef}");
+                    $existingCols[$colName] = true;
+                } catch (\Throwable $colErr) {
+                    error_log("Failed adding column {$colName}: " . $colErr->getMessage());
+                }
+            }
+        }
+    } catch (\Throwable $migEx) {
+        error_log('[Admission Schema Check Error] ' . $migEx->getMessage());
+    }
+
+    // Duplicate submission protection (within 15 minutes) - only run if relevant columns exist
+    if (isset($existingCols['application_reference']) && isset($existingCols['student_surname'])) {
+        try {
+            $dupCheck = $db->prepare("
+                SELECT application_reference, security_token 
+                FROM admission_applications 
+                WHERE student_surname = :s_sur 
+                  AND student_other_names = :s_oth 
+                  AND date_of_birth = :dob 
+                  AND academic_year = :yr 
+                  AND term = :trm 
+                  AND responsible_person_phone = :r_phone
+                  AND submitted_date >= (NOW() - INTERVAL 15 MINUTE)
+                LIMIT 1
+            ");
+            $dupCheck->execute([
+                ':s_sur' => $studentSurname,
+                ':s_oth' => $studentOtherNames,
+                ':dob' => $dateOfBirth,
+                ':yr' => $academicYear,
+                ':trm' => $term,
+                ':r_phone' => $responsiblePhone
+            ]);
+            $existingApp = $dupCheck->fetch(PDO::FETCH_ASSOC);
+            if ($existingApp) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Your application has already been submitted successfully.',
+                    'application_reference' => $existingApp['application_reference'],
+                    'student_name' => $studentSurname . ' ' . $studentOtherNames,
+                    'class' => $classToJoin,
+                    'security_token' => $existingApp['security_token'],
+                    'download_url' => "../backend/api/admissions/download-pdf.php?ref=" . urlencode($existingApp['application_reference']) . "&token=" . urlencode($existingApp['security_token']),
+                    'blank_form_url' => "../backend/api/admissions/download-blank-pdf.php"
+                ]);
+                exit;
+            }
+        } catch (\Throwable $dupEx) {
+            error_log('[Admission Dup Check Error] ' . $dupEx->getMessage());
+        }
     }
 
     // Generate collision-resistant unique Application Reference
@@ -357,10 +447,21 @@ try {
     $yearPrefix = date('Y');
     for ($attempt = 0; $attempt < 10; $attempt++) {
         $candidateRef = 'SLJK-' . $yearPrefix . '-' . strtoupper(bin2hex(random_bytes(3)));
-        $checkStmt = $db->prepare("SELECT COUNT(*) FROM admission_applications WHERE application_reference = :ref");
-        $checkStmt->bindParam(':ref', $candidateRef);
-        $checkStmt->execute();
-        if ($checkStmt->fetchColumn() == 0) {
+        $refCol = isset($existingCols['application_reference']) ? 'application_reference' : (isset($existingCols['application_id']) ? 'application_id' : null);
+        if ($refCol) {
+            try {
+                $checkStmt = $db->prepare("SELECT COUNT(*) FROM admission_applications WHERE `{$refCol}` = :ref");
+                $checkStmt->bindParam(':ref', $candidateRef);
+                $checkStmt->execute();
+                if ($checkStmt->fetchColumn() == 0) {
+                    $appRef = $candidateRef;
+                    break;
+                }
+            } catch (\Throwable $chkEx) {
+                $appRef = $candidateRef;
+                break;
+            }
+        } else {
             $appRef = $candidateRef;
             break;
         }
@@ -382,221 +483,255 @@ try {
     $securityToken = bin2hex(random_bytes(32));
     $declarationDate = date('Y-m-d H:i:s');
 
-    // Auto-migrate schema: ensure all required columns exist in admission_applications
-    try {
-        $existingCols = [];
-        $colStmt = $db->query("SHOW COLUMNS FROM admission_applications");
-        while ($r = $colStmt->fetch(PDO::FETCH_ASSOC)) {
-            $existingCols[$r['Field']] = true;
-        }
-
-        $neededCols = [
-            'application_reference' => "VARCHAR(50) UNIQUE AFTER id",
-            'academic_year' => "VARCHAR(20) DEFAULT '2026' AFTER application_reference",
-            'term' => "VARCHAR(30) DEFAULT 'Term 1' AFTER academic_year",
-            'student_surname' => "VARCHAR(100) DEFAULT '' AFTER admission_type",
-            'student_other_names' => "VARCHAR(150) DEFAULT '' AFTER student_surname",
-            'tribe' => "VARCHAR(100) DEFAULT NULL AFTER religion",
-            'position_in_family' => "VARCHAR(100) DEFAULT NULL AFTER tribe",
-            'has_attended_school' => "TINYINT(1) DEFAULT 0 AFTER position_in_family",
-            'previous_school_name' => "VARCHAR(200) DEFAULT NULL AFTER has_attended_school",
-            'previous_school_location' => "VARCHAR(200) DEFAULT NULL AFTER previous_school_name",
-            'language_1' => "VARCHAR(100) DEFAULT 'English' AFTER previous_school_location",
-            'language_2' => "VARCHAR(100) DEFAULT NULL AFTER language_1",
-            'responsible_person_name' => "VARCHAR(200) DEFAULT NULL AFTER language_2",
-            'responsible_person_address' => "TEXT DEFAULT NULL AFTER responsible_person_name",
-            'responsible_person_phone' => "VARCHAR(30) DEFAULT NULL AFTER responsible_person_address",
-            'responsible_person_email' => "VARCHAR(255) DEFAULT NULL AFTER responsible_person_phone",
-            'responsible_person_postal' => "VARCHAR(100) DEFAULT NULL AFTER responsible_person_email",
-            'parents_live_together' => "ENUM('yes', 'no') DEFAULT 'yes' AFTER responsible_person_postal",
-            'father_name' => "VARCHAR(200) DEFAULT NULL AFTER parents_live_together",
-            'father_occupation' => "VARCHAR(150) DEFAULT NULL AFTER father_name",
-            'father_workplace' => "VARCHAR(200) DEFAULT NULL AFTER father_occupation",
-            'father_address' => "TEXT DEFAULT NULL AFTER father_workplace",
-            'mother_name' => "VARCHAR(200) DEFAULT NULL AFTER father_address",
-            'mother_occupation' => "VARCHAR(150) DEFAULT NULL AFTER mother_name",
-            'mother_workplace' => "VARCHAR(200) DEFAULT NULL AFTER mother_occupation",
-            'mother_address' => "TEXT DEFAULT NULL AFTER mother_workplace",
-            'emergency_next_of_kin' => "VARCHAR(200) DEFAULT NULL AFTER mother_address",
-            'bed_wetting' => "ENUM('yes', 'no') DEFAULT NULL AFTER emergency_next_of_kin",
-            'has_health_handicap' => "ENUM('yes', 'no') DEFAULT 'no' AFTER bed_wetting",
-            'health_handicap_details' => "TEXT DEFAULT NULL AFTER has_health_handicap",
-            'doctor_name' => "VARCHAR(150) DEFAULT NULL AFTER health_handicap_details",
-            'doctor_location' => "VARCHAR(200) DEFAULT NULL AFTER doctor_name",
-            'is_immunized' => "ENUM('yes', 'no') DEFAULT 'yes' AFTER doctor_location",
-            'other_information' => "TEXT DEFAULT NULL AFTER is_immunized",
-            'rules_acknowledged' => "TINYINT(1) DEFAULT 0 AFTER other_information",
-            'declaration_accepted' => "TINYINT(1) DEFAULT 0 AFTER rules_acknowledged",
-            'declaration_accepted_at' => "DATETIME DEFAULT NULL AFTER declaration_accepted",
-            'declaration_name' => "VARCHAR(200) DEFAULT NULL AFTER declaration_accepted_at",
-            'declaration_version' => "VARCHAR(20) DEFAULT 'v1.0' AFTER declaration_name",
-            'signature_path' => "VARCHAR(255) DEFAULT NULL AFTER declaration_version",
-            'security_token' => "VARCHAR(64) DEFAULT NULL AFTER signature_path",
-            'form_fee_status' => "VARCHAR(50) DEFAULT 'unpaid' AFTER status",
-            'submitted_date' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER form_fee_status"
-        ];
-
-        foreach ($neededCols as $colName => $colDef) {
-            if (!isset($existingCols[$colName])) {
-                @$db->exec("ALTER TABLE admission_applications ADD COLUMN {$colName} {$colDef}");
-            }
-        }
-    } catch (\Throwable $migEx) {
-        error_log('[Admission Schema Check Error] ' . $migEx->getMessage());
-    }
-
     // Begin database transaction
     $db->beginTransaction();
 
-    $stmt = $db->prepare("
-        INSERT INTO admission_applications (
-            application_reference,
-            academic_year,
-            term,
-            class_to_join,
-            admission_type,
-            student_surname,
-            student_other_names,
-            date_of_birth,
-            gender,
-            religion,
-            tribe,
-            position_in_family,
-            has_attended_school,
-            previous_school_name,
-            previous_school_location,
-            language_1,
-            language_2,
-            responsible_person_name,
-            responsible_person_address,
-            responsible_person_phone,
-            responsible_person_email,
-            responsible_person_postal,
-            parents_live_together,
-            father_name,
-            father_occupation,
-            father_workplace,
-            father_address,
-            mother_name,
-            mother_occupation,
-            mother_workplace,
-            mother_address,
-            emergency_next_of_kin,
-            bed_wetting,
-            has_health_handicap,
-            health_handicap_details,
-            doctor_name,
-            doctor_location,
-            is_immunized,
-            other_information,
-            rules_acknowledged,
-            declaration_accepted,
-            declaration_accepted_at,
-            declaration_name,
-            declaration_version,
-            signature_path,
-            security_token,
-            status,
-            form_fee_status,
-            submitted_date
-        ) VALUES (
-            :application_reference,
-            :academic_year,
-            :term,
-            :class_to_join,
-            :admission_type,
-            :student_surname,
-            :student_other_names,
-            :date_of_birth,
-            :gender,
-            :religion,
-            :tribe,
-            :position_in_family,
-            :has_attended_school,
-            :previous_school_name,
-            :previous_school_location,
-            :language_1,
-            :language_2,
-            :responsible_person_name,
-            :responsible_person_address,
-            :responsible_person_phone,
-            :responsible_person_email,
-            :responsible_person_postal,
-            :parents_live_together,
-            :father_name,
-            :father_occupation,
-            :father_workplace,
-            :father_address,
-            :mother_name,
-            :mother_occupation,
-            :mother_workplace,
-            :mother_address,
-            :emergency_next_of_kin,
-            :bed_wetting,
-            :has_health_handicap,
-            :health_handicap_details,
-            :doctor_name,
-            :doctor_location,
-            :is_immunized,
-            :other_information,
-            :rules_acknowledged,
-            :declaration_accepted,
-            :declaration_accepted_at,
-            :declaration_name,
-            'v1.0',
-            :signature_path,
-            :security_token,
-            'pending',
-            'unpaid',
-            NOW()
-        )
-    ");
+    // Dynamically build the insert query based on confirmed existing table columns
+    $insertMap = [];
 
-    $stmt->bindValue(':application_reference', $appRef);
-    $stmt->bindValue(':academic_year', $academicYear);
-    $stmt->bindValue(':term', $term);
-    $stmt->bindValue(':class_to_join', $classToJoin);
-    $stmt->bindValue(':admission_type', $admissionType);
-    $stmt->bindValue(':student_surname', $studentSurname);
-    $stmt->bindValue(':student_other_names', $studentOtherNames);
-    $stmt->bindValue(':date_of_birth', $dateOfBirth);
-    $stmt->bindValue(':gender', $gender);
-    $stmt->bindValue(':religion', $religion);
-    $stmt->bindValue(':tribe', $tribe);
-    $stmt->bindValue(':position_in_family', $positionInFamily);
-    $stmt->bindValue(':has_attended_school', $hasAttendedSchool, PDO::PARAM_INT);
-    $stmt->bindValue(':previous_school_name', $previousSchoolName);
-    $stmt->bindValue(':previous_school_location', $previousSchoolLoc);
-    $stmt->bindValue(':language_1', $language1);
-    $stmt->bindValue(':language_2', $language2);
-    $stmt->bindValue(':responsible_person_name', $responsibleName);
-    $stmt->bindValue(':responsible_person_address', $responsibleAddress);
-    $stmt->bindValue(':responsible_person_phone', $responsiblePhone);
-    $stmt->bindValue(':responsible_person_email', $responsibleEmail);
-    $stmt->bindValue(':responsible_person_postal', $responsiblePostal);
-    $stmt->bindValue(':parents_live_together', $parentsLiveTogether);
-    $stmt->bindValue(':father_name', $fatherName);
-    $stmt->bindValue(':father_occupation', $fatherOccupation);
-    $stmt->bindValue(':father_workplace', $fatherWorkplace);
-    $stmt->bindValue(':father_address', $fatherAddress);
-    $stmt->bindValue(':mother_name', $motherName);
-    $stmt->bindValue(':mother_occupation', $motherOccupation);
-    $stmt->bindValue(':mother_workplace', $motherWorkplace);
-    $stmt->bindValue(':mother_address', $motherAddress);
-    $stmt->bindValue(':emergency_next_of_kin', $emergencyNextOfKin);
-    $stmt->bindValue(':bed_wetting', $bedWetting);
-    $stmt->bindValue(':has_health_handicap', $hasHealthHandicap);
-    $stmt->bindValue(':health_handicap_details', $healthHandicapDetails);
-    $stmt->bindValue(':doctor_name', $doctorName);
-    $stmt->bindValue(':doctor_location', $doctorLocation);
-    $stmt->bindValue(':is_immunized', $isImmunized);
-    $stmt->bindValue(':other_information', $otherInformation);
-    $stmt->bindValue(':rules_acknowledged', $rulesAcknowledged, PDO::PARAM_INT);
-    $stmt->bindValue(':declaration_accepted', $declarationAccepted, PDO::PARAM_INT);
-    $stmt->bindValue(':declaration_accepted_at', $declarationDate);
-    $stmt->bindValue(':declaration_name', $declarationName);
-    $stmt->bindValue(':signature_path', $relativeSigPath);
-    $stmt->bindValue(':security_token', $securityToken);
+    // Reference column: support application_reference, application_id, or both
+    if (isset($existingCols['application_reference'])) {
+        $insertMap['application_reference'] = ':application_reference';
+    }
+    if (isset($existingCols['application_id'])) {
+        $insertMap['application_id'] = ':application_id';
+    }
+
+    $candidateColumns = [
+        'academic_year' => ':academic_year',
+        'term' => ':term',
+        'class_to_join' => ':class_to_join',
+        'admission_type' => ':admission_type',
+        'student_surname' => ':student_surname',
+        'student_other_names' => ':student_other_names',
+        'date_of_birth' => ':date_of_birth',
+        'gender' => ':gender',
+        'religion' => ':religion',
+        'tribe' => ':tribe',
+        'position_in_family' => ':position_in_family',
+        'has_attended_school' => ':has_attended_school',
+        'previous_school_name' => ':previous_school_name',
+        'previous_school_location' => ':previous_school_location',
+        'language_1' => ':language_1',
+        'language_2' => ':language_2',
+        'responsible_person_name' => ':responsible_person_name',
+        'responsible_person_address' => ':responsible_person_address',
+        'responsible_person_phone' => ':responsible_person_phone',
+        'responsible_person_email' => ':responsible_person_email',
+        'responsible_person_postal' => ':responsible_person_postal',
+        'parents_live_together' => ':parents_live_together',
+        'father_name' => ':father_name',
+        'father_occupation' => ':father_occupation',
+        'father_workplace' => ':father_workplace',
+        'father_address' => ':father_address',
+        'mother_name' => ':mother_name',
+        'mother_occupation' => ':mother_occupation',
+        'mother_workplace' => ':mother_workplace',
+        'mother_address' => ':mother_address',
+        'emergency_next_of_kin' => ':emergency_next_of_kin',
+        'bed_wetting' => ':bed_wetting',
+        'has_health_handicap' => ':has_health_handicap',
+        'health_handicap_details' => ':health_handicap_details',
+        'doctor_name' => ':doctor_name',
+        'doctor_location' => ':doctor_location',
+        'is_immunized' => ':is_immunized',
+        'other_information' => ':other_information',
+        'rules_acknowledged' => ':rules_acknowledged',
+        'declaration_accepted' => ':declaration_accepted',
+        'declaration_accepted_at' => ':declaration_accepted_at',
+        'declaration_name' => ':declaration_name',
+        'signature_path' => ':signature_path',
+        'security_token' => ':security_token',
+        'form_fee_status' => ':form_fee_status'
+    ];
+
+    foreach ($candidateColumns as $col => $param) {
+        if (isset($existingCols[$col])) {
+            $insertMap[$col] = $param;
+        }
+    }
+
+    // Map legacy columns if table still has them
+    if (isset($existingCols['student_first_name'])) {
+        $insertMap['student_first_name'] = ':student_other_names';
+    }
+    if (isset($existingCols['student_last_name'])) {
+        $insertMap['student_last_name'] = ':student_surname';
+    }
+    if (isset($existingCols['parent_first_name'])) {
+        $insertMap['parent_first_name'] = ':responsible_person_name';
+    }
+    if (isset($existingCols['parent_last_name'])) {
+        $insertMap['parent_last_name'] = ':father_name';
+    }
+    if (isset($existingCols['parent_phone'])) {
+        $insertMap['parent_phone'] = ':responsible_person_phone';
+    }
+    if (isset($existingCols['parent_email'])) {
+        $insertMap['parent_email'] = ':responsible_person_email';
+    }
+    if (isset($existingCols['parent_address'])) {
+        $insertMap['parent_address'] = ':responsible_person_address';
+    }
+    if (isset($existingCols['nationality'])) {
+        $insertMap['nationality'] = "'Ugandan'";
+    }
+    if (isset($existingCols['status'])) {
+        $insertMap['status'] = "'pending'";
+    }
+    if (isset($existingCols['declaration_version'])) {
+        $insertMap['declaration_version'] = "'v1.0'";
+    }
+    if (isset($existingCols['submitted_date'])) {
+        $insertMap['submitted_date'] = 'NOW()';
+    }
+
+    $colSql = implode(', ', array_keys($insertMap));
+    $valSql = implode(', ', array_values($insertMap));
+
+    $stmt = $db->prepare("INSERT INTO admission_applications ({$colSql}) VALUES ({$valSql})");
+
+    if (isset($existingCols['application_reference'])) {
+        $stmt->bindValue(':application_reference', $appRef);
+    }
+    if (isset($existingCols['application_id'])) {
+        $stmt->bindValue(':application_id', $appRef);
+    }
+    if (isset($existingCols['academic_year'])) {
+        $stmt->bindValue(':academic_year', $academicYear);
+    }
+    if (isset($existingCols['term'])) {
+        $stmt->bindValue(':term', $term);
+    }
+    if (isset($existingCols['class_to_join'])) {
+        $stmt->bindValue(':class_to_join', $classToJoin);
+    }
+    if (isset($existingCols['admission_type'])) {
+        $stmt->bindValue(':admission_type', $admissionType);
+    }
+    if (isset($existingCols['student_surname']) || isset($existingCols['student_last_name'])) {
+        $stmt->bindValue(':student_surname', $studentSurname);
+    }
+    if (isset($existingCols['student_other_names']) || isset($existingCols['student_first_name'])) {
+        $stmt->bindValue(':student_other_names', $studentOtherNames);
+    }
+    if (isset($existingCols['date_of_birth'])) {
+        $stmt->bindValue(':date_of_birth', $dateOfBirth);
+    }
+    if (isset($existingCols['gender'])) {
+        $stmt->bindValue(':gender', $gender);
+    }
+    if (isset($existingCols['religion'])) {
+        $stmt->bindValue(':religion', $religion);
+    }
+    if (isset($existingCols['tribe'])) {
+        $stmt->bindValue(':tribe', $tribe);
+    }
+    if (isset($existingCols['position_in_family'])) {
+        $stmt->bindValue(':position_in_family', $positionInFamily);
+    }
+    if (isset($existingCols['has_attended_school'])) {
+        $stmt->bindValue(':has_attended_school', $hasAttendedSchool, PDO::PARAM_INT);
+    }
+    if (isset($existingCols['previous_school_name'])) {
+        $stmt->bindValue(':previous_school_name', $previousSchoolName);
+    }
+    if (isset($existingCols['previous_school_location'])) {
+        $stmt->bindValue(':previous_school_location', $previousSchoolLoc);
+    }
+    if (isset($existingCols['language_1'])) {
+        $stmt->bindValue(':language_1', $language1);
+    }
+    if (isset($existingCols['language_2'])) {
+        $stmt->bindValue(':language_2', $language2);
+    }
+    if (isset($existingCols['responsible_person_name']) || isset($existingCols['parent_first_name'])) {
+        $stmt->bindValue(':responsible_person_name', $responsibleName);
+    }
+    if (isset($existingCols['responsible_person_address']) || isset($existingCols['parent_address'])) {
+        $stmt->bindValue(':responsible_person_address', $responsibleAddress);
+    }
+    if (isset($existingCols['responsible_person_phone']) || isset($existingCols['parent_phone'])) {
+        $stmt->bindValue(':responsible_person_phone', $responsiblePhone);
+    }
+    if (isset($existingCols['responsible_person_email']) || isset($existingCols['parent_email'])) {
+        $stmt->bindValue(':responsible_person_email', $responsibleEmail);
+    }
+    if (isset($existingCols['responsible_person_postal'])) {
+        $stmt->bindValue(':responsible_person_postal', $responsiblePostal);
+    }
+    if (isset($existingCols['parents_live_together'])) {
+        $stmt->bindValue(':parents_live_together', $parentsLiveTogether);
+    }
+    if (isset($existingCols['father_name']) || isset($existingCols['parent_last_name'])) {
+        $stmt->bindValue(':father_name', $fatherName ?: $responsibleName);
+    }
+    if (isset($existingCols['father_occupation'])) {
+        $stmt->bindValue(':father_occupation', $fatherOccupation);
+    }
+    if (isset($existingCols['father_workplace'])) {
+        $stmt->bindValue(':father_workplace', $fatherWorkplace);
+    }
+    if (isset($existingCols['father_address'])) {
+        $stmt->bindValue(':father_address', $fatherAddress);
+    }
+    if (isset($existingCols['mother_name'])) {
+        $stmt->bindValue(':mother_name', $motherName);
+    }
+    if (isset($existingCols['mother_occupation'])) {
+        $stmt->bindValue(':mother_occupation', $motherOccupation);
+    }
+    if (isset($existingCols['mother_workplace'])) {
+        $stmt->bindValue(':mother_workplace', $motherWorkplace);
+    }
+    if (isset($existingCols['mother_address'])) {
+        $stmt->bindValue(':mother_address', $motherAddress);
+    }
+    if (isset($existingCols['emergency_next_of_kin'])) {
+        $stmt->bindValue(':emergency_next_of_kin', $emergencyNextOfKin);
+    }
+    if (isset($existingCols['bed_wetting'])) {
+        $stmt->bindValue(':bed_wetting', $bedWetting);
+    }
+    if (isset($existingCols['has_health_handicap'])) {
+        $stmt->bindValue(':has_health_handicap', $hasHealthHandicap);
+    }
+    if (isset($existingCols['health_handicap_details'])) {
+        $stmt->bindValue(':health_handicap_details', $healthHandicapDetails);
+    }
+    if (isset($existingCols['doctor_name'])) {
+        $stmt->bindValue(':doctor_name', $doctorName);
+    }
+    if (isset($existingCols['doctor_location'])) {
+        $stmt->bindValue(':doctor_location', $doctorLocation);
+    }
+    if (isset($existingCols['is_immunized'])) {
+        $stmt->bindValue(':is_immunized', $isImmunized);
+    }
+    if (isset($existingCols['other_information'])) {
+        $stmt->bindValue(':other_information', $otherInformation);
+    }
+    if (isset($existingCols['rules_acknowledged'])) {
+        $stmt->bindValue(':rules_acknowledged', $rulesAcknowledged, PDO::PARAM_INT);
+    }
+    if (isset($existingCols['declaration_accepted'])) {
+        $stmt->bindValue(':declaration_accepted', $declarationAccepted, PDO::PARAM_INT);
+    }
+    if (isset($existingCols['declaration_accepted_at'])) {
+        $stmt->bindValue(':declaration_accepted_at', $declarationDate);
+    }
+    if (isset($existingCols['declaration_name'])) {
+        $stmt->bindValue(':declaration_name', $declarationName);
+    }
+    if (isset($existingCols['signature_path'])) {
+        $stmt->bindValue(':signature_path', $relativeSigPath);
+    }
+    if (isset($existingCols['security_token'])) {
+        $stmt->bindValue(':security_token', $securityToken);
+    }
+    if (isset($existingCols['form_fee_status'])) {
+        $stmt->bindValue(':form_fee_status', 'unpaid');
+    }
 
     $stmt->execute();
     $db->commit();
