@@ -1,0 +1,82 @@
+# ==============================================================================
+# Cloudflare Pages Clean URLs & Security Configuration
+# St. Lawrence Junior School Kabowa (stlawrencejuniorschoolkabowa.com)
+# ==============================================================================
+
+# 1. Clean Homepage (Rewrite with 200: serves page, keeps URL clean at .com/)
+/ /frontend/index-redesign.html 200
+/index /frontend/index-redesign.html 200
+/index.html /frontend/index-redesign.html 200
+
+# 2. Redirect legacy /frontend/ URLs to clean URLs (301 = permanent redirect)
+/frontend/index-redesign.html / 301
+/frontend/index-redesign / 301
+/frontend/index.html / 301
+/frontend/ / 301
+
+/frontend/About-redesign.html /about 301
+/frontend/About-redesign /about 301
+/frontend/About.html /about 301
+
+/frontend/Admission-redesign.html /admissions 301
+/frontend/Admission-redesign /admissions 301
+/frontend/Admission.html /admissions 301
+
+/frontend/Fees.html /fees 301
+/frontend/Fees /fees 301
+
+/frontend/Gallery-redesign.html /gallery 301
+/frontend/Gallery-redesign /gallery 301
+
+/frontend/Contact-redesign.html /contact 301
+/frontend/Contact-redesign /contact 301
+
+/frontend/Teachers-redesign.html /teachers 301
+/frontend/Teachers-redesign /teachers 301
+
+/frontend/Teacher-Profile.html /teacher-profile 301
+/frontend/Teacher-Profile /teacher-profile 301
+
+/frontend/Library-redesign.html /library 301
+/frontend/Library-redesign /library 301
+
+/frontend/School-Anthem.html /anthem 301
+/frontend/School-Anthem /anthem 301
+
+# 3. Clean subpage rewrites (serves page without exposing internal filename)
+/about /frontend/About-redesign.html 200
+/about.html /frontend/About-redesign.html 200
+/About-redesign.html /frontend/About-redesign.html 200
+
+/admissions /frontend/Admission-redesign.html 200
+/admission /frontend/Admission-redesign.html 200
+/admission.html /frontend/Admission-redesign.html 200
+/Admission-redesign.html /frontend/Admission-redesign.html 200
+
+/fees /frontend/Fees.html 200
+/fees.html /frontend/Fees.html 200
+/Fees.html /frontend/Fees.html 200
+
+/gallery /frontend/Gallery-redesign.html 200
+/gallery.html /frontend/Gallery-redesign.html 200
+/Gallery-redesign.html /frontend/Gallery-redesign.html 200
+
+/contact /frontend/Contact-redesign.html 200
+/contact.html /frontend/Contact-redesign.html 200
+/Contact-redesign.html /frontend/Contact-redesign.html 200
+
+/teachers /frontend/Teachers-redesign.html 200
+/teachers.html /frontend/Teachers-redesign.html 200
+/Teachers-redesign.html /frontend/Teachers-redesign.html 200
+
+/teacher-profile /frontend/Teacher-Profile.html 200
+/teacher-profile.html /frontend/Teacher-Profile.html 200
+/Teacher-Profile.html /frontend/Teacher-Profile.html 200
+
+/library /frontend/Library-redesign.html 200
+/library.html /frontend/Library-redesign.html 200
+/Library-redesign.html /frontend/Library-redesign.html 200
+
+/anthem /frontend/School-Anthem.html 200
+/anthem.html /frontend/School-Anthem.html 200
+/School-Anthem.html /frontend/School-Anthem.html 200

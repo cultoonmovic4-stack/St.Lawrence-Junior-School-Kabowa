@@ -32,6 +32,21 @@ DirectoryIndex index.html index.php
     # Exclude .well-known for SSL certificates
     RewriteCond %{REQUEST_URI} !^/\.well-known/
     RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
+
+    # Clean Root: serve frontend/index-redesign.html at / without exposing internal path
+    RewriteRule ^$ frontend/index-redesign.html [L]
+    RewriteRule ^index(\.html)?$ frontend/index-redesign.html [L]
+
+    # Clean Subpage URLs
+    RewriteRule ^about/?$ frontend/About-redesign.html [L]
+    RewriteRule ^admissions?/?$ frontend/Admission-redesign.html [L]
+    RewriteRule ^fees/?$ frontend/Fees.html [L]
+    RewriteRule ^gallery/?$ frontend/Gallery-redesign.html [L]
+    RewriteRule ^contact/?$ frontend/Contact-redesign.html [L]
+    RewriteRule ^teachers/?$ frontend/Teachers-redesign.html [L]
+    RewriteRule ^teacher-profile/?$ frontend/Teacher-Profile.html [L]
+    RewriteRule ^library/?$ frontend/Library-redesign.html [L]
+    RewriteRule ^anthem/?$ frontend/School-Anthem.html [L]
 </IfModule>
 
 # 4. Deny Access to Sensitive File Formats
