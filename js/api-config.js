@@ -90,6 +90,19 @@
                     return originalFetch(new Request(newUrl, resource), init);
                 }
             }
+            if (init && init.headers && typeof init.body === 'string') {
+                if (init.headers instanceof Headers) {
+                    if (init.headers.get('content-type') === 'application/json') {
+                        init.headers.set('content-type', 'text/plain');
+                    }
+                } else if (typeof init.headers === 'object') {
+                    for (const k of Object.keys(init.headers)) {
+                        if (k.toLowerCase() === 'content-type' && init.headers[k] === 'application/json') {
+                            init.headers[k] = 'text/plain';
+                        }
+                    }
+                }
+            }
             return originalFetch(resource, init);
         };
 
@@ -128,12 +141,12 @@ var API = window.API || {
     async post(endpoint, body) {
         try {
             const url = `${window.API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+            const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+            const headers = isFormData ? {} : { 'Content-Type': 'text/plain' };
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
+                headers: headers,
+                body: isFormData ? body : (typeof body === 'string' ? body : JSON.stringify(body))
             });
             return await response.json();
         } catch (error) {

@@ -838,14 +838,12 @@
                 }
             }
 
-            // Gather Form Data
+            // Gather Form Data directly as FormData (prevents CORS OPTIONS preflight failures & supports file uploads)
             const formData = new FormData(form);
-            const payload = {};
-            formData.forEach((val, key) => {
-                payload[key] = val;
-            });
-            // Ensure signature is included
-            payload['signature'] = document.getElementById('signatureData')?.value || '';
+            const sigData = document.getElementById('signatureData')?.value || '';
+            if (sigData) {
+                formData.set('signature', sigData);
+            }
 
             // Disable button & show spinner
             btnSubmit.disabled = true;
@@ -854,8 +852,7 @@
             try {
                 const response = await fetch('../backend/api/admissions/create-public-with-files.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: formData
                 });
 
                 const result = await response.json();
