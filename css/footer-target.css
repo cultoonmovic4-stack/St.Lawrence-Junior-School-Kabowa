@@ -17,86 +17,85 @@
 
 /* Wide, expansive horizontal container for maximum breathing room */
 .footer-target .footer-container {
-    width: 94%;
-    max-width: 1560px;
+    width: 96%;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 20px;
     position: relative;
     z-index: 2;
     box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
-   TOP FOOTER ROW — EXPANDED SPACING
-   -------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------
-   TOP FOOTER ROW — OPTIMIZED DESKTOP ORGANISATION
+   TOP FOOTER ROW — BALANCED EXPANSIVE DESKTOP ARCHITECTURE
    -------------------------------------------------------------------------- */
 .footer-target .footer-top-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: clamp(16px, 2.2vw, 36px);
+    gap: clamp(12px, 1.5vw, 24px);
+    width: 100%;
     box-sizing: border-box;
 }
 
 /* Column 1: Brand & Logo */
 .footer-target .footer-brand-col {
-    flex: 1 1 280px;
-    max-width: 310px;
-    min-width: 240px;
+    flex: 0 1 245px;
+    max-width: 260px;
+    min-width: 200px;
     box-sizing: border-box;
 }
 
 .footer-target .footer-brand-header {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .footer-target .footer-school-logo {
-    height: 66px;
+    height: 58px;
     width: auto;
     display: block;
     object-fit: contain;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+    flex-shrink: 0;
 }
 
 .footer-target .footer-school-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.25;
+    line-height: 1.22;
     margin: 0;
     letter-spacing: -0.2px;
 }
 
 .footer-target .footer-brand-desc {
-    font-size: 13.5px;
+    font-size: 13px;
     color: #94a3b8;
-    line-height: 1.6;
-    margin: 0 0 18px 0;
+    line-height: 1.55;
+    margin: 0 0 14px 0;
 }
 
 .footer-target .footer-social-links {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .footer-target .footer-social-btn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.04);
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
     text-decoration: none;
     transition: all 0.2s ease;
 }
@@ -112,46 +111,49 @@
 /* Column 2: Cursive Tagline ("We Strive to Excel") */
 .footer-target .footer-tagline-col {
     flex: 0 0 auto;
-    min-width: 120px;
-    padding-top: 6px;
+    width: 100px;
+    min-width: 90px;
+    max-width: 110px;
+    padding-top: 4px;
     text-align: center;
     box-sizing: border-box;
 }
 
 .footer-target .footer-cursive-wrap {
-    transform: rotate(-4.5deg);
+    transform: rotate(-3deg);
     display: inline-block;
 }
 
 .footer-target .footer-cursive-text {
     font-family: 'Caveat', cursive, sans-serif;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.12;
+    line-height: 1.15;
     margin: 0;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
     white-space: nowrap;
 }
 
 .footer-target .footer-cursive-underline {
-    width: 82px;
-    height: 2.5px;
+    width: 65px;
+    height: 2px;
     background-color: #d32f2f;
     border-radius: 2px;
-    margin: 6px auto 0 auto;
+    margin: 4px auto 0 auto;
     transform: rotate(2deg);
 }
 
 /* Column 3 & 4: Navigation Columns (Quick Links, Our Programs) */
 .footer-target .footer-nav-col {
-    flex: 0 1 145px;
-    min-width: 125px;
+    flex: 0 0 auto;
+    min-width: 105px;
+    max-width: 125px;
     box-sizing: border-box;
 }
 
 .footer-target .footer-col-accent {
-    width: 24px;
+    width: 22px;
     height: 3px;
     background-color: #d32f2f;
     margin-bottom: 12px;
@@ -159,10 +161,10 @@
 }
 
 .footer-target .footer-col-title {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     color: #ffffff;
-    margin: 0 0 16px 0;
+    margin: 0 0 14px 0;
     letter-spacing: 0.2px;
     white-space: nowrap;
 }
@@ -174,12 +176,12 @@
 }
 
 .footer-target .footer-nav-list li {
-    margin-bottom: 11px;
+    margin-bottom: 9px;
 }
 
 .footer-target .footer-nav-list a {
     color: #cbd5e1;
-    font-size: 13.5px;
+    font-size: 13px;
     text-decoration: none;
     transition: all 0.2s ease;
     display: inline-block;
@@ -193,9 +195,9 @@
 
 /* Column 5: Contact Column — Dedicated Space So Email Never Wraps */
 .footer-target .footer-contact-col {
-    flex: 1 0 335px;
-    min-width: 325px;
-    max-width: 390px;
+    flex: 0 0 320px;
+    min-width: 320px;
+    width: 320px;
     box-sizing: border-box;
 }
 
@@ -208,20 +210,20 @@
 .footer-target .footer-contact-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 15px;
-    font-size: 13.5px;
+    gap: 10px;
+    margin-bottom: 13px;
+    font-size: 13px;
     color: #cbd5e1;
-    line-height: 1.5;
+    line-height: 1.45;
     min-width: 0;
 }
 
 .footer-target .footer-contact-icon {
-    font-size: 14px;
+    font-size: 13px;
     color: #ef4444;
     margin-top: 3px;
     flex-shrink: 0;
-    width: 16px;
+    width: 15px;
     text-align: center;
 }
 
@@ -238,11 +240,13 @@
 
 /* Strictly prevent email address from breaking across lines */
 .footer-target .footer-contact-item a[href^="mailto:"] {
+    display: inline-block !important;
     white-space: nowrap !important;
     word-break: keep-all !important;
     overflow-wrap: normal !important;
-    font-size: 13.5px !important;
-    letter-spacing: -0.15px;
+    font-size: 12.8px !important;
+    letter-spacing: -0.2px;
+    flex-shrink: 0;
     color: #cbd5e1;
 }
 
@@ -258,20 +262,21 @@
 /* Column 6: Far Right Institutional Pillars */
 .footer-target .footer-pillars-col {
     flex: 0 0 auto;
-    min-width: 140px;
+    min-width: 105px;
+    max-width: 120px;
     text-align: right;
-    padding-top: 6px;
+    padding-top: 4px;
     box-sizing: border-box;
     border-left: 1px solid rgba(255, 255, 255, 0.08);
-    padding-left: 20px;
+    padding-left: 14px;
 }
 
 .footer-target .footer-pillars-text {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     color: #94a3b8;
-    letter-spacing: 2px;
-    line-height: 2.05;
+    letter-spacing: 1.6px;
+    line-height: 2.0;
     margin: 0;
     text-transform: uppercase;
 }
@@ -318,90 +323,111 @@
 /* --------------------------------------------------------------------------
    RESPONSIVE DESIGN — CLEAN, APPEALED INSTITUTIONAL MOBILE LAYOUT
    -------------------------------------------------------------------------- */
-@media (max-width: 1366px) {
-    .footer-target .footer-top-row {
-        gap: clamp(14px, 1.8vw, 24px);
-    }
-    .footer-target .footer-brand-col {
-        flex: 1 1 250px;
-        min-width: 230px;
-    }
-    .footer-target .footer-school-title {
-        font-size: 19px;
-    }
-    .footer-target .footer-tagline-col {
-        min-width: 110px;
-    }
-    .footer-target .footer-cursive-text {
-        font-size: 28px;
-    }
-    .footer-target .footer-contact-col {
-        flex: 1 0 315px;
-        min-width: 310px;
-    }
-    .footer-target .footer-contact-item a[href^="mailto:"] {
-        font-size: 12.8px !important;
-    }
-    .footer-target .footer-pillars-col {
-        padding-left: 14px;
-        min-width: 130px;
-    }
-}
-
-@media (max-width: 1080px) {
+/* Standard Laptops & Tablets (769px to 1199px) — Structured 4-Column Balanced Institutional Grid */
+@media (min-width: 769px) and (max-width: 1199px) {
     .footer-target {
         padding-top: 56px;
     }
 
+    .footer-target .footer-container {
+        width: 95%;
+        padding: 0 20px;
+    }
+
     .footer-target .footer-top-row {
-        flex-wrap: wrap;
-        gap: 32px 24px;
+        display: grid !important;
+        grid-template-columns: 1.35fr 0.9fr 0.9fr 1.75fr !important;
+        grid-template-areas:
+            "brand quick prog contact"
+            "tagline quick prog pillars" !important;
+        gap: 24px 20px !important;
+        align-items: start !important;
     }
 
     .footer-target .footer-brand-col {
-        flex: 0 0 100%;
-        max-width: 100%;
+        grid-area: brand !important;
+        flex: none !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
     }
 
     .footer-target .footer-tagline-col {
-        flex: 0 0 100%;
-        text-align: left;
-        padding-top: 0;
-        margin: -8px 0 8px 0;
+        grid-area: tagline !important;
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-top: 0 !important;
+        margin-top: 4px !important;
+        text-align: left !important;
     }
 
     .footer-target .footer-cursive-wrap {
-        transform: none;
-        display: inline-flex;
-        align-items: baseline;
-        gap: 12px;
+        transform: rotate(-2deg) !important;
+        display: inline-block !important;
     }
 
     .footer-target .footer-cursive-text {
-        font-size: 24px;
-        line-height: 1.2;
+        font-size: 24px !important;
+        line-height: 1.2 !important;
     }
 
     .footer-target .footer-cursive-underline {
-        display: none;
+        width: 60px !important;
+        margin: 4px 0 0 0 !important;
     }
 
-    .footer-target .footer-nav-col {
-        flex: 0 0 calc(25% - 18px);
-        min-width: 140px;
+    /* Quick Links */
+    .footer-target .footer-top-row > div:nth-child(3),
+    .footer-target .footer-nav-col:nth-of-type(1) {
+        grid-area: quick !important;
+        flex: none !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
     }
 
+    /* Our Programs */
+    .footer-target .footer-top-row > div:nth-child(4),
+    .footer-target .footer-nav-col:nth-of-type(2) {
+        grid-area: prog !important;
+        flex: none !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Contact Us */
     .footer-target .footer-contact-col {
-        flex: 0 0 calc(50% - 18px);
-        min-width: 260px;
+        grid-area: contact !important;
+        flex: none !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
+    .footer-target .footer-contact-item a[href^="mailto:"] {
+        font-size: 12.5px !important;
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+    }
+
+    /* Pillars */
     .footer-target .footer-pillars-col {
-        flex: 0 0 100%;
-        text-align: left;
-        margin-top: 8px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        grid-area: pillars !important;
+        flex: none !important;
+        border-left: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding-left: 0 !important;
+        padding-top: 12px !important;
+        margin-top: 4px !important;
+        text-align: left !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .footer-target .footer-pillars-text {
+        font-size: 10px !important;
+        letter-spacing: 1.4px !important;
+        line-height: 1.65 !important;
     }
 }
 
