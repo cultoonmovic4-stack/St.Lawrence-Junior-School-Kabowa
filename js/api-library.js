@@ -164,8 +164,8 @@ function formatDate(dateString) {
 }
 
 // Initialize library page
-if (window.location.pathname.includes('Library-redesign.html')) {
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('libraryGrid') || /library/i.test(window.location.pathname)) {
         loadLibraryResources();
-    });
-}
+    }
+});

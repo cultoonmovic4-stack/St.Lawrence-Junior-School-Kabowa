@@ -1,0 +1,117 @@
+# ==============================================================================
+# Cloudflare Pages Clean URLs & Canonical Routing Configuration
+# ==============================================================================
+
+# Case-insensitive & Uppercase Aliases -> Canonical Clean Lowercase URLs
+/About /about 301
+/Fees /fees 301
+/Admissions /admissions 301
+/Admission /admissions 301
+/admission /admissions 301
+/Teachers /teachers 301
+/Gallery /gallery 301
+/Library /library 301
+/Contact /contact 301
+/Anthem /anthem 301
+/School-Anthem /anthem 301
+/school-anthem /anthem 301
+/Teacher-Profile /teacher-profile 301
+/Index / 301
+/Home / 301
+
+# Canonical Static File Rewrites (Guarantee HTTP 200 on all environments)
+/about /about.html 200
+/fees /fees.html 200
+/admissions /admissions.html 200
+/teachers /teachers.html 200
+/gallery /gallery.html 200
+/library /library.html 200
+/contact /contact.html 200
+/anthem /anthem.html 200
+/teacher-profile /teacher-profile.html 200
+
+# Direct .html Extension Removal (Never show .html in browser)
+/about.html /about 301
+/About.html /about 301
+/fees.html /fees 301
+/Fees.html /fees 301
+/admissions.html /admissions 301
+/admission.html /admissions 301
+/Admission.html /admissions 301
+/teachers.html /teachers 301
+/Teachers.html /teachers 301
+/gallery.html /gallery 301
+/Gallery.html /gallery 301
+/library.html /library 301
+/Library.html /library 301
+/contact.html /contact 301
+/Contact.html /contact 301
+/anthem.html /anthem 301
+/Anthem.html /anthem 301
+/school-anthem.html /anthem 301
+/School-Anthem.html /anthem 301
+/teacher-profile.html /teacher-profile 301
+/Teacher-Profile.html /teacher-profile 301
+/index.html / 301
+/index / 301
+
+# Frontend Subfolder Migration -> Canonical Clean URLs
+/frontend/About.html /about 301
+/frontend/about.html /about 301
+/frontend/About /about 301
+/frontend/about /about 301
+/frontend/Fees.html /fees 301
+/frontend/fees.html /fees 301
+/frontend/Fees /fees 301
+/frontend/fees /fees 301
+/frontend/Admission.html /admissions 301
+/frontend/admission.html /admissions 301
+/frontend/Admissions /admissions 301
+/frontend/admission /admissions 301
+/frontend/Teachers.html /teachers 301
+/frontend/teachers.html /teachers 301
+/frontend/Teachers /teachers 301
+/frontend/teachers /teachers 301
+/frontend/Gallery.html /gallery 301
+/frontend/gallery.html /gallery 301
+/frontend/Gallery /gallery 301
+/frontend/gallery /gallery 301
+/frontend/Library.html /library 301
+/frontend/library.html /library 301
+/frontend/Library /library 301
+/frontend/library /library 301
+/frontend/Contact.html /contact 301
+/frontend/contact.html /contact 301
+/frontend/Contact /contact 301
+/frontend/contact /contact 301
+/frontend/School-Anthem.html /anthem 301
+/frontend/anthem.html /anthem 301
+/frontend/anthem /anthem 301
+/frontend/Teacher-Profile.html /teacher-profile 301
+/frontend/teacher-profile.html /teacher-profile 301
+/frontend/index.html / 301
+/frontend/index / 301
+/frontend/ / 301
+/frontend / 301
+
+# Legacy Redesign Aliases
+/About-redesign.html /about 301
+/About-redesign /about 301
+/about-redesign /about 301
+/Admission-redesign.html /admissions 301
+/Admission-redesign /admissions 301
+/admission-redesign /admissions 301
+/Contact-redesign.html /contact 301
+/Contact-redesign /contact 301
+/contact-redesign /contact 301
+/Gallery-redesign.html /gallery 301
+/Gallery-redesign /gallery 301
+/gallery-redesign /gallery 301
+/Library-redesign.html /library 301
+/Library-redesign /library 301
+/library-redesign /library 301
+/Teachers-redesign.html /teachers 301
+/Teachers-redesign /teachers 301
+/teachers-redesign /teachers 301
+/index-redesign.html / 301
+/index-redesign / 301

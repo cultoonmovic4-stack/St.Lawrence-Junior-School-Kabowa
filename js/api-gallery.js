@@ -172,9 +172,9 @@ function initializeFilters() {
 }
 
 // Initialize gallery page
-if (window.location.pathname.includes('Gallery-redesign.html')) {
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('galleryGrid') || /gallery/i.test(window.location.pathname)) {
         loadGallery();
-    });
-}
+    }
+});
 

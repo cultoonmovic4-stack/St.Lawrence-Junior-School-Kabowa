@@ -70,9 +70,11 @@ function showNoEvents() {
 
 // Initialize events on homepage
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.includes('index-redesign.html') || 
+    if (document.getElementById('upcomingEventsList') || 
+        document.querySelector('.events-list') || 
         window.location.pathname === '/' || 
-        window.location.pathname.includes('index.html')) {
+        window.location.pathname.endsWith('/index.html') ||
+        window.location.pathname.endsWith('/')) {
         loadUpcomingEvents();
     }
 });

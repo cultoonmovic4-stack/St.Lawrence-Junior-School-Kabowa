@@ -19,27 +19,51 @@
         ? (window.location.pathname.includes('/frontend/') ? '../backend' : './backend')
         : REMOTE_BACKEND;
 
-    // Automatic .html Extension Stripper for Production Clean URLs
-    if (!IS_LOCAL && window.location.pathname.endsWith('.html')) {
-        var clean = window.location.pathname.replace(/\.html$/i, '').toLowerCase();
-        if (clean === '/index' || clean.endsWith('/index')) clean = '/';
-        if (clean === '/admission') clean = '/admissions';
-        if (clean === '/school-anthem') clean = '/anthem';
-        window.location.replace(clean + window.location.search + window.location.hash);
+    // Automatic .html Extension Stripper & Canonical URL Normalizer for Production Clean URLs
+    if (!IS_LOCAL) {
+        var p = window.location.pathname;
+        if (p.endsWith('.html') || /[A-Z]/.test(p) || p.startsWith('/frontend')) {
+            var clean = p.replace(/\/frontend\//i, '/').replace(/\.html$/i, '').toLowerCase();
+            if (clean === '/index' || clean.endsWith('/index')) clean = '/';
+            if (clean === '/admission') clean = '/admissions';
+            if (clean === '/school-anthem') clean = '/anthem';
+            if (clean !== p) {
+                window.location.replace(clean + window.location.search + window.location.hash);
+            }
+        }
     }
 
     // Local XAMPP subfolder prefixing for root clean URLs
     if (IS_LOCAL) {
-        document.addEventListener('DOMContentLoaded', function() {
+        function getLocalPrefix() {
             var m = window.location.pathname.match(/^(\/[^\/]+\/[^\/]+)/);
-            if (m && m[1] && !m[1].includes('.')) {
-                var localPrefix = m[1];
+            return (m && m[1] && !m[1].includes('.')) ? m[1] : '';
+        }
+
+        // Fast click interceptor so navigation never 404s even if clicked before DOMContentLoaded
+        document.addEventListener('click', function(e) {
+            var a = e.target.closest('a');
+            if (!a) return;
+            var href = a.getAttribute('href');
+            if (href && href.startsWith('/') && !href.startsWith('//')) {
+                var prefix = getLocalPrefix();
+                if (prefix && !href.startsWith(prefix)) {
+                    e.preventDefault();
+                    window.location.href = (href === '/' ? prefix + '/' : prefix + href);
+                }
+            }
+        }, true);
+
+        // Pre-rewrite all static anchor hrefs on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            var prefix = getLocalPrefix();
+            if (prefix) {
                 document.querySelectorAll('a[href^="/"]:not([href^="//"])').forEach(function(a) {
                     var href = a.getAttribute('href');
                     if (href === '/') {
-                        a.setAttribute('href', localPrefix + '/');
-                    } else if (!href.startsWith(localPrefix)) {
-                        a.setAttribute('href', localPrefix + href);
+                        a.setAttribute('href', prefix + '/');
+                    } else if (!href.startsWith(prefix)) {
+                        a.setAttribute('href', prefix + href);
                     }
                 });
             }

@@ -122,8 +122,8 @@ function handleTeacherCardClick(cardElement) {
 window.handleTeacherCardClick = handleTeacherCardClick;
 
 // Initialize teachers page
-if (window.location.pathname.includes('Teachers-redesign.html')) {
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('teachersContainer') || /teachers/i.test(window.location.pathname)) {
         loadTeachers();
-    });
-}
+    }
+});

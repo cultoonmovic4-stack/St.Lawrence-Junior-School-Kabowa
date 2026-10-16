@@ -35,20 +35,20 @@ DirectoryIndex index.html index.php
 
     # Clean Root
     RewriteRule ^$ index.html [L]
-    RewriteRule ^index(\.html)?$ index.html [L]
+    RewriteRule ^index(\.html)?$ index.html [NC,L]
 
-    # Clean Subpage URLs
-    RewriteRule ^about/?$ about.html [L]
-    RewriteRule ^admissions?/?$ admissions.html [L]
-    RewriteRule ^admission/?$ admissions.html [L]
-    RewriteRule ^fees/?$ fees.html [L]
-    RewriteRule ^gallery/?$ gallery.html [L]
-    RewriteRule ^contact/?$ contact.html [L]
-    RewriteRule ^teachers/?$ teachers.html [L]
-    RewriteRule ^teacher-profile/?$ teacher-profile.html [L]
-    RewriteRule ^library/?$ library.html [L]
-    RewriteRule ^anthem/?$ anthem.html [L]
-    RewriteRule ^school-anthem/?$ anthem.html [L]
+    # Clean Subpage URLs (Case-Insensitive)
+    RewriteRule ^about/?$ about.html [NC,L]
+    RewriteRule ^admissions?/?$ admissions.html [NC,L]
+    RewriteRule ^admission/?$ admissions.html [NC,L]
+    RewriteRule ^fees/?$ fees.html [NC,L]
+    RewriteRule ^gallery/?$ gallery.html [NC,L]
+    RewriteRule ^contact/?$ contact.html [NC,L]
+    RewriteRule ^teachers/?$ teachers.html [NC,L]
+    RewriteRule ^teacher-profile/?$ teacher-profile.html [NC,L]
+    RewriteRule ^library/?$ library.html [NC,L]
+    RewriteRule ^anthem/?$ anthem.html [NC,L]
+    RewriteRule ^school-anthem/?$ anthem.html [NC,L]
 
 </IfModule>
 

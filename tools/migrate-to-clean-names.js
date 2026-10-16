@@ -20,55 +20,55 @@ const PAGES = [
     {
         srcFile: 'About.html',
         cleanPath: '/about',
-        rootAliases: ['About.html', 'about.html', 'About-redesign.html'],
+        rootAliases: ['about.html', 'About-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/about'
     },
     {
         srcFile: 'Admission.html',
         cleanPath: '/admissions',
-        rootAliases: ['Admission.html', 'admission.html', 'admissions.html', 'Admission-redesign.html'],
+        rootAliases: ['admissions.html', 'admission.html', 'Admission-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/admissions'
     },
     {
         srcFile: 'Fees.html',
         cleanPath: '/fees',
-        rootAliases: ['Fees.html', 'fees.html'],
+        rootAliases: ['fees.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/fees'
     },
     {
         srcFile: 'Contact.html',
         cleanPath: '/contact',
-        rootAliases: ['Contact.html', 'contact.html', 'Contact-redesign.html'],
+        rootAliases: ['contact.html', 'Contact-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/contact'
     },
     {
         srcFile: 'Teachers.html',
         cleanPath: '/teachers',
-        rootAliases: ['Teachers.html', 'teachers.html', 'Teachers-redesign.html'],
+        rootAliases: ['teachers.html', 'Teachers-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/teachers'
     },
     {
         srcFile: 'Gallery.html',
         cleanPath: '/gallery',
-        rootAliases: ['Gallery.html', 'gallery.html', 'Gallery-redesign.html'],
+        rootAliases: ['gallery.html', 'Gallery-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/gallery'
     },
     {
         srcFile: 'Library.html',
         cleanPath: '/library',
-        rootAliases: ['Library.html', 'library.html', 'Library-redesign.html'],
+        rootAliases: ['library.html', 'Library-redesign.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/library'
     },
     {
         srcFile: 'School-Anthem.html',
         cleanPath: '/anthem',
-        rootAliases: ['School-Anthem.html', 'Anthem.html', 'anthem.html', 'school-anthem.html'],
+        rootAliases: ['anthem.html', 'school-anthem.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/anthem'
     },
     {
         srcFile: 'Teacher-Profile.html',
         cleanPath: '/teacher-profile',
-        rootAliases: ['Teacher-Profile.html', 'teacher-profile.html'],
+        rootAliases: ['teacher-profile.html'],
         canonical: 'https://stlawrencejuniorschoolkabowa.com/teacher-profile'
     }
 ];

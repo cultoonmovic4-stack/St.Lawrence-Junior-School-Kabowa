@@ -147,8 +147,8 @@ function generateStars(rating) {
 }
 
 // Initialize testimonials on homepage
-if (window.location.pathname.includes('index-redesign.html')) {
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('testimonialsSlider') || document.querySelector('.testimonials-slider') || document.getElementById('testimonialsList')) {
         loadTestimonials();
-    });
-}
+    }
+});
