@@ -71,3 +71,11 @@ DirectoryIndex index.html index.php
         Deny from all
     </IfModule>
 </FilesMatch>
+
+# 6. Favicon & Web Manifest MIME Types
+<IfModule mod_mime.c>
+    AddType image/x-icon .ico
+    AddType image/png .png
+    AddType application/manifest+json .webmanifest
+</IfModule>
+
