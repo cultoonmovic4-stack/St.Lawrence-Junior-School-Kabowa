@@ -14,18 +14,37 @@ try {
     $activities = [];
     
     // 1. Recent Admissions
-    $stmt = $db->prepare("
-        SELECT 
-            'admission' as type,
-            CONCAT('New admission application from ', student_surname, ' ', student_other_names) as title,
-            CONCAT('Applied for ', class_to_join) as description,
-            submitted_date as activity_time
-        FROM admission_applications
-        ORDER BY submitted_date DESC
-        LIMIT 5
-    ");
-    $stmt->execute();
-    $activities = array_merge($activities, $stmt->fetchAll(PDO::FETCH_ASSOC));
+    try {
+        $existingCols = [];
+        try {
+            $stmtCols = $db->query("SHOW COLUMNS FROM admission_applications");
+            if ($stmtCols) {
+                $existingCols = $stmtCols->fetchAll(PDO::FETCH_COLUMN);
+            }
+        } catch (\Throwable $e) {}
+
+        if (!empty($existingCols)) {
+            $surnameCol = in_array('student_surname', $existingCols) ? 'student_surname' : (in_array('student_last_name', $existingCols) ? 'student_last_name' : '""');
+            $namesCol = in_array('student_other_names', $existingCols) ? 'student_other_names' : (in_array('student_first_name', $existingCols) ? 'student_first_name' : '""');
+            $classCol = in_array('class_to_join', $existingCols) ? 'class_to_join' : '""';
+            $dateCol = in_array('submitted_date', $existingCols) ? 'submitted_date' : 'NOW()';
+
+            $stmt = $db->prepare("
+                SELECT 
+                    'admission' as type,
+                    CONCAT('New admission application from ', {$surnameCol}, ' ', {$namesCol}) as title,
+                    CONCAT('Applied for ', {$classCol}) as description,
+                    {$dateCol} as activity_time
+                FROM admission_applications
+                ORDER BY {$dateCol} DESC
+                LIMIT 5
+            ");
+            $stmt->execute();
+            $activities = array_merge($activities, $stmt->fetchAll(PDO::FETCH_ASSOC));
+        }
+    } catch (\Throwable $e) {
+        error_log("Activities admission query error: " . $e->getMessage());
+    }
     
     // 2. Recent Gallery Uploads
     $stmt = $db->prepare("

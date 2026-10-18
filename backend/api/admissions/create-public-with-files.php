@@ -58,6 +58,8 @@ if (isset($_GET['diag_schema'])) {
             'signature_path' => "VARCHAR(255) DEFAULT NULL",
             'security_token' => "VARCHAR(64) DEFAULT NULL",
             'form_fee_status' => "VARCHAR(50) DEFAULT 'unpaid'",
+            'admitted_on' => "DATE DEFAULT NULL",
+            'reported_on' => "DATE DEFAULT NULL",
             'submitted_date' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
         ];
         $migResults = [];

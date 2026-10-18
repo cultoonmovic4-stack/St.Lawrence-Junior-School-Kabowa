@@ -387,10 +387,10 @@ class AdmissionPDFGenerator extends FPDF {
         $this->renderRow('Date of Application', $d['submitted_date'] ?? date('Y-m-d'), 'Application Form Fee', strtoupper($d['form_fee_status'] ?? 'UNPAID'));
         
         $this->SetX(18);
-        $this->renderRow('Fee Receipt No.', $d['form_fee_receipt'] ?? 'Pending Office Settlement', 'Admitted On', $d['admitted_on'] ?? 'Pending Committee Decision');
+        $this->renderRow('Admitted On Date', $d['admitted_on'] ?? 'Pending Committee Decision', 'Reported On Date', $d['reported_on'] ?? 'Pending Reporting');
         
         $this->SetX(18);
-        $this->renderRow('Reported On Date', $d['reported_on'] ?? 'Pending Reporting', 'Application Status', strtoupper($d['status'] ?? 'PENDING'));
+        $this->renderRow('Application Status', strtoupper($d['status'] ?? 'PENDING'), '', '');
 
         $this->SetXY(18, $offBoxY + 21);
         $this->SetFont('Helvetica', 'B', 8);

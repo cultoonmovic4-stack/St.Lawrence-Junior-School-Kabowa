@@ -42,40 +42,61 @@ try {
     $notifications = [];
     
     // Get recent pending admissions (last 10)
-    $stmt = $db->prepare("
-        SELECT 
-            id,
-            application_reference,
-            student_surname,
-            student_other_names,
-            class_to_join,
-            submitted_date
-        FROM admission_applications 
-        WHERE status = 'pending'
-        ORDER BY submitted_date DESC
-        LIMIT 10
-    ");
-    $stmt->execute();
-    $admissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    foreach ($admissions as $admission) {
-        $timeAgo = getTimeAgo($admission['submitted_date']);
-        $studentFullName = trim($admission['student_surname'] . ' ' . $admission['student_other_names']);
-        $notifications[] = [
-            'id' => 'admission_' . $admission['id'],
-            'type' => 'admission',
-            'title' => 'New Admission Application',
-            'text' => $studentFullName . ' applied for ' . $admission['class_to_join'],
-            'time' => $timeAgo,
-            'timestamp' => $admission['submitted_date'],
-            'unread' => true,
-            'icon' => 'fa-user-graduate',
-            'color' => 'blue',
-            'data' => [
-                'admission_id' => $admission['id'],
-                'application_reference' => $admission['application_reference']
-            ]
-        ];
+    try {
+        $existingCols = [];
+        try {
+            $stmtCols = $db->query("SHOW COLUMNS FROM admission_applications");
+            if ($stmtCols) {
+                $existingCols = $stmtCols->fetchAll(PDO::FETCH_COLUMN);
+            }
+        } catch (\Throwable $e) {}
+
+        if (!empty($existingCols)) {
+            $refCol = in_array('application_reference', $existingCols) ? 'application_reference' : (in_array('application_id', $existingCols) ? 'application_id AS application_reference' : 'CONCAT("APP-", id) AS application_reference');
+            $surnameCol = in_array('student_surname', $existingCols) ? 'student_surname' : (in_array('student_last_name', $existingCols) ? 'student_last_name AS student_surname' : '"" AS student_surname');
+            $namesCol = in_array('student_other_names', $existingCols) ? 'student_other_names' : (in_array('student_first_name', $existingCols) ? 'student_first_name AS student_other_names' : '"" AS student_other_names');
+            $classCol = in_array('class_to_join', $existingCols) ? 'class_to_join' : '"" AS class_to_join';
+            $dateCol = in_array('submitted_date', $existingCols) ? 'submitted_date' : 'NOW() AS submitted_date';
+
+            $stmt = $db->prepare("
+                SELECT 
+                    id,
+                    {$refCol},
+                    {$surnameCol},
+                    {$namesCol},
+                    {$classCol},
+                    {$dateCol}
+                FROM admission_applications 
+                WHERE status = 'pending'
+                ORDER BY submitted_date DESC
+                LIMIT 10
+            ");
+            $stmt->execute();
+            $admissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($admissions as $admission) {
+                $timeAgo = getTimeAgo($admission['submitted_date']);
+                $studentFullName = trim(($admission['student_surname'] ?? '') . ' ' . ($admission['student_other_names'] ?? ''));
+                if (empty($studentFullName)) $studentFullName = 'Applicant #' . $admission['id'];
+                $notifications[] = [
+                    'id' => 'admission_' . $admission['id'],
+                    'type' => 'admission',
+                    'title' => 'New Admission Application',
+                    'text' => $studentFullName . ' applied for ' . ($admission['class_to_join'] ?? 'Admission'),
+                    'time' => $timeAgo,
+                    'timestamp' => $admission['submitted_date'],
+                    'unread' => true,
+                    'icon' => 'fa-user-graduate',
+                    'color' => 'blue',
+                    'data' => [
+                        'admission_id' => $admission['id'],
+                        'application_reference' => $admission['application_reference'] ?? ('APP-' . $admission['id'])
+                    ]
+                ];
+            }
+        }
+    } catch (\Throwable $e) {
+        error_log("Notifications admission query error: " . $e->getMessage());
     }
     
     // Get recent unread contact messages (last 10)

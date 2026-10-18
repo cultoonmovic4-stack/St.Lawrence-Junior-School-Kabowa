@@ -40,6 +40,31 @@ try {
         throw new Exception('Application not found');
     }
     
+    // Ensure needed columns exist
+    $existingCols = [];
+    try {
+        $stmtCols = $db->query("SHOW COLUMNS FROM admission_applications");
+        if ($stmtCols) {
+            $existingCols = $stmtCols->fetchAll(PDO::FETCH_COLUMN);
+        }
+    } catch (\Throwable $e) {
+        $existingCols = [];
+    }
+
+    $colsToEnsure = [
+        'form_fee_status' => "VARCHAR(50) NOT NULL DEFAULT 'unpaid'",
+        'admitted_on' => "DATE DEFAULT NULL",
+        'reported_on' => "DATE DEFAULT NULL"
+    ];
+    foreach ($colsToEnsure as $col => $def) {
+        if (!empty($existingCols) && !in_array($col, $existingCols)) {
+            try {
+                $db->exec("ALTER TABLE admission_applications ADD COLUMN `{$col}` {$def}");
+                $existingCols[] = $col;
+            } catch (\Throwable $t) {}
+        }
+    }
+    
     $allowedFields = [
         'academic_year', 'term', 'class_to_join', 'admission_type',
         'student_surname', 'student_other_names', 'date_of_birth', 'gender',
@@ -54,14 +79,14 @@ try {
         'has_health_handicap', 'health_handicap_details',
         'doctor_name', 'doctor_location', 'is_immunized',
         'other_information',
-        'form_fee_status', 'form_fee_receipt', 'admitted_on', 'reported_on'
+        'form_fee_status', 'admitted_on', 'reported_on'
     ];
     
     $updateFields = [];
     $params = [':id' => $data['id']];
     
     foreach ($allowedFields as $field) {
-        if (array_key_exists($field, $data)) {
+        if (array_key_exists($field, $data) && (empty($existingCols) || in_array($field, $existingCols))) {
             $val = $data[$field];
             if ($val === '' || $val === 'null' || $val === null) {
                 $val = null;

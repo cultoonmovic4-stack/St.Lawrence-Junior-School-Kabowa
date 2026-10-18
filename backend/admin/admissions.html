@@ -924,13 +924,7 @@
                                     <option value="paid">Paid</option>
                                 </select>
                             </div>
-                            <div>
-                                <label
-                                    style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Form
-                                    Fee Receipt No.</label>
-                                <input type="text" name="form_fee_receipt" placeholder="e.g. REC-2026-001"
-                                    style="width:100%; padding:8px 10px; border:1px solid #93c5fd; border-radius:4px; font-size:13px; background:white;">
-                            </div>
+
                             <div>
                                 <label
                                     style="display:block; margin-bottom:6px; color:#1e40af; font-weight:600; font-size:12px;">Admitted
@@ -1670,10 +1664,7 @@
                                 <div class="label" style="color:#1e40af;">Form Fee Status</div>
                                 <div class="value">${feeBadge}</div>
                             </div>
-                            <div class="detail-item">
-                                <div class="label" style="color:#1e40af;">Fee Receipt No.</div>
-                                <div class="value">${escapeHTML(app.form_fee_receipt || 'None')}</div>
-                            </div>
+
                             <div class="detail-item">
                                 <div class="label" style="color:#1e40af;">Admitted On</div>
                                 <div class="value">${escapeHTML(app.admitted_on || 'Not set')}</div>
@@ -1757,7 +1748,7 @@
                     'has_health_handicap', 'health_handicap_details',
                     'doctor_name', 'doctor_location', 'is_immunized',
                     'other_information',
-                    'form_fee_status', 'form_fee_receipt', 'admitted_on', 'reported_on'
+                    'form_fee_status', 'admitted_on', 'reported_on'
                 ];
 
                 fields.forEach(field => {
