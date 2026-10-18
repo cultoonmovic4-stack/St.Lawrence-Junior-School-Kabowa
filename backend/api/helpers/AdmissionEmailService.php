@@ -169,77 +169,92 @@ class AdmissionEmailService {
         $htmlBody = self::buildHtmlTemplate($emailContent, $statusCheckUrl);
         $textAltBody = strip_tags(str_replace(['<br>', '</p>', '</div>'], "\n", $htmlBody));
 
-        // 8. Send email using PHPMailer infrastructure
+        // 8. Send email via HTTPS Relay (Port 443 — bypasses Railway outbound SMTP port 465/587 block), with PHPMailer SMTP fallback
         $mailSuccess = false;
         $errorMessage = null;
 
-        // 8. Send email using resilient dual-port transport (Port 465 SMTPS preferred for cloud hosting like Railway, Port 587 STARTTLS fallback)
-        $mailSuccess = false;
-        $errorMessage = null;
+        $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
+        $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
+        $logoPath  = realpath(__DIR__ . '/../../../img/5.jpg');
 
-        // Determine port attempts: prioritize 465 (SMTPS) which cloud egress firewalls do not block
-        $configuredPort = (int)env('SMTP_PORT', 465);
-        $attempts = [];
-        if ($configuredPort === 587) {
-            $attempts[] = ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS];
-            $attempts[] = ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS];
+        $relayResult = self::sendViaHttpsRelay(
+            $recipientEmail,
+            $emailContent['subject'],
+            $htmlBody,
+            $textAltBody,
+            $fromName,
+            $fromEmail,
+            $logoPath
+        );
+
+        if ($relayResult['success']) {
+            $mailSuccess = true;
+            $errorMessage = null;
+            error_log("Admission notification email sent successfully via HTTPS relay to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
         } else {
-            $attempts[] = ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS];
-            $attempts[] = ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS];
-        }
+            $errorMessage = $relayResult['error'] ?? 'HTTPS relay failed';
+            error_log("HTTPS relay attempt note for ref {$appRef}: {$errorMessage}. Falling back to direct SMTP...");
 
-        foreach ($attempts as $attempt) {
-            try {
-                $mailer = new PHPMailer(true);
-                $mailer->SMTPDebug = 0;
-                $mailer->isSMTP();
-                $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
-                $mailer->SMTPAuth = true;
-                $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
-                $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
-                $mailer->SMTPSecure = $attempt['secure'];
-                $mailer->Port = $attempt['port'];
-                $mailer->CharSet = 'UTF-8';
-                $mailer->Timeout = 12;
-
-                // Safe SSL options for containerized environments
-                $mailer->SMTPOptions = [
-                    'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                    ]
+            // Fallback to direct PHPMailer SMTP (for local XAMPP or unrestricted hosts)
+            $configuredPort = (int)env('SMTP_PORT', 465);
+            $attempts = ($configuredPort === 587)
+                ? [
+                    ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS],
+                    ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS]
+                ]
+                : [
+                    ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS],
+                    ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS]
                 ];
 
-                $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
-                $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
-                $mailer->setFrom($fromEmail, $fromName);
-                $mailer->addAddress($recipientEmail, $parentName);
-                $mailer->Subject = $emailContent['subject'];
-                $mailer->isHTML(true);
+            foreach ($attempts as $attempt) {
+                try {
+                    $mailer = new PHPMailer(true);
+                    $mailer->SMTPDebug = 0;
+                    $mailer->isSMTP();
+                    $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
+                    $mailer->SMTPAuth = true;
+                    $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
+                    $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
+                    $mailer->SMTPSecure = $attempt['secure'];
+                    $mailer->Port = $attempt['port'];
+                    $mailer->CharSet = 'UTF-8';
+                    $mailer->Timeout = 6;
 
-                // Embed official school logo using CID
-                $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
-                if ($logoPath && file_exists($logoPath)) {
-                    try {
-                        $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
-                    } catch (\Throwable $imgEx) {
-                        // Non-blocking if CID image attachment encounters path issue
+                    $mailer->SMTPOptions = [
+                        'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        ]
+                    ];
+
+                    $mailer->setFrom($fromEmail, $fromName);
+                    $mailer->addAddress($recipientEmail, $parentName);
+                    $mailer->Subject = $emailContent['subject'];
+                    $mailer->isHTML(true);
+
+                    if ($logoPath && file_exists($logoPath)) {
+                        try {
+                            $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
+                        } catch (\Throwable $imgEx) {
+                            // Non-blocking if CID image attachment encounters path issue
+                        }
                     }
+
+                    $mailer->Body = $htmlBody;
+                    $mailer->AltBody = $textAltBody;
+
+                    $mailer->send();
+                    $mailSuccess = true;
+                    $errorMessage = null;
+                    error_log("Admission notification email sent successfully via SMTP port {$attempt['port']} to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
+                    break;
+                } catch (\Throwable $e) {
+                    $rawError = $mailer->ErrorInfo ?? $e->getMessage();
+                    $errorMessage = preg_replace('/password[=:\s]+[^\s;]+/i', 'password=***', $rawError);
+                    error_log("Admission notification email failed via port {$attempt['port']} for ref {$appRef}: " . $errorMessage);
                 }
-
-                $mailer->Body = $htmlBody;
-                $mailer->AltBody = $textAltBody;
-
-                $mailer->send();
-                $mailSuccess = true;
-                $errorMessage = null;
-                error_log("Admission notification email sent successfully via port {$attempt['port']} to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
-                break; // Exit loop on successful send
-            } catch (\Throwable $e) {
-                $rawError = $mailer->ErrorInfo ?? $e->getMessage();
-                $errorMessage = preg_replace('/password[=:\s]+[^\s;]+/i', 'password=***', $rawError);
-                error_log("Admission notification email failed via port {$attempt['port']} for ref {$appRef}: " . $errorMessage);
             }
         }
 
@@ -546,14 +561,100 @@ class AdmissionEmailService {
     }
 
     /**
+     * Send email over HTTPS (Port 443) via Google Apps Script Relay
+     * Bypasses cloud outbound SMTP port 25/465/587 restrictions on Railway
+     */
+    public static function sendViaHttpsRelay($to, $subject, $htmlBody, $textBody = '', $fromName = 'St. Lawrence Junior School Kabowa', $replyTo = null, $logoPath = null) {
+        $defaultRelayUrl = 'https://script.google.com/macros/s/AKfycbwYDZgyUZdADQ9CG2vE_zFQ10orFyMpK0efsvAyi4lLGADIissVYqRX669bv4uDHiXI/exec';
+        $relayUrl = trim((string)env('GOOGLE_SCRIPT_EMAIL_URL', $defaultRelayUrl));
+        if (empty($relayUrl)) {
+            $relayUrl = $defaultRelayUrl;
+        }
+
+        // Prevent sending to RFC 2606 reserved dummy test domains via live Gmail account
+        $domain = strtolower((string)substr(strrchr($to, "@"), 1));
+        if (in_array($domain, ['example.com', 'example.org', 'example.net', 'test.com', 'invalid'], true)) {
+            return [
+                'success' => false,
+                'error'   => "Reserved test domain (@{$domain}) skipped on live HTTPS relay."
+            ];
+        }
+
+        if (!function_exists('curl_init')) {
+            return [
+                'success' => false,
+                'error'   => 'PHP cURL extension is not available.'
+            ];
+        }
+
+        if (!$logoPath) {
+            $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
+        }
+        $logoBase64 = ($logoPath && file_exists($logoPath)) ? base64_encode(file_get_contents($logoPath)) : null;
+
+        $payload = json_encode([
+            'to'         => $to,
+            'subject'    => $subject,
+            'htmlBody'   => $htmlBody,
+            'textBody'   => $textBody ?: strip_tags($htmlBody),
+            'fromName'   => $fromName,
+            'replyTo'    => $replyTo ?: env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com'),
+            'logoBase64' => $logoBase64
+        ]);
+
+        $ch = curl_init($relayUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS      => 5,
+            CURLOPT_CONNECTTIMEOUT => 8,
+            CURLOPT_TIMEOUT        => 15,
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr  = curl_error($ch);
+        curl_close($ch);
+
+        if ($response === false || !empty($curlErr)) {
+            return [
+                'success' => false,
+                'error'   => 'HTTPS relay connection error: ' . $curlErr
+            ];
+        }
+
+        $decoded = json_decode($response, true);
+        if ($httpCode >= 200 && $httpCode < 300 && is_array($decoded) && !empty($decoded['success'])) {
+            return [
+                'success' => true,
+                'error'   => null
+            ];
+        }
+
+        $errMsg = is_array($decoded) && !empty($decoded['error'])
+            ? $decoded['error']
+            : "HTTP {$httpCode}: " . substr(trim(strip_tags((string)$response)), 0, 180);
+
+        return [
+            'success' => false,
+            'error'   => $errMsg
+        ];
+    }
+
+    /**
      * Resolve the status check page URL
      */
     private static function getStatusCheckUrl() {
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
-        $base = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) 
-            ? "/AdvancedPHP/st%20lawrence%20school" 
-            : "";
-        return "{$scheme}://{$host}{$base}/admission.html#admission-application-section";
+        $isLocal = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false);
+        if ($isLocal) {
+            return "http://{$host}/AdvancedPHP/st%20lawrence%20school/frontend/Admission-redesign.html#admission-application-section";
+        }
+        $publicSite = rtrim((string)env('PUBLIC_SITE_URL', 'https://stlawrencejuniorschoolkabowa.com'), '/');
+        return "{$publicSite}/admissions#admission-application-section";
     }
 }

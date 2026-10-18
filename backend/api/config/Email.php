@@ -17,18 +17,20 @@ class Email {
         };
         
         // Server settings from environment variables
+        $port = (int)env('SMTP_PORT', 465);
         $this->mailer->isSMTP();
         $this->mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
         $this->mailer->SMTPAuth = true;
-        $this->mailer->Username = env('SMTP_USERNAME');
-        $this->mailer->Password = env('SMTP_PASSWORD');
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $this->mailer->Port = env('SMTP_PORT', 587);
+        $this->mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
+        $this->mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
+        $this->mailer->SMTPSecure = ($port === 465) ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mailer->Port = $port;
+        $this->mailer->Timeout = 6;
         
         // Default sender from environment variables
         $this->mailer->setFrom(
-            env('SMTP_FROM_EMAIL'), 
-            env('SMTP_FROM_NAME', 'St. Lawrence Junior School')
+            env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com'), 
+            env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa')
         );
     }
     
@@ -192,6 +194,12 @@ class Email {
 </body>
 </html>';
             
+            require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
+            $relay = AdmissionEmailService::sendViaHttpsRelay($to, 'Re: ' . $subject, $htmlMessage, strip_tags($message));
+            if ($relay['success']) {
+                return true;
+            }
+
             $this->mailer->Body = $htmlMessage;
             $this->mailer->AltBody = strip_tags($message);
             
@@ -324,6 +332,12 @@ class Email {
 </body>
 </html>';
             
+            require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
+            $relay = AdmissionEmailService::sendViaHttpsRelay($to, $subject, $htmlMessage, strip_tags($message));
+            if ($relay['success']) {
+                return true;
+            }
+
             $this->mailer->Body = $htmlMessage;
             $this->mailer->AltBody = strip_tags($message);
             

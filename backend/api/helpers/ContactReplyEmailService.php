@@ -60,43 +60,62 @@ class ContactReplyEmailService {
         $mailSuccess = false;
         $errorMessage = null;
 
-        try {
-            $mailer = new PHPMailer(true);
-            $mailer->SMTPDebug = 0;
-            $mailer->isSMTP();
-            $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
-            $mailer->SMTPAuth = true;
-            $mailer->Username = env('SMTP_USERNAME');
-            $mailer->Password = env('SMTP_PASSWORD');
-            $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mailer->Port = (int)env('SMTP_PORT', 587);
-            $mailer->CharSet = 'UTF-8';
+        $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
+        $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
+        $logoPath  = realpath(__DIR__ . '/../../../img/5.jpg');
 
-            $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
-            $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
-            $mailer->setFrom($fromEmail, $fromName);
-            $mailer->addAddress($recipientEmail, $recipientName);
-            $mailer->addReplyTo($fromEmail, $fromName);
-            $mailer->Subject = $emailSubject;
-            $mailer->isHTML(true);
+        require_once __DIR__ . '/AdmissionEmailService.php';
+        $relayResult = AdmissionEmailService::sendViaHttpsRelay(
+            $recipientEmail,
+            $emailSubject,
+            $htmlBody,
+            $textAltBody,
+            $fromName,
+            $fromEmail,
+            $logoPath
+        );
 
-            // Embed official school logo using CID
-            $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
-            if ($logoPath && file_exists($logoPath)) {
-                $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
-            }
-
-            $mailer->Body = $htmlBody;
-            $mailer->AltBody = $textAltBody;
-
-            $mailer->send();
+        if ($relayResult['success']) {
             $mailSuccess = true;
-            error_log("Contact reply email sent successfully to {$recipientEmail} for inquiry '{$originalSubject}'");
+            $errorMessage = null;
+            error_log("Contact reply email sent successfully via HTTPS relay to {$recipientEmail} for inquiry '{$originalSubject}'");
+        } else {
+            try {
+                $port = (int)env('SMTP_PORT', 465);
+                $mailer = new PHPMailer(true);
+                $mailer->SMTPDebug = 0;
+                $mailer->isSMTP();
+                $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
+                $mailer->SMTPAuth = true;
+                $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
+                $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
+                $mailer->SMTPSecure = ($port === 465) ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
+                $mailer->Port = $port;
+                $mailer->CharSet = 'UTF-8';
+                $mailer->Timeout = 6;
 
-        } catch (Exception $e) {
-            $mailSuccess = false;
-            $errorMessage = $mailer->ErrorInfo ?: $e->getMessage();
-            error_log("Contact reply email failed for {$recipientEmail}: {$errorMessage}");
+                $mailer->setFrom($fromEmail, $fromName);
+                $mailer->addAddress($recipientEmail, $recipientName);
+                $mailer->addReplyTo($fromEmail, $fromName);
+                $mailer->Subject = $emailSubject;
+                $mailer->isHTML(true);
+
+                if ($logoPath && file_exists($logoPath)) {
+                    $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
+                }
+
+                $mailer->Body = $htmlBody;
+                $mailer->AltBody = $textAltBody;
+
+                $mailer->send();
+                $mailSuccess = true;
+                error_log("Contact reply email sent successfully via SMTP to {$recipientEmail} for inquiry '{$originalSubject}'");
+
+            } catch (Exception $e) {
+                $mailSuccess = false;
+                $errorMessage = $mailer->ErrorInfo ?: $e->getMessage();
+                error_log("Contact reply email failed for {$recipientEmail}: {$errorMessage}");
+            }
         }
 
         // Log to email_logs
