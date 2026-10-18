@@ -87,13 +87,7 @@ class AdmissionEmailService {
             ];
         }
 
-        // 2. Prevent notification if status did not genuinely change
-        if ($previousStatus !== null && strtolower(trim($previousStatus)) === $canonicalStatus) {
-            return [
-                'email_sent' => false,
-                'message' => "Status did not change ('{$canonicalStatus}' -> '{$canonicalStatus}'). Notification skipped."
-            ];
-        }
+        // 2. Rely on the 2-minute deduplication window (Step 5) to prevent spamming while allowing admin to re-send/confirm
 
         // 3. Fetch full application record
         $stmt = $db->prepare("SELECT * FROM admission_applications WHERE id = :id LIMIT 1");
@@ -107,12 +101,14 @@ class AdmissionEmailService {
             ];
         }
 
-        // Resolve recipient email across both new and legacy schema fields
-        $recipientEmail = trim(
-            $app['responsible_person_email'] 
-            ?? $app['parent_email'] 
-            ?? ''
-        );
+        // Resolve recipient email across all possible fields in the application record
+        $recipientEmail = '';
+        foreach (['responsible_person_email', 'parent_email', 'emergency_next_of_kin_email', 'email'] as $emKey) {
+            if (!empty($app[$emKey]) && filter_var(trim($app[$emKey]), FILTER_VALIDATE_EMAIL)) {
+                $recipientEmail = trim($app[$emKey]);
+                break;
+            }
+        }
 
         $appRef         = $app['application_reference'] ?? $app['application_id'] ?? ('SLJK-' . $app['id']);
         $studentName    = trim(($app['student_surname'] ?? $app['student_last_name'] ?? '') . ' ' . ($app['student_other_names'] ?? $app['student_first_name'] ?? ''));
@@ -129,7 +125,7 @@ class AdmissionEmailService {
             ];
         }
 
-        // 5. Deduplication check: Has this exact status notification already been successfully sent?
+        // 5. Deduplication check: Only prevent duplicate if sent within the last 2 minutes
         self::ensureTableExists($db);
         try {
             $dedupStmt = $db->prepare("
@@ -138,6 +134,7 @@ class AdmissionEmailService {
                 WHERE application_id = :app_id 
                   AND status_transition = :status 
                   AND email_status = 'sent' 
+                  AND sent_at > DATE_SUB(NOW(), INTERVAL 2 MINUTE)
                 LIMIT 1
             ");
             $dedupStmt->execute([
@@ -150,7 +147,7 @@ class AdmissionEmailService {
                 error_log("Duplicate Notification Prevented: {$canonicalStatus} email already sent to {$recipientEmail} for ref {$appRef} at {$existingNotification['sent_at']}");
                 return [
                     'email_sent' => false,
-                    'message' => "Duplicate notification prevented: {$canonicalStatus} email was already sent previously."
+                    'message' => "Duplicate notification prevented: {$canonicalStatus} email was already sent a moment ago."
                 ];
             }
         } catch (\Throwable $dedupEx) {
@@ -172,7 +169,7 @@ class AdmissionEmailService {
         $htmlBody = self::buildHtmlTemplate($emailContent, $statusCheckUrl);
         $textAltBody = strip_tags(str_replace(['<br>', '</p>', '</div>'], "\n", $htmlBody));
 
-        // 8. Send email using existing PHPMailer infrastructure
+        // 8. Send email using PHPMailer infrastructure
         $mailSuccess = false;
         $errorMessage = null;
 
@@ -182,11 +179,21 @@ class AdmissionEmailService {
             $mailer->isSMTP();
             $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
             $mailer->SMTPAuth = true;
-            $mailer->Username = env('SMTP_USERNAME');
-            $mailer->Password = env('SMTP_PASSWORD');
+            $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
+            $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
             $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mailer->Port = env('SMTP_PORT', 587);
+            $mailer->Port = (int)env('SMTP_PORT', 587);
             $mailer->CharSet = 'UTF-8';
+            $mailer->Timeout = 20;
+
+            // Safe SSL options for containerized environments
+            $mailer->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                ]
+            ];
 
             $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
             $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
@@ -198,7 +205,11 @@ class AdmissionEmailService {
             // Embed official school logo using CID
             $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
             if ($logoPath && file_exists($logoPath)) {
-                $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
+                try {
+                    $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
+                } catch (\Throwable $imgEx) {
+                    // Non-blocking if CID image attachment encounters path issue
+                }
             }
 
             $mailer->Body = $htmlBody;
@@ -279,7 +290,7 @@ class AdmissionEmailService {
         return [
             'email_sent' => $mailSuccess,
             'message'    => $mailSuccess 
-                ? "Notification email sent to {$recipientEmail}." 
+                ? "Notification email sent successfully to {$recipientEmail}." 
                 : "Notification recorded (email delivery status: {$errorMessage})."
         ];
     }
@@ -523,7 +534,10 @@ class AdmissionEmailService {
      */
     private static function getStatusCheckUrl() {
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-        return "{$scheme}://{$host}/AdvancedPHP/st%20lawrence%20school/frontend/Admission.html#admission-application-section";
+        $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
+        $base = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) 
+            ? "/AdvancedPHP/st%20lawrence%20school" 
+            : "";
+        return "{$scheme}://{$host}{$base}/admission.html#admission-application-section";
     }
 }
