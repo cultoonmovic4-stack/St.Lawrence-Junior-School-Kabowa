@@ -93,62 +93,6 @@ if (isset($_GET['diag_schema'])) {
     exit;
 }
 
-// Diagnostic: inspect live admission applications and email delivery status
-if (isset($_GET['diag_check_admissions'])) {
-    header('Content-Type: application/json');
-    try {
-        $db = (new Database())->getConnection();
-        require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
-        AdmissionEmailService::ensureTableExists($db);
-
-        $stmtApps = $db->query("
-            SELECT id, application_reference, student_surname, student_first_name, student_last_name, student_other_names, class_to_join,
-                   responsible_person_name, responsible_person_email, parent_first_name, parent_email, 
-                   status, submitted_date, review_date, review_notes 
-            FROM admission_applications 
-            ORDER BY id DESC LIMIT 10
-        ");
-        $apps = $stmtApps ? $stmtApps->fetchAll(PDO::FETCH_ASSOC) : [];
-
-        $stmtEmails = $db->query("
-            SELECT * FROM admission_email_notifications ORDER BY id DESC LIMIT 15
-        ");
-        $emailNotifications = $stmtEmails ? $stmtEmails->fetchAll(PDO::FETCH_ASSOC) : [];
-
-        $stmtLogs = $db->query("
-            SELECT * FROM email_logs ORDER BY id DESC LIMIT 15
-        ");
-        $emailLogs = $stmtLogs ? $stmtLogs->fetchAll(PDO::FETCH_ASSOC) : [];
-
-        $testTriggerResult = null;
-        if (!empty($_GET['trigger_app_id'])) {
-            $testId = (int)$_GET['trigger_app_id'];
-            $testStatus = $_GET['trigger_status'] ?? 'accepted';
-            $testTriggerResult = AdmissionEmailService::sendStatusNotification(
-                $db,
-                $testId,
-                $testStatus,
-                null,
-                'Administrative notification test'
-            );
-        }
-
-        echo json_encode([
-            'success' => true,
-            'applications' => $apps,
-            'admission_email_notifications' => $emailNotifications,
-            'email_logs' => $emailLogs,
-            'test_trigger_result' => $testTriggerResult
-        ], JSON_PRETTY_PRINT);
-    } catch (\Throwable $e) {
-        echo json_encode([
-            'success' => false,
-            'error' => $e->getMessage()
-        ]);
-    }
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed. Use POST.']);

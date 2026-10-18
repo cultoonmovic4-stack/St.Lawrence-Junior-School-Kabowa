@@ -173,58 +173,74 @@ class AdmissionEmailService {
         $mailSuccess = false;
         $errorMessage = null;
 
-        try {
-            $mailer = new PHPMailer(true);
-            $mailer->SMTPDebug = 0;
-            $mailer->isSMTP();
-            $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
-            $mailer->SMTPAuth = true;
-            $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
-            $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
-            $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mailer->Port = (int)env('SMTP_PORT', 587);
-            $mailer->CharSet = 'UTF-8';
-            $mailer->Timeout = 20;
+        // 8. Send email using resilient dual-port transport (Port 465 SMTPS preferred for cloud hosting like Railway, Port 587 STARTTLS fallback)
+        $mailSuccess = false;
+        $errorMessage = null;
 
-            // Safe SSL options for containerized environments
-            $mailer->SMTPOptions = [
-                'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                ]
-            ];
+        // Determine port attempts: prioritize 465 (SMTPS) which cloud egress firewalls do not block
+        $configuredPort = (int)env('SMTP_PORT', 465);
+        $attempts = [];
+        if ($configuredPort === 587) {
+            $attempts[] = ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS];
+            $attempts[] = ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS];
+        } else {
+            $attempts[] = ['port' => 465, 'secure' => PHPMailer::ENCRYPTION_SMTPS];
+            $attempts[] = ['port' => 587, 'secure' => PHPMailer::ENCRYPTION_STARTTLS];
+        }
 
-            $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
-            $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
-            $mailer->setFrom($fromEmail, $fromName);
-            $mailer->addAddress($recipientEmail, $parentName);
-            $mailer->Subject = $emailContent['subject'];
-            $mailer->isHTML(true);
+        foreach ($attempts as $attempt) {
+            try {
+                $mailer = new PHPMailer(true);
+                $mailer->SMTPDebug = 0;
+                $mailer->isSMTP();
+                $mailer->Host = env('SMTP_HOST', 'smtp.gmail.com');
+                $mailer->SMTPAuth = true;
+                $mailer->Username = env('SMTP_USERNAME', 'stlawrencejuniorschoolkabowa@gmail.com');
+                $mailer->Password = env('SMTP_PASSWORD', 'rlexmpxeyykmgzbv');
+                $mailer->SMTPSecure = $attempt['secure'];
+                $mailer->Port = $attempt['port'];
+                $mailer->CharSet = 'UTF-8';
+                $mailer->Timeout = 12;
 
-            // Embed official school logo using CID
-            $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
-            if ($logoPath && file_exists($logoPath)) {
-                try {
-                    $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
-                } catch (\Throwable $imgEx) {
-                    // Non-blocking if CID image attachment encounters path issue
+                // Safe SSL options for containerized environments
+                $mailer->SMTPOptions = [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    ]
+                ];
+
+                $fromEmail = env('SMTP_FROM_EMAIL', 'stlawrencejuniorschoolkabowa@gmail.com');
+                $fromName  = env('SMTP_FROM_NAME', 'St. Lawrence Junior School Kabowa');
+                $mailer->setFrom($fromEmail, $fromName);
+                $mailer->addAddress($recipientEmail, $parentName);
+                $mailer->Subject = $emailContent['subject'];
+                $mailer->isHTML(true);
+
+                // Embed official school logo using CID
+                $logoPath = realpath(__DIR__ . '/../../../img/5.jpg');
+                if ($logoPath && file_exists($logoPath)) {
+                    try {
+                        $mailer->addEmbeddedImage($logoPath, 'school_logo', '5.jpg', 'base64', 'image/jpeg');
+                    } catch (\Throwable $imgEx) {
+                        // Non-blocking if CID image attachment encounters path issue
+                    }
                 }
+
+                $mailer->Body = $htmlBody;
+                $mailer->AltBody = $textAltBody;
+
+                $mailer->send();
+                $mailSuccess = true;
+                $errorMessage = null;
+                error_log("Admission notification email sent successfully via port {$attempt['port']} to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
+                break; // Exit loop on successful send
+            } catch (\Throwable $e) {
+                $rawError = $mailer->ErrorInfo ?? $e->getMessage();
+                $errorMessage = preg_replace('/password[=:\s]+[^\s;]+/i', 'password=***', $rawError);
+                error_log("Admission notification email failed via port {$attempt['port']} for ref {$appRef}: " . $errorMessage);
             }
-
-            $mailer->Body = $htmlBody;
-            $mailer->AltBody = $textAltBody;
-
-            $mailer->send();
-            $mailSuccess = true;
-            error_log("Admission notification email sent successfully to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
-
-        } catch (\Throwable $e) {
-            $mailSuccess = false;
-            $rawError = $mailer->ErrorInfo ?? $e->getMessage();
-            // Sanitize error to avoid leaking credentials
-            $errorMessage = preg_replace('/password[=:\s]+[^\s;]+/i', 'password=***', $rawError);
-            error_log("Admission notification email failed for ref {$appRef} to {$recipientEmail}: " . $errorMessage);
         }
 
         // 9. Record notification in audit log tables
