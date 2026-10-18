@@ -327,145 +327,270 @@ class AdmissionEmailService {
     }
 
     /**
-     * Build status-specific text and subject
+     * Build status-specific text, colors, badges, and subject
      */
     public static function buildContent($status, $data) {
-        $parentName = htmlspecialchars($data['parent_name'] ?? 'Parent/Guardian', ENT_QUOTES, 'UTF-8');
-        $childName  = htmlspecialchars($data['student_name'] ?? 'Your Child', ENT_QUOTES, 'UTF-8');
-        $class      = htmlspecialchars($data['class_to_join'] ?? 'General', ENT_QUOTES, 'UTF-8');
-        $appRef     = htmlspecialchars($data['application_reference'] ?? '', ENT_QUOTES, 'UTF-8');
-        $date       = htmlspecialchars($data['submitted_date'] ?? date('d M Y'), ENT_QUOTES, 'UTF-8');
+        $parentName  = htmlspecialchars($data['parent_name'] ?? 'Parent/Guardian', ENT_QUOTES, 'UTF-8');
+        $childName   = htmlspecialchars($data['student_name'] ?? 'Your Child', ENT_QUOTES, 'UTF-8');
+        $class       = htmlspecialchars($data['class_to_join'] ?? 'General', ENT_QUOTES, 'UTF-8');
+        $appRef      = htmlspecialchars($data['application_reference'] ?? '', ENT_QUOTES, 'UTF-8');
+        $date        = htmlspecialchars($data['submitted_date'] ?? date('d M Y'), ENT_QUOTES, 'UTF-8');
+        $reviewNotes = trim((string)($data['review_notes'] ?? ''));
 
         switch ($status) {
             case 'accepted':
                 return [
-                    'subject'       => 'Admission Application — Successful | St. Lawrence Junior School Kabowa',
-                    'heading'       => 'Admission Application — Approved',
-                    'heading_color' => '#0B2545',
-                    'accent_color'  => '#15803D',
-                    'body_paragraphs' => [
-                        "Dear {$parentName},",
-                        "We are pleased to inform you that the admission application submitted for your child, <strong>{$childName}</strong>, has been successfully approved by St. Lawrence Junior School Kabowa.",
-                        "We appreciate the confidence you have placed in our school and look forward to welcoming your child into our school community.",
-                        "Your application details are provided below for reference:"
+                    'status_key'         => 'accepted',
+                    'subject'            => 'Admission Application — Successful | St. Lawrence Junior School Kabowa',
+                    'heading'            => 'Admission Application — Approved',
+                    'subheading'         => "Congratulations! {$childName} has been accepted for admission.",
+                    'badge_text'         => '&#10003; APPLICATION ACCEPTED',
+                    'status_pill_label'  => '&#10003; ACCEPTED &amp; APPROVED',
+                    'icon_html'          => '&#10003;',
+                    'accent_color'       => '#16A34A',
+                    'heading_color'      => '#14532D',
+                    'banner_bg'          => '#ECFDF5',
+                    'banner_border'      => '#4ADE80',
+                    'pill_bg'            => '#DCFCE7',
+                    'pill_text'          => '#15803D',
+                    'pill_border'        => '#86EFAC',
+                    'summary_header_bg'  => '#15803D',
+                    'button_bg'          => '#16A34A',
+                    'button_border'      => '#14532D',
+                    'callout_title'      => 'Next Steps for Admission &amp; Registration',
+                    'callout_items'      => [
+                        'Visit the School Admissions Office at Kabowa with your Application Reference (<strong>' . $appRef . '</strong>) to pick up your official Admission Letter and Requirements Circular.',
+                        'Complete the admission registration formalities to secure your child\'s place in <strong>' . $class . '</strong>.',
+                        'Contact our Admissions Desk on <strong>+256 772 420 506</strong> or <strong>+256 701 420 506</strong> if you need any assistance.'
+                    ],
+                    'review_notes'       => $reviewNotes,
+                    'body_paragraphs'    => [
+                        "Dear <strong>{$parentName}</strong>,",
+                        "We are delighted to inform you that the admission application submitted for your child, <strong>{$childName}</strong>, has been <strong>officially approved and accepted</strong> by St. Lawrence Junior School Kabowa.",
+                        "We sincerely appreciate the trust and confidence you have placed in our school, and we look forward to welcoming <strong>{$childName}</strong> into our vibrant academic community."
                     ],
                     'closing_paragraphs' => [
-                        "Please use the admission status link below to review your application status and any available next steps.",
-                        "We look forward to working together in supporting your child's academic growth, character and future development."
+                        "You can view your official application status at any time using the button below.",
+                        "We look forward to partnering with you in nurturing your child's academic excellence, discipline, and character."
                     ],
                     'details' => [
                         'Application Reference' => $appRef,
-                        'Child'                 => $childName,
-                        'Class'                 => $class,
-                        'Date'                  => $date
+                        'Child\'s Full Name'    => $childName,
+                        'Class Admitted To'     => $class,
+                        'Date Submitted'        => $date
                     ]
                 ];
 
             case 'waitlist':
                 return [
-                    'subject'       => 'Admission Application — Waiting List | St. Lawrence Junior School Kabowa',
-                    'heading'       => 'Admission Application — Waiting List',
-                    'heading_color' => '#0B2545',
-                    'accent_color'  => '#B45309',
-                    'body_paragraphs' => [
-                        "Dear {$parentName},",
+                    'status_key'         => 'waitlist',
+                    'subject'            => 'Admission Application — Waiting List | St. Lawrence Junior School Kabowa',
+                    'heading'            => 'Admission Application — Placed on Waiting List',
+                    'subheading'         => "Your child's application is currently on our priority Waiting List.",
+                    'badge_text'         => '&#9203; WAITING LIST STATUS',
+                    'status_pill_label'  => '&#9203; ON WAITING LIST',
+                    'icon_html'          => '&#9203;',
+                    'accent_color'       => '#EA580C',
+                    'heading_color'      => '#9A3412',
+                    'banner_bg'          => '#FFF7ED',
+                    'banner_border'      => '#FB923C',
+                    'pill_bg'            => '#FFEDD5',
+                    'pill_text'          => '#C2410C',
+                    'pill_border'        => '#FDBA74',
+                    'summary_header_bg'  => '#C2410C',
+                    'button_bg'          => '#EA580C',
+                    'button_border'      => '#9A3412',
+                    'callout_title'      => 'What Being on the Waiting List Means',
+                    'callout_items'      => [
+                        'Your application for <strong>' . $childName . '</strong> remains under active priority consideration while class capacity for <strong>' . $class . '</strong> is being finalized.',
+                        'No action is required from you right now — our Admissions Office will contact you immediately as soon as a slot becomes available.',
+                        'Please keep your Application Reference (<strong>' . $appRef . '</strong>) safe to track real-time updates online.'
+                    ],
+                    'review_notes'       => $reviewNotes,
+                    'body_paragraphs'    => [
+                        "Dear <strong>{$parentName}</strong>,",
                         "Thank you for choosing St. Lawrence Junior School Kabowa and for submitting an admission application for your child, <strong>{$childName}</strong>.",
-                        "We wish to inform you that your child's application has been placed on the waiting list.",
-                        "This means that the application remains under consideration while available places are being confirmed.",
-                        "We sincerely appreciate your patience and understanding. Please retain your application reference and use the status link below to check for future updates."
+                        "Following our initial review, we wish to inform you that your child's application has been placed on the <strong>Waiting List</strong> for <strong>{$class}</strong> while available places are being confirmed."
                     ],
                     'closing_paragraphs' => [
-                        "Should a vacancy arise in {$class}, the admissions office will contact you directly."
+                        "We sincerely appreciate your patience and keen interest in St. Lawrence Junior School Kabowa. You may check for status updates at any time using the button below."
                     ],
                     'details' => [
                         'Application Reference' => $appRef,
-                        'Child'                 => $childName,
-                        'Class'                 => $class,
-                        'Date'                  => $date
+                        'Child\'s Full Name'    => $childName,
+                        'Class Applied For'     => $class,
+                        'Date Submitted'        => $date
                     ]
                 ];
 
             case 'rejected':
                 return [
-                    'subject'       => 'Admission Application — Update | St. Lawrence Junior School Kabowa',
-                    'heading'       => 'Admission Application — Update',
-                    'heading_color' => '#0B2545',
-                    'accent_color'  => '#64748B',
-                    'body_paragraphs' => [
-                        "Dear {$parentName},",
-                        "Thank you for considering St. Lawrence Junior School Kabowa and for taking the time to submit an admission application for your child, <strong>{$childName}</strong>.",
-                        "Following careful consideration of the application, we regret to inform you that we are unable to offer your child a place at the school at this time.",
-                        "We understand that this may be disappointing, and we sincerely appreciate the confidence you placed in our school.",
-                        "We wish your child every success in their continued education and future endeavours.",
-                        "You may use the status link below to view the current application status."
+                    'status_key'         => 'rejected',
+                    'subject'            => 'Admission Application — Update | St. Lawrence Junior School Kabowa',
+                    'heading'            => 'Admission Application — Not Approved',
+                    'subheading'         => "We are unable to offer an admission placement for {$childName} at this time.",
+                    'badge_text'         => '&#10005; APPLICATION NOT APPROVED',
+                    'status_pill_label'  => '&#10005; NOT APPROVED / DECLINED',
+                    'icon_html'          => '&#10005;',
+                    'accent_color'       => '#DC2626',
+                    'heading_color'      => '#991B1B',
+                    'banner_bg'          => '#FEF2F2',
+                    'banner_border'      => '#F87171',
+                    'pill_bg'            => '#FEE2E2',
+                    'pill_text'          => '#B91C1C',
+                    'pill_border'        => '#FCA5A5',
+                    'summary_header_bg'  => '#B91C1C',
+                    'button_bg'          => '#DC2626',
+                    'button_border'      => '#991B1B',
+                    'callout_title'      => 'Important Notice Regarding Your Application',
+                    'callout_items'      => [
+                        'Due to high demand and limited class intake capacity for <strong>' . $class . '</strong>, we are unable to offer a placement in this admission cycle.',
+                        'This decision does not prevent you from re-applying in a future academic term or year.',
+                        'For any inquiries, you may reach our Admissions Office on <strong>+256 772 420 506</strong>.'
                     ],
-                    'closing_paragraphs' => [],
+                    'review_notes'       => $reviewNotes,
+                    'body_paragraphs'    => [
+                        "Dear <strong>{$parentName}</strong>,",
+                        "Thank you for considering St. Lawrence Junior School Kabowa and for taking the time to submit an admission application for your child, <strong>{$childName}</strong>.",
+                        "After careful review of all applications received for <strong>{$class}</strong>, we regret to inform you that your child's admission application was <strong>not approved</strong> for placement at this time."
+                    ],
+                    'closing_paragraphs' => [
+                        "We understand this news may be disappointing, and we truly appreciate your interest in our school. We wish <strong>{$childName}</strong> the very best in their educational journey."
+                    ],
                     'details' => [
                         'Application Reference' => $appRef,
-                        'Child'                 => $childName,
-                        'Class'                 => $class,
-                        'Date'                  => $date
+                        'Child\'s Full Name'    => $childName,
+                        'Class Applied For'     => $class,
+                        'Date Submitted'        => $date
                     ]
                 ];
 
             case 'under_review':
             default:
                 return [
-                    'subject'       => 'Admission Application — Under Review | St. Lawrence Junior School Kabowa',
-                    'heading'       => 'Admission Application — Under Review',
-                    'heading_color' => '#0B2545',
-                    'accent_color'  => '#0284C7',
-                    'body_paragraphs' => [
-                        "Dear {$parentName},",
+                    'status_key'         => 'under_review',
+                    'subject'            => 'Admission Application — Under Review | St. Lawrence Junior School Kabowa',
+                    'heading'            => 'Admission Application — Under Review',
+                    'subheading'         => "Your child's application is currently being reviewed by our Admissions Committee.",
+                    'badge_text'         => '&#128269; APPLICATION UNDER REVIEW',
+                    'status_pill_label'  => '&#128269; UNDER REVIEW',
+                    'icon_html'          => '&#8505;',
+                    'accent_color'       => '#0284C7',
+                    'heading_color'      => '#075985',
+                    'banner_bg'          => '#F0F9FF',
+                    'banner_border'      => '#38BDF8',
+                    'pill_bg'            => '#E0F2FE',
+                    'pill_text'          => '#0369A1',
+                    'pill_border'        => '#7DD3FC',
+                    'summary_header_bg'  => '#0369A1',
+                    'button_bg'          => '#0284C7',
+                    'button_border'      => '#075985',
+                    'callout_title'      => 'What Happens Next',
+                    'callout_items'      => [
+                        'Our Admissions Committee is currently verifying the application details submitted for <strong>' . $childName . '</strong>.',
+                        'You will receive an automatic email notification as soon as an official admission decision is made.'
+                    ],
+                    'review_notes'       => $reviewNotes,
+                    'body_paragraphs'    => [
+                        "Dear <strong>{$parentName}</strong>,",
                         "Thank you for submitting an admission application to St. Lawrence Junior School Kabowa for <strong>{$childName}</strong>.",
-                        "We wish to let you know that your child's application is currently under review by the school.",
-                        "No final admission decision has been made at this stage. We kindly ask for your patience while the application is being considered.",
-                        "You may use the status link below to check for updates."
+                        "We wish to let you know that your child's application is currently <strong>under review</strong> by the school's Admissions Office."
                     ],
                     'closing_paragraphs' => [
                         "Our admissions team will notify you promptly as soon as a determination has been reached."
                     ],
                     'details' => [
                         'Application Reference' => $appRef,
-                        'Child'                 => $childName,
-                        'Class'                 => $class,
-                        'Date'                  => $date
+                        'Child\'s Full Name'    => $childName,
+                        'Class Applied For'     => $class,
+                        'Date Submitted'        => $date
                     ]
                 ];
         }
     }
 
     /**
-     * Build the institutional responsive HTML email template
+     * Build the institutional responsive HTML email template with color-coded status themes
      */
     public static function buildHtmlTemplate($content, $statusCheckUrl) {
-        $heading = htmlspecialchars($content['heading'], ENT_QUOTES, 'UTF-8');
-        $accentColor = $content['accent_color'] ?? '#0B2545';
+        $heading         = htmlspecialchars($content['heading'], ENT_QUOTES, 'UTF-8');
+        $subheading      = $content['subheading'] ?? '';
+        $badgeText       = $content['badge_text'] ?? 'STATUS UPDATE';
+        $statusPillLabel = $content['status_pill_label'] ?? 'UPDATED';
+        $iconHtml        = $content['icon_html'] ?? '&#10003;';
+        $accentColor     = $content['accent_color'] ?? '#0B2545';
+        $headingColor    = $content['heading_color'] ?? '#0B2545';
+        $bannerBg        = $content['banner_bg'] ?? '#F8FAFC';
+        $bannerBorder    = $content['banner_border'] ?? '#CBD5E1';
+        $pillBg          = $content['pill_bg'] ?? '#E2E8F0';
+        $pillText        = $content['pill_text'] ?? '#1E293B';
+        $pillBorder      = $content['pill_border'] ?? '#CBD5E1';
+        $summaryHeaderBg = $content['summary_header_bg'] ?? '#0B2545';
+        $buttonBg        = $content['button_bg'] ?? '#0B2545';
+        $buttonBorder    = $content['button_border'] ?? '#C9182B';
 
         // Render body paragraphs
         $bodyHtml = '';
         foreach ($content['body_paragraphs'] as $p) {
-            $bodyHtml .= "<p style=\"margin: 0 0 14px 0; font-size: 15px; line-height: 1.65; color: #334155;\">{$p}</p>";
+            $bodyHtml .= "<p style=\"margin: 0 0 15px 0; font-size: 15px; line-height: 1.7; color: #334155;\">{$p}</p>";
         }
 
-        // Render non-sensitive details table
+        // Render non-sensitive details table with prominent colored status row
         $detailsHtml = '';
         if (!empty($content['details'])) {
-            $detailsHtml .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin: 22px 0; border: 1px solid #E2E8F0; border-radius: 4px; background-color: #F8FAFC;">';
-            $detailsHtml .= '<tr><td colspan="2" style="background-color: #0B2545; color: #FFFFFF; padding: 10px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Application Summary</td></tr>';
+            $detailsHtml .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin: 24px 0; border: 2px solid ' . $bannerBorder . '; border-radius: 8px; overflow: hidden; background-color: #FFFFFF;">';
+            $detailsHtml .= '<tr><td colspan="2" style="background-color: ' . $summaryHeaderBg . '; color: #FFFFFF; padding: 12px 18px; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;">Application Summary</td></tr>';
+
+            // Prominent Decision Status Row first
+            $detailsHtml .= '<tr>';
+            $detailsHtml .= '<td style="padding: 12px 18px; border-bottom: 1px solid #E2E8F0; background-color: ' . $bannerBg . '; font-size: 13px; font-weight: 700; color: #334155; width: 42%;">Decision Status</td>';
+            $detailsHtml .= '<td style="padding: 12px 18px; border-bottom: 1px solid #E2E8F0; background-color: ' . $bannerBg . ';">';
+            $detailsHtml .= '<span style="display: inline-block; background-color: ' . $pillBg . '; color: ' . $pillText . '; border: 1px solid ' . $pillBorder . '; padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">' . $statusPillLabel . '</span>';
+            $detailsHtml .= '</td>';
+            $detailsHtml .= '</tr>';
+
             foreach ($content['details'] as $lbl => $val) {
                 $detailsHtml .= '<tr>';
-                $detailsHtml .= '<td style="padding: 10px 16px; border-bottom: 1px solid #E2E8F0; font-size: 13px; font-weight: 600; color: #475569; width: 40%;">' . htmlspecialchars($lbl, ENT_QUOTES, 'UTF-8') . '</td>';
-                $detailsHtml .= '<td style="padding: 10px 16px; border-bottom: 1px solid #E2E8F0; font-size: 14px; font-weight: 700; color: #0B2545;">' . $val . '</td>';
+                $detailsHtml .= '<td style="padding: 11px 18px; border-bottom: 1px solid #E2E8F0; font-size: 13px; font-weight: 600; color: #475569; width: 42%; background-color: #F8FAFC;">' . htmlspecialchars($lbl, ENT_QUOTES, 'UTF-8') . '</td>';
+                $detailsHtml .= '<td style="padding: 11px 18px; border-bottom: 1px solid #E2E8F0; font-size: 14px; font-weight: 700; color: #0B2545; background-color: #FFFFFF;">' . $val . '</td>';
                 $detailsHtml .= '</tr>';
             }
             $detailsHtml .= '</table>';
         }
 
+        // Optional Administrative Review Notes box if provided by admin
+        $notesHtml = '';
+        if (!empty($content['review_notes'])) {
+            $safeNotes = nl2br(htmlspecialchars($content['review_notes'], ENT_QUOTES, 'UTF-8'));
+            $notesHtml .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 22px 0; background-color: #F8FAFC; border-left: 4px solid ' . $accentColor . '; border-radius: 4px;">';
+            $notesHtml .= '<tr><td style="padding: 14px 18px;">';
+            $notesHtml .= '<div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: ' . $headingColor . '; margin-bottom: 6px;">Admissions Office Note</div>';
+            $notesHtml .= '<div style="font-size: 14px; line-height: 1.6; color: #334155;">' . $safeNotes . '</div>';
+            $notesHtml .= '</td></tr></table>';
+        }
+
+        // Render themed Callout / Next Steps box
+        $calloutHtml = '';
+        if (!empty($content['callout_items'])) {
+            $calloutTitle = $content['callout_title'] ?? 'Important Information';
+            $calloutHtml .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin: 22px 0; background-color: ' . $bannerBg . '; border: 1px solid ' . $bannerBorder . '; border-radius: 8px;">';
+            $calloutHtml .= '<tr><td style="padding: 18px 20px;">';
+            $calloutHtml .= '<div style="font-size: 14px; font-weight: 800; color: ' . $headingColor . '; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">' . $calloutTitle . '</div>';
+            $calloutHtml .= '<table width="100%" cellpadding="0" cellspacing="0">';
+            foreach ($content['callout_items'] as $item) {
+                $calloutHtml .= '<tr>';
+                $calloutHtml .= '<td valign="top" width="22" style="padding: 4px 0; color: ' . $accentColor . '; font-size: 15px; font-weight: 900;">&#8226;</td>';
+                $calloutHtml .= '<td valign="top" style="padding: 4px 0; font-size: 14px; line-height: 1.6; color: #1E293B;">' . $item . '</td>';
+                $calloutHtml .= '</tr>';
+            }
+            $calloutHtml .= '</table>';
+            $calloutHtml .= '</td></tr></table>';
+        }
+
         // Render closing paragraphs
         $closingHtml = '';
         foreach ($content['closing_paragraphs'] as $cp) {
-            $closingHtml .= "<p style=\"margin: 14px 0; font-size: 15px; line-height: 1.65; color: #334155;\">{$cp}</p>";
+            $closingHtml .= "<p style=\"margin: 14px 0; font-size: 15px; line-height: 1.7; color: #334155;\">{$cp}</p>";
         }
 
         return '<!DOCTYPE html>
@@ -479,64 +604,88 @@ class AdmissionEmailService {
             .email-container { width: 100% !important; }
             .header-padding { padding: 24px 16px !important; }
             .body-padding { padding: 24px 16px !important; }
-            .btn-action { display: block !important; width: 100% !important; text-align: center !important; }
+            .btn-action { display: block !important; width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
         }
     </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #F8FAFC; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8FAFC; padding: 30px 10px;">
+<body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F1F5F9; padding: 32px 10px;">
         <tr>
             <td align="center">
                 <!-- Main Container Card -->
-                <table class="email-container" width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                <table class="email-container" width="620" cellpadding="0" cellspacing="0" style="max-width: 620px; width: 100%; background-color: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 10px; overflow: hidden; box-shadow: 0 8px 24px rgba(11, 37, 69, 0.08);">
                     
                     <!-- Institutional School Header -->
                     <tr>
-                        <td class="header-padding" style="background-color: #0B2545; padding: 32px 24px; text-align: center; border-bottom: 4px solid #C9182B;">
+                        <td class="header-padding" style="background-color: #0B2545; padding: 30px 24px; text-align: center; border-bottom: 4px solid #C9182B;">
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td align="center">
                                         <!-- Official Logo via CID -->
-                                        <img src="cid:school_logo" alt="St. Lawrence Junior School Kabowa Crest" style="width: 82px; height: 82px; display: block; margin: 0 auto 14px auto; border-radius: 50%; background-color: #FFFFFF; padding: 4px;">
-                                        <h1 style="color: #FFFFFF; font-size: 20px; font-weight: 700; margin: 0 0 6px 0; letter-spacing: 1px; text-transform: uppercase;">ST. LAWRENCE JUNIOR SCHOOL KABOWA</h1>
-                                        <div style="color: #F1F5F9; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">WE STRIVE TO EXCEL</div>
+                                        <img src="cid:school_logo" alt="St. Lawrence Junior School Kabowa Crest" style="width: 84px; height: 84px; display: block; margin: 0 auto 14px auto; border-radius: 50%; background-color: #FFFFFF; padding: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.25);">
+                                        <h1 style="color: #FFFFFF; font-size: 21px; font-weight: 800; margin: 0 0 6px 0; letter-spacing: 1px; text-transform: uppercase;">ST. LAWRENCE JUNIOR SCHOOL KABOWA</h1>
+                                        <div style="color: #F1F5F9; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">WE STRIVE TO EXCEL</div>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     
-                    <!-- Status Banner / Heading -->
+                    <!-- Color-Coded Status Hero Banner (Green = Accepted, Orange = Waitlist, Red = Rejected) -->
                     <tr>
-                        <td style="padding: 24px 32px 0 32px; text-align: left;">
-                            <div style="border-left: 4px solid ' . $accentColor . '; padding-left: 12px; margin-bottom: 8px;">
-                                <h2 style="color: #0B2545; font-size: 20px; font-weight: 700; margin: 0;">' . $heading . '</h2>
+                        <td style="background-color: ' . $bannerBg . '; border-bottom: 3px solid ' . $accentColor . '; padding: 26px 32px; text-align: center;">
+                            <!-- Prominent Status Pill Badge -->
+                            <div style="margin-bottom: 12px;">
+                                <span style="display: inline-block; background-color: ' . $accentColor . '; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 1px; padding: 8px 20px; border-radius: 999px; text-transform: uppercase; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">
+                                    ' . $badgeText . '
+                                </span>
                             </div>
+                            <!-- Status Title -->
+                            <h2 style="color: ' . $headingColor . '; font-size: 22px; font-weight: 800; margin: 0 0 6px 0; line-height: 1.3;">
+                                ' . $heading . '
+                            </h2>
+                            <!-- Status Subtitle -->
+                            <p style="color: ' . $pillText . '; font-size: 15px; font-weight: 600; margin: 0; line-height: 1.5;">
+                                ' . $subheading . '
+                            </p>
                         </td>
                     </tr>
 
                     <!-- Email Main Content -->
                     <tr>
-                        <td class="body-padding" style="padding: 16px 32px 32px 32px;">
+                        <td class="body-padding" style="padding: 28px 32px 34px 32px;">
                             ' . $bodyHtml . '
                             ' . $detailsHtml . '
+                            ' . $notesHtml . '
+                            ' . $calloutHtml . '
                             ' . $closingHtml . '
                             
                             <!-- Action Button (Check Admission Status) -->
-                            <div style="margin: 28px 0 16px 0; text-align: center;">
-                                <a href="' . htmlspecialchars($statusCheckUrl, ENT_QUOTES, 'UTF-8') . '" class="btn-action" target="_blank" style="background-color: #0B2545; color: #FFFFFF; text-decoration: none; padding: 14px 32px; font-size: 14px; font-weight: 700; border-radius: 4px; display: inline-block; letter-spacing: 0.5px; border-bottom: 3px solid #C9182B;">
+                            <div style="margin: 30px 0 14px 0; text-align: center;">
+                                <a href="' . htmlspecialchars($statusCheckUrl, ENT_QUOTES, 'UTF-8') . '" class="btn-action" target="_blank" style="background-color: ' . $buttonBg . '; color: #FFFFFF; text-decoration: none; padding: 15px 34px; font-size: 14px; font-weight: 800; border-radius: 6px; display: inline-block; letter-spacing: 0.8px; border-bottom: 4px solid ' . $buttonBorder . '; box-shadow: 0 4px 10px rgba(0,0,0,0.12);">
                                     CHECK ADMISSION STATUS
                                 </a>
                             </div>
                             <div style="text-align: center; margin-top: 8px;">
-                                <span style="font-size: 12px; color: #64748B;">Verify status using your Application Reference and Registered Telephone</span>
+                                <span style="font-size: 12px; color: #64748B;">Verify status online using your Application Reference and Registered Telephone</span>
                             </div>
+
+                            <!-- Official Sign-Off -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 28px; border-top: 1px solid #E2E8F0; padding-top: 18px;">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: #0B2545;">Warm regards,</p>
+                                        <p style="margin: 0 0 2px 0; font-size: 14px; font-weight: 700; color: ' . $accentColor . ';">Admissions &amp; Administration Office</p>
+                                        <p style="margin: 0; font-size: 13px; color: #64748B;">St. Lawrence Junior School Kabowa</p>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     
                     <!-- Official Institutional Footer -->
                     <tr>
-                        <td style="background-color: #0B2545; color: #FFFFFF; padding: 26px 24px; text-align: center; border-top: 1px solid #1E3A8A;">
+                        <td style="background-color: #0B2545; color: #FFFFFF; padding: 26px 24px; text-align: center; border-top: 4px solid ' . $accentColor . ';">
                             <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF;">
                                 St. Lawrence Junior School Kabowa
                             </p>
