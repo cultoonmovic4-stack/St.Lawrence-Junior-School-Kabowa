@@ -1497,59 +1497,226 @@ body.sidebar-collapsed .main-content {
 .admissions-table-wrapper {
     width: 100%;
     overflow-x: auto;
+    background: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.admissions-table-wrapper::-webkit-scrollbar {
+    height: 7px;
+}
+
+.admissions-table-wrapper::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+.admissions-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
 }
 
 .admissions-table {
     width: 100%;
+    min-width: 1120px;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 13.5px;
     text-align: left;
 }
 
 .admissions-table th {
     background: #f8fafc;
-    color: var(--inst-text-muted);
-    font-weight: 600;
+    color: #475569;
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--inst-border);
+    letter-spacing: 0.7px;
+    padding: 16px 20px;
+    border-bottom: 2px solid #edf2f7;
     white-space: nowrap;
-}
-
-.admissions-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--inst-border);
-    color: var(--inst-text);
     vertical-align: middle;
 }
 
-.admissions-table tbody tr {
-    transition: background-color 0.15s;
+.admissions-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #edf2f7;
+    color: #1e293b;
+    vertical-align: middle;
+    background: #ffffff;
+    transition: background 0.15s ease;
 }
 
-.admissions-table tbody tr:hover {
+.admissions-table tbody tr:hover td {
     background-color: #f8fafc;
 }
 
-.admissions-table .col-id {
+.admissions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.admissions-table .col-id-cell {
+    width: 50px;
+    text-align: center;
     font-weight: 600;
-    color: var(--inst-text-muted);
+    color: #94a3b8;
+    font-size: 12.5px;
+}
+
+.admissions-table .col-student-name-cell {
+    min-width: 210px;
+}
+
+.student-name-text {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #0b2545;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.student-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 12px;
+    color: #64748b;
     white-space: nowrap;
 }
 
-.admissions-table .col-student-name {
-    font-weight: 600;
-    color: var(--inst-blue);
-    font-size: 14px;
+.student-meta-row .meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.admissions-table .col-subtext {
+.student-meta-row .meta-dot {
+    color: #cbd5e1;
+    font-size: 10px;
+}
+
+.col-ref-cell {
+    min-width: 170px;
+    white-space: nowrap;
+}
+
+.app-ref-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0b2545;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.app-ref-badge i {
+    color: #64748b;
+    font-size: 11px;
+}
+
+.col-class-cell {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+.class-name-row {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 4px;
+}
+
+.class-name-row i {
+    color: #0b2545;
+    font-size: 13px;
+}
+
+.class-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: #64748b;
+}
+
+.class-meta-row .type-tag {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.col-guardian-cell {
+    min-width: 210px;
+}
+
+.guardian-name-row {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 4px;
+}
+
+.guardian-name-row i {
+    color: #64748b;
     font-size: 12px;
-    color: var(--inst-text-muted);
-    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.guardian-contact-row {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.guardian-contact-row i {
+    color: #94a3b8;
+    font-size: 10.5px;
+}
+
+.col-fee-cell {
+    min-width: 115px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.col-status-cell {
+    min-width: 135px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.col-date-cell {
+    min-width: 130px;
+    text-align: center;
+    white-space: nowrap;
+    color: #64748b;
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.col-actions-cell {
+    min-width: 220px;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .sibling-pill {
@@ -1570,12 +1737,12 @@ body.sidebar-collapsed .main-content {
 .status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 16px;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 20px;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -1607,26 +1774,29 @@ body.sidebar-collapsed .main-content {
 
 /* Actions Group */
 .admissions-actions {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .btn-table-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 6px 10px;
+    gap: 5px;
+    padding: 7px 12px;
     font-size: 12px;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
-    border-radius: var(--inst-radius-sm);
+    border-radius: 6px;
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.15s ease;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 .btn-table-action.btn-view {
