@@ -23,6 +23,47 @@ class AdmissionEmailService {
     const NOTIFIABLE_STATUSES = ['under_review', 'accepted', 'waitlist', 'rejected'];
 
     /**
+     * Ensure notification tables exist in the database (self-healing)
+     */
+    public static function ensureTableExists($db) {
+        static $tablesChecked = false;
+        if ($tablesChecked) {
+            return;
+        }
+        try {
+            $db->exec("
+                CREATE TABLE IF NOT EXISTS `admission_email_notifications` (
+                    `id` INT PRIMARY KEY AUTO_INCREMENT,
+                    `application_id` INT NOT NULL,
+                    `application_reference` VARCHAR(50) NOT NULL,
+                    `recipient_email` VARCHAR(255) NOT NULL,
+                    `status_transition` VARCHAR(50) NOT NULL,
+                    `email_status` ENUM('sent', 'failed') NOT NULL DEFAULT 'sent',
+                    `error_message` TEXT DEFAULT NULL,
+                    `sent_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    INDEX `idx_app_status` (`application_id`, `status_transition`),
+                    INDEX `idx_app_ref` (`application_reference`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            ");
+            $db->exec("
+                CREATE TABLE IF NOT EXISTS `email_logs` (
+                    `id` INT PRIMARY KEY AUTO_INCREMENT,
+                    `recipient_email` VARCHAR(255) NOT NULL,
+                    `subject` VARCHAR(255) NOT NULL,
+                    `message` TEXT DEFAULT NULL,
+                    `status` VARCHAR(50) NOT NULL DEFAULT 'sent',
+                    `error_message` TEXT DEFAULT NULL,
+                    `sent_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    INDEX `idx_recipient_email` (`recipient_email`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            ");
+            $tablesChecked = true;
+        } catch (\Throwable $t) {
+            error_log("Failed to auto-create email notification tables: " . $t->getMessage());
+        }
+    }
+
+    /**
      * Send admission status notification email
      * 
      * @param PDO $db Active PDO database connection
@@ -66,12 +107,18 @@ class AdmissionEmailService {
             ];
         }
 
-        $recipientEmail = trim($app['responsible_person_email'] ?? '');
-        $appRef         = $app['application_reference'] ?? ('SLJK-' . $app['id']);
-        $studentName    = trim(($app['student_surname'] ?? '') . ' ' . ($app['student_other_names'] ?? ''));
+        // Resolve recipient email across both new and legacy schema fields
+        $recipientEmail = trim(
+            $app['responsible_person_email'] 
+            ?? $app['parent_email'] 
+            ?? ''
+        );
+
+        $appRef         = $app['application_reference'] ?? $app['application_id'] ?? ('SLJK-' . $app['id']);
+        $studentName    = trim(($app['student_surname'] ?? $app['student_last_name'] ?? '') . ' ' . ($app['student_other_names'] ?? $app['student_first_name'] ?? ''));
         $classToJoin    = $app['class_to_join'] ?? 'General';
         $submissionDate = !empty($app['submitted_date']) ? date('d M Y', strtotime($app['submitted_date'])) : date('d M Y');
-        $parentName     = $app['responsible_person_name'] ?? 'Parent / Guardian';
+        $parentName     = $app['responsible_person_name'] ?? $app['parent_first_name'] ?? 'Parent / Guardian';
 
         // 4. Validate recipient email
         if (empty($recipientEmail) || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
@@ -83,26 +130,31 @@ class AdmissionEmailService {
         }
 
         // 5. Deduplication check: Has this exact status notification already been successfully sent?
-        $dedupStmt = $db->prepare("
-            SELECT id, sent_at 
-            FROM admission_email_notifications 
-            WHERE application_id = :app_id 
-              AND status_transition = :status 
-              AND email_status = 'sent' 
-            LIMIT 1
-        ");
-        $dedupStmt->execute([
-            ':app_id' => $applicationId,
-            ':status' => $canonicalStatus
-        ]);
-        $existingNotification = $dedupStmt->fetch(PDO::FETCH_ASSOC);
+        self::ensureTableExists($db);
+        try {
+            $dedupStmt = $db->prepare("
+                SELECT id, sent_at 
+                FROM admission_email_notifications 
+                WHERE application_id = :app_id 
+                  AND status_transition = :status 
+                  AND email_status = 'sent' 
+                LIMIT 1
+            ");
+            $dedupStmt->execute([
+                ':app_id' => $applicationId,
+                ':status' => $canonicalStatus
+            ]);
+            $existingNotification = $dedupStmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($existingNotification) {
-            error_log("Duplicate Notification Prevented: {$canonicalStatus} email already sent to {$recipientEmail} for ref {$appRef} at {$existingNotification['sent_at']}");
-            return [
-                'email_sent' => false,
-                'message' => "Duplicate notification prevented: {$canonicalStatus} email was already sent previously."
-            ];
+            if ($existingNotification) {
+                error_log("Duplicate Notification Prevented: {$canonicalStatus} email already sent to {$recipientEmail} for ref {$appRef} at {$existingNotification['sent_at']}");
+                return [
+                    'email_sent' => false,
+                    'message' => "Duplicate notification prevented: {$canonicalStatus} email was already sent previously."
+                ];
+            }
+        } catch (\Throwable $dedupEx) {
+            error_log("Deduplication check ignored: " . $dedupEx->getMessage());
         }
 
         // 6. Build status-specific email content
@@ -156,7 +208,7 @@ class AdmissionEmailService {
             $mailSuccess = true;
             error_log("Admission notification email sent successfully to {$recipientEmail} for ref {$appRef} (Status: {$canonicalStatus})");
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $mailSuccess = false;
             $rawError = $mailer->ErrorInfo ?? $e->getMessage();
             // Sanitize error to avoid leaking credentials
@@ -166,6 +218,7 @@ class AdmissionEmailService {
 
         // 9. Record notification in audit log tables
         try {
+            self::ensureTableExists($db);
             $logStmt = $db->prepare("
                 INSERT INTO admission_email_notifications (
                     application_id,
@@ -219,7 +272,7 @@ class AdmissionEmailService {
                 ':status'    => $mailSuccess ? 'sent' : 'failed',
                 ':error_msg' => $errorMessage
             ]);
-        } catch (Exception $logEx) {
+        } catch (\Throwable $logEx) {
             error_log("Error logging admission email notification: " . $logEx->getMessage());
         }
 

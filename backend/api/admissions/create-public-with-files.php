@@ -75,12 +75,17 @@ if (isset($_GET['diag_schema'])) {
                 $migResults[$c] = 'EXISTS';
             }
         }
+        // Also auto-create admission_email_notifications and email_logs tables
+        require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
+        AdmissionEmailService::ensureTableExists($db);
+
         $afterCols = $db->query("SHOW COLUMNS FROM admission_applications")->fetchAll(PDO::FETCH_COLUMN);
         echo json_encode([
-            'commit' => 'pos_params_v5',
+            'commit' => 'email_tables_v1',
             'initial_cols' => $cols,
             'migration' => $migResults,
-            'after_cols' => $afterCols
+            'after_cols' => $afterCols,
+            'email_tables' => 'auto_created'
         ]);
     } catch (\Throwable $e) {
         echo json_encode(['commit' => 'pos_params_v5', 'error' => $e->getMessage()]);

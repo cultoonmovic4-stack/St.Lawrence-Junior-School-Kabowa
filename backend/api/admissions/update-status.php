@@ -82,18 +82,26 @@ try {
         throw new Exception('Failed to update status');
     }
     
-    // Send email notification via AdmissionEmailService
-    require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
-    
-    $oldStatus = $application['status'] ?? null;
-    $emailResult = AdmissionEmailService::sendStatusNotification(
-        $db, 
-        (int)$data['id'], 
-        $status, 
-        $oldStatus, 
-        $reviewNotes
-    );
-    $emailStatus = $emailResult['message'] ?? 'Notification processed';
+    // Send email notification via AdmissionEmailService (isolated so it cannot block status update)
+    $emailStatus = 'Notification processed';
+    $emailSent = false;
+    try {
+        require_once __DIR__ . '/../helpers/AdmissionEmailService.php';
+        
+        $oldStatus = $application['status'] ?? null;
+        $emailResult = AdmissionEmailService::sendStatusNotification(
+            $db, 
+            (int)$data['id'], 
+            $status, 
+            $oldStatus, 
+            $reviewNotes
+        );
+        $emailStatus = $emailResult['message'] ?? 'Notification processed';
+        $emailSent = $emailResult['email_sent'] ?? false;
+    } catch (\Throwable $emailEx) {
+        error_log("Admission status email error: " . $emailEx->getMessage());
+        $emailStatus = "Status updated, but email notification was skipped.";
+    }
     
     // Clear output buffer and send JSON
     ob_clean();
@@ -101,7 +109,7 @@ try {
         'success' => true,
         'message' => "Application status updated to '{$status}'.",
         'email_status' => $emailStatus,
-        'email_sent' => $emailResult['email_sent'] ?? false
+        'email_sent' => $emailSent
     ]);
     ob_end_flush();
     
